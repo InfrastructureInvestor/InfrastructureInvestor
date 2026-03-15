@@ -1,0 +1,793 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Infrastructure WACC Calculator</title>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg:        #0f1117;
+    --bg-2:      #181c27;
+    --bg-3:      #1e2330;
+    --border:    rgba(255,255,255,0.08);
+    --border-md: rgba(255,255,255,0.14);
+    --text:      #e8eaf0;
+    --text-2:    #9aa0b4;
+    --text-3:    #5c6278;
+    --green:     #22c55e;
+    --green-bg:  rgba(34,197,94,0.12);
+    --amber:     #f59e0b;
+    --amber-bg:  rgba(245,158,11,0.12);
+    --red:       #ef4444;
+    --red-bg:    rgba(239,68,68,0.12);
+    --blue:      #3b82f6;
+    --blue-bg:   rgba(59,130,246,0.12);
+    --radius:    8px;
+    --radius-lg: 12px;
+  }
+
+  body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    padding: 2rem 1rem;
+    line-height: 1.6;
+  }
+
+  .page { max-width: 900px; margin: 0 auto; }
+
+  .page-header { margin-bottom: 2rem; }
+  .page-header h1 { font-size: 22px; font-weight: 600; color: var(--text); margin-bottom: 4px; }
+  .page-header p { font-size: 13px; color: var(--text-2); }
+
+  .top-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 1.5rem; }
+  .top-grid input, .top-grid select {
+    width: 100%; font-size: 14px; padding: 9px 12px;
+    border: 0.5px solid var(--border-md); border-radius: var(--radius);
+    background: var(--bg-2); color: var(--text);
+    outline: none; transition: border-color 0.15s;
+  }
+  .top-grid input:focus, .top-grid select:focus { border-color: var(--blue); }
+  .top-grid input::placeholder { color: var(--text-3); }
+  .top-grid select option { background: var(--bg-2); }
+
+  /* Rate display */
+  .rate-display {
+    background: var(--bg-2); border: 0.5px solid var(--border-md);
+    border-radius: var(--radius-lg); padding: 1.5rem; margin-bottom: 1.25rem;
+  }
+  .rate-main { display: flex; align-items: baseline; gap: 16px; margin-bottom: 1rem; }
+  .rate-number { font-size: 56px; font-weight: 600; color: var(--text); line-height: 1; font-variant-numeric: tabular-nums; letter-spacing: -1px; }
+  .rate-unit { font-size: 16px; font-weight: 500; color: var(--text-2); }
+  .rate-sub { font-size: 12px; color: var(--text-3); margin-top: 3px; }
+  .rate-bar-track { height: 6px; border-radius: 3px; background: var(--bg-3); margin-bottom: 6px; }
+  .rate-bar-fill { height: 100%; border-radius: 3px; transition: width 0.35s, background 0.35s; width: 0%; background: var(--border-md); }
+  .rate-range-labels { display: flex; justify-content: space-between; font-size: 11px; color: var(--text-3); margin-bottom: 1rem; }
+  .breakdown-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; }
+  .bdown-card { background: var(--bg-3); border-radius: var(--radius); padding: 0.75rem; }
+  .bdown-label { font-size: 11px; color: var(--text-3); text-transform: uppercase; letter-spacing: 0.04em; margin-bottom: 4px; }
+  .bdown-val { font-size: 16px; font-weight: 600; color: var(--text); }
+  .bdown-val.pos { color: var(--red); }
+  .bdown-val.neg { color: var(--green); }
+
+  /* Sections */
+  .section { border: 0.5px solid var(--border); border-radius: var(--radius-lg); margin-bottom: 1.25rem; overflow: hidden; }
+  .section-header {
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 1rem 1.25rem; cursor: pointer; background: var(--bg-2);
+    user-select: none; transition: background 0.15s;
+  }
+  .section-header:hover { background: var(--bg-3); }
+  .section-title { font-size: 12px; font-weight: 600; color: var(--text-2); letter-spacing: 0.07em; text-transform: uppercase; }
+  .section-subtitle { font-size: 11px; color: var(--text-3); margin-top: 3px; }
+  .section-delta { font-size: 14px; font-weight: 600; color: var(--text); }
+  .chevron { font-size: 10px; color: var(--text-3); transition: transform 0.2s; margin-left: 8px; }
+  .chevron.open { transform: rotate(180deg); }
+  .section-body { padding: 1.25rem; border-top: 0.5px solid var(--border); display: none; }
+
+  /* Rows */
+  .row { display: flex; align-items: flex-start; gap: 12px; margin-bottom: 1rem; }
+  .row:last-child { margin-bottom: 0; }
+  .row-label { font-size: 13px; color: var(--text-2); flex: 0 0 220px; line-height: 1.4; padding-top: 6px; }
+  .row-label small { display: block; font-size: 11px; color: var(--text-3); margin-top: 2px; }
+  .row-right { flex: 1; display: flex; align-items: flex-start; gap: 8px; flex-wrap: wrap; }
+
+  /* Toggles */
+  .toggle-group { display: flex; gap: 6px; flex-wrap: wrap; }
+  .toggle-btn {
+    font-size: 12px; padding: 5px 11px;
+    border: 0.5px solid var(--border-md); border-radius: var(--radius);
+    background: var(--bg-3); color: var(--text-2); cursor: pointer;
+    transition: all 0.15s; white-space: nowrap;
+  }
+  .toggle-btn:hover { border-color: rgba(255,255,255,0.25); color: var(--text); }
+  .toggle-btn .bps-hint { font-size: 10px; opacity: 0.6; margin-left: 4px; }
+  .toggle-btn.active-low  { background: var(--green-bg); color: var(--green); border-color: rgba(34,197,94,0.35); }
+  .toggle-btn.active-mid  { background: var(--amber-bg); color: var(--amber); border-color: rgba(245,158,11,0.35); }
+  .toggle-btn.active-high { background: var(--red-bg);   color: var(--red);   border-color: rgba(239,68,68,0.35); }
+
+  /* BPS tags */
+  .bps-tag { font-size: 11px; padding: 3px 8px; border-radius: var(--radius); font-weight: 600; white-space: nowrap; margin-top: 6px; }
+  .bps-pos  { background: var(--red-bg);   color: var(--red); }
+  .bps-neg  { background: var(--green-bg); color: var(--green); }
+  .bps-zero { background: var(--bg-3); color: var(--text-3); }
+
+  /* Sliders */
+  .gilt-row { display: flex; align-items: center; gap: 12px; margin-bottom: 1rem; }
+  .gilt-row:last-child { margin-bottom: 0; }
+  .gilt-row label { font-size: 13px; color: var(--text-2); flex: 0 0 220px; }
+  .gilt-row label small { display: block; font-size: 11px; color: var(--text-3); }
+  input[type=range] {
+    flex: 1; -webkit-appearance: none; appearance: none;
+    height: 4px; border-radius: 2px; background: var(--bg-3);
+    outline: none; cursor: pointer;
+  }
+  input[type=range]::-webkit-slider-thumb {
+    -webkit-appearance: none; width: 16px; height: 16px;
+    border-radius: 50%; background: var(--blue);
+    border: 2px solid var(--bg); cursor: pointer;
+  }
+  input[type=range]::-moz-range-thumb {
+    width: 16px; height: 16px; border-radius: 50%;
+    background: var(--blue); border: 2px solid var(--bg); cursor: pointer;
+  }
+  .slider-val { font-size: 14px; font-weight: 600; min-width: 44px; text-align: right; color: var(--text); }
+
+  .info-box {
+    margin-top: 12px; padding: 10px 12px;
+    background: var(--bg-3); border-radius: var(--radius);
+    font-size: 12px; color: var(--text-2);
+  }
+  .info-box span { font-weight: 600; color: var(--text); }
+
+  .divider { height: 0.5px; background: var(--border); margin: 1rem 0; }
+
+  /* Waterfall */
+  .wf-row { display: flex; align-items: center; gap: 10px; margin-bottom: 8px; font-size: 12px; color: var(--text-2); }
+  .wf-label { flex: 0 0 220px; }
+  .wf-bar-wrap { flex: 1; height: 14px; background: var(--bg-3); border-radius: 2px; overflow: hidden; }
+  .wf-bar { height: 100%; border-radius: 2px; transition: width 0.35s; }
+  .wf-val { flex: 0 0 56px; text-align: right; font-weight: 600; font-size: 12px; color: var(--text-2); }
+  .wf-row.total .wf-label { color: var(--text); font-weight: 600; }
+  .wf-row.total .wf-val { color: var(--text); font-size: 13px; }
+
+  /* Weight table */
+  .weight-table { width: 100%; border-collapse: collapse; font-size: 12px; margin-top: 4px; }
+  .weight-table th {
+    font-size: 11px; color: var(--text-3); text-transform: uppercase;
+    letter-spacing: 0.04em; font-weight: 600; text-align: left;
+    padding: 6px 10px; border-bottom: 0.5px solid var(--border);
+  }
+  .weight-table td {
+    padding: 8px 10px; border-bottom: 0.5px solid var(--border);
+    color: var(--text-2); vertical-align: top; line-height: 1.6;
+  }
+  .weight-table tr:last-child td { border-bottom: none; }
+  .weight-table td:first-child { font-weight: 600; color: var(--text); white-space: nowrap; }
+  .weight-table td:nth-child(2) { white-space: nowrap; }
+  .w-low  { color: var(--green); font-weight: 600; }
+  .w-mid  { color: var(--amber); font-weight: 600; }
+  .w-high { color: var(--red);   font-weight: 600; }
+  .weight-intro { font-size: 12px; color: var(--text-2); line-height: 1.7; margin-bottom: 1rem; }
+  .weight-section-label { font-size: 12px; font-weight: 600; color: var(--text); margin: 1rem 0 0.5rem; }
+  .weight-note {
+    margin-top: 1rem; padding: 10px 12px;
+    background: var(--bg-3); border-radius: var(--radius);
+    font-size: 12px; color: var(--text-2); line-height: 1.6;
+    border-left: 2px solid var(--blue);
+  }
+
+  /* Actions */
+  .action-row { display: flex; gap: 10px; margin-top: 1.5rem; flex-wrap: wrap; }
+  .action-row button {
+    font-size: 13px; padding: 8px 16px;
+    border: 0.5px solid var(--border-md); border-radius: var(--radius);
+    background: var(--bg-2); color: var(--text); cursor: pointer;
+    transition: background 0.15s, border-color 0.15s;
+  }
+  .action-row button:hover { background: var(--bg-3); border-color: rgba(255,255,255,0.25); }
+  .action-row button.primary { border-color: rgba(59,130,246,0.5); color: var(--blue); }
+  .action-row button.primary:hover { background: var(--blue-bg); }
+
+  @media (max-width: 640px) {
+    .top-grid { grid-template-columns: 1fr; }
+    .breakdown-grid { grid-template-columns: repeat(2,1fr); }
+    .row { flex-direction: column; }
+    .row-label { flex: none; padding-top: 0; }
+    .gilt-row { flex-wrap: wrap; }
+    .gilt-row label { flex: none; }
+    .wf-label { flex: 0 0 140px; font-size: 11px; }
+    .weight-table td:first-child { white-space: normal; }
+    .weight-table td:nth-child(2) { white-space: normal; }
+  }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <div class="page-header">
+    <h1>Infrastructure WACC Calculator</h1>
+    <p>Risk-adjusted discount rate builder for UK regulated utility assets. Every input moves the rate — riskier characteristics push it up, safer ones pull it down.</p>
+  </div>
+
+  <div class="top-grid">
+    <input type="text" id="dealName" placeholder="Deal name / asset" />
+    <select id="assetType" onchange="onAssetChange()">
+      <option value="">Select asset type...</option>
+      <option value="idno">Domestic electricity</option>
+      <option value="commercial">Commercial electricity</option>
+      <option value="gas">Gas distribution</option>
+      <option value="water">Water network</option>
+      <option value="wastewater">Wastewater network</option>
+      <option value="heat">Heat network</option>
+      <option value="evpc">EV charging</option>
+    </select>
+  </div>
+
+  <!-- Rate display -->
+  <div class="rate-display">
+    <div class="rate-main">
+      <div class="rate-number" id="rate-out">—</div>
+      <div>
+        <div class="rate-unit">% nominal WACC</div>
+        <div class="rate-sub" id="rate-sub">Select asset type to begin</div>
+      </div>
+    </div>
+    <div class="rate-bar-track"><div class="rate-bar-fill" id="rate-bar"></div></div>
+    <div class="rate-range-labels"><span>3%</span><span>6%</span><span>9%</span><span>12%</span><span>15%</span></div>
+    <div class="breakdown-grid">
+      <div class="bdown-card"><div class="bdown-label">Risk-free rate</div><div class="bdown-val" id="bd-rfr">—</div></div>
+      <div class="bdown-card"><div class="bdown-label">Asset class spread</div><div class="bdown-val pos" id="bd-spread">—</div></div>
+      <div class="bdown-card"><div class="bdown-label">Risk adjustments</div><div class="bdown-val" id="bd-risk">—</div></div>
+      <div class="bdown-card"><div class="bdown-label">Option / synergy offset</div><div class="bdown-val" id="bd-opt">—</div></div>
+    </div>
+  </div>
+
+  <!-- Base rate -->
+  <div class="section">
+    <div class="section-header" onclick="toggleSection('gilt')">
+      <div>
+        <div class="section-title">Base rate inputs</div>
+      </div>
+      <div style="display:flex;align-items:center;">
+        <div class="section-delta" id="gilt-delta">—</div>
+        <div class="chevron" id="gilt-chev">▼</div>
+      </div>
+    </div>
+    <div class="section-body" id="gilt-body">
+      <div class="gilt-row">
+        <label>UK gilt yield<small>10-year nominal benchmark — current ~4.5%</small></label>
+        <input type="range" min="2" max="8" step="0.1" value="4.5" id="gilt-range" oninput="updateGilt(this.value)" />
+        <span class="slider-val" id="gilt-val">4.5%</span>
+      </div>
+      <div class="gilt-row">
+        <label>Expected inflation<small>Used to decompose real vs nominal premium</small></label>
+        <input type="range" min="1" max="6" step="0.1" value="2.5" id="inf-range" oninput="updateInf(this.value)" />
+        <span class="slider-val" id="inf-val">2.5%</span>
+      </div>
+      <div class="info-box">
+        Implied real risk-free rate: <span id="real-rfr">2.0%</span> &nbsp;|&nbsp; Asset class baseline spread: <span id="base-spread-display">select asset type</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Risk taxonomy -->
+  <div class="section">
+    <div class="section-header" onclick="toggleSection('l3')">
+      <div>
+        <div class="section-title">Risk taxonomy — rate adjustments</div>
+        <div class="section-subtitle">Each factor adds or removes basis points from the asset class baseline</div>
+      </div>
+      <div style="display:flex;align-items:center;">
+        <div class="section-delta" id="l3-delta">—</div>
+        <div class="chevron" id="l3-chev">▼</div>
+      </div>
+    </div>
+    <div class="section-body" id="l3-body">
+
+      <div class="row">
+        <div class="row-label">Regulatory framework maturity<small>Price control maturity and reset risk</small></div>
+        <div class="row-right">
+          <div class="toggle-group" id="reg-mat">
+            <button class="toggle-btn" data-bps="-30" onclick="setT('reg-mat',this,'active-low');recalc()">Mature price control<span class="bps-hint">−30bps</span></button>
+            <button class="toggle-btn" data-bps="20"  onclick="setT('reg-mat',this,'active-mid');recalc()">Developing<span class="bps-hint">+20bps</span></button>
+            <button class="toggle-btn" data-bps="75"  onclick="setT('reg-mat',this,'active-high');recalc()">Immature / merchant<span class="bps-hint">+75bps</span></button>
+          </div>
+          <span class="bps-tag" id="bps-reg-mat">—</span>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="row-label">Revenue predictability<small>Contracted, regulated, or volume-dependent?</small></div>
+        <div class="row-right">
+          <div class="toggle-group" id="rev-pred">
+            <button class="toggle-btn" data-bps="-20" onclick="setT('rev-pred',this,'active-low');recalc()">Regulated / contracted<span class="bps-hint">−20bps</span></button>
+            <button class="toggle-btn" data-bps="25"  onclick="setT('rev-pred',this,'active-mid');recalc()">Moderate<span class="bps-hint">+25bps</span></button>
+            <button class="toggle-btn" data-bps="70"  onclick="setT('rev-pred',this,'active-high');recalc()">Volume dependent<span class="bps-hint">+70bps</span></button>
+          </div>
+          <span class="bps-tag" id="bps-rev-pred">—</span>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="row-label">Demand and load risk<small>Sensitivity to connection or utilisation assumptions</small></div>
+        <div class="row-right">
+          <div class="toggle-group" id="demand-risk">
+            <button class="toggle-btn" data-bps="-15" onclick="setT('demand-risk',this,'active-low');recalc()">Captive / essential<span class="bps-hint">−15bps</span></button>
+            <button class="toggle-btn" data-bps="25"  onclick="setT('demand-risk',this,'active-mid');recalc()">Medium<span class="bps-hint">+25bps</span></button>
+            <button class="toggle-btn" data-bps="65"  onclick="setT('demand-risk',this,'active-high');recalc()">Adoption dependent<span class="bps-hint">+65bps</span></button>
+          </div>
+          <span class="bps-tag" id="bps-demand-risk">—</span>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="row-label">Technology and obsolescence risk<small>Could the asset be substituted or stranded?</small></div>
+        <div class="row-right">
+          <div class="toggle-group" id="tech-risk">
+            <button class="toggle-btn" data-bps="-10" onclick="setT('tech-risk',this,'active-low');recalc()">Essential infrastructure<span class="bps-hint">−10bps</span></button>
+            <button class="toggle-btn" data-bps="20"  onclick="setT('tech-risk',this,'active-mid');recalc()">Medium<span class="bps-hint">+20bps</span></button>
+            <button class="toggle-btn" data-bps="55"  onclick="setT('tech-risk',this,'active-high');recalc()">Technology exposed<span class="bps-hint">+55bps</span></button>
+          </div>
+          <span class="bps-tag" id="bps-tech-risk">—</span>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="row-label">Political and policy durability<small>Robustness of the regulatory and political underpinning</small></div>
+        <div class="row-right">
+          <div class="toggle-group" id="pol-dur">
+            <button class="toggle-btn" data-bps="-15" onclick="setT('pol-dur',this,'active-low');recalc()">Bipartisan / statutory<span class="bps-hint">−15bps</span></button>
+            <button class="toggle-btn" data-bps="15"  onclick="setT('pol-dur',this,'active-mid');recalc()">Moderate<span class="bps-hint">+15bps</span></button>
+            <button class="toggle-btn" data-bps="45"  onclick="setT('pol-dur',this,'active-high');recalc()">Policy reversal risk<span class="bps-hint">+45bps</span></button>
+          </div>
+          <span class="bps-tag" id="bps-pol-dur">—</span>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="row-label">Counterparty and contract quality<small>Strength of key contractual relationships</small></div>
+        <div class="row-right">
+          <div class="toggle-group" id="cpty-risk">
+            <button class="toggle-btn" data-bps="-10" onclick="setT('cpty-risk',this,'active-low');recalc()">Investment grade / statutory<span class="bps-hint">−10bps</span></button>
+            <button class="toggle-btn" data-bps="15"  onclick="setT('cpty-risk',this,'active-mid');recalc()">Moderate<span class="bps-hint">+15bps</span></button>
+            <button class="toggle-btn" data-bps="40"  onclick="setT('cpty-risk',this,'active-high');recalc()">Weak / concentrated<span class="bps-hint">+40bps</span></button>
+          </div>
+          <span class="bps-tag" id="bps-cpty-risk">—</span>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="row-label">Hold period / asset longevity<small>Economic life relative to investment thesis</small></div>
+        <div class="row-right">
+          <div class="toggle-group" id="hold-risk">
+            <button class="toggle-btn" data-bps="-10" onclick="setT('hold-risk',this,'active-low');recalc()">40+ year life<span class="bps-hint">−10bps</span></button>
+            <button class="toggle-btn" data-bps="15"  onclick="setT('hold-risk',this,'active-mid');recalc()">20–40 years<span class="bps-hint">+15bps</span></button>
+            <button class="toggle-btn" data-bps="35"  onclick="setT('hold-risk',this,'active-high');recalc()">Short / uncertain<span class="bps-hint">+35bps</span></button>
+          </div>
+          <span class="bps-tag" id="bps-hold-risk">—</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Option value -->
+  <div class="section">
+    <div class="section-header" onclick="toggleSection('l2')">
+      <div>
+        <div class="section-title">Option value — rate offset</div>
+        <div class="section-subtitle">Higher-probability options reduce the required return — value outside the DCF lowers the yield needed from cash flows</div>
+      </div>
+      <div style="display:flex;align-items:center;">
+        <div class="section-delta" id="l2-delta">—</div>
+        <div class="chevron" id="l2-chev">▼</div>
+      </div>
+    </div>
+    <div class="section-body" id="l2-body">
+      <div id="option-rows"></div>
+      <div class="divider"></div>
+      <div class="row">
+        <div class="row-label">Portfolio synergy<small>Internalised portfolio value reduces required standalone return</small></div>
+        <div class="row-right">
+          <div class="toggle-group" id="port-syn">
+            <button class="toggle-btn" data-bps="-40" onclick="setT('port-syn',this,'active-low');recalc()">High — material synergies<span class="bps-hint">−40bps</span></button>
+            <button class="toggle-btn" data-bps="-15" onclick="setT('port-syn',this,'active-mid');recalc()">Moderate<span class="bps-hint">−15bps</span></button>
+            <button class="toggle-btn" data-bps="0"   onclick="setT('port-syn',this,'');recalc()">Low — standalone<span class="bps-hint">0bps</span></button>
+          </div>
+          <span class="bps-tag" id="bps-port-syn">—</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Waterfall -->
+  <div class="section">
+    <div class="section-header" onclick="toggleSection('wf')">
+      <div><div class="section-title">Rate build — waterfall</div></div>
+      <div style="display:flex;align-items:center;"><div class="chevron" id="wf-chev">▼</div></div>
+    </div>
+    <div class="section-body" id="wf-body">
+      <div id="waterfall-rows"></div>
+    </div>
+  </div>
+
+  <!-- Weighting rationale -->
+  <div class="section">
+    <div class="section-header" onclick="toggleSection('weights')">
+      <div>
+        <div class="section-title">Weighting rationale</div>
+        <div class="section-subtitle">Why each factor carries the basis point weight it does</div>
+      </div>
+      <div style="display:flex;align-items:center;"><div class="chevron" id="weights-chev">▼</div></div>
+    </div>
+    <div class="section-body" id="weights-body">
+      <p class="weight-intro">The basis point adjustments are calibrated around two anchor points: a mature RAB-backed regulated utility (e.g. a settled RIIO-ED2 IDNO) as the low-risk benchmark at roughly gilt +150bps, and a fully merchant, unregulated infrastructure asset as the high-risk ceiling at roughly gilt +450bps. Each factor is weighted according to how much it independently contributes to cash flow uncertainty over the hold period. Factors with the largest range between their low and high options carry the most weight.</p>
+
+      <div class="weight-section-label">Risk taxonomy factors</div>
+      <table class="weight-table">
+        <thead>
+          <tr>
+            <th>Factor</th>
+            <th>Low / Mid / High</th>
+            <th>Range</th>
+            <th>Rationale</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Regulatory framework maturity</td>
+            <td><span class="w-low">−30</span> / <span class="w-mid">+20</span> / <span class="w-high">+75</span> bps</td>
+            <td>105bps</td>
+            <td>The single largest driver of cash flow certainty in regulated infrastructure. A mature price control provides an allowed revenue floor, a reset mechanism, and a known regulatory philosophy. The absence of any price control introduces near-full merchant risk — hence the widest range of any factor.</td>
+          </tr>
+          <tr>
+            <td>Revenue predictability</td>
+            <td><span class="w-low">−20</span> / <span class="w-mid">+25</span> / <span class="w-high">+70</span> bps</td>
+            <td>90bps</td>
+            <td>Volume-dependent revenue introduces a cash flow distribution fundamentally different from a regulated allowance. The high end reflects the compounding effect of volume uncertainty over a multi-decade hold.</td>
+          </tr>
+          <tr>
+            <td>Demand and load risk</td>
+            <td><span class="w-low">−15</span> / <span class="w-mid">+25</span> / <span class="w-high">+65</span> bps</td>
+            <td>80bps</td>
+            <td>Distinct from revenue predictability — this is specifically about whether the underlying demand assumption is captive or behavioural. Captive demand is near-certain; adoption-dependent demand introduces non-linear risk that standard DCF sensitivity analysis tends to understate.</td>
+          </tr>
+          <tr>
+            <td>Technology and obsolescence risk</td>
+            <td><span class="w-low">−10</span> / <span class="w-mid">+20</span> / <span class="w-high">+55</span> bps</td>
+            <td>65bps</td>
+            <td>Weighted lower than regulatory and demand risk because technology substitution tends to be slow in physical network infrastructure. However for assets operating in less-settled technology environments it becomes material — a new standard or competing solution could strand the asset base within the hold period.</td>
+          </tr>
+          <tr>
+            <td>Political and policy durability</td>
+            <td><span class="w-low">−15</span> / <span class="w-mid">+15</span> / <span class="w-high">+45</span> bps</td>
+            <td>60bps</td>
+            <td>Weighted moderately — UK infrastructure regulation has historically been stable and the statutory underpinning of most price controls provides meaningful insulation from political reversal. The range is narrower than regulatory maturity because even assets facing policy risk rarely lose their physical network value entirely.</td>
+          </tr>
+          <tr>
+            <td>Counterparty and contract quality</td>
+            <td><span class="w-low">−10</span> / <span class="w-mid">+15</span> / <span class="w-high">+40</span> bps</td>
+            <td>50bps</td>
+            <td>A secondary factor — in regulated infrastructure the regulatory framework typically substitutes for contractual certainty. The weight rises for assets relying on specific commercial relationships such as heat network anchor loads or EVPC fleet agreements.</td>
+          </tr>
+          <tr>
+            <td>Hold period / asset longevity</td>
+            <td><span class="w-low">−10</span> / <span class="w-mid">+15</span> / <span class="w-high">+35</span> bps</td>
+            <td>45bps</td>
+            <td>The narrowest risk range — physical infrastructure assets generally have very long economic lives. The adjustment primarily penalises assets where the investment thesis depends on a technology lifecycle that may not extend to the assumed hold period without significant reinvestment.</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="weight-section-label">Option value offsets</div>
+      <table class="weight-table">
+        <thead>
+          <tr>
+            <th>Factor</th>
+            <th>High / Med / Low</th>
+            <th>Rationale</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Asset-specific options</td>
+            <td>−15 to −60bps at high probability</td>
+            <td>Option value offsets reflect the probability-weighted NPV of unmodelled upside. If a material portion of the asset's true value is captured outside the DCF — regulatory ratchet, grid services revenue, network densification — the investor accepts a lower cash yield because total return compensates adequately. Options assessed as low probability carry zero offset, preserving analytical discipline.</td>
+          </tr>
+          <tr>
+            <td>Portfolio synergy</td>
+            <td><span class="w-low">−40bps</span> / <span class="w-mid">−15bps</span> / 0bps</td>
+            <td>The largest single offset available. Justified where owning the asset creates value in the wider portfolio not captured in the standalone DCF: vertical integration, cost internalisation, or informational advantages from combined load data. Should only be applied where the synergy is specific, named, and quantifiable — not as a general portfolio premium.</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="weight-note">These weights are calibrated for UK regulated infrastructure and should be reviewed against current Ofgem / Ofwat WACC determinations and recent comparable transaction evidence before use in a live investment process. The asset class baseline spreads embed the current gilt environment — if the gilt yield moves materially, revisit the baseline spreads accordingly.</div>
+    </div>
+  </div>
+
+  <div class="action-row">
+    <button class="primary" onclick="exportText()">Export rate summary</button>
+    <button onclick="resetAll()">Reset</button>
+  </div>
+
+</div>
+
+<script>
+const assetBases = {
+  idno:       { spread: 150, label: 'Domestic electricity — mature RIIO framework, RAB-backed' },
+  commercial: { spread: 175, label: 'Commercial electricity — regulated, moderate complexity' },
+  gas:        { spread: 160, label: 'Gas distribution — mature RIIO-GD framework, RAB-backed' },
+  water:      { spread: 155, label: 'Water network — Ofwat PR24 framework, RAB-backed' },
+  wastewater: { spread: 165, label: 'Wastewater network — Ofwat PR24, elevated capex obligations' },
+  heat:       { spread: 280, label: 'Heat network — developing regulation, no RAB yet' },
+  evpc:       { spread: 310, label: 'EV charging — merchant exposure, immature framework' },
+};
+
+const optionDefs = {
+  idno:[
+    {label:'Connection pipeline growth',bps:[-35,-15,0]},
+    {label:'RIIO-ED3 regulatory uplift',bps:[-30,-10,0]},
+    {label:'EV charging overlay optionality',bps:[-20,-8,0]},
+    {label:'DNO adoption / acquisition premium',bps:[-25,-10,0]},
+  ],
+  commercial:[
+    {label:'RIIO-ED3 RAB uplift',bps:[-30,-12,0]},
+    {label:'CDCM to EDCM migration value',bps:[-20,-8,0]},
+    {label:'Grid flexibility and DSR revenue',bps:[-25,-10,0]},
+    {label:'Battery storage co-location',bps:[-15,-6,0]},
+  ],
+  gas:[
+    {label:'Hydrogen repurposing optionality',bps:[-40,-15,0]},
+    {label:'Biomethane injection revenue',bps:[-20,-8,0]},
+    {label:'Network consolidation premium',bps:[-15,-5,0]},
+  ],
+  water:[
+    {label:'PR29 efficiency outperformance',bps:[-25,-10,0]},
+    {label:'ODI reward — leakage / service',bps:[-20,-8,0]},
+    {label:'RAB growth through capex programme',bps:[-30,-12,0]},
+    {label:'Strategic acquisition premium',bps:[-20,-8,0]},
+  ],
+  wastewater:[
+    {label:'PR29 totex efficiency outperformance',bps:[-25,-10,0]},
+    {label:'Storm overflow / CSO capex RAB growth',bps:[-35,-12,0]},
+    {label:'Energy recovery from sludge and biogas',bps:[-20,-8,0]},
+    {label:'Nutrient neutrality regulatory income',bps:[-15,-6,0]},
+  ],
+  heat:[
+    {label:'Heat Network Zoning — mandatory connections',bps:[-50,-20,0]},
+    {label:'RAB framework introduction',bps:[-60,-20,0]},
+    {label:'Anchor load densification',bps:[-35,-15,0]},
+    {label:'Low-carbon heat source transition',bps:[-30,-12,0]},
+  ],
+  evpc:[
+    {label:'Network densification at marginal cost',bps:[-30,-12,0]},
+    {label:'Grid services / DSR / flexibility revenue',bps:[-40,-15,0]},
+    {label:'IDNO vertical integration synergy',bps:[-45,-18,0]},
+    {label:'Regulatory ratchet / RAB treatment',bps:[-50,-20,0]},
+  ],
+};
+
+const defaultOptions=[
+  {label:'Regulatory uplift at next price control reset',bps:[-25,-10,0]},
+  {label:'Asset base growth through capex',bps:[-20,-8,0]},
+  {label:'Efficiency outperformance potential',bps:[-15,-5,0]},
+  {label:'Technology or adjacent service optionality',bps:[-20,-8,0]},
+];
+
+let giltVal=4.5, infVal=2.5;
+
+function buildOptionRows(asset){
+  const opts=asset&&optionDefs[asset]?optionDefs[asset]:defaultOptions;
+  const c=document.getElementById('option-rows');
+  c.innerHTML='';
+  opts.forEach((o,i)=>{
+    const id='opt-'+i;
+    const div=document.createElement('div');
+    div.className='row';
+    div.innerHTML=
+      '<div class="row-label" style="padding-top:6px;">'+o.label+
+      '<small>Option offset — reduces required return if probable</small></div>'+
+      '<div class="row-right">'+
+      '<div class="toggle-group" id="'+id+'">'+
+      '<button class="toggle-btn" data-bps="'+o.bps[0]+'" onclick="setT(\''+id+'\',this,\'active-low\');recalc()">High probability<span class="bps-hint">'+o.bps[0]+'bps</span></button>'+
+      '<button class="toggle-btn" data-bps="'+o.bps[1]+'" onclick="setT(\''+id+'\',this,\'active-mid\');recalc()">Medium probability<span class="bps-hint">'+o.bps[1]+'bps</span></button>'+
+      '<button class="toggle-btn" data-bps="'+o.bps[2]+'" onclick="setT(\''+id+'\',this,\'\');recalc()">Low / N/A<span class="bps-hint">0bps</span></button>'+
+      '</div>'+
+      '<span class="bps-tag bps-zero" id="bps-'+id+'">—</span>'+
+      '</div>';
+    c.appendChild(div);
+  });
+}
+
+function onAssetChange(){
+  const asset=document.getElementById('assetType').value;
+  buildOptionRows(asset);
+  if(asset&&assetBases[asset]){
+    document.getElementById('base-spread-display').textContent='+'+assetBases[asset].spread+'bps ('+
+      (assetBases[asset].spread/100).toFixed(2)+'%)';
+  } else {
+    document.getElementById('base-spread-display').textContent='select asset type';
+  }
+  recalc();
+}
+
+function setT(g,btn,cls){
+  document.querySelectorAll('#'+g+' .toggle-btn').forEach(function(b){b.className='toggle-btn';});
+  btn.className='toggle-btn'+(cls?' '+cls:'');
+}
+
+function getBps(g){
+  const a=document.querySelector('#'+g+' .toggle-btn.active-low,#'+g+' .toggle-btn.active-mid,#'+g+' .toggle-btn.active-high');
+  return a?parseInt(a.dataset.bps||'0'):null;
+}
+
+function updateBpsTag(id,val){
+  const el=document.getElementById(id);
+  if(!el)return;
+  if(val===null){el.textContent='—';el.className='bps-tag bps-zero';return;}
+  if(val>0){el.textContent='+'+val+'bps';el.className='bps-tag bps-pos';}
+  else if(val<0){el.textContent=val+'bps';el.className='bps-tag bps-neg';}
+  else{el.textContent='0bps';el.className='bps-tag bps-zero';}
+}
+
+function updateGilt(v){
+  giltVal=parseFloat(v);
+  document.getElementById('gilt-val').textContent=giltVal.toFixed(1)+'%';
+  updateRealRfr(); recalc();
+}
+
+function updateInf(v){
+  infVal=parseFloat(v);
+  document.getElementById('inf-val').textContent=infVal.toFixed(1)+'%';
+  updateRealRfr(); recalc();
+}
+
+function updateRealRfr(){
+  document.getElementById('real-rfr').textContent=(giltVal-infVal).toFixed(1)+'%';
+}
+
+function recalc(){
+  const asset=document.getElementById('assetType').value;
+  if(!asset){
+    document.getElementById('rate-out').textContent='—';
+    document.getElementById('rate-sub').textContent='Select asset type to begin';
+    document.getElementById('rate-bar').style.width='0%';
+    document.getElementById('rate-bar').style.background='rgba(255,255,255,0.1)';
+    ['bd-rfr','bd-spread','bd-risk','bd-opt','l2-delta','l3-delta','gilt-delta'].forEach(function(id){
+      var el=document.getElementById(id); if(el)el.textContent='—';
+    });
+    document.getElementById('waterfall-rows').innerHTML='';
+    return;
+  }
+
+  var base=assetBases[asset];
+  document.getElementById('gilt-delta').textContent=giltVal.toFixed(1)+'%';
+
+  var opts=asset&&optionDefs[asset]?optionDefs[asset]:defaultOptions;
+  var optTotal=0;
+  opts.forEach(function(_,i){
+    var v=getBps('opt-'+i);
+    updateBpsTag('bps-opt-'+i,v);
+    if(v!==null)optTotal+=v;
+  });
+  var portSynBps=getBps('port-syn');
+  updateBpsTag('bps-port-syn',portSynBps);
+  var totalOptOffset=optTotal+(portSynBps||0);
+
+  var riskGroups=['reg-mat','rev-pred','demand-risk','tech-risk','pol-dur','cpty-risk','hold-risk'];
+  var riskTotal=0;
+  riskGroups.forEach(function(g){
+    var v=getBps(g); updateBpsTag('bps-'+g,v);
+    if(v!==null)riskTotal+=v;
+  });
+
+  var totalBps=base.spread+riskTotal+totalOptOffset;
+  var finalRate=Math.max(3,Math.min(15,giltVal+(totalBps/100)));
+
+  document.getElementById('rate-out').textContent=finalRate.toFixed(2);
+  document.getElementById('rate-sub').textContent=base.label;
+
+  var fill=document.getElementById('rate-bar');
+  fill.style.width=((finalRate-3)/12*100).toFixed(1)+'%';
+  fill.style.background=finalRate>=10?'#ef4444':finalRate>=7.5?'#f59e0b':finalRate>=6?'#84cc16':'#22c55e';
+
+  document.getElementById('bd-rfr').textContent=giltVal.toFixed(1)+'%';
+  var bdSpread=document.getElementById('bd-spread');
+  bdSpread.textContent='+'+(base.spread/100).toFixed(2)+'%';
+
+  var rPct=riskTotal/100;
+  var bdR=document.getElementById('bd-risk');
+  bdR.textContent=(rPct>=0?'+':'')+rPct.toFixed(2)+'%';
+  bdR.className='bdown-val'+(rPct>0?' pos':rPct<0?' neg':'');
+
+  var oPct=totalOptOffset/100;
+  var bdO=document.getElementById('bd-opt');
+  bdO.textContent=(oPct>=0?'+':'')+oPct.toFixed(2)+'%';
+  bdO.className='bdown-val'+(oPct<0?' neg':oPct>0?' pos':'');
+
+  document.getElementById('l3-delta').textContent=(riskTotal>=0?'+':'')+(riskTotal/100).toFixed(2)+'%';
+  document.getElementById('l2-delta').textContent=(totalOptOffset>=0?'+':'')+(totalOptOffset/100).toFixed(2)+'%';
+
+  var wfData=[
+    {label:'UK gilt (risk-free rate)',val:giltVal,color:'#5c6278'},
+    {label:'Asset class baseline spread',val:base.spread/100,color:'#f59e0b'},
+    {label:'Risk taxonomy adjustments',val:riskTotal/100,color:riskTotal>0?'#ef4444':'#22c55e'},
+    {label:'Option value and synergy offset',val:totalOptOffset/100,color:totalOptOffset<0?'#22c55e':totalOptOffset>0?'#ef4444':'#5c6278'},
+    {label:'Recommended nominal WACC',val:finalRate,color:'#3b82f6',bold:true},
+  ];
+  var maxV=Math.max.apply(null,wfData.map(function(r){return Math.abs(r.val);}));
+  maxV=Math.max(maxV,finalRate);
+  var wc=document.getElementById('waterfall-rows');
+  wc.innerHTML='';
+  wfData.forEach(function(r){
+    var pct=(Math.abs(r.val)/maxV*100).toFixed(1);
+    var d=document.createElement('div');
+    d.className='wf-row'+(r.bold?' total':'');
+    d.innerHTML=
+      '<div class="wf-label">'+r.label+'</div>'+
+      '<div class="wf-bar-wrap"><div class="wf-bar" style="width:'+pct+'%;background:'+r.color+';opacity:'+(r.bold?'1':'0.8')+';"></div></div>'+
+      '<div class="wf-val">'+(r.val>=0?(r.bold?'':'+'):'')+r.val.toFixed(2)+'%</div>';
+    wc.appendChild(d);
+  });
+}
+
+function toggleSection(id){
+  var body=document.getElementById(id+'-body');
+  var chev=document.getElementById(id+'-chev');
+  var open=body.style.display==='block';
+  body.style.display=open?'none':'block';
+  if(open)chev.classList.remove('open'); else chev.classList.add('open');
+}
+
+function exportText(){
+  var name=document.getElementById('dealName').value||'Unnamed';
+  var assetEl=document.getElementById('assetType');
+  var assetLabel=assetEl.options[assetEl.selectedIndex]?assetEl.options[assetEl.selectedIndex].text:'';
+  var rate=document.getElementById('rate-out').textContent;
+  var out='INFRASTRUCTURE WACC CALCULATOR — RATE SUMMARY\n';
+  out+='==========================================\n';
+  out+='Deal: '+name+'  |  Asset: '+assetLabel+'\n';
+  out+='Recommended nominal WACC: '+rate+'%\n\n';
+  out+='Rate build\n';
+  out+='----------\n';
+  out+='  UK gilt (RFR):           '+giltVal.toFixed(1)+'%\n';
+  out+='  Asset class spread:      '+(document.getElementById('bd-spread').textContent)+'\n';
+  out+='  Risk adjustments:        '+(document.getElementById('bd-risk').textContent)+'\n';
+  out+='  Option / synergy offset: '+(document.getElementById('bd-opt').textContent)+'\n';
+  var blob=new Blob([out],{type:'text/plain'});
+  var a=document.createElement('a');
+  a.href=URL.createObjectURL(blob);
+  a.download='wacc-'+name.replace(/\s+/g,'-').toLowerCase()+'.txt';
+  a.click();
+}
+
+function resetAll(){
+  document.querySelectorAll('.toggle-btn').forEach(function(b){b.className='toggle-btn';});
+  document.getElementById('dealName').value='';
+  document.getElementById('assetType').value='';
+  document.getElementById('gilt-range').value=4.5; giltVal=4.5;
+  document.getElementById('gilt-val').textContent='4.5%';
+  document.getElementById('inf-range').value=2.5; infVal=2.5;
+  document.getElementById('inf-val').textContent='2.5%';
+  updateRealRfr();
+  document.getElementById('base-spread-display').textContent='select asset type';
+  buildOptionRows('');
+  document.getElementById('rate-out').textContent='—';
+  document.getElementById('rate-sub').textContent='Select asset type to begin';
+  document.getElementById('rate-bar').style.width='0%';
+  ['bd-rfr','bd-spread','bd-risk','bd-opt','l2-delta','l3-delta','gilt-delta'].forEach(function(id){
+    var el=document.getElementById(id); if(el)el.textContent='—';
+  });
+  document.getElementById('waterfall-rows').innerHTML='';
+}
+
+buildOptionRows('');
+updateRealRfr();
+</script>
+</body>
+</html>
