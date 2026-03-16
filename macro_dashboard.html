@@ -1315,7 +1315,7 @@ body {
   async function loadOfgemFeed() {
     try {
       // Ofgem RSS feed for publications and consultations
-      const items = await fetchRSS('https://www.ofgem.gov.uk/rss');
+      const items = await fetchRSS('https://www.gov.uk/government/organisations/ofgem.atom');
       renderNewsFeed('ofgemFeed', items, 'Ofgem', 'ofgemUpdated');
       cacheSet('ofgemFeed', items);
       clearStale('cardOfgem');
@@ -1332,7 +1332,7 @@ body {
     try {
       // NESO / National Grid ESO news feed
       // Try the ESO data portal news feed
-      const items = await fetchRSS('https://www.nationalgrideso.com/rss.xml');
+      const items = await fetchRSS('https://www.gov.uk/government/organisations/national-energy-system-operator.atom');
       renderNewsFeed('nesoFeed', items, 'NESO / NG ESO', 'nesoUpdated');
       cacheSet('nesoFeed', items);
       clearStale('cardNESO');
@@ -1340,7 +1340,7 @@ body {
       console.warn('NESO RSS failed:', e);
       try {
         // Fallback: try Atom feed
-        const items = await fetchAtom('https://www.neso.energy/feed');
+        const items = await fetchAtom('https://www.gov.uk/government/organisations/national-energy-system-operator.atom');
         renderNewsFeed('nesoFeed', items, 'NESO', 'nesoUpdated');
         cacheSet('nesoFeed', items);
         clearStale('cardNESO');
