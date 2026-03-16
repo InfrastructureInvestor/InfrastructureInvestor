@@ -1,0 +1,1501 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>UK Infrastructure Macro Dashboard</title>
+<style>
+/* ============================================================
+   CSS — Dark professional terminal theme
+   ============================================================ */
+:root {
+  --bg: #0b0e11;
+  --surface: #131720;
+  --surface2: #1a1f2e;
+  --border: #252d3a;
+  --text: #e0e6ed;
+  --text2: #8899aa;
+  --muted: #4a5568;
+  --green: #00e676;
+  --green-dim: rgba(0,230,118,.12);
+  --red: #ff5252;
+  --red-dim: rgba(255,82,82,.12);
+  --amber: #ffab40;
+  --amber-dim: rgba(255,171,64,.12);
+  --blue: #448aff;
+  --blue-dim: rgba(68,138,255,.12);
+  --cyan: #18ffff;
+  --radius: 8px;
+  --font: 'Segoe UI', -apple-system, BlinkMacSystemFont, sans-serif;
+  --mono: 'Consolas', 'SF Mono', 'Fira Code', monospace;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font);
+  font-size: 14px;
+  line-height: 1.5;
+  min-height: 100vh;
+}
+
+/* Header */
+.header {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: rgba(11,14,17,.92);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--border);
+  padding: 12px 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.header h1 {
+  font-size: 18px;
+  font-weight: 600;
+  letter-spacing: .5px;
+  color: var(--text);
+}
+
+.header h1 span {
+  color: var(--blue);
+}
+
+.header-right {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.last-refresh {
+  color: var(--text2);
+  font-size: 12px;
+  font-family: var(--mono);
+}
+
+.btn-refresh {
+  background: var(--surface2);
+  color: var(--text);
+  border: 1px solid var(--border);
+  padding: 6px 16px;
+  border-radius: var(--radius);
+  cursor: pointer;
+  font-size: 13px;
+  font-family: var(--font);
+  transition: background .15s, border-color .15s;
+}
+
+.btn-refresh:hover {
+  background: var(--border);
+  border-color: var(--blue);
+}
+
+.btn-refresh:disabled {
+  opacity: .5;
+  cursor: not-allowed;
+}
+
+/* Sections */
+.dashboard {
+  max-width: 1440px;
+  margin: 0 auto;
+  padding: 20px 24px 60px;
+}
+
+.section {
+  margin-bottom: 32px;
+}
+
+.section-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 14px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid var(--border);
+}
+
+.section-badge {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  padding: 3px 10px;
+  border-radius: 4px;
+  font-family: var(--mono);
+}
+
+.section-badge.daily { background: var(--blue-dim); color: var(--blue); }
+.section-badge.weekly { background: var(--green-dim); color: var(--green); }
+.section-badge.several { background: var(--amber-dim); color: var(--amber); }
+.section-badge.standing { background: var(--red-dim); color: var(--red); }
+
+.section-title {
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--text2);
+}
+
+/* Card grid */
+.card-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 14px;
+}
+
+/* Cards */
+.card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 16px;
+  position: relative;
+  transition: border-color .15s;
+}
+
+.card:hover {
+  border-color: var(--muted);
+}
+
+.card.stale {
+  border-left: 3px solid var(--amber);
+}
+
+.card-label {
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: .8px;
+  color: var(--text2);
+  margin-bottom: 8px;
+}
+
+.card-value {
+  font-size: 26px;
+  font-weight: 700;
+  font-family: var(--mono);
+  margin-bottom: 4px;
+  line-height: 1.2;
+}
+
+.card-prev {
+  font-size: 12px;
+  color: var(--muted);
+  margin-bottom: 6px;
+  font-family: var(--mono);
+}
+
+.card-change {
+  font-size: 13px;
+  font-weight: 600;
+  font-family: var(--mono);
+  padding: 2px 8px;
+  border-radius: 4px;
+  display: inline-block;
+  margin-bottom: 8px;
+}
+
+.card-change.up-good { background: var(--green-dim); color: var(--green); }
+.card-change.up-bad  { background: var(--red-dim); color: var(--red); }
+.card-change.down-good { background: var(--green-dim); color: var(--green); }
+.card-change.down-bad  { background: var(--red-dim); color: var(--red); }
+.card-change.neutral { background: var(--surface2); color: var(--text2); }
+
+.card-updated {
+  font-size: 10px;
+  color: var(--muted);
+  font-family: var(--mono);
+}
+
+.stale-warning {
+  font-size: 10px;
+  color: var(--amber);
+  margin-top: 4px;
+}
+
+/* Loading skeleton */
+.card-value.loading {
+  background: linear-gradient(90deg, var(--surface2) 25%, var(--border) 50%, var(--surface2) 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+  border-radius: 4px;
+  height: 32px;
+  width: 120px;
+}
+
+@keyframes shimmer {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+/* RSS / News cards */
+.card.news-card {
+  grid-column: span 2;
+}
+
+.news-list {
+  max-height: 260px;
+  overflow-y: auto;
+  margin-top: 8px;
+}
+
+.news-list::-webkit-scrollbar { width: 4px; }
+.news-list::-webkit-scrollbar-track { background: var(--surface); }
+.news-list::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
+
+.news-item {
+  padding: 8px 0;
+  border-bottom: 1px solid var(--border);
+}
+
+.news-item:last-child { border-bottom: none; }
+
+.news-item a {
+  color: var(--text);
+  text-decoration: none;
+  font-size: 13px;
+  line-height: 1.4;
+  display: block;
+  transition: color .15s;
+}
+
+.news-item a:hover { color: var(--blue); }
+
+.news-meta {
+  font-size: 10px;
+  color: var(--muted);
+  margin-top: 3px;
+  font-family: var(--mono);
+}
+
+.news-source {
+  color: var(--text2);
+  font-weight: 600;
+}
+
+/* Static / awareness cards */
+.card.static-card {
+  border-left: 3px solid var(--muted);
+}
+
+.card-note {
+  font-size: 12px;
+  color: var(--text2);
+  margin-top: 8px;
+  font-style: italic;
+  line-height: 1.4;
+}
+
+/* Multi-value card (for showing multiple data points in one card) */
+.multi-values {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.multi-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  padding-bottom: 8px;
+  border-bottom: 1px solid var(--border);
+}
+
+.multi-row:last-child { border-bottom: none; padding-bottom: 0; }
+
+.multi-label {
+  font-size: 12px;
+  color: var(--text2);
+}
+
+.multi-val {
+  font-size: 18px;
+  font-weight: 700;
+  font-family: var(--mono);
+}
+
+/* Equity table */
+.equity-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+  margin-top: 8px;
+}
+
+.equity-table th {
+  text-align: left;
+  font-size: 10px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: .6px;
+  color: var(--muted);
+  padding: 4px 8px 6px;
+  border-bottom: 1px solid var(--border);
+}
+
+.equity-table td {
+  padding: 6px 8px;
+  border-bottom: 1px solid var(--border);
+  font-family: var(--mono);
+}
+
+.equity-table tr:last-child td { border-bottom: none; }
+
+.equity-table .ticker { color: var(--blue); font-weight: 600; }
+
+/* Share price table card */
+.card.table-card {
+  grid-column: span 2;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .header { padding: 10px 14px; }
+  .header h1 { font-size: 15px; }
+  .dashboard { padding: 14px 12px 40px; }
+  .card-grid { grid-template-columns: 1fr; }
+  .card.news-card,
+  .card.table-card { grid-column: span 1; }
+  .card-value { font-size: 22px; }
+}
+
+@media (max-width: 480px) {
+  .header { flex-direction: column; align-items: flex-start; }
+  .card-value { font-size: 20px; }
+}
+</style>
+</head>
+<body>
+
+<!-- ============================================================
+     HEADER
+     ============================================================ -->
+<header class="header">
+  <h1><span>UK Infrastructure</span> Macro Dashboard</h1>
+  <div class="header-right">
+    <span class="last-refresh" id="masterTimestamp">Loading...</span>
+    <button class="btn-refresh" id="btnRefresh" onclick="refreshAll()">Refresh All</button>
+  </div>
+</header>
+
+<!-- ============================================================
+     DASHBOARD BODY
+     ============================================================ -->
+<main class="dashboard">
+
+  <!-- ─── DAILY ─── -->
+  <section class="section" id="sectionDaily">
+    <div class="section-header">
+      <span class="section-badge daily">DAILY</span>
+      <span class="section-title">Live Market Data</span>
+    </div>
+    <div class="card-grid">
+      <!-- Gilt Yields -->
+      <div class="card" id="cardGilts">
+        <div class="card-label">UK Gilt Yields</div>
+        <div class="multi-values">
+          <div class="multi-row">
+            <span class="multi-label">10yr</span>
+            <span class="multi-val" id="gilt10y"><span class="loading" style="display:inline-block;width:60px;height:20px;background:var(--surface2);border-radius:3px">&nbsp;</span></span>
+          </div>
+          <div class="multi-row">
+            <span class="multi-label">30yr</span>
+            <span class="multi-val" id="gilt30y"><span class="loading" style="display:inline-block;width:60px;height:20px;background:var(--surface2);border-radius:3px">&nbsp;</span></span>
+          </div>
+        </div>
+        <div class="card-updated" id="giltsUpdated"></div>
+      </div>
+
+      <!-- SONIA Swap Rates -->
+      <div class="card" id="cardSonia">
+        <div class="card-label">SONIA Swap Rates</div>
+        <div class="multi-values">
+          <div class="multi-row">
+            <span class="multi-label">5yr</span>
+            <span class="multi-val" id="sonia5y"><span class="loading" style="display:inline-block;width:60px;height:20px;background:var(--surface2);border-radius:3px">&nbsp;</span></span>
+          </div>
+          <div class="multi-row">
+            <span class="multi-label">10yr</span>
+            <span class="multi-val" id="sonia10y"><span class="loading" style="display:inline-block;width:60px;height:20px;background:var(--surface2);border-radius:3px">&nbsp;</span></span>
+          </div>
+        </div>
+        <div class="card-updated" id="soniaUpdated"></div>
+      </div>
+
+      <!-- BoE Base Rate -->
+      <div class="card" id="cardBaseRate">
+        <div class="card-label">Bank of England Base Rate</div>
+        <div class="card-value" id="baseRateValue"><span class="loading" style="display:inline-block;width:80px;height:30px;background:var(--surface2);border-radius:3px">&nbsp;</span></div>
+        <div class="card-prev" id="baseRatePrev"></div>
+        <div class="card-updated" id="baseRateUpdated"></div>
+      </div>
+
+      <!-- UK RPI & CPIH -->
+      <div class="card" id="cardInflation">
+        <div class="card-label">UK Inflation (Latest)</div>
+        <div class="multi-values">
+          <div class="multi-row">
+            <span class="multi-label">RPI</span>
+            <span class="multi-val" id="rpiValue"><span class="loading" style="display:inline-block;width:60px;height:20px;background:var(--surface2);border-radius:3px">&nbsp;</span></span>
+          </div>
+          <div class="multi-row">
+            <span class="multi-label">CPIH</span>
+            <span class="multi-val" id="cpihValue"><span class="loading" style="display:inline-block;width:60px;height:20px;background:var(--surface2);border-radius:3px">&nbsp;</span></span>
+          </div>
+        </div>
+        <div class="card-updated" id="inflationUpdated"></div>
+      </div>
+
+      <!-- Natural Gas Day-Ahead -->
+      <div class="card" id="cardGas">
+        <div class="card-label">UK Natural Gas Day-Ahead</div>
+        <div class="card-value" id="gasValue"><span class="loading" style="display:inline-block;width:100px;height:30px;background:var(--surface2);border-radius:3px">&nbsp;</span></div>
+        <div class="card-prev" id="gasPrev"></div>
+        <div id="gasChange"></div>
+        <div class="card-updated" id="gasUpdated"></div>
+      </div>
+
+      <!-- Power Day-Ahead -->
+      <div class="card" id="cardPower">
+        <div class="card-label">UK Power Day-Ahead (N2EX)</div>
+        <div class="card-value" id="powerValue"><span class="loading" style="display:inline-block;width:100px;height:30px;background:var(--surface2);border-radius:3px">&nbsp;</span></div>
+        <div class="card-prev" id="powerPrev"></div>
+        <div id="powerChange"></div>
+        <div class="card-updated" id="powerUpdated"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─── SEVERAL TIMES A WEEK ─── -->
+  <section class="section" id="sectionSeveral">
+    <div class="section-header">
+      <span class="section-badge several">SEVERAL TIMES / WEEK</span>
+      <span class="section-title">Equities, Credit & CPI</span>
+    </div>
+    <div class="card-grid">
+      <!-- Credit Spreads -->
+      <div class="card" id="cardCredit">
+        <div class="card-label">IG Credit Spread (iBoxx GBP Non-Fin)</div>
+        <div class="card-value" id="creditValue"><span class="loading" style="display:inline-block;width:80px;height:30px;background:var(--surface2);border-radius:3px">&nbsp;</span></div>
+        <div class="card-prev" id="creditPrev"></div>
+        <div id="creditChange"></div>
+        <div class="card-updated" id="creditUpdated"></div>
+      </div>
+
+      <!-- UK CPI -->
+      <div class="card" id="cardCPI">
+        <div class="card-label">UK CPI (Latest Print)</div>
+        <div class="card-value" id="cpiValue"><span class="loading" style="display:inline-block;width:80px;height:30px;background:var(--surface2);border-radius:3px">&nbsp;</span></div>
+        <div class="card-prev" id="cpiPrev"></div>
+        <div id="cpiChange"></div>
+        <div class="card-updated" id="cpiUpdated"></div>
+      </div>
+
+      <!-- Listed UK Infrastructure -->
+      <div class="card table-card" id="cardInfraEquities">
+        <div class="card-label">Listed UK Infrastructure — Share Price & NAV Prem/Disc</div>
+        <table class="equity-table" id="infraTable">
+          <thead>
+            <tr><th>Ticker</th><th>Price (p)</th><th>Change</th><th>NAV Prem/Disc</th></tr>
+          </thead>
+          <tbody id="infraTableBody">
+            <tr><td colspan="4" style="color:var(--muted)">Loading...</td></tr>
+          </tbody>
+        </table>
+        <div class="card-updated" id="infraUpdated"></div>
+      </div>
+
+      <!-- Listed UK Utilities -->
+      <div class="card table-card" id="cardUtilEquities">
+        <div class="card-label">Listed UK Utilities</div>
+        <table class="equity-table" id="utilTable">
+          <thead>
+            <tr><th>Ticker</th><th>Price (p)</th><th>Change</th><th>Chg %</th></tr>
+          </thead>
+          <tbody id="utilTableBody">
+            <tr><td colspan="4" style="color:var(--muted)">Loading...</td></tr>
+          </tbody>
+        </table>
+        <div class="card-updated" id="utilUpdated"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─── WEEKLY ─── -->
+  <section class="section" id="sectionWeekly">
+    <div class="section-header">
+      <span class="section-badge weekly">WEEKLY</span>
+      <span class="section-title">Headlines & Regulatory Feed</span>
+    </div>
+    <div class="card-grid">
+      <!-- Ofgem RSS -->
+      <div class="card news-card" id="cardOfgem">
+        <div class="card-label">Ofgem Publications</div>
+        <div class="news-list" id="ofgemFeed"><span style="color:var(--muted)">Loading feed...</span></div>
+        <div class="card-updated" id="ofgemUpdated"></div>
+      </div>
+
+      <!-- NESO / National Grid ESO -->
+      <div class="card news-card" id="cardNESO">
+        <div class="card-label">NESO / National Grid ESO</div>
+        <div class="news-list" id="nesoFeed"><span style="color:var(--muted)">Loading feed...</span></div>
+        <div class="card-updated" id="nesoUpdated"></div>
+      </div>
+
+      <!-- HM Treasury & DESNZ -->
+      <div class="card news-card" id="cardGovUK">
+        <div class="card-label">HM Treasury & DESNZ Announcements</div>
+        <div class="news-list" id="govFeed"><span style="color:var(--muted)">Loading feed...</span></div>
+        <div class="card-updated" id="govUpdated"></div>
+      </div>
+
+      <!-- Infrastructure M&A Headlines -->
+      <div class="card news-card" id="cardMA">
+        <div class="card-label">UK Infrastructure M&A Headlines</div>
+        <div class="news-list" id="maFeed"><span style="color:var(--muted)">Loading feed...</span></div>
+        <div class="card-updated" id="maUpdated"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─── STANDING AWARENESS ─── -->
+  <section class="section" id="sectionStanding">
+    <div class="section-header">
+      <span class="section-badge standing">STANDING AWARENESS</span>
+      <span class="section-title">Structural & Macro Context</span>
+    </div>
+    <div class="card-grid">
+      <!-- UK Election Cycle -->
+      <div class="card static-card">
+        <div class="card-label">UK Election Cycle & Political Risk</div>
+        <div class="card-value" style="font-size:18px" id="electionValue">Next GE: by 2029</div>
+        <div class="card-note" id="electionNote">Labour majority (Jul 2024). Key risk: policy shifts on regulated returns, windfall taxes, planning reform. Infrastructure broadly supported cross-party but regulatory tightening possible.</div>
+        <div class="card-updated">Manual update: 2025-01-15</div>
+      </div>
+
+      <!-- US 10yr Treasury -->
+      <div class="card" id="cardUST">
+        <div class="card-label">US 10yr Treasury Yield</div>
+        <div class="card-value" id="ustValue"><span class="loading" style="display:inline-block;width:80px;height:30px;background:var(--surface2);border-radius:3px">&nbsp;</span></div>
+        <div class="card-prev" id="ustPrev"></div>
+        <div id="ustChange"></div>
+        <div class="card-updated" id="ustUpdated"></div>
+      </div>
+
+      <!-- ECB Rate -->
+      <div class="card static-card">
+        <div class="card-label">ECB Main Refinancing Rate</div>
+        <div class="card-value" id="ecbValue">2.65%</div>
+        <div class="card-note" id="ecbNote">Last cut: Mar 2025. Gradual easing cycle in progress. Market pricing further cuts through 2025.</div>
+        <div class="card-updated">Manual update: 2025-03-15</div>
+      </div>
+
+      <!-- UK GDP & PMI -->
+      <div class="card static-card">
+        <div class="card-label">UK GDP & PMI</div>
+        <div class="multi-values">
+          <div class="multi-row">
+            <span class="multi-label">GDP (Q4 2024)</span>
+            <span class="multi-val" id="gdpValue">+0.1% q/q</span>
+          </div>
+          <div class="multi-row">
+            <span class="multi-label">Composite PMI</span>
+            <span class="multi-val" id="pmiValue">50.5</span>
+          </div>
+        </div>
+        <div class="card-note">Economy near-stagnant. Construction PMI tracking below 50 — negative for new-build infrastructure pipeline.</div>
+        <div class="card-updated">Manual update: 2025-02-28</div>
+      </div>
+
+      <!-- Global Infra Dry Powder -->
+      <div class="card static-card">
+        <div class="card-label">Global Infrastructure Dry Powder</div>
+        <div class="card-value" style="font-size:22px" id="dryPowderValue">$330bn</div>
+        <div class="card-note">Source: Preqin (Dec 2024). Record levels — supportive for asset valuations but compresses return premiums. Significant capital targeting energy transition and digital infra.</div>
+        <div class="card-updated">Manual update: 2025-01-10</div>
+      </div>
+
+      <!-- Pension & Insurance Flows -->
+      <div class="card static-card">
+        <div class="card-label">Pension & Insurance Capital Flows into Infra</div>
+        <div class="card-value" style="font-size:16px" id="pensionValue">Increasing allocation</div>
+        <div class="card-note">UK LGPS pooling driving larger ticket sizes. Solvency II reform (Matching Adjustment) favourable for insurers allocating to infra debt. Mansfield Commission recommendations pending.</div>
+        <div class="card-updated">Manual update: 2025-01-10</div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<!-- ============================================================
+     JAVASCRIPT
+     ============================================================ -->
+<script>
+(function () {
+  'use strict';
+
+  /* ==========================================================
+     CONFIGURATION & HELPERS
+     ========================================================== */
+
+  // LocalStorage key prefix for caching last-known values
+  const CACHE_PREFIX = 'macro_dash_';
+
+  function cacheSet(key, data) {
+    try {
+      localStorage.setItem(CACHE_PREFIX + key, JSON.stringify({ ts: Date.now(), data }));
+    } catch (e) { /* storage full — ignore */ }
+  }
+
+  function cacheGet(key) {
+    try {
+      const raw = localStorage.getItem(CACHE_PREFIX + key);
+      if (!raw) return null;
+      return JSON.parse(raw);
+    } catch (e) { return null; }
+  }
+
+  function formatTimestamp(d) {
+    if (!d) return '';
+    const dt = d instanceof Date ? d : new Date(d);
+    return dt.toLocaleString('en-GB', {
+      day: '2-digit', month: 'short', year: 'numeric',
+      hour: '2-digit', minute: '2-digit', timeZone: 'Europe/London'
+    }) + ' GMT';
+  }
+
+  function setUpdated(elId, date) {
+    const el = document.getElementById(elId);
+    if (el) el.textContent = 'Updated: ' + formatTimestamp(date || new Date());
+  }
+
+  function showStale(cardId, msg) {
+    const card = document.getElementById(cardId);
+    if (card) {
+      card.classList.add('stale');
+      let warn = card.querySelector('.stale-warning');
+      if (!warn) {
+        warn = document.createElement('div');
+        warn.className = 'stale-warning';
+        card.appendChild(warn);
+      }
+      warn.textContent = msg || 'Stale data — API unavailable';
+    }
+  }
+
+  function clearStale(cardId) {
+    const card = document.getElementById(cardId);
+    if (card) {
+      card.classList.remove('stale');
+      const warn = card.querySelector('.stale-warning');
+      if (warn) warn.remove();
+    }
+  }
+
+  // Format a change badge
+  // direction: 'up' or 'down'; sentiment: 'good' or 'bad'
+  function changeHTML(current, previous, unit, invertSentiment) {
+    if (current == null || previous == null) return '';
+    const diff = current - previous;
+    const pct = previous !== 0 ? ((diff / Math.abs(previous)) * 100) : 0;
+    const direction = diff >= 0 ? 'up' : 'down';
+    const arrow = diff >= 0 ? '▲' : '▼';
+
+    // For infrastructure investor: yields rising = bad (compresses valuations)
+    let sentiment;
+    if (invertSentiment) {
+      sentiment = diff >= 0 ? 'good' : 'bad';
+    } else {
+      sentiment = diff >= 0 ? 'bad' : 'good';
+    }
+
+    if (Math.abs(diff) < 0.0001) {
+      return `<span class="card-change neutral">— 0.00${unit || ''}</span>`;
+    }
+
+    const cls = `${direction}-${sentiment}`;
+    const sign = diff >= 0 ? '+' : '';
+    return `<span class="card-change ${cls}">${arrow} ${sign}${diff.toFixed(2)}${unit || ''} (${sign}${pct.toFixed(1)}%)</span>`;
+  }
+
+
+  /* ==========================================================
+     CORS PROXY
+     Several APIs (BoE, ONS, RSS feeds) don't set CORS headers.
+     We use a public CORS proxy as a fallback. Users can replace
+     this with their own proxy for reliability.
+     ========================================================== */
+
+  // NOTE: Public CORS proxies can be unreliable. For production use,
+  // consider deploying your own CORS proxy (e.g. cors-anywhere on Heroku).
+  // To insert your own proxy, replace CORS_PROXY below.
+  const CORS_PROXIES = [
+    'https://api.allorigins.win/raw?url=',
+    'https://corsproxy.io/?',
+  ];
+
+  let currentProxyIndex = 0;
+
+  function getCorsUrl(url) {
+    return CORS_PROXIES[currentProxyIndex] + encodeURIComponent(url);
+  }
+
+  async function fetchWithCorsRetry(url, options = {}) {
+    // First try direct fetch
+    try {
+      const resp = await fetch(url, { ...options, signal: AbortSignal.timeout(10000) });
+      if (resp.ok) return resp;
+    } catch (e) {
+      // CORS or network error — try proxies
+    }
+    // Try each proxy
+    for (let i = 0; i < CORS_PROXIES.length; i++) {
+      try {
+        const proxyUrl = CORS_PROXIES[i] + encodeURIComponent(url);
+        const resp = await fetch(proxyUrl, { signal: AbortSignal.timeout(12000) });
+        if (resp.ok) {
+          currentProxyIndex = i;
+          return resp;
+        }
+      } catch (e) { /* try next */ }
+    }
+    throw new Error('All fetch attempts failed for: ' + url);
+  }
+
+
+  /* ==========================================================
+     DATA FETCHERS
+     ========================================================== */
+
+  // ─── Bank of England Statistical Database (MFSD) ───
+  // Free, no API key required.
+  // Series IDs:
+  //   IUDMNZC = 10yr gilt yield
+  //   IUDMNB4 = 30yr gilt (actually ~25yr benchmark)
+  //   IUDBEDR = Bank Rate
+  //   IUDSOIA = SONIA rate (overnight) — swaps derived
+  // NOTE: BoE API may require CORS proxy from browser.
+
+  async function fetchBoEseries(seriesId, fromDate) {
+    // BoE MFSD CSV endpoint
+    const today = new Date().toISOString().slice(0, 10).replace(/-/g, '/');
+    if (!fromDate) {
+      const d = new Date();
+      d.setDate(d.getDate() - 30);
+      fromDate = d.toISOString().slice(0, 10).replace(/-/g, '/');
+    }
+    const url = `https://www.bankofengland.co.uk/boeapps/database/fromshowcolumns.asp?csv.x=yes&SeriesCodes=${seriesId}&CSVF=CN&UsingCodes=Y&Datefrom=${fromDate}&Dateto=${today}`;
+    const resp = await fetchWithCorsRetry(url);
+    const text = await resp.text();
+    return parseBoEcsv(text);
+  }
+
+  function parseBoEcsv(csv) {
+    const lines = csv.trim().split('\n');
+    const results = [];
+    for (let i = 1; i < lines.length; i++) {
+      const parts = lines[i].split(',');
+      if (parts.length >= 2) {
+        const dateStr = parts[0].trim().replace(/"/g, '');
+        const val = parseFloat(parts[1].trim().replace(/"/g, ''));
+        if (!isNaN(val)) {
+          results.push({ date: dateStr, value: val });
+        }
+      }
+    }
+    return results;
+  }
+
+  async function loadGiltYields() {
+    try {
+      // Fetch 10yr and 30yr in parallel
+      const [data10, data30] = await Promise.all([
+        fetchBoEseries('IUDMNZC'),
+        fetchBoEseries('IUDMNB4')
+      ]);
+
+      if (data10.length > 0) {
+        const latest = data10[data10.length - 1];
+        const prev = data10.length > 1 ? data10[data10.length - 2] : null;
+        document.getElementById('gilt10y').innerHTML =
+          `<span style="color:var(--text)">${latest.value.toFixed(3)}%</span>`;
+        if (prev) {
+          const diff = latest.value - prev.value;
+          const cls = diff > 0 ? 'color:var(--red)' : diff < 0 ? 'color:var(--green)' : 'color:var(--text2)';
+          const arrow = diff > 0 ? '▲' : diff < 0 ? '▼' : '—';
+          document.getElementById('gilt10y').innerHTML +=
+            ` <span style="font-size:12px;${cls}">${arrow}${Math.abs(diff).toFixed(1)}bp</span>`;
+        }
+        cacheSet('gilt10y', { latest, prev });
+      }
+
+      if (data30.length > 0) {
+        const latest = data30[data30.length - 1];
+        const prev = data30.length > 1 ? data30[data30.length - 2] : null;
+        document.getElementById('gilt30y').innerHTML =
+          `<span style="color:var(--text)">${latest.value.toFixed(3)}%</span>`;
+        if (prev) {
+          const diff = latest.value - prev.value;
+          const cls = diff > 0 ? 'color:var(--red)' : diff < 0 ? 'color:var(--green)' : 'color:var(--text2)';
+          const arrow = diff > 0 ? '▲' : diff < 0 ? '▼' : '—';
+          document.getElementById('gilt30y').innerHTML +=
+            ` <span style="font-size:12px;${cls}">${arrow}${Math.abs(diff).toFixed(1)}bp</span>`;
+        }
+        cacheSet('gilt30y', { latest, prev });
+      }
+
+      setUpdated('giltsUpdated', data10.length > 0 ? data10[data10.length-1].date : null);
+      clearStale('cardGilts');
+    } catch (e) {
+      console.warn('Gilt yield fetch failed:', e);
+      const cached10 = cacheGet('gilt10y');
+      const cached30 = cacheGet('gilt30y');
+      if (cached10) document.getElementById('gilt10y').textContent = cached10.data.latest.value.toFixed(3) + '%';
+      if (cached30) document.getElementById('gilt30y').textContent = cached30.data.latest.value.toFixed(3) + '%';
+      showStale('cardGilts', 'Using cached data — BoE API unavailable');
+    }
+  }
+
+  async function loadSONIA() {
+    try {
+      // SONIA swap rates: use BoE series
+      // IUDSOIA = SONIA overnight rate
+      // For 5yr and 10yr SONIA swaps, we use OIS series
+      // IUDSNPY = 5yr SONIA OIS; IUDSNQY = 10yr SONIA OIS
+      // Fallback series if those fail: use IUMASOIA5, IUMASOIA10
+      const [data5, data10] = await Promise.all([
+        fetchBoEseries('IUDSNPY'),
+        fetchBoEseries('IUDSNQY')
+      ]);
+
+      if (data5.length > 0) {
+        const latest = data5[data5.length - 1];
+        document.getElementById('sonia5y').innerHTML =
+          `<span style="color:var(--text)">${latest.value.toFixed(3)}%</span>`;
+        cacheSet('sonia5y', latest);
+      }
+
+      if (data10.length > 0) {
+        const latest = data10[data10.length - 1];
+        document.getElementById('sonia10y').innerHTML =
+          `<span style="color:var(--text)">${latest.value.toFixed(3)}%</span>`;
+        cacheSet('sonia10y', latest);
+      }
+
+      setUpdated('soniaUpdated', data5.length > 0 ? data5[data5.length-1].date : null);
+      clearStale('cardSonia');
+    } catch (e) {
+      console.warn('SONIA fetch failed:', e);
+      const c5 = cacheGet('sonia5y');
+      const c10 = cacheGet('sonia10y');
+      if (c5) document.getElementById('sonia5y').textContent = c5.data.value.toFixed(3) + '%';
+      if (c10) document.getElementById('sonia10y').textContent = c10.data.value.toFixed(3) + '%';
+      showStale('cardSonia', 'Using cached data — BoE API unavailable');
+    }
+  }
+
+  async function loadBaseRate() {
+    try {
+      const data = await fetchBoEseries('IUDBEDR');
+      if (data.length > 0) {
+        const latest = data[data.length - 1];
+        const prev = data.length > 1 ? data[data.length - 2] : null;
+        document.getElementById('baseRateValue').textContent = latest.value.toFixed(2) + '%';
+        if (prev && prev.value !== latest.value) {
+          document.getElementById('baseRatePrev').textContent = `Previous: ${prev.value.toFixed(2)}%`;
+        }
+        setUpdated('baseRateUpdated', latest.date);
+        cacheSet('baseRate', { latest, prev });
+        clearStale('cardBaseRate');
+      }
+    } catch (e) {
+      console.warn('Base rate fetch failed:', e);
+      const c = cacheGet('baseRate');
+      if (c) document.getElementById('baseRateValue').textContent = c.data.latest.value.toFixed(2) + '%';
+      showStale('cardBaseRate', 'Using cached data — BoE API unavailable');
+    }
+  }
+
+
+  // ─── ONS API — UK Inflation (RPI, CPIH, CPI) ───
+  // Free, no API key required.
+  // Series: D7G7 = RPI annual rate, L55O = CPIH annual rate, D7G7 = CPI
+  // NOTE: ONS API may require CORS proxy from browser.
+
+  async function fetchONSseries(seriesId) {
+    const url = `https://api.ons.gov.uk/timeseries/${seriesId}/dataset/mm23/data`;
+    const resp = await fetchWithCorsRetry(url);
+    const json = await resp.json();
+    return json;
+  }
+
+  async function loadInflation() {
+    try {
+      const [rpiData, cpihData] = await Promise.all([
+        fetchONSseries('D7G7'),  // RPI annual rate
+        fetchONSseries('L55O')   // CPIH annual rate
+      ]);
+
+      if (rpiData && rpiData.months) {
+        const months = rpiData.months;
+        const latest = months[months.length - 1];
+        document.getElementById('rpiValue').innerHTML =
+          `<span style="color:var(--text)">${parseFloat(latest.value).toFixed(1)}%</span>`;
+        cacheSet('rpi', latest);
+      }
+
+      if (cpihData && cpihData.months) {
+        const months = cpihData.months;
+        const latest = months[months.length - 1];
+        document.getElementById('cpihValue').innerHTML =
+          `<span style="color:var(--text)">${parseFloat(latest.value).toFixed(1)}%</span>`;
+        cacheSet('cpih', latest);
+      }
+
+      setUpdated('inflationUpdated');
+      clearStale('cardInflation');
+    } catch (e) {
+      console.warn('ONS inflation fetch failed:', e);
+      const cRpi = cacheGet('rpi');
+      const cCpih = cacheGet('cpih');
+      if (cRpi) document.getElementById('rpiValue').textContent = parseFloat(cRpi.data.value).toFixed(1) + '%';
+      if (cCpih) document.getElementById('cpihValue').textContent = parseFloat(cCpih.data.value).toFixed(1) + '%';
+      showStale('cardInflation', 'Using cached data — ONS API unavailable');
+    }
+  }
+
+  async function loadCPI() {
+    try {
+      const cpiData = await fetchONSseries('D7G7'); // CPI annual rate
+      if (cpiData && cpiData.months) {
+        const months = cpiData.months;
+        const latest = months[months.length - 1];
+        const prev = months.length > 1 ? months[months.length - 2] : null;
+        document.getElementById('cpiValue').textContent = parseFloat(latest.value).toFixed(1) + '%';
+        if (prev) {
+          document.getElementById('cpiPrev').textContent = `Previous: ${parseFloat(prev.value).toFixed(1)}%`;
+          document.getElementById('cpiChange').innerHTML = changeHTML(
+            parseFloat(latest.value), parseFloat(prev.value), '%', true
+          );
+        }
+        setUpdated('cpiUpdated', latest.date || (latest.month + ' ' + latest.year));
+        cacheSet('cpi', { latest, prev });
+        clearStale('cardCPI');
+      }
+    } catch (e) {
+      console.warn('CPI fetch failed:', e);
+      const c = cacheGet('cpi');
+      if (c) document.getElementById('cpiValue').textContent = parseFloat(c.data.latest.value).toFixed(1) + '%';
+      showStale('cardCPI', 'Using cached data — ONS API unavailable');
+    }
+  }
+
+
+  // ─── Energy prices (placeholder with static fallback) ───
+  // NOTE: There is no free, CORS-friendly, no-auth API for UK gas/power day-ahead prices.
+  // Options for live data:
+  //   1. Deploy a small server-side proxy that scrapes ICIS/N2EX
+  //   2. Use a paid API (e.g. Elexon BSC data, ICIS Heren)
+  //   3. Use the BMRS Elexon API (free, needs registration): https://www.elexon.co.uk/data/bmrs-api/
+  //      /* INSERT API KEY HERE: const ELEXON_API_KEY = 'YOUR_KEY'; */
+  // For now we show static placeholder values with clear labelling.
+
+  function loadEnergyPrices() {
+    // Static placeholders — replace with live API when available
+    const gasData = {
+      current: 82.5,
+      previous: 79.3,
+      unit: 'p/therm',
+      date: '2025-03-14'
+    };
+    const powerData = {
+      current: 78.50,
+      previous: 76.20,
+      unit: '£/MWh',
+      date: '2025-03-14'
+    };
+
+    document.getElementById('gasValue').textContent = `${gasData.current} ${gasData.unit}`;
+    document.getElementById('gasPrev').textContent = `Previous: ${gasData.previous} ${gasData.unit}`;
+    document.getElementById('gasChange').innerHTML = changeHTML(gasData.current, gasData.previous, '', true);
+    document.getElementById('gasUpdated').textContent = 'Static placeholder — ' + gasData.date;
+    showStale('cardGas', 'Placeholder data — replace with live API');
+    cacheSet('gas', gasData);
+
+    document.getElementById('powerValue').textContent = `${powerData.current} ${powerData.unit}`;
+    document.getElementById('powerPrev').textContent = `Previous: ${powerData.previous} ${powerData.unit}`;
+    document.getElementById('powerChange').innerHTML = changeHTML(powerData.current, powerData.previous, '', true);
+    document.getElementById('powerUpdated').textContent = 'Static placeholder — ' + powerData.date;
+    showStale('cardPower', 'Placeholder data — replace with live API');
+    cacheSet('power', powerData);
+  }
+
+
+  // ─── Credit Spreads (placeholder) ───
+  // NOTE: iBoxx GBP Non-Financials spread data requires a paid subscription
+  // (IHS Markit / S&P Global). No free API exists.
+  // To add live data:
+  //   /* INSERT API KEY HERE: const IBOXX_API_KEY = 'YOUR_KEY'; */
+  //   Endpoint: https://api.ihsmarkit.com/iboxx/...
+  // Using static placeholder for now.
+
+  function loadCreditSpreads() {
+    const data = {
+      current: 142,
+      previous: 138,
+      unit: 'bps',
+      date: '2025-03-14'
+    };
+    document.getElementById('creditValue').textContent = `${data.current} bps`;
+    document.getElementById('creditPrev').textContent = `Previous: ${data.previous} bps`;
+    // Wider spreads = bad for infrastructure (higher funding costs)
+    document.getElementById('creditChange').innerHTML = changeHTML(data.current, data.previous, 'bp', false);
+    document.getElementById('creditUpdated').textContent = 'Static placeholder — ' + data.date;
+    showStale('cardCredit', 'Placeholder — iBoxx requires paid subscription');
+    cacheSet('credit', data);
+  }
+
+
+  // ─── Yahoo Finance (Equity Prices) ───
+  // Uses the Yahoo Finance v8 quote endpoint (unofficial, no key required).
+  // NOTE: Yahoo Finance may block CORS from browsers. A CORS proxy is used.
+  // For production, consider deploying your own proxy or using a paid API.
+  // /* INSERT API KEY HERE: const YAHOO_API_KEY = 'YOUR_KEY'; */
+  // Alternative: use Alpha Vantage (free tier, key required):
+  //   https://www.alphavantage.co/query?function=GLOBAL_QUOTE&symbol=HICL.L&apikey=YOUR_KEY
+
+  const INFRA_TICKERS = [
+    { symbol: 'HICL.L', name: 'HICL Infrastructure', navPerShare: 153.2 },
+    { symbol: 'INPP.L', name: 'International Public Partnerships', navPerShare: 147.8 },
+    { symbol: 'BBGI.L', name: 'BBGI Global Infrastructure', navPerShare: 148.5 }
+  ];
+
+  const UTIL_TICKERS = [
+    { symbol: 'NG.L', name: 'National Grid' },
+    { symbol: 'SSE.L', name: 'SSE' },
+    { symbol: 'PNN.L', name: 'Pennon Group' },
+    { symbol: 'SVT.L', name: 'Severn Trent' }
+  ];
+
+  async function fetchYahooQuotes(symbols) {
+    const joined = symbols.join(',');
+    const url = `https://query1.finance.yahoo.com/v7/finance/quote?symbols=${joined}&fields=regularMarketPrice,regularMarketChange,regularMarketChangePercent,regularMarketPreviousClose`;
+    const resp = await fetchWithCorsRetry(url);
+    const json = await resp.json();
+    return json.quoteResponse?.result || [];
+  }
+
+  async function loadEquities() {
+    try {
+      const allSymbols = [...INFRA_TICKERS, ...UTIL_TICKERS].map(t => t.symbol);
+      const quotes = await fetchYahooQuotes(allSymbols);
+      const quoteMap = {};
+      quotes.forEach(q => { quoteMap[q.symbol] = q; });
+
+      // Infra table
+      let infraHTML = '';
+      INFRA_TICKERS.forEach(t => {
+        const q = quoteMap[t.symbol];
+        if (q) {
+          const price = (q.regularMarketPrice || 0).toFixed(1);
+          const chg = (q.regularMarketChange || 0).toFixed(1);
+          const chgPct = (q.regularMarketChangePercent || 0).toFixed(2);
+          const chgColor = q.regularMarketChange >= 0 ? 'var(--green)' : 'var(--red)';
+          const arrow = q.regularMarketChange >= 0 ? '▲' : '▼';
+          const disc = t.navPerShare ? (((q.regularMarketPrice - t.navPerShare) / t.navPerShare) * 100).toFixed(1) : '—';
+          const discColor = parseFloat(disc) >= 0 ? 'var(--green)' : 'var(--red)';
+          infraHTML += `<tr>
+            <td class="ticker">${t.symbol.replace('.L','')}</td>
+            <td>${price}</td>
+            <td style="color:${chgColor}">${arrow} ${chg} (${chgPct}%)</td>
+            <td style="color:${discColor}">${disc}%</td>
+          </tr>`;
+          cacheSet('eq_' + t.symbol, q);
+        } else {
+          const cached = cacheGet('eq_' + t.symbol);
+          infraHTML += `<tr>
+            <td class="ticker">${t.symbol.replace('.L','')}</td>
+            <td>${cached ? cached.data.regularMarketPrice?.toFixed(1) : '—'}</td>
+            <td>—</td>
+            <td>—</td>
+          </tr>`;
+        }
+      });
+      document.getElementById('infraTableBody').innerHTML = infraHTML;
+      setUpdated('infraUpdated');
+
+      // Utilities table
+      let utilHTML = '';
+      UTIL_TICKERS.forEach(t => {
+        const q = quoteMap[t.symbol];
+        if (q) {
+          const price = (q.regularMarketPrice || 0).toFixed(1);
+          const chg = (q.regularMarketChange || 0).toFixed(1);
+          const chgPct = (q.regularMarketChangePercent || 0).toFixed(2);
+          const chgColor = q.regularMarketChange >= 0 ? 'var(--green)' : 'var(--red)';
+          const arrow = q.regularMarketChange >= 0 ? '▲' : '▼';
+          utilHTML += `<tr>
+            <td class="ticker">${t.symbol.replace('.L','')}</td>
+            <td>${price}</td>
+            <td style="color:${chgColor}">${arrow} ${chg}</td>
+            <td style="color:${chgColor}">${chgPct}%</td>
+          </tr>`;
+          cacheSet('eq_' + t.symbol, q);
+        } else {
+          const cached = cacheGet('eq_' + t.symbol);
+          utilHTML += `<tr>
+            <td class="ticker">${t.symbol.replace('.L','')}</td>
+            <td>${cached ? cached.data.regularMarketPrice?.toFixed(1) : '—'}</td>
+            <td>—</td>
+            <td>—</td>
+          </tr>`;
+        }
+      });
+      document.getElementById('utilTableBody').innerHTML = utilHTML;
+      setUpdated('utilUpdated');
+
+      clearStale('cardInfraEquities');
+      clearStale('cardUtilEquities');
+    } catch (e) {
+      console.warn('Equity fetch failed:', e);
+
+      // Load from cache
+      let infraHTML = '';
+      INFRA_TICKERS.forEach(t => {
+        const c = cacheGet('eq_' + t.symbol);
+        infraHTML += `<tr>
+          <td class="ticker">${t.symbol.replace('.L','')}</td>
+          <td>${c ? c.data.regularMarketPrice?.toFixed(1) : '—'}</td>
+          <td>—</td><td>—</td>
+        </tr>`;
+      });
+      document.getElementById('infraTableBody').innerHTML = infraHTML;
+
+      let utilHTML = '';
+      UTIL_TICKERS.forEach(t => {
+        const c = cacheGet('eq_' + t.symbol);
+        utilHTML += `<tr>
+          <td class="ticker">${t.symbol.replace('.L','')}</td>
+          <td>${c ? c.data.regularMarketPrice?.toFixed(1) : '—'}</td>
+          <td>—</td><td>—</td>
+        </tr>`;
+      });
+      document.getElementById('utilTableBody').innerHTML = utilHTML;
+
+      showStale('cardInfraEquities', 'Using cached data — Yahoo Finance unavailable');
+      showStale('cardUtilEquities', 'Using cached data — Yahoo Finance unavailable');
+    }
+  }
+
+
+  // ─── US 10yr Treasury Yield ───
+  // Using FRED (Federal Reserve Economic Data) — no key required for basic access
+  // Series: DGS10 = 10-Year Treasury Constant Maturity Rate
+  // NOTE: FRED may require CORS proxy. Alternatively use BoE data or a free proxy.
+  // /* INSERT API KEY HERE: const FRED_API_KEY = 'YOUR_KEY'; */
+  // With key: https://api.stlouisfed.org/fred/series/observations?series_id=DGS10&api_key=YOUR_KEY&file_type=json&sort_order=desc&limit=5
+
+  async function loadUSTreasury() {
+    try {
+      // Try using BoE for US data as fallback — BoE publishes some US yield data
+      // Series IUQAAJNB = US 10yr benchmark (not always available)
+      // Primary approach: use Treasury.gov XML
+      const url = 'https://data.treasury.gov/feed.svc/DailyTreasuryYieldCurveRateData?$top=5&$orderby=NEW_DATE%20desc&$format=json';
+      const resp = await fetchWithCorsRetry(url);
+      const json = await resp.json();
+      const entries = json.d?.results || json.value || [];
+
+      if (entries.length > 0) {
+        const latest = entries[0];
+        const prev = entries.length > 1 ? entries[1] : null;
+        const val = latest.BC_10YEAR || latest.bc_10year;
+        const prevVal = prev ? (prev.BC_10YEAR || prev.bc_10year) : null;
+
+        if (val != null) {
+          document.getElementById('ustValue').textContent = parseFloat(val).toFixed(3) + '%';
+          if (prevVal != null) {
+            document.getElementById('ustPrev').textContent = `Previous: ${parseFloat(prevVal).toFixed(3)}%`;
+            document.getElementById('ustChange').innerHTML = changeHTML(parseFloat(val), parseFloat(prevVal), '%', false);
+          }
+          setUpdated('ustUpdated', latest.NEW_DATE || latest.new_date);
+          cacheSet('ust10y', { val, prevVal, date: latest.NEW_DATE || latest.new_date });
+          clearStale('cardUST');
+          return;
+        }
+      }
+      throw new Error('No data in Treasury response');
+    } catch (e) {
+      console.warn('US Treasury fetch failed:', e);
+      const c = cacheGet('ust10y');
+      if (c) {
+        document.getElementById('ustValue').textContent = parseFloat(c.data.val).toFixed(3) + '%';
+      } else {
+        document.getElementById('ustValue').textContent = '—';
+      }
+      showStale('cardUST', 'Using cached data — Treasury API unavailable');
+    }
+  }
+
+
+  // ─── RSS Feeds ───
+  // Fetches RSS XML and parses it in the browser.
+  // NOTE: Most gov.uk and Ofgem RSS feeds require CORS proxy from browser.
+
+  async function fetchRSS(url) {
+    const resp = await fetchWithCorsRetry(url);
+    const text = await resp.text();
+    const parser = new DOMParser();
+    const xml = parser.parseFromString(text, 'text/xml');
+    const items = xml.querySelectorAll('item');
+    const results = [];
+    items.forEach((item, i) => {
+      if (i >= 15) return; // limit to 15 items
+      results.push({
+        title: item.querySelector('title')?.textContent || '',
+        link: item.querySelector('link')?.textContent || '',
+        date: item.querySelector('pubDate')?.textContent ||
+              item.querySelector('date')?.textContent || '',
+        description: item.querySelector('description')?.textContent || ''
+      });
+    });
+    return results;
+  }
+
+  // Also handle Atom feeds
+  async function fetchAtom(url) {
+    const resp = await fetchWithCorsRetry(url);
+    const text = await resp.text();
+    const parser = new DOMParser();
+    const xml = parser.parseFromString(text, 'text/xml');
+    const entries = xml.querySelectorAll('entry');
+    const results = [];
+    entries.forEach((entry, i) => {
+      if (i >= 15) return;
+      const link = entry.querySelector('link')?.getAttribute('href') || '';
+      results.push({
+        title: entry.querySelector('title')?.textContent || '',
+        link: link,
+        date: entry.querySelector('updated')?.textContent ||
+              entry.querySelector('published')?.textContent || '',
+        description: entry.querySelector('summary')?.textContent || ''
+      });
+    });
+    return results;
+  }
+
+  function renderNewsFeed(containerId, items, sourceName, updatedId) {
+    const container = document.getElementById(containerId);
+    if (items.length === 0) {
+      container.innerHTML = '<span style="color:var(--muted)">No items available</span>';
+      return;
+    }
+    let html = '';
+    items.forEach(item => {
+      const dateStr = item.date ? new Date(item.date).toLocaleDateString('en-GB', {
+        day: 'numeric', month: 'short', year: 'numeric'
+      }) : '';
+      html += `<div class="news-item">
+        <a href="${item.link}" target="_blank" rel="noopener">${item.title}</a>
+        <div class="news-meta"><span class="news-source">${sourceName}</span> ${dateStr ? '· ' + dateStr : ''}</div>
+      </div>`;
+    });
+    container.innerHTML = html;
+    if (updatedId) setUpdated(updatedId);
+  }
+
+  async function loadOfgemFeed() {
+    try {
+      // Ofgem RSS feed for publications and consultations
+      const items = await fetchRSS('https://www.ofgem.gov.uk/rss');
+      renderNewsFeed('ofgemFeed', items, 'Ofgem', 'ofgemUpdated');
+      cacheSet('ofgemFeed', items);
+      clearStale('cardOfgem');
+    } catch (e) {
+      console.warn('Ofgem RSS failed:', e);
+      const c = cacheGet('ofgemFeed');
+      if (c) renderNewsFeed('ofgemFeed', c.data, 'Ofgem (cached)', 'ofgemUpdated');
+      else document.getElementById('ofgemFeed').innerHTML = '<span style="color:var(--amber)">Feed unavailable — CORS proxy may be needed</span>';
+      showStale('cardOfgem', 'Feed may require CORS proxy');
+    }
+  }
+
+  async function loadNESOFeed() {
+    try {
+      // NESO / National Grid ESO news feed
+      // Try the ESO data portal news feed
+      const items = await fetchRSS('https://www.nationalgrideso.com/rss.xml');
+      renderNewsFeed('nesoFeed', items, 'NESO / NG ESO', 'nesoUpdated');
+      cacheSet('nesoFeed', items);
+      clearStale('cardNESO');
+    } catch (e) {
+      console.warn('NESO RSS failed:', e);
+      try {
+        // Fallback: try Atom feed
+        const items = await fetchAtom('https://www.neso.energy/feed');
+        renderNewsFeed('nesoFeed', items, 'NESO', 'nesoUpdated');
+        cacheSet('nesoFeed', items);
+        clearStale('cardNESO');
+      } catch (e2) {
+        const c = cacheGet('nesoFeed');
+        if (c) renderNewsFeed('nesoFeed', c.data, 'NESO (cached)', 'nesoUpdated');
+        else document.getElementById('nesoFeed').innerHTML = '<span style="color:var(--amber)">Feed unavailable — CORS proxy may be needed</span>';
+        showStale('cardNESO', 'Feed may require CORS proxy');
+      }
+    }
+  }
+
+  async function loadGovFeed() {
+    try {
+      // GOV.UK Atom feeds for HM Treasury and DESNZ
+      const [treasuryItems, desnzItems] = await Promise.allSettled([
+        fetchAtom('https://www.gov.uk/government/organisations/hm-treasury.atom'),
+        fetchAtom('https://www.gov.uk/government/organisations/department-for-energy-security-and-net-zero.atom')
+      ]);
+
+      let allItems = [];
+      if (treasuryItems.status === 'fulfilled') {
+        allItems = allItems.concat(treasuryItems.value.map(i => ({ ...i, source: 'HM Treasury' })));
+      }
+      if (desnzItems.status === 'fulfilled') {
+        allItems = allItems.concat(desnzItems.value.map(i => ({ ...i, source: 'DESNZ' })));
+      }
+
+      // Sort by date descending
+      allItems.sort((a, b) => new Date(b.date) - new Date(a.date));
+      allItems = allItems.slice(0, 15);
+
+      const container = document.getElementById('govFeed');
+      if (allItems.length === 0) {
+        container.innerHTML = '<span style="color:var(--amber)">No items available</span>';
+        return;
+      }
+
+      let html = '';
+      allItems.forEach(item => {
+        const dateStr = item.date ? new Date(item.date).toLocaleDateString('en-GB', {
+          day: 'numeric', month: 'short', year: 'numeric'
+        }) : '';
+        html += `<div class="news-item">
+          <a href="${item.link}" target="_blank" rel="noopener">${item.title}</a>
+          <div class="news-meta"><span class="news-source">${item.source || 'GOV.UK'}</span> ${dateStr ? '· ' + dateStr : ''}</div>
+        </div>`;
+      });
+      container.innerHTML = html;
+      setUpdated('govUpdated');
+      cacheSet('govFeed', allItems);
+      clearStale('cardGovUK');
+    } catch (e) {
+      console.warn('GOV.UK feed failed:', e);
+      const c = cacheGet('govFeed');
+      if (c) {
+        const container = document.getElementById('govFeed');
+        let html = '';
+        c.data.forEach(item => {
+          html += `<div class="news-item">
+            <a href="${item.link}" target="_blank" rel="noopener">${item.title}</a>
+            <div class="news-meta"><span class="news-source">${item.source || 'GOV.UK'} (cached)</span></div>
+          </div>`;
+        });
+        container.innerHTML = html;
+      } else {
+        document.getElementById('govFeed').innerHTML = '<span style="color:var(--amber)">Feed unavailable — CORS proxy may be needed</span>';
+      }
+      showStale('cardGovUK', 'Feed may require CORS proxy');
+    }
+  }
+
+  async function loadMAFeed() {
+    try {
+      // Infrastructure M&A headlines via Google News RSS
+      // NOTE: Google News RSS is free but may be rate-limited.
+      // Alternative: use a paid news API like NewsAPI.org
+      // /* INSERT API KEY HERE: const NEWSAPI_KEY = 'YOUR_KEY'; */
+      // With key: https://newsapi.org/v2/everything?q=UK+infrastructure+M%26A&apiKey=YOUR_KEY
+      const items = await fetchRSS(
+        'https://news.google.com/rss/search?q=UK+infrastructure+acquisition+OR+merger+OR+deal&hl=en-GB&gl=GB&ceid=GB:en'
+      );
+      renderNewsFeed('maFeed', items, 'Google News', 'maUpdated');
+      cacheSet('maFeed', items);
+      clearStale('cardMA');
+    } catch (e) {
+      console.warn('M&A feed failed:', e);
+      const c = cacheGet('maFeed');
+      if (c) renderNewsFeed('maFeed', c.data, 'Google News (cached)', 'maUpdated');
+      else document.getElementById('maFeed').innerHTML = '<span style="color:var(--amber)">Feed unavailable — CORS proxy may be needed</span>';
+      showStale('cardMA', 'Feed may require CORS proxy');
+    }
+  }
+
+
+  /* ==========================================================
+     MASTER REFRESH
+     ========================================================== */
+
+  let isRefreshing = false;
+
+  async function refreshAll() {
+    if (isRefreshing) return;
+    isRefreshing = true;
+    const btn = document.getElementById('btnRefresh');
+    btn.disabled = true;
+    btn.textContent = 'Refreshing...';
+
+    document.getElementById('masterTimestamp').textContent = 'Refreshing...';
+
+    try {
+      // Fire all fetches in parallel — each handles its own errors gracefully
+      await Promise.allSettled([
+        loadGiltYields(),
+        loadSONIA(),
+        loadBaseRate(),
+        loadInflation(),
+        loadCPI(),
+        loadEquities(),
+        loadUSTreasury(),
+        loadOfgemFeed(),
+        loadNESOFeed(),
+        loadGovFeed(),
+        loadMAFeed()
+      ]);
+
+      // These are synchronous / static loads
+      loadEnergyPrices();
+      loadCreditSpreads();
+
+    } catch (e) {
+      console.error('Refresh error:', e);
+    }
+
+    document.getElementById('masterTimestamp').textContent =
+      'Last refresh: ' + formatTimestamp(new Date());
+    btn.disabled = false;
+    btn.textContent = 'Refresh All';
+    isRefreshing = false;
+  }
+
+
+  /* ==========================================================
+     INIT
+     ========================================================== */
+
+  // Load on page ready
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', refreshAll);
+  } else {
+    refreshAll();
+  }
+
+})();
+</script>
+
+</body>
+</html>
