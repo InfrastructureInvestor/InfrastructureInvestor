@@ -136,7 +136,6 @@ body {
 
 .section-badge.daily { background: var(--blue-dim); color: var(--blue); }
 .section-badge.weekly { background: var(--green-dim); color: var(--green); }
-.section-badge.several { background: var(--amber-dim); color: var(--amber); }
 .section-badge.standing { background: var(--red-dim); color: var(--red); }
 
 .section-title {
@@ -323,48 +322,13 @@ body {
   font-family: var(--mono);
 }
 
-/* Equity table */
-.equity-table {
-  width: 100%;
-  border-collapse: collapse;
-  font-size: 13px;
-  margin-top: 8px;
-}
-
-.equity-table th {
-  text-align: left;
-  font-size: 10px;
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: .6px;
-  color: var(--muted);
-  padding: 4px 8px 6px;
-  border-bottom: 1px solid var(--border);
-}
-
-.equity-table td {
-  padding: 6px 8px;
-  border-bottom: 1px solid var(--border);
-  font-family: var(--mono);
-}
-
-.equity-table tr:last-child td { border-bottom: none; }
-
-.equity-table .ticker { color: var(--blue); font-weight: 600; }
-
-/* Share price table card */
-.card.table-card {
-  grid-column: span 2;
-}
-
 /* Responsive */
 @media (max-width: 768px) {
   .header { padding: 10px 14px; }
   .header h1 { font-size: 15px; }
   .dashboard { padding: 14px 12px 40px; }
   .card-grid { grid-template-columns: 1fr; }
-  .card.news-card,
-  .card.table-card { grid-column: span 1; }
+  .card.news-card { grid-column: span 1; }
   .card-value { font-size: 22px; }
 }
 
@@ -455,78 +419,6 @@ body {
         <div class="card-updated" id="inflationUpdated"></div>
       </div>
 
-      <!-- Natural Gas Day-Ahead -->
-      <div class="card" id="cardGas">
-        <div class="card-label">UK Natural Gas Day-Ahead</div>
-        <div class="card-value" id="gasValue"><span class="loading" style="display:inline-block;width:100px;height:30px;background:var(--surface2);border-radius:3px">&nbsp;</span></div>
-        <div class="card-prev" id="gasPrev"></div>
-        <div id="gasChange"></div>
-        <div class="card-updated" id="gasUpdated"></div>
-      </div>
-
-      <!-- Power Day-Ahead -->
-      <div class="card" id="cardPower">
-        <div class="card-label">UK Power Day-Ahead (N2EX)</div>
-        <div class="card-value" id="powerValue"><span class="loading" style="display:inline-block;width:100px;height:30px;background:var(--surface2);border-radius:3px">&nbsp;</span></div>
-        <div class="card-prev" id="powerPrev"></div>
-        <div id="powerChange"></div>
-        <div class="card-updated" id="powerUpdated"></div>
-      </div>
-    </div>
-  </section>
-
-  <!-- ─── SEVERAL TIMES A WEEK ─── -->
-  <section class="section" id="sectionSeveral">
-    <div class="section-header">
-      <span class="section-badge several">SEVERAL TIMES / WEEK</span>
-      <span class="section-title">Equities, Credit & CPI</span>
-    </div>
-    <div class="card-grid">
-      <!-- Credit Spreads -->
-      <div class="card" id="cardCredit">
-        <div class="card-label">IG Credit Spread (iBoxx GBP Non-Fin)</div>
-        <div class="card-value" id="creditValue"><span class="loading" style="display:inline-block;width:80px;height:30px;background:var(--surface2);border-radius:3px">&nbsp;</span></div>
-        <div class="card-prev" id="creditPrev"></div>
-        <div id="creditChange"></div>
-        <div class="card-updated" id="creditUpdated"></div>
-      </div>
-
-      <!-- UK CPI -->
-      <div class="card" id="cardCPI">
-        <div class="card-label">UK CPI (Latest Print)</div>
-        <div class="card-value" id="cpiValue"><span class="loading" style="display:inline-block;width:80px;height:30px;background:var(--surface2);border-radius:3px">&nbsp;</span></div>
-        <div class="card-prev" id="cpiPrev"></div>
-        <div id="cpiChange"></div>
-        <div class="card-updated" id="cpiUpdated"></div>
-      </div>
-
-      <!-- Listed UK Infrastructure -->
-      <div class="card table-card" id="cardInfraEquities">
-        <div class="card-label">Listed UK Infrastructure — Share Price & NAV Prem/Disc</div>
-        <table class="equity-table" id="infraTable">
-          <thead>
-            <tr><th>Ticker</th><th>Price (p)</th><th>Change</th><th>NAV Prem/Disc</th></tr>
-          </thead>
-          <tbody id="infraTableBody">
-            <tr><td colspan="4" style="color:var(--muted)">Loading...</td></tr>
-          </tbody>
-        </table>
-        <div class="card-updated" id="infraUpdated"></div>
-      </div>
-
-      <!-- Listed UK Utilities -->
-      <div class="card table-card" id="cardUtilEquities">
-        <div class="card-label">Listed UK Utilities</div>
-        <table class="equity-table" id="utilTable">
-          <thead>
-            <tr><th>Ticker</th><th>Price (p)</th><th>Change</th><th>Chg %</th></tr>
-          </thead>
-          <tbody id="utilTableBody">
-            <tr><td colspan="4" style="color:var(--muted)">Loading...</td></tr>
-          </tbody>
-        </table>
-        <div class="card-updated" id="utilUpdated"></div>
-      </div>
     </div>
   </section>
 
@@ -1000,203 +892,6 @@ body {
   }
 
 
-  // ─── Energy prices (placeholder with static fallback) ───
-  // NOTE: There is no free, CORS-friendly, no-auth API for UK gas/power day-ahead prices.
-  // Options for live data:
-  //   1. Deploy a small server-side proxy that scrapes ICIS/N2EX
-  //   2. Use a paid API (e.g. Elexon BSC data, ICIS Heren)
-  //   3. Use the BMRS Elexon API (free, needs registration): https://www.elexon.co.uk/data/bmrs-api/
-  //      /* INSERT API KEY HERE: const ELEXON_API_KEY = 'YOUR_KEY'; */
-  // For now we show static placeholder values with clear labelling.
-
-  function loadEnergyPrices() {
-    // Static placeholders — replace with live API when available
-    const gasData = {
-      current: 82.5,
-      previous: 79.3,
-      unit: 'p/therm',
-      date: '2025-03-14'
-    };
-    const powerData = {
-      current: 78.50,
-      previous: 76.20,
-      unit: '£/MWh',
-      date: '2025-03-14'
-    };
-
-    document.getElementById('gasValue').textContent = `${gasData.current} ${gasData.unit}`;
-    document.getElementById('gasPrev').textContent = `Previous: ${gasData.previous} ${gasData.unit}`;
-    document.getElementById('gasChange').innerHTML = changeHTML(gasData.current, gasData.previous, '', true);
-    document.getElementById('gasUpdated').textContent = 'Static placeholder — ' + gasData.date;
-    showStale('cardGas', 'Placeholder data — replace with live API');
-    cacheSet('gas', gasData);
-
-    document.getElementById('powerValue').textContent = `${powerData.current} ${powerData.unit}`;
-    document.getElementById('powerPrev').textContent = `Previous: ${powerData.previous} ${powerData.unit}`;
-    document.getElementById('powerChange').innerHTML = changeHTML(powerData.current, powerData.previous, '', true);
-    document.getElementById('powerUpdated').textContent = 'Static placeholder — ' + powerData.date;
-    showStale('cardPower', 'Placeholder data — replace with live API');
-    cacheSet('power', powerData);
-  }
-
-
-  // ─── Credit Spreads (placeholder) ───
-  // NOTE: iBoxx GBP Non-Financials spread data requires a paid subscription
-  // (IHS Markit / S&P Global). No free API exists.
-  // To add live data:
-  //   /* INSERT API KEY HERE: const IBOXX_API_KEY = 'YOUR_KEY'; */
-  //   Endpoint: https://api.ihsmarkit.com/iboxx/...
-  // Using static placeholder for now.
-
-  function loadCreditSpreads() {
-    const data = {
-      current: 142,
-      previous: 138,
-      unit: 'bps',
-      date: '2025-03-14'
-    };
-    document.getElementById('creditValue').textContent = `${data.current} bps`;
-    document.getElementById('creditPrev').textContent = `Previous: ${data.previous} bps`;
-    // Wider spreads = bad for infrastructure (higher funding costs)
-    document.getElementById('creditChange').innerHTML = changeHTML(data.current, data.previous, 'bp', false);
-    document.getElementById('creditUpdated').textContent = 'Static placeholder — ' + data.date;
-    showStale('cardCredit', 'Placeholder — iBoxx requires paid subscription');
-    cacheSet('credit', data);
-  }
-
-
-  // ─── Yahoo Finance (Equity Prices) ───
-  // Uses the Yahoo Finance v8 quote endpoint (unofficial, no key required).
-  // NOTE: Yahoo Finance may block CORS from browsers. A CORS proxy is used.
-  // For production, consider deploying your own proxy or using a paid API.
-  // /* INSERT API KEY HERE: const YAHOO_API_KEY = 'YOUR_KEY'; */
-  // Alternative: use Alpha Vantage (free tier, key required):
-  //   https://www.alphavantage.co/query?function=GLOBAL_QUOTE&symbol=HICL.L&apikey=YOUR_KEY
-
-  const INFRA_TICKERS = [
-    { symbol: 'HICL.L', name: 'HICL Infrastructure', navPerShare: 153.2 },
-    { symbol: 'INPP.L', name: 'International Public Partnerships', navPerShare: 147.8 },
-    { symbol: 'BBGI.L', name: 'BBGI Global Infrastructure', navPerShare: 148.5 }
-  ];
-
-  const UTIL_TICKERS = [
-    { symbol: 'NG.L', name: 'National Grid' },
-    { symbol: 'SSE.L', name: 'SSE' },
-    { symbol: 'PNN.L', name: 'Pennon Group' },
-    { symbol: 'SVT.L', name: 'Severn Trent' }
-  ];
-
-  async function fetchYahooQuotes(symbols) {
-    const joined = symbols.join(',');
-    const url = `https://query1.finance.yahoo.com/v7/finance/quote?symbols=${joined}&fields=regularMarketPrice,regularMarketChange,regularMarketChangePercent,regularMarketPreviousClose`;
-    const resp = await fetchWithCorsRetry(url);
-    const json = await resp.json();
-    return json.quoteResponse?.result || [];
-  }
-
-  async function loadEquities() {
-    try {
-      const allSymbols = [...INFRA_TICKERS, ...UTIL_TICKERS].map(t => t.symbol);
-      const quotes = await fetchYahooQuotes(allSymbols);
-      const quoteMap = {};
-      quotes.forEach(q => { quoteMap[q.symbol] = q; });
-
-      // Infra table
-      let infraHTML = '';
-      INFRA_TICKERS.forEach(t => {
-        const q = quoteMap[t.symbol];
-        if (q) {
-          const price = (q.regularMarketPrice || 0).toFixed(1);
-          const chg = (q.regularMarketChange || 0).toFixed(1);
-          const chgPct = (q.regularMarketChangePercent || 0).toFixed(2);
-          const chgColor = q.regularMarketChange >= 0 ? 'var(--green)' : 'var(--red)';
-          const arrow = q.regularMarketChange >= 0 ? '▲' : '▼';
-          const disc = t.navPerShare ? (((q.regularMarketPrice - t.navPerShare) / t.navPerShare) * 100).toFixed(1) : '—';
-          const discColor = parseFloat(disc) >= 0 ? 'var(--green)' : 'var(--red)';
-          infraHTML += `<tr>
-            <td class="ticker">${t.symbol.replace('.L','')}</td>
-            <td>${price}</td>
-            <td style="color:${chgColor}">${arrow} ${chg} (${chgPct}%)</td>
-            <td style="color:${discColor}">${disc}%</td>
-          </tr>`;
-          cacheSet('eq_' + t.symbol, q);
-        } else {
-          const cached = cacheGet('eq_' + t.symbol);
-          infraHTML += `<tr>
-            <td class="ticker">${t.symbol.replace('.L','')}</td>
-            <td>${cached ? cached.data.regularMarketPrice?.toFixed(1) : '—'}</td>
-            <td>—</td>
-            <td>—</td>
-          </tr>`;
-        }
-      });
-      document.getElementById('infraTableBody').innerHTML = infraHTML;
-      setUpdated('infraUpdated');
-
-      // Utilities table
-      let utilHTML = '';
-      UTIL_TICKERS.forEach(t => {
-        const q = quoteMap[t.symbol];
-        if (q) {
-          const price = (q.regularMarketPrice || 0).toFixed(1);
-          const chg = (q.regularMarketChange || 0).toFixed(1);
-          const chgPct = (q.regularMarketChangePercent || 0).toFixed(2);
-          const chgColor = q.regularMarketChange >= 0 ? 'var(--green)' : 'var(--red)';
-          const arrow = q.regularMarketChange >= 0 ? '▲' : '▼';
-          utilHTML += `<tr>
-            <td class="ticker">${t.symbol.replace('.L','')}</td>
-            <td>${price}</td>
-            <td style="color:${chgColor}">${arrow} ${chg}</td>
-            <td style="color:${chgColor}">${chgPct}%</td>
-          </tr>`;
-          cacheSet('eq_' + t.symbol, q);
-        } else {
-          const cached = cacheGet('eq_' + t.symbol);
-          utilHTML += `<tr>
-            <td class="ticker">${t.symbol.replace('.L','')}</td>
-            <td>${cached ? cached.data.regularMarketPrice?.toFixed(1) : '—'}</td>
-            <td>—</td>
-            <td>—</td>
-          </tr>`;
-        }
-      });
-      document.getElementById('utilTableBody').innerHTML = utilHTML;
-      setUpdated('utilUpdated');
-
-      clearStale('cardInfraEquities');
-      clearStale('cardUtilEquities');
-    } catch (e) {
-      console.warn('Equity fetch failed:', e);
-
-      // Load from cache
-      let infraHTML = '';
-      INFRA_TICKERS.forEach(t => {
-        const c = cacheGet('eq_' + t.symbol);
-        infraHTML += `<tr>
-          <td class="ticker">${t.symbol.replace('.L','')}</td>
-          <td>${c ? c.data.regularMarketPrice?.toFixed(1) : '—'}</td>
-          <td>—</td><td>—</td>
-        </tr>`;
-      });
-      document.getElementById('infraTableBody').innerHTML = infraHTML;
-
-      let utilHTML = '';
-      UTIL_TICKERS.forEach(t => {
-        const c = cacheGet('eq_' + t.symbol);
-        utilHTML += `<tr>
-          <td class="ticker">${t.symbol.replace('.L','')}</td>
-          <td>${c ? c.data.regularMarketPrice?.toFixed(1) : '—'}</td>
-          <td>—</td><td>—</td>
-        </tr>`;
-      });
-      document.getElementById('utilTableBody').innerHTML = utilHTML;
-
-      showStale('cardInfraEquities', 'Using cached data — Yahoo Finance unavailable');
-      showStale('cardUtilEquities', 'Using cached data — Yahoo Finance unavailable');
-    }
-  }
-
-
   // ─── US 10yr Treasury Yield ───
   // Using FRED (Federal Reserve Economic Data) — no key required for basic access
   // Series: DGS10 = 10-Year Treasury Constant Maturity Rate
@@ -1459,17 +1154,12 @@ body {
         loadBaseRate(),
         loadInflation(),
         loadCPI(),
-        loadEquities(),
         loadUSTreasury(),
         loadOfgemFeed(),
         loadNESOFeed(),
         loadGovFeed(),
         loadMAFeed()
       ]);
-
-      // These are synchronous / static loads
-      loadEnergyPrices();
-      loadCreditSpreads();
 
     } catch (e) {
       console.error('Refresh error:', e);
