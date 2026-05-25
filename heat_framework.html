@@ -4,21 +4,21 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Heat Networks & Heat Pumps — Infrastructure Investor Framework</title>
-<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&family=Fraunces:opsz,wght@9..144,300;9..144,600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,500;0,8..60,600;1,8..60,400&display=swap" rel="stylesheet">
 <style>
   :root {
-    --bg: #0d0f0e;
-    --surface: #131614;
-    --surface2: #1a1e1b;
-    --border: #2a302b;
-    --accent: #4ade80;
-    --accent2: #86efac;
-    --warm: #fbbf24;
-    --cool: #38bdf8;
-    --elec: #a78bfa;
-    --muted: #6b7a6d;
-    --text: #e2ebe3;
-    --text2: #a8b8aa;
+    --bg: #f5f7f6;
+    --surface: #ffffff;
+    --surface2: #eef1f0;
+    --border: #e4e8e6;
+    --accent: #0c6b4f;
+    --accent2: #0e7d5d;
+    --warm: #b45309;
+    --cool: #0e7490;
+    --elec: #7c3aed;
+    --muted: #889390;
+    --text: #15201d;
+    --text2: #4c5854;
   }
 
   * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -26,7 +26,7 @@
   body {
     background: var(--bg);
     color: var(--text);
-    font-family: 'IBM Plex Mono', monospace;
+    font-family: 'Inter', monospace;
     min-height: 100vh;
     padding: 2rem;
   }
@@ -46,7 +46,7 @@
   }
 
   h1 {
-    font-family: 'Fraunces', serif;
+    font-family: 'Source Serif 4', serif;
     font-size: clamp(1.6rem, 3vw, 2.4rem);
     font-weight: 300;
     color: var(--text);
@@ -75,7 +75,7 @@
     border: 1px solid var(--border);
     background: var(--surface);
     color: var(--text2);
-    font-family: 'IBM Plex Mono', monospace;
+    font-family: 'Inter', monospace;
     font-size: 0.7rem;
     letter-spacing: 0.08em;
     cursor: pointer;
@@ -84,7 +84,7 @@
   }
 
   .toggle-btn:hover { border-color: var(--accent); color: var(--text); }
-  .toggle-btn.active { background: var(--accent); color: #0d0f0e; border-color: var(--accent); font-weight: 600; }
+  .toggle-btn.active { background: var(--accent); color: #ffffff; border-color: var(--accent); font-weight: 600; }
 
   .toggle-btn.elec.active { background: var(--elec); border-color: var(--elec); }
 
@@ -101,7 +101,7 @@
     border: 1px solid var(--border);
     background: transparent;
     color: var(--muted);
-    font-family: 'IBM Plex Mono', monospace;
+    font-family: 'Inter', monospace;
     font-size: 0.68rem;
     cursor: pointer;
     transition: all 0.15s;
@@ -159,7 +159,7 @@
   .cell-header.muted-accent .dot { background: var(--text2); }
 
   .cell-title {
-    font-family: 'Fraunces', serif;
+    font-family: 'Source Serif 4', serif;
     font-size: 1rem;
     font-weight: 300;
     color: var(--text);
@@ -207,7 +207,7 @@
   }
 
   .model-panel h3 {
-    font-family: 'Fraunces', serif;
+    font-family: 'Source Serif 4', serif;
     font-weight: 300;
     font-size: 1rem;
     margin-bottom: 0.75rem;
