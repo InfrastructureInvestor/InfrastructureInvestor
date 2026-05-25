@@ -1,0 +1,714 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Regulatory Tracker — Ofgem & Ofwat (CDCM · NAV)</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300&family=DM+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0a0b0a;
+    --surface: #111211;
+    --surface2: #161a16;
+    --border: #222622;
+    --border2: #2e352e;
+    --text: #dde8dd;
+    --text2: #8a9e8a;
+    --muted: #4a5a4a;
+    --accent: #5dfc8a;
+    --accent-dim: #2a6b40;
+    --ofgem: #facc15;     /* electricity — amber */
+    --ofwat: #38bdf8;     /* water — cyan */
+    --live: #5dfc8a;
+    --consult: #fb923c;
+    --upcoming: #60a5fa;
+    --decided: #c084fc;
+    --monitor: #8a9e8a;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'DM Mono', monospace;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  body::before {
+    content: ''; position: fixed; inset: 0;
+    background-image: linear-gradient(var(--border) 1px, transparent 1px), linear-gradient(90deg, var(--border) 1px, transparent 1px);
+    background-size: 60px 60px; opacity: 0.25; pointer-events: none; z-index: 0;
+  }
+
+  .wrap { position: relative; z-index: 1; max-width: 1140px; margin: 0 auto; padding: 0 2rem; }
+
+  /* NAV */
+  nav { border-bottom: 1px solid var(--border); padding: 1.1rem 0; position: sticky; top: 0; background: rgba(10,11,10,0.94); backdrop-filter: blur(8px); z-index: 100; }
+  nav .wrap { display: flex; justify-content: space-between; align-items: center; }
+  .nav-logo { font-size: 0.65rem; letter-spacing: 0.2em; color: var(--accent); text-transform: uppercase; }
+  .nav-logo a { color: inherit; text-decoration: none; }
+  .nav-back { font-size: 0.6rem; color: var(--muted); letter-spacing: 0.1em; text-decoration: none; }
+  .nav-back:hover { color: var(--text2); }
+  .pulse { display: inline-block; width: 6px; height: 6px; border-radius: 50%; background: var(--accent); margin-right: 0.5rem; animation: pulse 2s infinite; }
+  @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.3} }
+
+  /* HERO */
+  .hero { padding: 3.5rem 0 2rem; border-bottom: 1px solid var(--border); }
+  .hero-eyebrow { font-size: 0.6rem; letter-spacing: 0.25em; color: var(--accent); text-transform: uppercase; margin-bottom: 1.2rem; display: flex; align-items: center; gap: 0.75rem; }
+  .hero-eyebrow::after { content: ''; flex: 1; height: 1px; background: var(--accent-dim); max-width: 160px; }
+  h1 { font-family: 'Cormorant Garamond', serif; font-size: clamp(2.4rem, 5vw, 4rem); font-weight: 300; line-height: 1.05; margin-bottom: 1.2rem; letter-spacing: -0.01em; }
+  h1 em { font-style: italic; color: var(--text2); }
+  .hero-sub { font-size: 0.72rem; color: var(--text2); line-height: 1.9; max-width: 720px; letter-spacing: 0.02em; }
+  .hero-sub strong { color: var(--text); font-weight: 500; }
+  .regime-note { display: flex; gap: 1px; margin-top: 1.5rem; background: var(--border); border: 1px solid var(--border); flex-wrap: wrap; }
+  .regime-box { background: var(--surface); padding: 1rem 1.25rem; flex: 1; min-width: 260px; }
+  .regime-box .rb-tag { font-size: 0.56rem; letter-spacing: 0.15em; text-transform: uppercase; margin-bottom: 0.5rem; }
+  .regime-box .rb-body { font-size: 0.63rem; color: var(--text2); line-height: 1.65; }
+
+  /* KPI STRIP */
+  .kpis { display: grid; grid-template-columns: repeat(4,1fr); gap: 1px; background: var(--border); border: 1px solid var(--border); margin: 2rem 0 0; }
+  @media (max-width: 700px) { .kpis { grid-template-columns: repeat(2,1fr); } .regime-note { flex-direction: column; } }
+  .kpi { background: var(--surface); padding: 1.1rem 1.25rem; }
+  .kpi-num { font-family: 'Cormorant Garamond', serif; font-size: 2rem; font-weight: 300; line-height: 1; }
+  .kpi-label { font-size: 0.56rem; color: var(--muted); letter-spacing: 0.14em; text-transform: uppercase; margin-top: 0.4rem; }
+
+  /* FILTER BAR */
+  .controls { padding: 1.75rem 0 0.5rem; }
+  .filter-group { display: flex; gap: 0.4rem; flex-wrap: wrap; align-items: center; margin-bottom: 0.6rem; }
+  .filter-label { font-size: 0.56rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--muted); width: 84px; flex-shrink: 0; }
+  .filter-btn { padding: 0.28rem 0.7rem; border: 1px solid var(--border2); background: transparent; color: var(--text2); font-family: 'DM Mono', monospace; font-size: 0.62rem; cursor: pointer; letter-spacing: 0.04em; transition: all 0.15s; }
+  .filter-btn:hover { border-color: var(--accent); color: var(--text); }
+  .filter-btn.active { background: var(--accent); border-color: var(--accent); color: #07130b; font-weight: 500; }
+  .filter-btn.ofgem.active { background: var(--ofgem); border-color: var(--ofgem); color: #1a1400; }
+  .filter-btn.ofwat.active { background: var(--ofwat); border-color: var(--ofwat); color: #03161f; }
+  .search-row { display: flex; gap: 0.6rem; align-items: center; margin-top: 0.4rem; }
+  .search-input { flex: 1; max-width: 420px; background: var(--surface); border: 1px solid var(--border2); color: var(--text); font-family: 'DM Mono', monospace; font-size: 0.66rem; padding: 0.5rem 0.7rem; letter-spacing: 0.03em; }
+  .search-input:focus { outline: none; border-color: var(--accent); }
+  .search-input::placeholder { color: var(--muted); }
+  .reset-btn { font-size: 0.6rem; color: var(--muted); background: none; border: none; cursor: pointer; letter-spacing: 0.08em; text-decoration: underline; }
+  .reset-btn:hover { color: var(--text2); }
+
+  /* SECTION HEADERS */
+  .section-head { display: flex; align-items: center; gap: 1rem; margin: 2.5rem 0 1.25rem; }
+  .section-title { font-size: 0.62rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--accent); white-space: nowrap; }
+  .section-line { flex: 1; height: 1px; background: var(--border); }
+
+  /* TIMELINE */
+  .legend { display: flex; gap: 1.25rem; flex-wrap: wrap; margin-bottom: 1.25rem; padding: 0.7rem 1rem; background: var(--surface); border: 1px solid var(--border); font-size: 0.58rem; }
+  .legend-item { display: flex; align-items: center; gap: 0.4rem; color: var(--text2); }
+  .legend-dot { width: 10px; height: 10px; border-radius: 1px; }
+  .tl-section-title { font-size: 0.57rem; letter-spacing: 0.16em; text-transform: uppercase; margin: 1.4rem 0 0.65rem; display: flex; align-items: center; gap: 0.6rem; }
+  .tl-section-title::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+  .tl-row { display: flex; align-items: stretch; min-height: 46px; margin-bottom: 3px; }
+  .tl-label { width: 208px; flex-shrink: 0; font-size: 0.6rem; color: var(--text2); padding-right: 1rem; display: flex; align-items: center; line-height: 1.3; }
+  .tl-body { flex: 1; background: var(--surface); border: 1px solid var(--border); position: relative; min-height: 44px; }
+  .now-line { position: absolute; top: 0; width: 2px; background: var(--accent); opacity: 0.55; z-index: 10; pointer-events: none; height: 100%; }
+  .event-bar { position: absolute; top: 7px; height: 30px; border-radius: 2px; display: flex; align-items: center; padding: 0 0.5rem; font-size: 0.56rem; font-weight: 500; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; cursor: pointer; transition: filter 0.15s; z-index: 5; }
+  .event-bar:hover { filter: brightness(1.25); z-index: 20; }
+  .bar-live { background: #143222; border: 1px solid var(--live); color: var(--live); }
+  .bar-consult { background: #3a2510; border: 1px solid var(--consult); color: var(--consult); }
+  .bar-upcoming { background: #16263f; border: 1px solid var(--upcoming); color: var(--upcoming); }
+  .bar-decided { background: #2a1a3d; border: 1px solid var(--decided); color: var(--decided); }
+  .bar-monitor { background: #1d211d; border: 1px solid var(--border2); color: var(--text2); }
+  .tl-ruler { display: flex; padding-left: 208px; margin-bottom: 0.4rem; }
+  .tl-year { flex: 1; text-align: center; font-size: 0.55rem; letter-spacing: 0.06em; padding-bottom: 0.3rem; border-bottom: 1px solid var(--border2); }
+  .tl-nowrow { display: flex; padding-left: 208px; margin-bottom: 0.5rem; height: 14px; }
+  .tl-nowinner { flex: 1; position: relative; }
+  .tl-nowlabel { position: absolute; transform: translateX(-50%); font-size: 0.54rem; color: var(--accent); white-space: nowrap; letter-spacing: 0.1em; }
+
+  /* TOOLTIP */
+  .tooltip { display: none; position: fixed; background: var(--surface2); border: 1px solid var(--border2); border-left: 3px solid var(--accent); padding: 0.9rem; font-size: 0.62rem; max-width: 320px; z-index: 1000; line-height: 1.65; pointer-events: none; box-shadow: 0 8px 28px rgba(0,0,0,0.6); }
+  .tooltip.visible { display: block; }
+  .tooltip-title { font-weight: 500; color: var(--text); margin-bottom: 0.35rem; font-size: 0.68rem; }
+  .tooltip-date { color: var(--accent); font-size: 0.58rem; margin-bottom: 0.45rem; letter-spacing: 0.05em; }
+  .tooltip-body { color: var(--text2); }
+
+  /* LIST / CARDS */
+  .list-meta { font-size: 0.6rem; color: var(--muted); letter-spacing: 0.06em; margin-bottom: 1rem; }
+  .cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(330px, 1fr)); gap: 1px; background: var(--border); border: 1px solid var(--border); }
+  .card { background: var(--surface); padding: 1.4rem; position: relative; display: flex; flex-direction: column; }
+  .card::before { content: ''; position: absolute; top: 0; left: 0; width: 3px; height: 100%; background: var(--reg-color, var(--accent)); opacity: 0.7; }
+  .card-top { display: flex; gap: 0.4rem; flex-wrap: wrap; align-items: center; margin-bottom: 0.85rem; }
+  .badge-reg { font-size: 0.54rem; letter-spacing: 0.12em; text-transform: uppercase; padding: 0.2rem 0.5rem; border: 1px solid; font-weight: 500; }
+  .badge-reg.ofgem { color: var(--ofgem); border-color: var(--ofgem); }
+  .badge-reg.ofwat { color: var(--ofwat); border-color: var(--ofwat); }
+  .badge-cat { font-size: 0.54rem; letter-spacing: 0.1em; text-transform: uppercase; padding: 0.2rem 0.5rem; border: 1px solid var(--border2); color: var(--text2); }
+  .badge-status { font-size: 0.54rem; letter-spacing: 0.1em; text-transform: uppercase; padding: 0.2rem 0.5rem; border: 1px solid; margin-left: auto; }
+  .st-live { color: var(--live); border-color: var(--live); }
+  .st-consultation { color: var(--consult); border-color: var(--consult); }
+  .st-upcoming { color: var(--upcoming); border-color: var(--upcoming); }
+  .st-decided { color: var(--decided); border-color: var(--decided); }
+  .st-monitoring { color: var(--monitor); border-color: var(--border2); }
+  .card-title { font-family: 'Cormorant Garamond', serif; font-size: 1.3rem; font-weight: 400; line-height: 1.2; margin-bottom: 0.35rem; }
+  .card-date { font-size: 0.58rem; color: var(--muted); letter-spacing: 0.05em; margin-bottom: 0.7rem; }
+  .card-summary { font-size: 0.64rem; color: var(--text2); line-height: 1.7; margin-bottom: 0.8rem; }
+  .card-impl { font-size: 0.63rem; color: var(--text2); line-height: 1.65; border-top: 1px solid var(--border); padding-top: 0.7rem; margin-bottom: 0.8rem; }
+  .card-impl strong { color: var(--accent); }
+  .card-src { margin-top: auto; }
+  .card-src a { font-size: 0.58rem; color: var(--muted); text-decoration: none; letter-spacing: 0.04em; border-bottom: 1px dotted var(--border2); padding-bottom: 1px; }
+  .card-src a:hover { color: var(--accent); border-color: var(--accent); }
+  .no-results { padding: 2rem; text-align: center; color: var(--muted); font-size: 0.7rem; grid-column: 1/-1; background: var(--surface); }
+
+  footer { border-top: 1px solid var(--border); padding: 2rem 0; margin-top: 3rem; }
+  .footer-text { font-size: 0.58rem; color: var(--muted); letter-spacing: 0.06em; line-height: 1.9; }
+  .footer-text span { color: var(--text2); }
+
+  @keyframes fadeUp { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: translateY(0); } }
+  .hero-eyebrow, h1, .hero-sub { animation: fadeUp 0.5s ease both; }
+  h1 { animation-delay: 0.08s; } .hero-sub { animation-delay: 0.16s; }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="wrap">
+    <div class="nav-logo"><span class="pulse"></span><a href="index.html">Infrastructure Reference</a></div>
+    <a class="nav-back" href="index.html">← All tools</a>
+  </div>
+</nav>
+
+<section class="hero">
+  <div class="wrap">
+    <div class="hero-eyebrow">Ofgem &amp; Ofwat · Last-Mile Regulatory Tracker</div>
+    <h1>Regulatory <em>Tracker</em></h1>
+    <p class="hero-sub">Live view of the regulatory developments that move the model for <strong>last-mile network assets</strong> — independent electricity distribution (<strong>CDCM / IDNO</strong>) and water &amp; wastewater (<strong>NAV</strong>). Each item carries a modelling implication: what it changes for revenue, charges, allowed returns, or asset ownership. Reviewed May 2026.</p>
+
+    <div class="regime-note">
+      <div class="regime-box">
+        <div class="rb-tag" style="color:var(--ofgem)">CDCM — Common Distribution Charging Methodology</div>
+        <div class="rb-body">Ofgem's methodology (governed under DCUSA) for LV/HV distribution use-of-system charges. IDNOs largely mirror host-DNO CDCM tariffs within the Relative Price Control — so CDCM mechanics set last-mile DUoS revenue.</div>
+      </div>
+      <div class="regime-box">
+        <div class="rb-tag" style="color:var(--ofwat)">NAV — New Appointments &amp; Variations</div>
+        <div class="rb-body">Ofwat's regime under which a NAV is appointed to supply water/sewerage to a defined area (typically new development), buying bulk supply from the incumbent. NAV economics turn on bulk price, the no-worse-off charging cap, and developer income.</div>
+      </div>
+    </div>
+
+    <div class="kpis" id="kpis"></div>
+  </div>
+</section>
+
+<div class="wrap">
+
+  <div class="controls">
+    <div class="filter-group">
+      <span class="filter-label">Regulator</span>
+      <button class="filter-btn active" data-dim="regulator" data-val="all">All</button>
+      <button class="filter-btn ofgem" data-dim="regulator" data-val="ofgem">Ofgem</button>
+      <button class="filter-btn ofwat" data-dim="regulator" data-val="ofwat">Ofwat</button>
+    </div>
+    <div class="filter-group">
+      <span class="filter-label">Theme</span>
+      <button class="filter-btn active" data-dim="cat" data-val="all">All</button>
+      <button class="filter-btn" data-dim="cat" data-val="cdcm">CDCM</button>
+      <button class="filter-btn" data-dim="cat" data-val="nav">NAV</button>
+      <button class="filter-btn" data-dim="cat" data-val="pricecontrol">Price control</button>
+      <button class="filter-btn" data-dim="cat" data-val="connections">Connections &amp; charging</button>
+      <button class="filter-btn" data-dim="cat" data-val="structural">Structural reform</button>
+    </div>
+    <div class="filter-group">
+      <span class="filter-label">Status</span>
+      <button class="filter-btn active" data-dim="status" data-val="all">All</button>
+      <button class="filter-btn" data-dim="status" data-val="live">Live</button>
+      <button class="filter-btn" data-dim="status" data-val="consultation">Consultation</button>
+      <button class="filter-btn" data-dim="status" data-val="upcoming">Upcoming</button>
+      <button class="filter-btn" data-dim="status" data-val="decided">Decided</button>
+      <button class="filter-btn" data-dim="status" data-val="monitoring">Monitoring</button>
+    </div>
+    <div class="search-row">
+      <input class="search-input" id="search" type="text" placeholder="Search title, summary, implication…" autocomplete="off">
+      <button class="reset-btn" id="reset">reset filters</button>
+    </div>
+  </div>
+
+  <div class="section-head">
+    <span class="section-title">Timeline · 2021–2033</span>
+    <span class="section-line"></span>
+  </div>
+
+  <div class="legend">
+    <div class="legend-item"><div class="legend-dot bar-live"></div> Live / in force</div>
+    <div class="legend-item"><div class="legend-dot bar-consult"></div> Open consultation</div>
+    <div class="legend-item"><div class="legend-dot bar-upcoming"></div> Upcoming</div>
+    <div class="legend-item"><div class="legend-dot bar-decided"></div> Decided (recent)</div>
+    <div class="legend-item"><div class="legend-dot bar-monitor"></div> Monitoring</div>
+  </div>
+
+  <div id="timeline"></div>
+
+  <div class="section-head">
+    <span class="section-title">Tracked items — detail</span>
+    <span class="section-line"></span>
+  </div>
+  <div class="list-meta" id="list-meta"></div>
+  <div class="cards" id="cards"></div>
+
+</div>
+
+<div class="tooltip" id="tooltip"></div>
+
+<footer>
+  <div class="wrap">
+    <div class="footer-text">
+      <span>WeeAndy97.github.io · Last-Mile Asset Management — Internal Reference</span><br>
+      Curated tracker, not a live feed. Dates and figures reviewed May 2026 — always verify against the issuing body's current publication before relying on them in a model. Source links point to Ofgem, Ofwat, the CMA, GOV.UK, DCUSA and Elexon; deep links may move, so search by document title if one 404s.<br>
+      Not for external distribution · Built with Claude · Anthropic
+    </div>
+  </div>
+</footer>
+
+<script>
+// ============================================================
+// SINGLE SOURCE OF TRUTH — every item drives both the timeline
+// and the detail cards.
+// ============================================================
+const START_YEAR = 2021;
+const END_YEAR = 2033;
+const CURRENT = 2026.4; // ~late May 2026
+
+const tracksMeta = [
+  { id: 'elec-cdcm', title: 'Electricity · Ofgem — CDCM & IDNO charging' },
+  { id: 'elec-pc',   title: 'Electricity · Ofgem — Price control & settlement' },
+  { id: 'water-nav', title: 'Water · Ofwat — NAV & developer services' },
+  { id: 'water-pc',  title: 'Water · Ofwat — Price control & sector reform' }
+];
+
+const items = [
+  // ---------- ELECTRICITY · CDCM / IDNO ----------
+  {
+    regulator:'ofgem', cat:'cdcm', catLabel:'CDCM', status:'live',
+    track:'elec-cdcm', row:'DUoS residual charges',
+    title:'Targeted Charging Review (TCR)', date:'In force from April 2022',
+    start:2022.25, end:END_YEAR,
+    summary:'The TCR moved DUoS residual recovery from a volumetric (p/kWh) basis to fixed charges set by customer band (agreed capacity / line-loss-factor class). It also removed residual avoidance via embedded benefits and behind-the-meter arrangements.',
+    impl:'Model DUoS residual as a fixed £/MPAN band, largely volume-insensitive — not as a p/kWh charge. The value of demand-shifting purely to dodge residual is gone.',
+    srcLabel:'Ofgem — Targeted Charging Review decision (Nov 2019)',
+    srcUrl:'https://www.ofgem.gov.uk/publications/targeted-charging-review-decision-and-impact-assessment'
+  },
+  {
+    regulator:'ofgem', cat:'connections', catLabel:'Connections', status:'live',
+    track:'elec-cdcm', row:'Connection charging boundary',
+    title:'Access SCR — shallow connection boundary', date:'Decision Jun 2022 · live Apr 2023',
+    start:2023.25, end:END_YEAR,
+    summary:'The Access & Forward-Looking Charges Significant Code Review introduced a "fully shallow" connection boundary from April 2023: connecting customers pay only for sole-use extension assets, while network reinforcement is funded through DUoS.',
+    impl:'Materially lower upfront connection cost for new developments — better developer/IDNO connection economics, but reinforcement cost now recovered through ongoing DUoS. Re-base connection capex for post-Apr-2023 sites.',
+    srcLabel:'Ofgem — Access SCR (DCP405 decision)',
+    srcUrl:'https://www.ofgem.gov.uk/decision/decision-dcp405-access-scr-managing-curtailable-connections-between-licensed-distribution-networks'
+  },
+  {
+    regulator:'ofgem', cat:'connections', catLabel:'Connections', status:'decided',
+    track:'elec-cdcm', row:'Non-firm & curtailable connections',
+    title:'DCP404 / DCP405 — curtailable connections & DNO↔IDNO parity', date:'Decided 2022',
+    start:2022.5, end:2023.4,
+    summary:'DCP404 set the terms of connection for curtailable (non-firm) customers; DCP405 ensures the Access SCR reforms are applied consistently across DNO and IDNO networks so customers are treated equitably whichever they connect to.',
+    impl:'IDNOs must mirror DNO connection-boundary treatment. Flexible/curtailable connection offers can cut reinforcement and speed up energisation where network capacity is constrained.',
+    srcLabel:'Ofgem — DCP404 decision',
+    srcUrl:'https://www.ofgem.gov.uk/publications/decision-dcp404-access-scr-changes-terms-connection-curtailable-customers'
+  },
+  {
+    regulator:'ofgem', cat:'cdcm', catLabel:'CDCM', status:'live',
+    track:'elec-cdcm', row:'Annual CDCM charge setting',
+    title:'Annual CDCM charge setting & residual-surplus derogations', date:'Annual · derogations 2025–28',
+    start:2024, end:2027.6,
+    summary:'DNOs set DUoS tariffs annually via the CDCM model (15-month notice). For 2025-26 to 2027-28 Ofgem has issued derogations to several DNOs (e.g. ENWL, SSEN) to manage surplus residual charges thrown out by the CDCM/EDCM models.',
+    impl:'Annual CDCM inputs (LLFs, network-use factors, allowed revenue) feed IDNO pass-through tariffs. Surplus-residual derogations create year-to-year tariff noise — re-read each DNO\'s published charging statement when refreshing DUoS lines.',
+    srcLabel:'Ofgem — DCUSA CDCM/EDCM derogation directions',
+    srcUrl:'https://www.ofgem.gov.uk/sites/default/files/2026-01/SSEN_Direction_to_derogate-DCUSA_Notice_Period_2027-28-20260106160138.pdf'
+  },
+  {
+    regulator:'ofgem', cat:'cdcm', catLabel:'CDCM', status:'consultation',
+    track:'elec-cdcm', row:'CDCM/EDCM methodology review',
+    title:'Fundamental review of CDCM & EDCM', date:'Ahead of 2027-28 charge setting',
+    start:2025.5, end:2028,
+    summary:'Ofgem and DCUSA have signalled that a fundamental review of the CDCM and EDCM is needed ahead of the 2027-28 final charge-setting process, driven by growing residual surpluses and the need to align with RIIO-ED3.',
+    impl:'Potentially the biggest medium-term change to last-mile DUoS revenue mechanics — residual recovery structure, tariff models and IDNO pass-through could all change for 2027-28+. Build scenario flex into long-run DUoS revenue lines.',
+    srcLabel:'DCUSA — CDCM/EDCM change proposals & panel',
+    srcUrl:'https://www.dcusa.co.uk/'
+  },
+  {
+    regulator:'ofgem', cat:'cdcm', catLabel:'IDNO', status:'monitoring',
+    track:'elec-cdcm', row:'IDNO Relative Price Control',
+    title:'IDNO Relative Price Control (RPC)', date:'Ongoing · IGT analogue under review',
+    start:START_YEAR, end:END_YEAR,
+    summary:'IDNOs largely mirror the host DNO\'s published LV/HV charges; the Relative Price Control caps the differential. Ofgem\'s Oct-2023 open letter set out IDNO regulatory arrangements, and the parallel Independent Gas Transporter RPC is under review from 2025.',
+    impl:'Model IDNO DUoS income as host-DNO charges held within RPC bounds, not as an independent tariff. Watch for read-across from any IGT RPC reform to the electricity IDNO RPC.',
+    srcLabel:'Ofgem — Open letter on regulatory arrangements for IDNOs (Oct 2023)',
+    srcUrl:'https://www.ofgem.gov.uk/sites/default/files/2023-10/Open%20letter%20on%20IDNOs%20-%20Oct-23-Final.pdf'
+  },
+
+  // ---------- ELECTRICITY · PRICE CONTROL & SETTLEMENT ----------
+  {
+    regulator:'ofgem', cat:'pricecontrol', catLabel:'RIIO-ED2', status:'live',
+    track:'elec-pc', row:'DNO price control (RIIO-ED)',
+    title:'RIIO-ED2 — DNO price control', date:'1 Apr 2023 – 31 Mar 2028',
+    start:2023.25, end:2028.25,
+    summary:'The price control for GB electricity distribution. Sets DNO allowed revenue, totex allowances and cost of capital — the inputs that ultimately drive DUoS charges.',
+    impl:'DUoS unit rates (and hence IDNO pass-through revenue) are governed by ED2 allowed revenues. The ED2 allowed return on equity is the regulated benchmark your last-mile returns are compared against.',
+    srcLabel:'Ofgem — RIIO-ED2 Final Determinations (Nov 2022)',
+    srcUrl:'https://www.ofgem.gov.uk'
+  },
+  {
+    regulator:'ofgem', cat:'pricecontrol', catLabel:'RIIO-ED3', status:'upcoming',
+    track:'elec-pc', row:'DNO price control (RIIO-ED)',
+    title:'RIIO-ED3 — next DNO price control', date:'1 Apr 2028 – 31 Mar 2033',
+    start:2028.25, end:END_YEAR,
+    summary:'Framework consultation Nov 2024; framework decision 30 Apr 2025; Sector-Specific Methodology Decision 21 May 2026. DNO business plans expected late 2026, with final determinations around late 2027.',
+    impl:'Sets the forward allowed return / WACC signal for the regulated electricity base from 2028 — the key benchmark for long-run last-mile return assumptions and terminal values.',
+    srcLabel:'Ofgem — RIIO-ED3 framework decision (Apr 2025)',
+    srcUrl:'https://www.ofgem.gov.uk/decision/framework-decision-electricity-distribution-price-control-ed3'
+  },
+  {
+    regulator:'ofgem', cat:'pricecontrol', catLabel:'RIIO-ED3', status:'decided',
+    track:'elec-pc', row:'ED3 methodology',
+    title:'RIIO-ED3 Sector-Specific Methodology Decision', date:'Published 21 May 2026',
+    start:2026.38, end:2026.55,
+    summary:'Ofgem published the ED3 SSMD on 21 May 2026, confirming the methodology for cost of capital, totex, outputs and incentives ahead of DNO business-plan submissions in late 2026.',
+    impl:'Most current official signal on the 2028–33 allowed return and totex approach — refresh WACC and regulated-return benchmarks against the SSMD assumptions.',
+    srcLabel:'Ofgem — ED3 Sector-Specific Methodology',
+    srcUrl:'https://www.ofgem.gov.uk/consultation/sector-specific-methodology-consultation-electricity-distribution-price-control-ed3'
+  },
+  {
+    regulator:'ofgem', cat:'connections', catLabel:'Settlement', status:'live',
+    track:'elec-pc', row:'Settlement reform (MHHS)',
+    title:'Market-wide Half-Hourly Settlement (MHHS)', date:'Live 22 Sep 2025 · migration to 2027',
+    start:2025.72, end:2027.5,
+    summary:'MHHS went live on 22 Sep 2025; migration of supply points runs ~18 months (≈80% by Oct 2026, complete May 2027, settlement cutover ~Jul 2027). Line-Loss-Factor-Class IDs are being replaced by DUoS Tariff IDs.',
+    impl:'Enables time-of-use DUoS billing — DUoS revenue becomes half-hourly / profile-dependent rather than flat-rate. Update revenue models for HH consumption profiles and the new DUoS Tariff ID structure as sites migrate.',
+    srcLabel:'Elexon — Market-wide Half-Hourly Settlement',
+    srcUrl:'https://www.elexon.co.uk/bsc/operational/market-wide-half-hourly-settlement/'
+  },
+  {
+    regulator:'ofgem', cat:'connections', catLabel:'Connections', status:'live',
+    track:'elec-pc', row:'Connections queue reform',
+    title:'Connections reform (Connections Action Plan / Gate-2)', date:'Ongoing 2024–2027',
+    start:2024, end:2027,
+    summary:'Ofgem and NESO are overhauling the connections queue — moving from "first come, first served" to a "first ready, first connected" model that prioritises viable projects. Primarily transmission, but with material distribution read-across.',
+    impl:'Affects connection timelines and certainty for larger last-mile sites and embedded generation. Factor revised connection-date assumptions and queue milestones into project phasing.',
+    srcLabel:'Ofgem / NESO — Connections reform',
+    srcUrl:'https://www.ofgem.gov.uk'
+  },
+
+  // ---------- WATER · NAV & DEVELOPER SERVICES ----------
+  {
+    regulator:'ofwat', cat:'nav', catLabel:'NAV', status:'live',
+    track:'water-nav', row:'Bulk supply pricing',
+    title:'NAV bulk supply charging', date:'Ongoing',
+    start:START_YEAR, end:END_YEAR,
+    summary:'A NAV buys wholesale (bulk) water/sewerage from the incumbent and retails to customers in its appointed area. Bulk supply prices are set under Ofwat\'s bulk supply framework (the average- vs marginal-cost basis remains contested).',
+    impl:'NAV margin = (customer charges, capped at the incumbent tariff under the no-worse-off rule) − (bulk supply cost + opex). Bulk price methodology is the single biggest driver of NAV unit economics — model it explicitly and stress-test it.',
+    srcLabel:'Ofwat — Bulk supply & NAV charging guidance',
+    srcUrl:'https://www.ofwat.gov.uk'
+  },
+  {
+    regulator:'ofwat', cat:'nav', catLabel:'Developer services', status:'live',
+    track:'water-nav', row:'Developer services & charges',
+    title:'Charging rules for new connection services', date:'Updated annually',
+    start:START_YEAR, end:END_YEAR,
+    summary:'Ofwat\'s charging rules for new connection services govern infrastructure charges, requisition / self-lay arrangements and income offset that undertakers (and, by extension, NAVs and self-lay providers) apply to new developments.',
+    impl:'Infrastructure charges and income offset drive the developer-funding side of last-mile water economics. Refresh the relevant charging year\'s rules each AMP year when modelling connection income.',
+    srcLabel:'Ofwat — Charging rules for new connection services',
+    srcUrl:'https://www.ofwat.gov.uk'
+  },
+  {
+    regulator:'ofwat', cat:'nav', catLabel:'NAV', status:'live',
+    track:'water-nav', row:'NAV end-customer charging',
+    title:'Charging rules for new appointees (no-worse-off)', date:'Ongoing',
+    start:START_YEAR, end:END_YEAR,
+    summary:'NAVs must comply with Ofwat\'s charging rules for new appointees: end customers should be "no worse off" than if served by the incumbent, with defined cross-subsidy and charging constraints.',
+    impl:'Caps NAV retail revenue at the incumbent\'s tariff — there is no independent retail price upside. NAV returns therefore come from the bulk-retail margin and developer income, not premium pricing.',
+    srcLabel:'Ofwat — Charging rules for new appointees (NAVs)',
+    srcUrl:'https://www.ofwat.gov.uk'
+  },
+  {
+    regulator:'ofwat', cat:'connections', catLabel:'Adoption', status:'live',
+    track:'water-nav', row:'Self-lay & adoption',
+    title:'Codes for Adoption (water & sewerage)', date:'Ongoing',
+    start:START_YEAR, end:END_YEAR,
+    summary:'Sector Codes for Adoption (the water adoption code and the s.104 sewerage adoption code) standardise how self-laid / adopted infrastructure is designed and transferred to undertakers.',
+    impl:'Adoption terms decide whether last-mile water/sewerage assets are retained (NAV model) or adopted by the incumbent (self-lay / adoption model) — a fork in the asset-ownership and revenue thesis.',
+    srcLabel:'Ofwat / Water UK — Codes for Adoption',
+    srcUrl:'https://www.ofwat.gov.uk'
+  },
+
+  // ---------- WATER · PRICE CONTROL & SECTOR REFORM ----------
+  {
+    regulator:'ofwat', cat:'pricecontrol', catLabel:'PR24', status:'live',
+    track:'water-pc', row:'Price review (PR24 / PR29)',
+    title:'PR24 Final Determinations', date:'Published 19 Dec 2024 · AMP8 2025–2030',
+    start:2025.25, end:2030.25,
+    summary:'Ofwat\'s PR24 final determinations for AMP8 (1 Apr 2025 – 31 Mar 2030) set wholesale charges, totex allowances and an appointee WACC of ~4.03% (CPIH real).',
+    impl:'Incumbent wholesale prices set at PR24 flow directly into NAV bulk supply charges and developer charges. The 4.03% appointee WACC is the regulated-return benchmark for water last-mile assets (see CMA redetermination for the revised figure).',
+    srcLabel:'Ofwat — 2024 price review (PR24)',
+    srcUrl:'https://www.ofwat.gov.uk/regulated-companies/price-review/2024-price-review/'
+  },
+  {
+    regulator:'ofwat', cat:'pricecontrol', catLabel:'CMA', status:'decided',
+    track:'water-pc', row:'CMA redetermination',
+    title:'PR24 CMA redeterminations', date:'Final report Mar 2026',
+    start:2025.2, end:2026.35,
+    summary:'Five companies (Anglian, Northumbrian, South East, Southern, Wessex) referred PR24 to the CMA (references made 18 Mar 2025). The CMA\'s final report (to Ofwat 10 Mar 2026; published 26 Mar 2026) raised the WACC by 26bps — from 4.03% to 4.29% — and added £556m of allowed expenditure. Ofwat republished the models on 23 Apr 2026.',
+    impl:'The CMA\'s 4.29% WACC re-sets the upper bound for the AMP8 water cost of capital — use it as the benchmark for water last-mile return assumptions, and expect higher incumbent wholesale charges feeding NAV bulk supply prices.',
+    srcLabel:'CMA — Water PR24 price redeterminations',
+    srcUrl:'https://www.gov.uk/cma-cases/water-pr24-price-redeterminations'
+  },
+  {
+    regulator:'ofwat', cat:'structural', catLabel:'Sector reform', status:'consultation',
+    track:'water-pc', row:'Sector reform & regulator',
+    title:'Independent Water Commission (Cunliffe) — abolition of Ofwat', date:'Report Jul 2025 · Bill pending',
+    start:2025.55, end:2028,
+    summary:'Sir Jon Cunliffe\'s Independent Water Commission reported on 21 Jul 2025 (88 recommendations), recommending abolishing Ofwat and creating a single integrated water regulator (merging Ofwat, the DWI and the water functions of the EA and Natural England). Government endorsed in principle; a White Paper and consultation precede a Water Reform Bill. Ofwat remains in place through the transition.',
+    impl:'The economic regulator that runs the NAV regime is set to be replaced. Material medium-term regulatory uncertainty for NAV appointments, bulk supply rules and price-control design — track the White Paper and Bill closely; assume continuity of the NAV regime but not of its detailed rules.',
+    srcLabel:'GOV.UK — Government response to the Independent Water Commission',
+    srcUrl:'https://www.gov.uk/government/speeches/government-initial-response-to-independent-water-commissions-final-report'
+  },
+  {
+    regulator:'ofwat', cat:'pricecontrol', catLabel:'PR29', status:'upcoming',
+    track:'water-pc', row:'Price review (PR24 / PR29)',
+    title:'PR29 — next price review', date:'AMP9 2030–2035',
+    start:2030.25, end:END_YEAR,
+    summary:'The price control for AMP9 (2030–2035). Methodology development is expected from ~2026–2028, under whichever regulator succeeds Ofwat following the water reforms.',
+    impl:'Sets the long-run wholesale price trajectory beyond 2030 — relevant for NAV bulk supply forecasts and terminal-value assumptions in long-dated water last-mile models.',
+    srcLabel:'Ofwat — Future price reviews (PR29)',
+    srcUrl:'https://www.ofwat.gov.uk'
+  },
+  {
+    regulator:'ofwat', cat:'pricecontrol', catLabel:'Indexation', status:'live',
+    track:'water-pc', row:'Indexation (RPI→CPIH)',
+    title:'RPI → CPIH indexation transition', date:'Ongoing run-off',
+    start:START_YEAR, end:END_YEAR,
+    summary:'Water RCV and revenues are indexed to CPIH, with the legacy RPI-linked share of the RCV running off over time (the PR19 split was 50% RPI / 50% CPIH; new additions are fully CPIH).',
+    impl:'Use CPIH (not RPI) for new water last-mile revenue and RCV indexation; the RPI wedge matters only for legacy RCV. Align inflation assumptions with the PR24 / CMA indexation basis.',
+    srcLabel:'Ofwat — PR24 (RCV indexation / CPIH)',
+    srcUrl:'https://www.ofwat.gov.uk/regulated-companies/price-review/2024-price-review/'
+  }
+];
+
+// ============================================================
+// STATE & HELPERS
+// ============================================================
+const state = { regulator:'all', cat:'all', status:'all', q:'' };
+
+const statusBarClass = {
+  live:'bar-live', consultation:'bar-consult', upcoming:'bar-upcoming',
+  decided:'bar-decided', monitoring:'bar-monitor'
+};
+const statusLabel = {
+  live:'Live', consultation:'Consultation', upcoming:'Upcoming',
+  decided:'Decided', monitoring:'Monitoring'
+};
+
+function matches(it) {
+  if (state.regulator !== 'all' && it.regulator !== state.regulator) return false;
+  if (state.cat !== 'all' && it.cat !== state.cat) return false;
+  if (state.status !== 'all' && it.status !== state.status) return false;
+  if (state.q) {
+    const hay = (it.title + ' ' + it.summary + ' ' + it.impl + ' ' + it.catLabel + ' ' + it.regulator).toLowerCase();
+    if (!hay.includes(state.q)) return false;
+  }
+  return true;
+}
+
+function yearToPct(y) {
+  const clamped = Math.max(START_YEAR, Math.min(END_YEAR, y));
+  return ((clamped - START_YEAR) / (END_YEAR - START_YEAR)) * 100;
+}
+
+// ============================================================
+// KPIs
+// ============================================================
+function renderKpis() {
+  const el = document.getElementById('kpis');
+  const total = items.length;
+  const live = items.filter(i => i.status === 'live').length;
+  const consult = items.filter(i => i.status === 'consultation').length;
+  const upcoming = items.filter(i => i.status === 'upcoming').length;
+  const data = [
+    { n: total, l: 'Items tracked' },
+    { n: live, l: 'Live / in force' },
+    { n: consult, l: 'In consultation' },
+    { n: upcoming, l: 'Upcoming' }
+  ];
+  el.innerHTML = data.map(d => `<div class="kpi"><div class="kpi-num">${d.n}</div><div class="kpi-label">${d.l}</div></div>`).join('');
+}
+
+// ============================================================
+// TIMELINE
+// ============================================================
+function renderTimeline() {
+  const wrap = document.getElementById('timeline');
+  wrap.innerHTML = '';
+
+  // ruler
+  const ruler = document.createElement('div');
+  ruler.className = 'tl-ruler';
+  for (let y = START_YEAR; y <= END_YEAR; y++) {
+    const m = document.createElement('div');
+    m.className = 'tl-year';
+    const isNow = (y === Math.floor(CURRENT));
+    m.style.color = isNow ? 'var(--accent)' : 'var(--muted)';
+    m.style.fontWeight = isNow ? '500' : '300';
+    m.textContent = "'" + String(y).slice(2);
+    ruler.appendChild(m);
+  }
+  wrap.appendChild(ruler);
+
+  // NOW marker row
+  const nowPct = yearToPct(CURRENT);
+  const nowRow = document.createElement('div');
+  nowRow.className = 'tl-nowrow';
+  nowRow.innerHTML = `<div class="tl-nowinner"><div class="tl-nowlabel" style="left:${nowPct}%">▼ NOW · May 2026</div></div>`;
+  wrap.appendChild(nowRow);
+
+  let anyShown = false;
+
+  tracksMeta.forEach(tm => {
+    const trackItems = items.filter(i => i.track === tm.id && matches(i));
+    if (trackItems.length === 0) return;
+    anyShown = true;
+
+    const tt = document.createElement('div');
+    tt.className = 'tl-section-title';
+    const col = tm.id.startsWith('elec') ? 'var(--ofgem)' : 'var(--ofwat)';
+    tt.style.color = col;
+    tt.textContent = tm.title;
+    wrap.appendChild(tt);
+
+    // group by row, preserving order
+    const rowOrder = [];
+    const byRow = {};
+    trackItems.forEach(i => {
+      if (!byRow[i.row]) { byRow[i.row] = []; rowOrder.push(i.row); }
+      byRow[i.row].push(i);
+    });
+
+    rowOrder.forEach(rowName => {
+      const rowEl = document.createElement('div');
+      rowEl.className = 'tl-row';
+
+      const label = document.createElement('div');
+      label.className = 'tl-label';
+      label.textContent = rowName;
+      rowEl.appendChild(label);
+
+      const body = document.createElement('div');
+      body.className = 'tl-body';
+
+      const nl = document.createElement('div');
+      nl.className = 'now-line';
+      nl.style.left = nowPct + '%';
+      body.appendChild(nl);
+
+      byRow[rowName].forEach(ev => {
+        const left = yearToPct(ev.start);
+        const width = Math.max(yearToPct(ev.end) - left, 1.2);
+        const bar = document.createElement('div');
+        bar.className = 'event-bar ' + statusBarClass[ev.status];
+        bar.style.left = left + '%';
+        bar.style.width = width + '%';
+        bar.textContent = ev.title;
+        bar.addEventListener('mouseenter', e => showTip(e, ev));
+        bar.addEventListener('mousemove', moveTip);
+        bar.addEventListener('mouseleave', hideTip);
+        body.appendChild(bar);
+      });
+
+      rowEl.appendChild(body);
+      wrap.appendChild(rowEl);
+    });
+  });
+
+  if (!anyShown) {
+    wrap.innerHTML = '<div class="no-results">No items match the current filters.</div>';
+  }
+}
+
+// ============================================================
+// CARDS
+// ============================================================
+function renderCards() {
+  const el = document.getElementById('cards');
+  const meta = document.getElementById('list-meta');
+  const shown = items.filter(matches).slice().sort((a, b) => b.start - a.start);
+
+  meta.textContent = `Showing ${shown.length} of ${items.length} tracked items`;
+
+  if (shown.length === 0) {
+    el.innerHTML = '<div class="no-results">No items match the current filters. Try clearing the search or selecting "All".</div>';
+    return;
+  }
+
+  el.innerHTML = shown.map(it => {
+    const regCol = it.regulator === 'ofgem' ? 'var(--ofgem)' : 'var(--ofwat)';
+    return `
+      <div class="card" style="--reg-color:${regCol}">
+        <div class="card-top">
+          <span class="badge-reg ${it.regulator}">${it.regulator}</span>
+          <span class="badge-cat">${it.catLabel}</span>
+          <span class="badge-status st-${it.status}">${statusLabel[it.status]}</span>
+        </div>
+        <div class="card-title">${it.title}</div>
+        <div class="card-date">${it.date}</div>
+        <div class="card-summary">${it.summary}</div>
+        <div class="card-impl"><strong>Modelling implication —</strong> ${it.impl}</div>
+        <div class="card-src"><a href="${it.srcUrl}" target="_blank" rel="noopener">${it.srcLabel} ↗</a></div>
+      </div>`;
+  }).join('');
+}
+
+// ============================================================
+// TOOLTIP
+// ============================================================
+function showTip(e, ev) {
+  const tt = document.getElementById('tooltip');
+  tt.innerHTML = `
+    <div class="tooltip-title">${ev.title}</div>
+    <div class="tooltip-date">${ev.date}</div>
+    <div class="tooltip-body">${ev.summary}</div>`;
+  tt.classList.add('visible');
+  moveTip(e);
+}
+function moveTip(e) {
+  const tt = document.getElementById('tooltip');
+  let x = e.clientX + 16, y = e.clientY + 16;
+  if (x + 340 > window.innerWidth) x = e.clientX - 340;
+  if (y + 220 > window.innerHeight) y = e.clientY - 220;
+  tt.style.left = x + 'px';
+  tt.style.top = y + 'px';
+}
+function hideTip() { document.getElementById('tooltip').classList.remove('visible'); }
+
+// ============================================================
+// FILTER WIRING
+// ============================================================
+function renderAll() { renderTimeline(); renderCards(); }
+
+document.querySelectorAll('.filter-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    const dim = btn.dataset.dim, val = btn.dataset.val;
+    state[dim] = val;
+    document.querySelectorAll(`.filter-btn[data-dim="${dim}"]`).forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    renderAll();
+  });
+});
+
+document.getElementById('search').addEventListener('input', e => {
+  state.q = e.target.value.trim().toLowerCase();
+  renderAll();
+});
+
+document.getElementById('reset').addEventListener('click', () => {
+  state.regulator = 'all'; state.cat = 'all'; state.status = 'all'; state.q = '';
+  document.getElementById('search').value = '';
+  document.querySelectorAll('.filter-btn').forEach(b => b.classList.toggle('active', b.dataset.val === 'all'));
+  renderAll();
+});
+
+renderKpis();
+renderAll();
+</script>
+</body>
+</html>
