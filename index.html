@@ -7,164 +7,26 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,500;0,8..60,600;1,8..60,400&display=swap" rel="stylesheet">
-<style>
-  :root {
-    --bg: #f5f7f6;
-    --surface: #ffffff;
-    --surface-2: #fbfcfc;
-    --border: #e4e8e6;
-    --border-strong: #d0d7d4;
-    --text: #15201d;
-    --text2: #4c5854;
-    --muted: #889390;
-    --accent: #0c6b4f;
-    --accent-soft: #e7f1ec;
-  }
-
-  * { box-sizing: border-box; margin: 0; padding: 0; }
-  html { scroll-behavior: smooth; }
-
-  body {
-    background: var(--bg);
-    color: var(--text);
-    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-    font-size: 16px;
-    line-height: 1.5;
-    -webkit-font-smoothing: antialiased;
-    text-rendering: optimizeLegibility;
-    min-height: 100vh;
-  }
-
-  .wrap { max-width: 1080px; margin: 0 auto; padding: 0 2rem; }
-
-  /* NAV */
-  nav {
-    border-bottom: 1px solid var(--border);
-    background: rgba(255,255,255,0.85);
-    backdrop-filter: blur(10px);
-    position: sticky; top: 0; z-index: 100;
-    padding: 1rem 0;
-  }
-  nav .wrap { display: flex; justify-content: space-between; align-items: center; }
-  .nav-logo { font-size: 0.74rem; letter-spacing: 0.14em; color: var(--text); text-transform: uppercase; font-weight: 600; display: flex; align-items: center; }
-  .nav-meta { font-size: 0.7rem; color: var(--muted); letter-spacing: 0.05em; }
-  .pulse { display: inline-block; width: 7px; height: 7px; border-radius: 50%; background: var(--accent); margin-right: 0.55rem; }
-
-  /* HERO */
-  .hero { padding: 5rem 0 3.5rem; border-bottom: 1px solid var(--border); }
-  .hero-eyebrow {
-    font-size: 0.72rem; letter-spacing: 0.18em; color: var(--accent);
-    text-transform: uppercase; font-weight: 600; margin-bottom: 1.5rem;
-    display: flex; align-items: center; gap: 0.75rem;
-  }
-  .hero-eyebrow::after { content: ''; flex: 1; height: 1px; background: var(--border-strong); max-width: 90px; }
-
-  h1 {
-    font-family: 'Source Serif 4', Georgia, 'Times New Roman', serif;
-    font-size: clamp(2.6rem, 6vw, 4.4rem); font-weight: 500;
-    line-height: 1.06; color: var(--text); margin-bottom: 1.4rem; letter-spacing: -0.015em;
-  }
-  h1 em { font-style: italic; font-weight: 400; color: var(--accent); }
-
-  .hero-sub { font-size: 0.95rem; color: var(--text2); line-height: 1.7; max-width: 600px; }
-
-  .hero-stats { display: flex; gap: 3.5rem; margin-top: 2.75rem; padding-top: 1.75rem; border-top: 1px solid var(--border); }
-  .stat-item { display: flex; flex-direction: column; gap: 0.35rem; }
-  .stat-num { font-family: 'Source Serif 4', Georgia, serif; font-size: 2.1rem; font-weight: 500; color: var(--accent); line-height: 1; }
-  .stat-label { font-size: 0.68rem; color: var(--muted); letter-spacing: 0.1em; text-transform: uppercase; }
-
-  /* SECTIONS */
-  .tools-section { padding: 3.5rem 0 1rem; }
-  .section-header { display: flex; align-items: center; gap: 1rem; margin: 2.75rem 0 1.5rem; }
-  .section-header:first-of-type { margin-top: 0; }
-  .section-label { font-size: 0.74rem; letter-spacing: 0.13em; color: var(--text); text-transform: uppercase; font-weight: 600; }
-  .section-line { flex: 1; height: 1px; background: var(--border); }
-
-  .sector-group { margin-bottom: 1.75rem; }
-  .sector-label { font-size: 0.7rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); margin-bottom: 0.85rem; font-weight: 600; }
-
-  /* GRID */
-  .tools-grid, .tools-grid-3 {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(290px, 1fr));
-    gap: 1rem;
-  }
-
-  /* CARDS */
-  .tool-card {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: 12px;
-    padding: 1.5rem;
-    display: flex; flex-direction: column;
-    min-height: 232px;
-    text-decoration: none; color: inherit;
-    transition: border-color 0.15s ease, box-shadow 0.15s ease, transform 0.15s ease;
-  }
-  .tool-card:not(.coming-soon):hover {
-    border-color: var(--accent);
-    box-shadow: 0 8px 28px rgba(18,38,32,0.10);
-    transform: translateY(-2px);
-  }
-  .tool-card.coming-soon { background: var(--surface-2); border-style: dashed; }
-
-  .card-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.1rem; }
-  .card-icon {
-    width: 38px; height: 38px; border-radius: 9px;
-    background: var(--accent-soft); color: var(--accent);
-    display: flex; align-items: center; justify-content: center; font-size: 1.05rem;
-  }
-  .coming-soon .card-icon { background: #eef1f0; color: var(--muted); }
-
-  .card-status { font-size: 0.62rem; letter-spacing: 0.07em; text-transform: uppercase; padding: 0.28rem 0.6rem; border-radius: 999px; font-weight: 600; }
-  .status-live { background: var(--accent-soft); color: var(--accent); }
-  .status-soon { background: #eef1f0; color: var(--muted); }
-
-  .card-title { font-size: 1.08rem; font-weight: 600; color: var(--text); margin-bottom: 0.5rem; line-height: 1.25; letter-spacing: -0.01em; }
-  .coming-soon .card-title { color: var(--text2); }
-  .card-sub { font-size: 0.82rem; color: var(--text2); line-height: 1.6; margin-bottom: 1.1rem; }
-
-  .card-tags { display: flex; flex-wrap: wrap; gap: 0.4rem; }
-  .tag { font-size: 0.64rem; letter-spacing: 0.03em; text-transform: uppercase; padding: 0.22rem 0.55rem; border: 1px solid var(--border-strong); border-radius: 6px; color: var(--text2); }
-
-  .card-arrow { margin-top: auto; padding-top: 1.1rem; font-size: 0.78rem; color: var(--accent); letter-spacing: 0.02em; font-weight: 600; transition: transform 0.15s ease; }
-  .tool-card:not(.coming-soon):hover .card-arrow { transform: translateX(4px); }
-
-  /* FOOTER */
-  footer { border-top: 1px solid var(--border); padding: 2rem 0; margin-top: 3rem; }
-  footer .wrap { display: flex; justify-content: center; }
-  .footer-text { font-size: 0.72rem; color: var(--muted); letter-spacing: 0.04em; }
-
-  @keyframes fadeUp { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: translateY(0); } }
-  .hero-eyebrow { animation: fadeUp 0.5s ease both; }
-  h1 { animation: fadeUp 0.5s 0.08s ease both; }
-  .hero-sub { animation: fadeUp 0.5s 0.16s ease both; }
-  .hero-stats { animation: fadeUp 0.5s 0.24s ease both; }
-
-  @media (max-width: 640px) {
-    .wrap { padding: 0 1.25rem; }
-    .hero-stats { gap: 2rem; }
-  }
-</style>
+<link rel="stylesheet" href="styles.css">
 </head>
 <body>
 
 <nav>
   <div class="wrap">
-    <div class="nav-logo"><span class="pulse"></span>Infrastructure Reference</div>
+    <a class="nav-logo" href="index.html"><span class="pulse"></span>Infrastructure Reference</a>
     <div class="nav-meta">Infrastructure Investor</div>
   </div>
 </nav>
 
 <section class="hero">
   <div class="wrap">
-    <div class="hero-eyebrow">Investment Analysis Tools</div>
-    <h1>UK Infrastructure<br><em>Reference Framework</em></h1>
-    <p class="hero-sub">Consideration frameworks, regulatory trackers, and valuation tools spanning UK infrastructure asset classes — energy &amp; utilities, transport, digital, social, and the energy transition. Technical, commercial, regulatory, and ESG dimensions across asset types. Live tools today focus on energy &amp; utilities; the framework extends across the asset universe.</p>
+    <div class="hero-eyebrow">Infrastructure Investment Reference</div>
+    <h1>UK Infrastructure<br><em>Asset Universe</em></h1>
+    <p class="hero-sub">A reference map of UK infrastructure asset classes — from regulated energy and utility networks to transport, digital, social, the energy transition, and environmental assets. Select an asset class to explore its sub-sectors and the analysis tools available for each.</p>
     <div class="hero-stats">
+      <div class="stat-item"><div class="stat-num">6</div><div class="stat-label">Asset classes</div></div>
+      <div class="stat-item"><div class="stat-num">35</div><div class="stat-label">Sub-sectors</div></div>
       <div class="stat-item"><div class="stat-num">7</div><div class="stat-label">Live tools</div></div>
-      <div class="stat-item"><div class="stat-num">5</div><div class="stat-label">Asset classes</div></div>
-      <div class="stat-item"><div class="stat-num">~£1bn</div><div class="stat-label">AUM context</div></div>
     </div>
   </div>
 </section>
@@ -173,184 +35,101 @@
   <div class="wrap">
 
     <div class="section-header">
-      <div class="section-label">Energy &amp; Utilities</div>
+      <div class="section-label">Asset Classes</div>
       <div class="section-line"></div>
     </div>
 
-    <!-- ELECTRICITY & REGULATED NETWORKS -->
-    <div class="sector-group">
-      <div class="sector-label">Electricity &amp; Regulated Networks</div>
-      <div class="tools-grid-3">
+    <div class="category-grid">
 
-        <a class="tool-card" href="regulatory_tracker.html">
-          <div class="card-top">
-            <div class="card-icon">⊞</div>
-            <div class="card-status status-live">Live</div>
-          </div>
-          <div class="card-title">Ofgem &amp; Ofwat Tracker</div>
-          <div class="card-sub">Last-mile regulatory tracker across the CDCM/IDNO and NAV regimes. Filterable timeline and detail cards for every development that moves the model — TCR, Access SCR, RIIO-ED2/ED3, MHHS, PR24 &amp; CMA redetermination, and the Cunliffe water reforms. Each item carries a modelling implication.</div>
-          <div class="card-tags">
-            <span class="tag">CDCM</span>
-            <span class="tag">NAV</span>
-            <span class="tag">Ofgem · Ofwat</span>
-          </div>
-          <div class="card-arrow">Open tool →</div>
-        </a>
-
-        <a class="tool-card" href="riio_ed2_calculator.html">
-          <div class="card-top">
-            <div class="card-icon">⚡</div>
-            <div class="card-status status-live">Live</div>
-          </div>
-          <div class="card-title">RIIO-ED2 Revenue Calculator</div>
-          <div class="card-sub">Build a DNO's allowed revenue from the RIIO-ED2 building blocks — totex and sharing factor, ODIs, and allowed return — with editable Final Determination inputs and a live waterfall.</div>
-          <div class="card-tags">
-            <span class="tag">RIIO-ED2</span>
-            <span class="tag">Allowed revenue</span>
-            <span class="tag">DNO</span>
-          </div>
-          <div class="card-arrow">Open tool →</div>
-        </a>
-
-        <div class="tool-card coming-soon">
-          <div class="card-top">
-            <div class="card-icon">⟲</div>
-            <div class="card-status status-soon">Coming soon</div>
-          </div>
-          <div class="card-title">Consultation Calendar</div>
-          <div class="card-sub">Deadline view of open Ofgem and Ofwat consultations relevant to last-mile assets, with response windows and decision dates.</div>
-          <div class="card-tags"><span class="tag">Deadlines</span><span class="tag">Consultations</span><span class="tag">Alerts</span></div>
+      <a class="category-card" href="energy-utilities.html">
+        <div class="category-index">01</div>
+        <div class="category-name">Energy &amp; Utilities</div>
+        <div class="category-desc">Regulated networks moving electricity, gas, water and heat — transmission, distribution, and last-mile assets.</div>
+        <div class="category-foot">
+          <span class="category-count">8 sub-sectors · 5 tools</span>
+          <span class="category-arrow">Explore →</span>
         </div>
+      </a>
 
-      </div>
+      <a class="category-card" href="transport.html">
+        <div class="category-index">02</div>
+        <div class="category-name">Transport</div>
+        <div class="category-desc">Roads, rail, aviation, ports and the rolling and charging assets that move people and goods.</div>
+        <div class="category-foot">
+          <span class="category-count">7 sub-sectors</span>
+          <span class="category-arrow">Explore →</span>
+        </div>
+      </a>
+
+      <a class="category-card" href="digital-infrastructure.html">
+        <div class="category-index">03</div>
+        <div class="category-name">Digital Infrastructure</div>
+        <div class="category-desc">The physical backbone of connectivity — fibre, mobile towers, data centres and subsea cable.</div>
+        <div class="category-foot">
+          <span class="category-count">4 sub-sectors</span>
+          <span class="category-arrow">Explore →</span>
+        </div>
+      </a>
+
+      <a class="category-card" href="social-infrastructure.html">
+        <div class="category-index">04</div>
+        <div class="category-name">Social Infrastructure</div>
+        <div class="category-desc">Publicly-used facilities delivered through PFI/PPP and concession structures.</div>
+        <div class="category-foot">
+          <span class="category-count">6 sub-sectors</span>
+          <span class="category-arrow">Explore →</span>
+        </div>
+      </a>
+
+      <a class="category-card" href="energy-transition.html">
+        <div class="category-index">05</div>
+        <div class="category-name">Energy Transition</div>
+        <div class="category-desc">Generation and storage assets driving decarbonisation, from wind and solar to nuclear and hydrogen.</div>
+        <div class="category-foot">
+          <span class="category-count">7 sub-sectors</span>
+          <span class="category-arrow">Explore →</span>
+        </div>
+      </a>
+
+      <a class="category-card" href="environmental-waste.html">
+        <div class="category-index">06</div>
+        <div class="category-name">Environmental &amp; Waste</div>
+        <div class="category-desc">Waste treatment, energy recovery and circular-economy infrastructure.</div>
+        <div class="category-foot">
+          <span class="category-count">3 sub-sectors</span>
+          <span class="category-arrow">Explore →</span>
+        </div>
+      </a>
+
     </div>
 
-    <!-- HEAT NETWORKS -->
-    <div class="sector-group">
-      <div class="sector-label">Heat Networks</div>
-      <div class="tools-grid-3">
-
-        <a class="tool-card" href="heat_framework.html">
-          <div class="card-top">
-            <div class="card-icon">♨</div>
-            <div class="card-status status-live">Live</div>
-          </div>
-          <div class="card-title">Investment Considerations</div>
-          <div class="card-sub">Heat pump types across centralised and decentralised customer models. Technical, commercial, regulatory, planning, and ESG dimensions for ASHP, GSHP, WSHP, large-scale, and hybrid systems.</div>
-          <div class="card-tags">
-            <span class="tag">5 pump types</span>
-            <span class="tag">2 customer models</span>
-            <span class="tag">6 consideration areas</span>
-          </div>
-          <div class="card-arrow">Open tool →</div>
-        </a>
-
-        <a class="tool-card" href="heat_regulation_timeline.html">
-          <div class="card-top">
-            <div class="card-icon">⧗</div>
-            <div class="card-status status-live">Live</div>
-          </div>
-          <div class="card-title">Regulatory Timeline</div>
-          <div class="card-sub">Ofgem heat network regulation from 2020–2030. Consumer protection, zoning, technical standards, grant funding, RAB model development, and Scottish LHEES. Hover events for Infrastructure Investor implications.</div>
-          <div class="card-tags">
-            <span class="tag">Ofgem authorisation</span>
-            <span class="tag">HN Zoning</span>
-            <span class="tag">LHEES Scotland</span>
-          </div>
-          <div class="card-arrow">Open tool →</div>
-        </a>
-
-        <a class="tool-card" href="heat_dcf.html">
-          <div class="card-top">
-            <div class="card-icon">$</div>
-            <div class="card-status status-live">Live</div>
-          </div>
-          <div class="card-title">HSA Cashflow Model</div>
-          <div class="card-sub">Interactive DCF for heat network HSA cashflows. Adjust connections, heat demand, COP, electricity cost, WACC, and terminal value multiple. Live NPV, implied EV, EBITDA margin, and sensitivity table.</div>
-          <div class="card-tags">
-            <span class="tag">Live DCF</span>
-            <span class="tag">NPV / EV</span>
-            <span class="tag">WACC sensitivity</span>
-          </div>
-          <div class="card-arrow">Open tool →</div>
-        </a>
-
-      </div>
-    </div>
-
-    <!-- GAS & WATER -->
-    <div class="sector-group">
-      <div class="sector-label">Gas &amp; Water</div>
-      <div class="tools-grid">
-
-        <div class="tool-card coming-soon">
-          <div class="card-top"><div class="card-icon">◎</div><div class="card-status status-soon">Coming soon</div></div>
-          <div class="card-title">Gas Networks</div>
-          <div class="card-sub">RIIO-GD2, declining demand, hydrogen blending, stranding risk, RAB considerations.</div>
-          <div class="card-tags"><span class="tag">RIIO-GD2</span><span class="tag">Hydrogen</span><span class="tag">RAB</span></div>
-        </div>
-
-        <div class="tool-card coming-soon">
-          <div class="card-top"><div class="card-icon">◈</div><div class="card-status status-soon">Coming soon</div></div>
-          <div class="card-title">Water &amp; Wastewater</div>
-          <div class="card-sub">Ofwat PR24, self-lay and adoption models, infrastructure charges, environmental compliance.</div>
-          <div class="card-tags"><span class="tag">Ofwat</span><span class="tag">PR24</span><span class="tag">Self-lay</span></div>
-        </div>
-
-      </div>
-    </div>
-
-    <!-- CROSS-SECTOR & MARKETS -->
     <div class="section-header">
-      <div class="section-label">Cross-Sector &amp; Markets</div>
+      <div class="section-label">Cross-Sector Tools</div>
       <div class="section-line"></div>
     </div>
 
-    <div class="sector-group">
-      <div class="sector-label">Cost of Capital &amp; Market Data</div>
-      <div class="tools-grid-3">
+    <div class="tools-grid">
 
-        <a class="tool-card" href="wacc-calculator.html">
-          <div class="card-top">
-            <div class="card-icon">%</div>
-            <div class="card-status status-live">Live</div>
-          </div>
-          <div class="card-title">WACC Calculator</div>
-          <div class="card-sub">Risk-adjusted discount rate builder for UK regulated utility assets. Every toggle moves the rate — regulatory maturity, revenue predictability, demand risk, technology exposure, and option value offsets. Covers domestic electricity, gas, water, wastewater, heat networks, and EV charging.</div>
-          <div class="card-tags">
-            <span class="tag">7 asset classes</span>
-            <span class="tag">Rate waterfall</span>
-            <span class="tag">Option value offsets</span>
-          </div>
-          <div class="card-arrow">Open tool →</div>
-        </a>
-
-        <a class="tool-card" href="macro_dashboard.html">
-          <div class="card-top">
-            <div class="card-icon">◉</div>
-            <div class="card-status status-live">Live</div>
-          </div>
-          <div class="card-title">Macro Dashboard</div>
-          <div class="card-sub">Live market data terminal for UK infrastructure investors. Gilt yields, SONIA swaps, BoE base rate, inflation, equity prices, credit spreads, and regulatory news feeds — all in one view.</div>
-          <div class="card-tags">
-            <span class="tag">Gilts & rates</span>
-            <span class="tag">Equities</span>
-            <span class="tag">RSS feeds</span>
-          </div>
-          <div class="card-arrow">Open tool →</div>
-        </a>
-
-        <div class="tool-card coming-soon">
-          <div class="card-top">
-            <div class="card-icon">≈</div>
-            <div class="card-status status-soon">Coming soon</div>
-          </div>
-          <div class="card-title">WACC Comparables</div>
-          <div class="card-sub">Allowed returns across Ofgem, Ofwat, and CAA price controls. Updated as determinations are published.</div>
-          <div class="card-tags"><span class="tag">RIIO</span><span class="tag">PR24</span><span class="tag">Benchmarking</span></div>
+      <a class="tool-card" href="wacc-calculator.html">
+        <div class="card-top">
+          <div class="card-icon">%</div>
+          <div class="card-status">Live</div>
         </div>
+        <div class="card-title">WACC Calculator</div>
+        <div class="card-sub">Risk-adjusted discount rate builder for UK regulated assets — regulatory maturity, revenue predictability, demand risk, technology exposure, and option-value offsets.</div>
+        <div class="card-arrow">Open tool →</div>
+      </a>
 
-      </div>
+      <a class="tool-card" href="macro_dashboard.html">
+        <div class="card-top">
+          <div class="card-icon">◉</div>
+          <div class="card-status">Live</div>
+        </div>
+        <div class="card-title">Macro Dashboard</div>
+        <div class="card-sub">Live market data terminal for UK infrastructure investors. Gilt yields, SONIA swaps, BoE base rate, inflation, equities, credit spreads, and regulatory news.</div>
+        <div class="card-arrow">Open tool →</div>
+      </a>
+
     </div>
 
   </div>
