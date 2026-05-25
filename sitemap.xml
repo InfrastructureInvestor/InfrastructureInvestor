@@ -1,6 +1,74 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
+    <loc>https://theinfrastructureinvestor.com/airports.html</loc>
+    <lastmod>2026-05-25</lastmod>
+  </url>
+  <url>
+    <loc>https://theinfrastructureinvestor.com/anaerobic-digestion.html</loc>
+    <lastmod>2026-05-25</lastmod>
+  </url>
+  <url>
+    <loc>https://theinfrastructureinvestor.com/battery-storage.html</loc>
+    <lastmod>2026-05-25</lastmod>
+  </url>
+  <url>
+    <loc>https://theinfrastructureinvestor.com/courts.html</loc>
+    <lastmod>2026-05-25</lastmod>
+  </url>
+  <url>
+    <loc>https://theinfrastructureinvestor.com/data-centres.html</loc>
+    <lastmod>2026-05-25</lastmod>
+  </url>
+  <url>
+    <loc>https://theinfrastructureinvestor.com/digital-infrastructure.html</loc>
+    <lastmod>2026-05-25</lastmod>
+  </url>
+  <url>
+    <loc>https://theinfrastructureinvestor.com/electricity-distribution.html</loc>
+    <lastmod>2026-05-25</lastmod>
+  </url>
+  <url>
+    <loc>https://theinfrastructureinvestor.com/electricity-transmission.html</loc>
+    <lastmod>2026-05-25</lastmod>
+  </url>
+  <url>
+    <loc>https://theinfrastructureinvestor.com/energy-transition.html</loc>
+    <lastmod>2026-05-25</lastmod>
+  </url>
+  <url>
+    <loc>https://theinfrastructureinvestor.com/energy-utilities.html</loc>
+    <lastmod>2026-05-25</lastmod>
+  </url>
+  <url>
+    <loc>https://theinfrastructureinvestor.com/environmental-waste.html</loc>
+    <lastmod>2026-05-25</lastmod>
+  </url>
+  <url>
+    <loc>https://theinfrastructureinvestor.com/ev-charging.html</loc>
+    <lastmod>2026-05-25</lastmod>
+  </url>
+  <url>
+    <loc>https://theinfrastructureinvestor.com/ferries-bridges.html</loc>
+    <lastmod>2026-05-25</lastmod>
+  </url>
+  <url>
+    <loc>https://theinfrastructureinvestor.com/fibre-networks.html</loc>
+    <lastmod>2026-05-25</lastmod>
+  </url>
+  <url>
+    <loc>https://theinfrastructureinvestor.com/gas-distribution.html</loc>
+    <lastmod>2026-05-25</lastmod>
+  </url>
+  <url>
+    <loc>https://theinfrastructureinvestor.com/gas-transmission.html</loc>
+    <lastmod>2026-05-25</lastmod>
+  </url>
+  <url>
+    <loc>https://theinfrastructureinvestor.com/heat-networks.html</loc>
+    <lastmod>2026-05-25</lastmod>
+  </url>
+  <url>
     <loc>https://theinfrastructureinvestor.com/heat_dcf.html</loc>
     <lastmod>2026-05-25</lastmod>
   </url>
@@ -13,12 +81,68 @@
     <lastmod>2026-05-25</lastmod>
   </url>
   <url>
+    <loc>https://theinfrastructureinvestor.com/hospitals.html</loc>
+    <lastmod>2026-05-25</lastmod>
+  </url>
+  <url>
+    <loc>https://theinfrastructureinvestor.com/hydrogen.html</loc>
+    <lastmod>2026-05-25</lastmod>
+  </url>
+  <url>
     <loc>https://theinfrastructureinvestor.com/</loc>
     <lastmod>2026-05-25</lastmod>
   </url>
   <url>
+    <loc>https://theinfrastructureinvestor.com/last-mile-electricity.html</loc>
+    <lastmod>2026-05-25</lastmod>
+  </url>
+  <url>
+    <loc>https://theinfrastructureinvestor.com/last-mile-water.html</loc>
+    <lastmod>2026-05-25</lastmod>
+  </url>
+  <url>
     <loc>https://theinfrastructureinvestor.com/macro_dashboard.html</loc>
-    <lastmod>2026-03-16</lastmod>
+    <lastmod>2026-05-25</lastmod>
+  </url>
+  <url>
+    <loc>https://theinfrastructureinvestor.com/military.html</loc>
+    <lastmod>2026-05-25</lastmod>
+  </url>
+  <url>
+    <loc>https://theinfrastructureinvestor.com/mobile-towers.html</loc>
+    <lastmod>2026-05-25</lastmod>
+  </url>
+  <url>
+    <loc>https://theinfrastructureinvestor.com/nuclear.html</loc>
+    <lastmod>2026-05-25</lastmod>
+  </url>
+  <url>
+    <loc>https://theinfrastructureinvestor.com/offshore-wind.html</loc>
+    <lastmod>2026-05-25</lastmod>
+  </url>
+  <url>
+    <loc>https://theinfrastructureinvestor.com/onshore-wind.html</loc>
+    <lastmod>2026-05-25</lastmod>
+  </url>
+  <url>
+    <loc>https://theinfrastructureinvestor.com/ports.html</loc>
+    <lastmod>2026-05-25</lastmod>
+  </url>
+  <url>
+    <loc>https://theinfrastructureinvestor.com/prisons.html</loc>
+    <lastmod>2026-05-25</lastmod>
+  </url>
+  <url>
+    <loc>https://theinfrastructureinvestor.com/pumped-hydro.html</loc>
+    <lastmod>2026-05-25</lastmod>
+  </url>
+  <url>
+    <loc>https://theinfrastructureinvestor.com/rail-infrastructure.html</loc>
+    <lastmod>2026-05-25</lastmod>
+  </url>
+  <url>
+    <loc>https://theinfrastructureinvestor.com/recycling-infrastructure.html</loc>
+    <lastmod>2026-05-25</lastmod>
   </url>
   <url>
     <loc>https://theinfrastructureinvestor.com/regulatory_tracker.html</loc>
@@ -26,10 +150,50 @@
   </url>
   <url>
     <loc>https://theinfrastructureinvestor.com/riio_ed2_calculator.html</loc>
-    <lastmod>2026-03-13</lastmod>
+    <lastmod>2026-05-25</lastmod>
+  </url>
+  <url>
+    <loc>https://theinfrastructureinvestor.com/roads.html</loc>
+    <lastmod>2026-05-25</lastmod>
+  </url>
+  <url>
+    <loc>https://theinfrastructureinvestor.com/rolling-stock.html</loc>
+    <lastmod>2026-05-25</lastmod>
+  </url>
+  <url>
+    <loc>https://theinfrastructureinvestor.com/schools.html</loc>
+    <lastmod>2026-05-25</lastmod>
+  </url>
+  <url>
+    <loc>https://theinfrastructureinvestor.com/social-infrastructure.html</loc>
+    <lastmod>2026-05-25</lastmod>
+  </url>
+  <url>
+    <loc>https://theinfrastructureinvestor.com/solar.html</loc>
+    <lastmod>2026-05-25</lastmod>
+  </url>
+  <url>
+    <loc>https://theinfrastructureinvestor.com/student-accommodation.html</loc>
+    <lastmod>2026-05-25</lastmod>
+  </url>
+  <url>
+    <loc>https://theinfrastructureinvestor.com/subsea-cables.html</loc>
+    <lastmod>2026-05-25</lastmod>
+  </url>
+  <url>
+    <loc>https://theinfrastructureinvestor.com/transport.html</loc>
+    <lastmod>2026-05-25</lastmod>
   </url>
   <url>
     <loc>https://theinfrastructureinvestor.com/wacc-calculator.html</loc>
-    <lastmod>2026-03-15</lastmod>
+    <lastmod>2026-05-25</lastmod>
+  </url>
+  <url>
+    <loc>https://theinfrastructureinvestor.com/waste-to-energy.html</loc>
+    <lastmod>2026-05-25</lastmod>
+  </url>
+  <url>
+    <loc>https://theinfrastructureinvestor.com/water-wastewater.html</loc>
+    <lastmod>2026-05-25</lastmod>
   </url>
 </urlset>
