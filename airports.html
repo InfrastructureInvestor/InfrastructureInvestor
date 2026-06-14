@@ -109,6 +109,53 @@
   #airsim .r-lbl{width:96px}
 }
 
+/* ---- investment calculator ---- */
+#airsim .calc-note{font-size:.8rem;color:var(--text2);line-height:1.6;margin-bottom:.85rem}
+#airsim .calc-note b{color:var(--text);font-weight:600}
+#airsim .calc-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:.9rem;margin-bottom:.9rem}
+#airsim .cgroup{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:.9rem 1rem}
+#airsim .cgroup h4{font-size:.62rem;letter-spacing:.07em;text-transform:uppercase;color:var(--muted);font-weight:600;margin-bottom:.7rem}
+#airsim .cfield{display:flex;align-items:center;justify-content:space-between;gap:.5rem;margin-bottom:.5rem}
+#airsim .cfield:last-child{margin-bottom:0}
+#airsim .cfield label{font-size:.74rem;color:var(--text);line-height:1.25}
+#airsim .cfield .ig{display:flex;align-items:center;gap:.25rem;flex-shrink:0}
+#airsim .cfield input{width:56px;font-family:inherit;font-size:.78rem;font-weight:600;text-align:right;color:var(--text);border:1px solid var(--border-strong);border-radius:7px;padding:.28rem .35rem;background:var(--surface-2);font-variant-numeric:tabular-nums}
+#airsim .cfield input:focus{outline:none;border-color:var(--accent)}
+#airsim .cfield .u{font-size:.7rem;color:var(--muted);width:12px;text-align:left}
+#airsim .out-cards{display:grid;grid-template-columns:repeat(4,1fr);gap:.7rem;margin-bottom:.9rem}
+#airsim .ocard{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:.85rem .95rem;position:relative;overflow:hidden}
+#airsim .ocard::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--muted)}
+#airsim .ocard.unlev::before{background:var(--aero)}
+#airsim .ocard.lev{background:linear-gradient(180deg,var(--accent-soft),var(--surface))}
+#airsim .ocard.lev::before{background:var(--accent)}
+#airsim .ocard .k{font-size:.63rem;letter-spacing:.05em;text-transform:uppercase;color:var(--muted);font-weight:600;margin-bottom:.3rem}
+#airsim .ocard .v{font-family:'Source Serif 4',Georgia,serif;font-size:1.5rem;font-weight:500;line-height:1;letter-spacing:-.01em}
+#airsim .ocard.lev .v{color:var(--accent)}
+#airsim .ocard .s{font-size:.7rem;color:var(--text2);margin-top:.3rem}
+#airsim .calc-sum{display:flex;flex-wrap:wrap;gap:.45rem 1.4rem;background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:.8rem 1rem;margin-bottom:.9rem;font-size:.74rem;color:var(--text2)}
+#airsim .calc-sum span{white-space:nowrap}
+#airsim .calc-sum b{color:var(--text);font-weight:600}
+#airsim .calc-sum .lbl{color:var(--muted)}
+#airsim .jwrap{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:.9rem 1rem;margin-bottom:.9rem}
+#airsim .jhead{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:.9rem;gap:1rem}
+#airsim .jhead .t{font-size:.63rem;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);font-weight:600}
+#airsim .jhead .lg{font-size:.68rem;color:var(--text2)}
+#airsim .jchart{display:flex;align-items:stretch;gap:3px;height:132px;position:relative;margin-bottom:18px}
+#airsim .jaxis{position:absolute;left:0;right:0;top:50%;height:1px;background:var(--border-strong)}
+#airsim .jcol{flex:1;position:relative;min-width:0}
+#airsim .jbar{position:absolute;left:16%;right:16%;border-radius:3px;min-height:2px}
+#airsim .jbar.pos{background:var(--accent);bottom:50%}
+#airsim .jbar.neg{background:var(--cost);top:50%}
+#airsim .jbar.exit{background:#0a5a42}
+#airsim .jlbl{position:absolute;bottom:-16px;left:0;right:0;text-align:center;font-size:.6rem;color:var(--muted)}
+#airsim .ptable{width:100%;border-collapse:collapse;font-size:.72rem;font-variant-numeric:tabular-nums}
+#airsim .ptable th,#airsim .ptable td{text-align:right;padding:.32rem .45rem;border-bottom:1px solid var(--border);white-space:nowrap}
+#airsim .ptable th{color:var(--muted);font-weight:600;font-size:.61rem;letter-spacing:.03em;text-transform:uppercase}
+#airsim .ptable td:first-child,#airsim .ptable th:first-child{text-align:left;color:var(--text2)}
+#airsim .ptable tr:last-child td{border-bottom:none}
+#airsim .tscroll{overflow-x:auto}
+@media(max-width:720px){ #airsim .calc-grid{grid-template-columns:1fr} #airsim .out-cards{grid-template-columns:repeat(2,1fr)} }
+
 </style>
 </head>
 <body>
@@ -204,7 +251,50 @@
     <div class="panel"><div class="ptitle">Operating costs<span class="pt-sum" id="costSum">£0 p.a.</span></div><div id="costRows"></div></div>
   </div>
 
-  <p class="as-foot"><b>Illustrative model.</b> Annual figures assume ≈18 operating hours × 365 days. EBITDA = revenue − operating costs (excludes depreciation, interest, tax). Enterprise value applies an indicative 18× EV/EBITDA multiple typical of regulated airport assets. Indicative of a mid-size hub, not any specific asset.</p>
+  <div class="band-label"><span class="t">Investment case — should you buy it?</span><span class="ln"></span><span class="hint">DCF returns</span></div>
+  <p class="calc-note">Year-1 financials flow live from the simulation above: revenue <b id="cBaseRev">£0</b> and EBITDA <b id="cBaseEb">£0</b> p.a. Set your deal terms below — the <b style="color:var(--aero)">unlevered IRR</b> (asset return) and <b style="color:var(--accent)">levered IRR</b> (return to equity, after debt) recompute instantly.</p>
+
+  <div class="calc-grid">
+    <div class="cgroup"><h4>Operating</h4>
+      <div class="cfield"><label>Revenue growth p.a.</label><span class="ig"><input id="iRevG" type="number" value="4" step="0.5"><span class="u">%</span></span></div>
+      <div class="cfield"><label>OpEx vs base</label><span class="ig"><input id="iOpex" type="number" value="100" step="1"><span class="u">%</span></span></div>
+      <div class="cfield"><label>Cost inflation p.a.</label><span class="ig"><input id="iCostG" type="number" value="2.5" step="0.5"><span class="u">%</span></span></div>
+      <div class="cfield"><label>Maintenance capex</label><span class="ig"><input id="iCapex" type="number" value="12" step="1"><span class="u">%</span></span></div>
+      <div class="cfield"><label>Depreciation</label><span class="ig"><input id="iDA" type="number" value="9" step="1"><span class="u">%</span></span></div>
+      <div class="cfield"><label>Tax rate</label><span class="ig"><input id="iTax" type="number" value="25" step="1"><span class="u">%</span></span></div>
+    </div>
+    <div class="cgroup"><h4>Valuation &amp; hold</h4>
+      <div class="cfield"><label>Entry EV / EBITDA</label><span class="ig"><input id="iEntry" type="number" value="18" step="0.5"><span class="u">×</span></span></div>
+      <div class="cfield"><label>Exit EV / EBITDA</label><span class="ig"><input id="iExit" type="number" value="18" step="0.5"><span class="u">×</span></span></div>
+      <div class="cfield"><label>Hold period</label><span class="ig"><input id="iHold" type="number" value="10" step="1" min="3" max="20"><span class="u">y</span></span></div>
+    </div>
+    <div class="cgroup"><h4>Financing</h4>
+      <div class="cfield"><label>Leverage (Net&nbsp;debt&nbsp;/&nbsp;EBITDA)</label><span class="ig"><input id="iLev" type="number" value="6" step="0.5"><span class="u">×</span></span></div>
+      <div class="cfield"><label>Cost of debt</label><span class="ig"><input id="iRd" type="number" value="6" step="0.25"><span class="u">%</span></span></div>
+      <div class="cfield"><label>Debt amortisation p.a.</label><span class="ig"><input id="iAmort" type="number" value="0" step="1"><span class="u">%</span></span></div>
+    </div>
+  </div>
+
+  <div class="out-cards">
+    <div class="ocard unlev"><div class="k">Unlevered IRR</div><div class="v" id="oUIRR">—</div><div class="s">asset / project return</div></div>
+    <div class="ocard lev"><div class="k">Levered IRR</div><div class="v" id="oLIRR">—</div><div class="s">return to equity</div></div>
+    <div class="ocard"><div class="k">Equity multiple</div><div class="v" id="oMOIC">—</div><div class="s">MOIC over hold</div></div>
+    <div class="ocard"><div class="k">Equity gain</div><div class="v" id="oProfit">—</div><div class="s">exit equity − invested</div></div>
+  </div>
+
+  <div class="calc-sum" id="calcSum"></div>
+
+  <div class="jwrap">
+    <div class="jhead"><span class="t">Equity cash-flow profile</span><span class="lg" id="jLeg">£m · <span style="color:var(--cost)">■</span> invested &nbsp; <span style="color:var(--accent)">■</span> returned</span></div>
+    <div class="jchart" id="jchart"><div class="jaxis"></div></div>
+  </div>
+
+  <div class="jwrap tscroll">
+    <div class="jhead"><span class="t">Projection — £m per year</span></div>
+    <table class="ptable"><thead id="ptHead"></thead><tbody id="ptBody"></tbody></table>
+  </div>
+
+  <p class="as-foot"><b>Illustrative model.</b> Annual figures assume ≈18 operating hours × 365 days. EBITDA = revenue − operating costs. The investment case is a simplified DCF: unlevered IRR discounts free cash flow to the firm (EBITDA − cash tax − capex) plus an exit on the EV/EBITDA multiple; levered IRR is the equity cash flow after debt drawn at entry, interest and amortisation. Excludes transaction costs, working capital and refinancing. For illustration only — not investment advice, and not any specific asset.</p>
 
 </div>
 
@@ -270,6 +360,77 @@ fR.oninput=()=>{ document.getElementById('fV').textContent=fR.value; pulse(); };
 rR.oninput=()=>{ document.getElementById('rV').textContent=rR.value; pulse(); };
 sea.onchange=pulse;
 
+// ---------- investment calculator (DCF / LBO) ----------
+function gv(id){ const v=parseFloat(document.getElementById(id).value); return isFinite(v)?v:0; }
+function irr(cf){
+  const f=r=>cf.reduce((s,c,i)=>s+c/Math.pow(1+r,i),0);
+  let lo=-0.95,hi=3,flo=f(lo),fhi=f(hi);
+  if(!isFinite(flo)||!isFinite(fhi)||flo*fhi>0) return NaN;
+  for(let k=0;k<140;k++){ const mid=(lo+hi)/2,fm=f(mid); if(flo*fm<=0){hi=mid;}else{lo=mid;flo=fm;} }
+  return (lo+hi)/2;
+}
+function computeModel(){
+  const rev0=baseRevYr, ebBase=rev0-baseCostYr;        // as-is EBITDA priced at entry
+  const cost0=baseCostYr*(gv('iOpex')/100), eb0=rev0-cost0; // post-plan operating EBITDA
+  if(ebBase<=0 || eb0<=0 || rev0<=0) return null;
+  const gR=gv('iRevG')/100, gC=gv('iCostG')/100, capexP=gv('iCapex')/100, daP=gv('iDA')/100, tax=gv('iTax')/100;
+  const eMul=gv('iEntry'), xMul=gv('iExit'), N=Math.max(3,Math.min(20,Math.round(gv('iHold'))));
+  const lev=gv('iLev'), rd=gv('iRd')/100, amort=gv('iAmort')/100;
+  const entryEV=eMul*ebBase;
+  const debt0=Math.max(0,Math.min(lev*ebBase, entryEV*0.95));
+  const equity0=entryEV-debt0;
+  const rows=[], uCF=[-entryEV], eCF=[-equity0];
+  let debtBal=debt0; const amortAmt=amort*debt0;
+  for(let t=1;t<=N;t++){
+    const rev=rev0*Math.pow(1+gR,t), cost=cost0*Math.pow(1+gC,t), eb=rev-cost;
+    const capex=capexP*rev, da=daP*rev, ebit=eb-da;
+    const fcff=eb-tax*Math.max(0,ebit)-capex;
+    const interest=rd*debtBal, princ=Math.min(amortAmt,debtBal);
+    const ebt=ebit-interest, fcfe=eb-tax*Math.max(0,ebt)-capex-interest-princ;
+    debtBal=Math.max(0,debtBal-princ);
+    let uAdd=fcff, eAdd=fcfe, exitEV=0, exitEq=0;
+    if(t===N){ exitEV=xMul*eb; exitEq=exitEV-debtBal; uAdd+=exitEV; eAdd+=exitEq; }
+    uCF.push(uAdd); eCF.push(eAdd);
+    rows.push({t,rev,eb,capex,fcff,debt:debtBal,fcfe});
+  }
+  const exitEV=xMul*rows[N-1].eb, exitEq=exitEV-rows[N-1].debt;
+  const distrib=eCF.slice(1).reduce((a,b)=>a+b,0);
+  const moic=equity0>0?distrib/equity0:NaN;
+  return {eb0,entryEV,debt0,equity0,N,rows,uCF,eCF,uIRR:irr(uCF),lIRR:irr(eCF),exitEV,exitEq,moic,profit:distrib-equity0};
+}
+function pctTxt(x){ return isFinite(x)?(x*100).toFixed(1)+'%':'—'; }
+function m1(v){ return (v/1e6).toFixed(1); }
+function renderModel(){
+  document.getElementById('cBaseRev').textContent=money(baseRevYr);
+  document.getElementById('cBaseEb').textContent=money(baseEbYr);
+  const m=computeModel();
+  const set=(id,t)=>{ const e=document.getElementById(id); if(e) e.textContent=t; };
+  if(!m){ ['oUIRR','oLIRR','oMOIC','oProfit'].forEach(id=>set(id,'—')); return; }
+  set('oUIRR',pctTxt(m.uIRR)); set('oLIRR',pctTxt(m.lIRR));
+  set('oMOIC',isFinite(m.moic)?m.moic.toFixed(2)+'×':'—');
+  set('oProfit',money(m.profit));
+  const ltv=Math.round(m.debt0/m.entryEV*100);
+  document.getElementById('calcSum').innerHTML=
+    `<span><span class="lbl">Entry EV</span> <b>${money(m.entryEV)}</b></span>`+
+    `<span><span class="lbl">Debt</span> <b>${money(m.debt0)}</b> (${ltv}% LTV)</span>`+
+    `<span><span class="lbl">Equity in</span> <b>${money(m.equity0)}</b></span>`+
+    `<span><span class="lbl">Exit EV</span> <b>${money(m.exitEV)}</b></span>`+
+    `<span><span class="lbl">Exit equity</span> <b>${money(m.exitEq)}</b></span>`;
+  // J-curve
+  const maxAbs=Math.max(...m.eCF.map(Math.abs),1), step=m.N>12?2:1;
+  let ch='<div class="jaxis"></div>';
+  m.eCF.forEach((cf,i)=>{ const h=Math.max(2,Math.abs(cf)/maxAbs*58);
+    const cls=cf>=0?(i===m.N?'pos exit':'pos'):'neg';
+    ch+=`<div class="jcol"><div class="jbar ${cls}" style="height:${h}px" title="Year ${i}: ${money(cf)}"></div><span class="jlbl">${i%step===0?i:''}</span></div>`; });
+  document.getElementById('jchart').innerHTML=ch;
+  // table
+  document.getElementById('ptHead').innerHTML='<tr><th>Year</th><th>Revenue</th><th>EBITDA</th><th>Capex</th><th>Unlev. FCF</th><th>Net debt</th><th>Equity FCF</th></tr>';
+  document.getElementById('ptBody').innerHTML=m.rows.map(r=>
+    `<tr><td>${r.t}</td><td>${m1(r.rev)}</td><td>${m1(r.eb)}</td><td>${m1(r.capex)}</td><td>${m1(r.fcff)}</td><td>${m1(r.debt)}</td><td>${m1(r.fcfe)}</td></tr>`).join('');
+}
+['iRevG','iOpex','iCostG','iCapex','iDA','iTax','iEntry','iExit','iHold','iLev','iRd','iAmort']
+  .forEach(id=>document.getElementById(id).addEventListener('input',renderModel));
+
 // geometry
 const RWY_Y=92, RWY_TOP=76, RWY_H=30, TX_Y=132;
 const TERM={x:150,y:158,w:430,h:104};
@@ -282,6 +443,7 @@ const GATE_X=[210,300,390,480], ROAD_Y=330;
 
 const planes=[],vehs=[],pax=[],moneys=[];
 let T=0,lastFlt=0,lastVeh=0,fltCount=0,paxStock=0,cumEB=0;
+let baseRevYr=0,baseCostYr=0,baseEbYr=0,cTick=0;
 const ebHist=[]; let ebSample=0;
 const LIVERY=['#e0584e','#3a7bd0','#e6b35a','#8a7fe0','#37c08e','#d97bb0'];
 function rnd(a,b){return a+Math.random()*(b-a);} function lerp(a,b,t){return a+(b-a)*t;}
@@ -525,6 +687,7 @@ function update(dt){
   const aeroTot=rSmooth.reduce((a,v,i)=>a+(STREAMS[i].aero?v:0),0), commTot=totR-aeroTot;
   const paxRate=Math.max(1,fr*150*sm);
   const revYr=totR*HRS_PER_YR, ebYr=totP*HRS_PER_YR, paxYr=paxRate*HRS_PER_YR, EV=ebYr*EV_MULT;
+  baseRevYr=revYr; baseCostYr=totC*HRS_PER_YR; baseEbYr=ebYr;
   cumEB+=totP*dt/60; // bank EBITDA in real time
 
   document.getElementById('kRev').textContent=money(revYr);
@@ -594,7 +757,7 @@ function draw(){
 }
 
 let lastTs=null;
-function loop(ts){ if(!lastTs) lastTs=ts; const dt=Math.min((ts-lastTs)/16.67,3)*simSpd; lastTs=ts; T+=dt; update(dt); draw(); requestAnimationFrame(loop); }
+function loop(ts){ if(!lastTs) lastTs=ts; const dt=Math.min((ts-lastTs)/16.67,3)*simSpd; lastTs=ts; T+=dt; update(dt); draw(); if((cTick=(cTick+1)%12)===0) renderModel(); requestAnimationFrame(loop); }
 requestAnimationFrame(loop);
 })();
 </script>
