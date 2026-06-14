@@ -8,6 +8,108 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,500;0,8..60,600;1,8..60,400&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="styles.css">
+<style>
+
+#airsim{
+  --bg:#f5f7f6; --surface:#ffffff; --surface-2:#fbfcfc;
+  --border:#e7ebe9; --border-strong:#d8dedb; --text:#15201d; --text2:#4c5854; --muted:#8a948f;
+  --accent:#0c6b4f; --accent-soft:#e7f1ec;
+  --aero:#0c6b4f; --comm:#b07d24; --cost:#bc4733;
+  --stock:#2f5fb0; --stock-soft:#eaf0fa;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+#airsim{
+  font-family:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;
+  color:var(--text); width:100%; max-width:980px; margin:0 auto; font-variant-numeric:tabular-nums;
+}
+#airsim .as-head{margin-bottom:1.1rem}
+#airsim .as-eyebrow{font-size:.66rem;letter-spacing:.16em;text-transform:uppercase;font-weight:600;color:var(--accent);margin-bottom:.5rem}
+#airsim h2{font-family:'Source Serif 4',Georgia,serif;font-weight:500;font-size:1.7rem;line-height:1.1;letter-spacing:-.015em;margin-bottom:.4rem}
+#airsim .as-sub{font-size:.86rem;color:var(--text2);line-height:1.6;max-width:660px}
+
+#airsim .as-ctrls{display:flex;gap:.65rem;align-items:center;flex-wrap:wrap;margin:1.1rem 0 .7rem;
+  background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:.7rem .9rem}
+#airsim .ctrl{display:flex;align-items:center;gap:.55rem}
+#airsim .ctrl label{font-size:.7rem;color:var(--muted);letter-spacing:.04em;text-transform:uppercase;font-weight:600;white-space:nowrap}
+#airsim .ctrl input[type=range]{width:96px;-webkit-appearance:none;appearance:none;height:4px;border-radius:3px;background:var(--border-strong);outline:none}
+#airsim .ctrl input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;appearance:none;width:14px;height:14px;border-radius:50%;background:var(--accent);cursor:pointer;border:2px solid #fff;box-shadow:0 1px 3px rgba(0,0,0,.2)}
+#airsim .ctrl input[type=range]::-moz-range-thumb{width:14px;height:14px;border-radius:50%;background:var(--accent);cursor:pointer;border:2px solid #fff}
+#airsim .ctrl .val{font-size:.8rem;font-weight:600;min-width:14px;color:var(--text)}
+#airsim select{font-family:inherit;font-size:.78rem;font-weight:500;color:var(--text);border:1px solid var(--border-strong);border-radius:8px;padding:.32rem .5rem;background:var(--surface-2);cursor:pointer}
+#airsim .as-divider{width:1px;height:24px;background:var(--border);margin:0 .15rem}
+#airsim .spd{display:flex;gap:.25rem;margin-left:auto}
+#airsim .spd button{font-family:inherit;font-size:.72rem;font-weight:600;padding:.32rem .6rem;border-radius:7px;border:1px solid var(--border-strong);background:var(--surface-2);color:var(--text2);cursor:pointer;transition:all .12s}
+#airsim .spd button:hover{border-color:var(--accent)}
+#airsim .spd button.on{background:var(--accent);color:#fff;border-color:var(--accent)}
+
+#airsim .as-stage{position:relative;border-radius:14px;overflow:hidden;border:1px solid var(--border);box-shadow:0 12px 34px rgba(18,38,32,.10)}
+#airsim canvas{display:block;width:100%;aspect-ratio:720/360}
+
+#airsim .as-legend{display:flex;gap:1.1rem;flex-wrap:wrap;margin:.7rem 0 .2rem}
+#airsim .leg{display:flex;align-items:center;gap:.4rem;font-size:.72rem;color:var(--text2)}
+#airsim .leg .dot{width:9px;height:9px;border-radius:50%;flex-shrink:0}
+#airsim .leg b{font-weight:600;color:var(--text)}
+
+#airsim .band-label{display:flex;align-items:center;gap:.6rem;margin:1.1rem 0 .55rem}
+#airsim .band-label .t{font-size:.66rem;letter-spacing:.08em;text-transform:uppercase;font-weight:600;color:var(--muted)}
+#airsim .band-label .ln{flex:1;height:1px;background:var(--border)}
+#airsim .band-label .hint{font-size:.68rem;color:var(--muted);font-weight:400;text-transform:none;letter-spacing:0}
+
+#airsim .as-kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:.7rem}
+#airsim .kpi,#airsim .stock{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:.85rem .95rem;position:relative;overflow:hidden}
+#airsim .kpi::before,#airsim .stock::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px}
+#airsim .kpi.k-eb::before{background:var(--aero)}
+#airsim .kpi.k-rev::before{background:var(--comm)}
+#airsim .kpi.k-yield::before{background:var(--aero)}
+#airsim .kpi.k-pax::before{background:#3a7bd0}
+#airsim .stock::before{background:var(--stock)}
+#airsim .kpi .k,#airsim .stock .k{font-size:.65rem;letter-spacing:.05em;text-transform:uppercase;color:var(--muted);font-weight:600;margin-bottom:.3rem}
+#airsim .kpi .v,#airsim .stock .v{font-family:'Source Serif 4',Georgia,serif;font-size:1.55rem;font-weight:500;line-height:1;letter-spacing:-.01em}
+#airsim .stock .v{color:var(--stock)}
+#airsim .kpi .s,#airsim .stock .s{font-size:.7rem;color:var(--text2);margin-top:.35rem}
+#airsim .kpi .s b,#airsim .stock .s b{font-weight:600;color:var(--text)}
+#airsim .as-stocks{display:grid;grid-template-columns:repeat(3,1fr);gap:.7rem}
+#airsim .stock{background:linear-gradient(180deg,var(--stock-soft),var(--surface))}
+
+@keyframes kpulse{0%{box-shadow:0 0 0 0 rgba(47,95,176,0)}28%{box-shadow:0 0 0 3px rgba(47,95,176,.22)}100%{box-shadow:0 0 0 0 rgba(47,95,176,0)}}
+#airsim .pulse{animation:kpulse .75s ease}
+
+#airsim .as-split{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:.95rem 1.05rem;margin-top:.9rem}
+#airsim .split-head{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:.6rem}
+#airsim .split-head .t{font-size:.66rem;letter-spacing:.05em;text-transform:uppercase;color:var(--muted);font-weight:600}
+#airsim .split-head .tot{font-size:.74rem;color:var(--text2)}
+#airsim .split-head .tot b{font-weight:600;color:var(--text)}
+#airsim .split-bar{display:flex;height:26px;border-radius:7px;overflow:hidden;background:var(--border)}
+#airsim .split-seg{height:100%;display:flex;align-items:center;padding:0 .55rem;color:#fff;font-size:.72rem;font-weight:600;white-space:nowrap;transition:width .5s ease;min-width:0;overflow:hidden}
+#airsim .seg-aero{background:var(--aero)} #airsim .seg-comm{background:var(--comm)}
+#airsim .split-foot{margin-top:.55rem;font-size:.72rem;color:var(--text2);line-height:1.5}
+#airsim .split-foot b{color:var(--text);font-weight:600}
+
+#airsim .as-panels{display:grid;grid-template-columns:1fr 1fr;gap:.9rem;margin-top:.9rem}
+#airsim .panel{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:1rem 1.1rem}
+#airsim .ptitle{font-size:.66rem;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);margin-bottom:.8rem;display:flex;justify-content:space-between;align-items:baseline}
+#airsim .ptitle .pt-sum{color:var(--text);font-weight:600;font-size:.74rem;text-transform:none;letter-spacing:0}
+#airsim .row{display:flex;align-items:center;gap:.5rem;margin-bottom:.5rem}
+#airsim .row:last-child{margin-bottom:0}
+#airsim .r-lbl{width:116px;font-size:.74rem;color:var(--text);flex-shrink:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+#airsim .r-tag{width:48px;flex-shrink:0;font-size:.57rem;font-weight:600;letter-spacing:.03em;text-transform:uppercase}
+#airsim .r-tag.aero{color:var(--aero)} #airsim .r-tag.comm{color:var(--comm)}
+#airsim .r-tag.fix{color:var(--muted)} #airsim .r-tag.var{color:var(--cost)} #airsim .r-tag.semi{color:#a06a2a}
+#airsim .bwrap{flex:1;height:7px;background:var(--border);border-radius:4px;overflow:hidden}
+#airsim .bfill{height:100%;border-radius:4px;transition:width .45s ease}
+#airsim .r-amt{width:54px;text-align:right;font-size:.74rem;font-weight:600;color:var(--text);flex-shrink:0}
+#airsim .as-foot{font-size:.68rem;color:var(--muted);line-height:1.6;margin-top:.9rem}
+#airsim .as-foot b{color:var(--text2);font-weight:600}
+
+@media(max-width:720px){
+  #airsim .as-kpis{grid-template-columns:repeat(2,1fr)}
+  #airsim .as-stocks{grid-template-columns:1fr}
+  #airsim .as-panels{grid-template-columns:1fr}
+  #airsim .spd{margin-left:0}
+  #airsim .r-lbl{width:96px}
+}
+
+</style>
 </head>
 <body>
 
@@ -23,7 +125,7 @@
     <div class="breadcrumb"><a href="index.html">Home</a><span class="sep">/</span><a href="transport.html">Transport</a><span class="sep">/</span>Airports</div>
     <div class="hero-eyebrow">Transport</div>
     <h1><em>Airports</em></h1>
-    <p class="hero-sub">Detailed reference for Airports, part of Transport, is in development — content will be populated here.</p>
+    <p class="hero-sub">An interactive model of how passenger and aircraft throughput moves through an airport — and converts into annual revenue, EBITDA and asset value for an investor.</p>
   </div>
 </section>
 
@@ -31,14 +133,471 @@
   <div class="wrap">
 
     <div class="section-header">
-      <div class="section-label">Reference</div>
+      <div class="section-label">Interactive model</div>
       <div class="section-line"></div>
     </div>
 
-    <div class="placeholder">
-      <span class="ph-label">In development</span>
-      <p>This sub-sector page is a placeholder. Reference notes, key players, regulatory context and analysis for Airports will be published here.</p>
+<div id="airsim">
+
+  <div class="as-head">
+    <div class="as-eyebrow">Transport · Airports</div>
+    <h2>What flows through an airport — and how it pays</h2>
+    <p class="as-sub">Watch two-way passenger and aircraft traffic circulate the airport, then see how that throughput converts into annual revenue and EBITDA — and ultimately into asset value. Adjust the drivers: the <b style="color:var(--comm)">flows</b> (per-year cash) and the <b style="color:var(--stock)">stocks</b> (occupancy and valuation) respond live.</p>
+  </div>
+
+  <div class="as-ctrls">
+    <div class="ctrl"><label>Flights / hr</label><input type="range" id="fR" min="1" max="14" value="6" step="1"><span class="val" id="fV">6</span></div>
+    <div class="as-divider"></div>
+    <div class="ctrl"><label>Surface traffic</label><input type="range" id="rR" min="1" max="10" value="5" step="1"><span class="val" id="rV">5</span></div>
+    <div class="as-divider"></div>
+    <div class="ctrl"><label>Season</label>
+      <select id="sea">
+        <option value="1">Normal</option>
+        <option value="1.65">Peak summer</option>
+        <option value="1.4">Christmas</option>
+        <option value="0.5">Off-peak</option>
+      </select>
     </div>
+    <div class="spd">
+      <button class="on" id="b1">1×</button><button id="b2">2×</button><button id="b4">4×</button>
+    </div>
+  </div>
+
+  <div class="as-stage"><canvas id="cv"></canvas></div>
+
+  <div class="as-legend">
+    <span class="leg"><span class="dot" style="background:#37c08e"></span><b>Departing pax</b>&nbsp;car&nbsp;→&nbsp;shops&nbsp;→&nbsp;gate</span>
+    <span class="leg"><span class="dot" style="background:#d7e2ea"></span><b>Arriving pax</b>&nbsp;gate&nbsp;→&nbsp;concourse&nbsp;→&nbsp;kerb</span>
+    <span class="leg"><span class="dot" style="background:var(--aero)"></span><b>Aeronautical £</b></span>
+    <span class="leg"><span class="dot" style="background:var(--comm)"></span><b>Commercial £</b></span>
+  </div>
+
+  <div class="band-label"><span class="t">Flows — annualised from current assumptions</span><span class="ln"></span><span class="hint">per year</span></div>
+  <div class="as-kpis">
+    <div class="kpi k-rev"><div class="k">Revenue p.a.</div><div class="v" id="kRev">£0</div><div class="s"><b id="kRevHr">£0</b> / busy hr</div></div>
+    <div class="kpi k-eb"><div class="k">EBITDA p.a.</div><div class="v" id="kEb">£0</div><div class="s"><b id="kMargin">0%</b> margin</div></div>
+    <div class="kpi k-yield"><div class="k">Revenue / pax</div><div class="v" id="kYield">£0</div><div class="s">blended yield</div></div>
+    <div class="kpi k-pax"><div class="k">Passengers p.a.</div><div class="v" id="kPaxYr">0</div><div class="s"><b id="kThru">0</b> / busy hr</div></div>
+  </div>
+
+  <div class="band-label"><span class="t">Stocks — what the flows accumulate into</span><span class="ln"></span><span class="hint">live</span></div>
+  <div class="as-stocks">
+    <div class="stock"><div class="k">Pax in terminal now</div><div class="v" id="sPax">0</div><div class="s">live occupancy (inflow × dwell)</div></div>
+    <div class="stock"><div class="k">EBITDA banked · session</div><div class="v" id="sBank">£0</div><div class="s">accumulating in real time</div></div>
+    <div class="stock"><div class="k">Implied enterprise value</div><div class="v" id="sEV">£0</div><div class="s">at <b>18×</b> EBITDA</div></div>
+  </div>
+
+  <div class="as-split">
+    <div class="split-head">
+      <span class="t">The two tills — where revenue comes from</span>
+      <span class="tot">Total <b id="splitTot">£0</b> p.a.</span>
+    </div>
+    <div class="split-bar">
+      <div class="split-seg seg-aero" id="segAero">Aero</div>
+      <div class="split-seg seg-comm" id="segComm">Commercial</div>
+    </div>
+    <div class="split-foot"><b>Why investors watch the split:</b> aeronautical charges are capped by regulators; commercial income is largely unregulated and far higher margin. Lifting commercial revenue per passenger is the core value-creation lever — and it flows straight through to enterprise value.</div>
+  </div>
+
+  <div class="as-panels">
+    <div class="panel"><div class="ptitle">Revenue streams<span class="pt-sum" id="revSum">£0 p.a.</span></div><div id="revRows"></div></div>
+    <div class="panel"><div class="ptitle">Operating costs<span class="pt-sum" id="costSum">£0 p.a.</span></div><div id="costRows"></div></div>
+  </div>
+
+  <p class="as-foot"><b>Illustrative model.</b> Annual figures assume ≈18 operating hours × 365 days. EBITDA = revenue − operating costs (excludes depreciation, interest, tax). Enterprise value applies an indicative 18× EV/EBITDA multiple typical of regulated airport assets. Indicative of a mid-size hub, not any specific asset.</p>
+
+</div>
+
+<script>
+(function(){
+const cv=document.getElementById('cv'); const ctx=cv.getContext('2d');
+const W=720,H=360; const DPR=Math.max(2,Math.min(3,window.devicePixelRatio||1));
+cv.width=W*DPR; cv.height=H*DPR; ctx.setTransform(DPR,0,0,DPR,0,0);
+
+const HRS_PER_YR=6570, EV_MULT=18, DWELL=150;
+const C={aero:'#37c08e', comm:'#e6b35a', cost:'#ef8166', paxDep:'#37c08e', paxArr:'#d7e2ea'};
+
+const STREAMS=[
+  {name:'Landing & nav fees',tag:'Aero',aero:true,base:4800},
+  {name:'Passenger charges', tag:'Aero',aero:true,base:2200},
+  {name:'Aircraft parking',  tag:'Aero',aero:true,base:600},
+  {name:'Ground handling',   tag:'Aero',aero:true,base:1100},
+  {name:'Retail concessions',tag:'Comm',aero:false,base:1800},
+  {name:'F&B concessions',   tag:'Comm',aero:false,base:1400},
+  {name:'Car parking',       tag:'Comm',aero:false,base:2600},
+  {name:'Premium lounges',   tag:'Comm',aero:false,base:900},
+  {name:'Advertising',       tag:'Comm',aero:false,base:380},
+  {name:'Property & hotel',  tag:'Comm',aero:false,base:440},
+];
+const COSTS=[
+  {item:'Personnel & staff',   tag:'Semi',cls:'semi',base:2600},
+  {item:'Security & screening',tag:'Var', cls:'var', base:1900},
+  {item:'Airfield maintenance',tag:'Semi',cls:'semi',base:1100},
+  {item:'Terminal opex',       tag:'Semi',cls:'semi',base:1500},
+  {item:'ATC & navigation',    tag:'Var', cls:'var', base:600},
+  {item:'Marketing & routes',  tag:'Fixed',cls:'fix',base:500},
+  {item:'Admin & overhead',    tag:'Fixed',cls:'fix',base:700},
+  {item:'Insurance & rates',   tag:'Fixed',cls:'fix',base:400},
+];
+let rSmooth=STREAMS.map(s=>s.base), cSmooth=COSTS.map(c=>c.base);
+
+function money(v){
+  const neg=v<0; v=Math.abs(v); let o;
+  if(v>=1e9) o=(v/1e9).toFixed(2)+'bn';
+  else if(v>=1e8) o=(v/1e6).toFixed(0)+'m';
+  else if(v>=1e6) o=(v/1e6).toFixed(1)+'m';
+  else if(v>=1e3) o=(v/1e3).toFixed(0)+'k';
+  else o=Math.round(v).toString();
+  return (neg?'-£':'£')+o;
+}
+function num(v){ if(v>=1e6) return (v/1e6).toFixed(1)+'m'; if(v>=1e3) return (v/1e3).toFixed(0)+'k'; return Math.round(v).toString(); }
+
+function buildRows(){
+  const re=document.getElementById('revRows'); re.innerHTML='';
+  STREAMS.forEach((s,i)=>{ const col=s.aero?'var(--aero)':'var(--comm)'; const tc=s.aero?'aero':'comm';
+    re.innerHTML+=`<div class="row"><span class="r-lbl">${s.name}</span><span class="r-tag ${tc}">${s.tag}</span><span class="bwrap"><span class="bfill" id="rb${i}" style="background:${col};width:50%"></span></span><span class="r-amt" id="ra${i}">£0</span></div>`; });
+  const ce=document.getElementById('costRows'); ce.innerHTML='';
+  COSTS.forEach((c,i)=>{ ce.innerHTML+=`<div class="row"><span class="r-lbl">${c.item}</span><span class="r-tag ${c.cls}">${c.tag}</span><span class="bwrap"><span class="bfill" id="cb${i}" style="background:var(--cost);width:50%"></span></span><span class="r-amt" id="ca${i}">£0</span></div>`; });
+}
+buildRows();
+
+let simSpd=1;
+['b1','b2','b4'].forEach(id=>{ document.getElementById(id).onclick=()=>{ simSpd=parseInt(id.slice(1));
+  ['b1','b2','b4'].forEach(i=>document.getElementById(i).classList.toggle('on',i===id)); }; });
+const fR=document.getElementById('fR'), rR=document.getElementById('rR'), sea=document.getElementById('sea');
+function pulse(){ document.querySelectorAll('#airsim .kpi,#airsim .stock').forEach(e=>{ e.classList.remove('pulse'); void e.offsetWidth; e.classList.add('pulse'); }); }
+fR.oninput=()=>{ document.getElementById('fV').textContent=fR.value; pulse(); };
+rR.oninput=()=>{ document.getElementById('rV').textContent=rR.value; pulse(); };
+sea.onchange=pulse;
+
+// geometry
+const RWY_Y=92, RWY_TOP=76, RWY_H=30, TX_Y=132;
+const TERM={x:150,y:158,w:430,h:104};
+const RETAIL={x:166,y:184,w:118,h:30,lbl:'Retail'};
+const FB    ={x:166,y:222,w:118,h:30,lbl:'F&B'};
+const LOUNGE={x:312,y:184,w:96, h:30,lbl:'Lounge'};
+const SECUR ={x:312,y:222,w:96, h:30,lbl:'Security'};
+const PARK={x:602,y:158,w:96,h:104}, HOTEL={x:22,y:200,w:80,h:62};
+const GATE_X=[210,300,390,480], ROAD_Y=330;
+
+const planes=[],vehs=[],pax=[],moneys=[];
+let T=0,lastFlt=0,lastVeh=0,fltCount=0,paxStock=0,cumEB=0;
+const ebHist=[]; let ebSample=0;
+const LIVERY=['#e0584e','#3a7bd0','#e6b35a','#8a7fe0','#37c08e','#d97bb0'];
+function rnd(a,b){return a+Math.random()*(b-a);} function lerp(a,b,t){return a+(b-a)*t;}
+function alerp(a,b,t){ let d=((b-a+Math.PI)%(2*Math.PI))-Math.PI; return a+d*t; }
+
+function spawnPlane(){
+  const fr=parseFloat(fR.value); fltCount++;
+  planes.push({x:-90,y:RWY_Y-44,px:-90,py:RWY_Y-44,angle:0,gate:Math.floor(Math.random()*4),
+    phase:'land',speed:rnd(1.3,2.0),sz:rnd(0.95,1.15),
+    paxN:Math.max(40,Math.floor(rnd(90,210)*fr/6)),dropped:false,dwell:0,
+    livery:LIVERY[Math.floor(Math.random()*LIVERY.length)],blink:Math.random()*6});
+}
+function spawnVeh(){
+  const types=['car','car','car','bus','taxi']; const type=types[Math.floor(Math.random()*5)];
+  vehs.push({x:W+50,y:ROAD_Y+rnd(-4,4),type,speed:rnd(1.8,2.8),
+    paxN:type==='bus'?Math.floor(rnd(20,46)):Math.floor(rnd(1,4)),arrived:false,dwell:0,done:false});
+}
+function pickZone(){ const r=Math.random(); return r<0.42?RETAIL:r<0.74?FB:LOUNGE; }
+function spawnPax(sx,sy,n,dir){
+  for(let k=0;k<n;k++){
+    if(pax.length>150) break;
+    let path,col;
+    if(dir==='dep'){
+      const z=pickZone(); const gx=GATE_X[Math.floor(Math.random()*4)];
+      path=[{x:z.x+rnd(8,z.w-8),y:z.y+rnd(6,z.h-6),spend:Math.random()<0.65,zlbl:z.lbl},{x:gx+rnd(-6,6),y:TX_Y+12}];
+      col=C.paxDep;
+    } else {
+      path=[{x:TERM.x+rnd(34,TERM.w-34),y:TERM.y+rnd(22,TERM.h-22)},{x:rnd(130,560),y:ROAD_Y-14}];
+      col=C.paxArr;
+    }
+    pax.push({x:sx+rnd(-9,9),y:sy,path,stage:0,r:rnd(1.9,2.6),spd:rnd(0.6,1.1),a:0,col,spent:false});
+  }
+}
+
+function light(x,y,r,col,a){ ctx.save(); ctx.globalAlpha=a;
+  const g=ctx.createRadialGradient(x,y,0,x,y,r); g.addColorStop(0,col); g.addColorStop(1,'rgba(0,0,0,0)');
+  ctx.fillStyle=g; ctx.beginPath(); ctx.arc(x,y,r,0,Math.PI*2); ctx.fill(); ctx.restore(); }
+
+function drawScene(){
+  const sky=ctx.createLinearGradient(0,0,0,RWY_TOP+10);
+  sky.addColorStop(0,'#0c1733'); sky.addColorStop(0.55,'#1b2c4f'); sky.addColorStop(1,'#3a3a5c');
+  ctx.fillStyle=sky; ctx.fillRect(0,0,W,72);
+  const hz=ctx.createLinearGradient(0,40,0,72); hz.addColorStop(0,'rgba(214,128,84,0)'); hz.addColorStop(1,'rgba(224,146,90,0.32)');
+  ctx.fillStyle=hz; ctx.fillRect(0,40,W,32);
+  for(let i=0;i<70;i++){ const sx=(i*101+19)%W, sy=(i*47+7)%52;
+    ctx.globalAlpha=0.5+0.5*Math.sin(T*0.02+i); ctx.fillStyle='rgba(255,255,255,'+(0.18+(i%5)*0.07)+')'; ctx.fillRect(sx,sy,1,1); ctx.globalAlpha=1; }
+  light(636,26,34,'rgba(255,240,210,0.5)',0.7);
+  ctx.fillStyle='#f3ecd6'; ctx.beginPath(); ctx.arc(636,26,11,0,Math.PI*2); ctx.fill();
+  ctx.fillStyle='#1b2c4f'; ctx.beginPath(); ctx.arc(631,23,9,0,Math.PI*2); ctx.fill();
+  ctx.fillStyle='rgba(255,255,255,0.05)';
+  [90,300,520].forEach((cx,i)=>{ const cy=30+Math.sin(T*0.004+i)*4;
+    ctx.beginPath(); ctx.ellipse(cx,cy,48,13,0,0,Math.PI*2); ctx.fill();
+    ctx.beginPath(); ctx.ellipse(cx+26,cy-5,30,10,0,0,Math.PI*2); ctx.fill(); });
+  for(let i=0;i<5;i++) light(8+i*9,RWY_Y,4,'rgba(255,255,255,0.5)',0.4+0.3*Math.sin(T*0.06-i));
+
+  const grd=ctx.createLinearGradient(0,RWY_TOP+RWY_H,0,H);
+  grd.addColorStop(0,'#23303f'); grd.addColorStop(0.55,'#1c2735'); grd.addColorStop(1,'#161f2b');
+  ctx.fillStyle=grd; ctx.fillRect(0,RWY_TOP,W,H-RWY_TOP);
+  ctx.fillStyle='#1f2e1c'; ctx.fillRect(0,RWY_TOP+RWY_H,W,12);
+
+  const rwy=ctx.createLinearGradient(0,RWY_TOP,0,RWY_TOP+RWY_H);
+  rwy.addColorStop(0,'#3a3e4a'); rwy.addColorStop(0.5,'#33363f'); rwy.addColorStop(1,'#2c2f37');
+  ctx.fillStyle=rwy; ctx.fillRect(0,RWY_TOP,W,RWY_H);
+  ctx.fillStyle='rgba(255,255,255,0.55)'; for(let x=12;x<W;x+=46) ctx.fillRect(x,RWY_Y-1.5,26,3);
+  ctx.fillStyle='rgba(255,255,255,0.7)'; for(let i=0;i<6;i++) ctx.fillRect(14,RWY_TOP+3+i*4.4,16,2.4);
+  for(let x=10;x<W;x+=58){ light(x,RWY_TOP+1.5,3,'rgba(255,210,120,0.9)',0.5); light(x,RWY_TOP+RWY_H-1.5,3,'rgba(255,210,120,0.9)',0.5); }
+
+  ctx.fillStyle='#272b34'; ctx.fillRect(0,RWY_TOP+RWY_H+12,W,TX_Y-(RWY_TOP+RWY_H+12)+18);
+  ctx.strokeStyle='rgba(245,200,70,0.5)'; ctx.lineWidth=1.4; ctx.setLineDash([10,12]);
+  ctx.beginPath(); ctx.moveTo(0,TX_Y+6); ctx.lineTo(W,TX_Y+6); ctx.stroke(); ctx.setLineDash([]);
+  for(let x=20;x<W;x+=70) light(x,TX_Y+16,2.6,'rgba(90,170,255,0.9)',0.5);
+  ctx.strokeStyle='rgba(245,200,70,0.4)'; ctx.lineWidth=1;
+  GATE_X.forEach(gx=>{ ctx.beginPath(); ctx.moveTo(gx,TX_Y-2); ctx.lineTo(gx,TX_Y+14); ctx.stroke(); });
+
+  ctx.fillStyle='#19232e'; ctx.fillRect(0,TERM.y+TERM.h+6,W,H-(TERM.y+TERM.h+6));
+  [120,138,470,500,558].forEach((tx,i)=>{ ctx.fillStyle='#21401f'; ctx.beginPath(); ctx.arc(tx,TERM.y+TERM.h+30,9,0,Math.PI*2); ctx.fill();
+    ctx.fillStyle='#1a3318'; ctx.beginPath(); ctx.arc(tx,TERM.y+TERM.h+24,6,0,Math.PI*2); ctx.fill();
+    ctx.fillStyle='#3a2818'; ctx.fillRect(tx-2,TERM.y+TERM.h+32,4,8); });
+
+  const road=ctx.createLinearGradient(0,ROAD_Y-16,0,H); road.addColorStop(0,'#23262c'); road.addColorStop(1,'#191b20');
+  ctx.fillStyle=road; ctx.fillRect(0,ROAD_Y-16,W,H-(ROAD_Y-16));
+  ctx.fillStyle='rgba(245,210,90,0.55)'; for(let x=0;x<W;x+=52) ctx.fillRect(x,ROAD_Y-1,28,2.5);
+  ctx.fillStyle='#2f333a'; ctx.fillRect(0,ROAD_Y-20,W,4);
+}
+
+function drawTerminal(){
+  ctx.fillStyle='rgba(0,0,0,0.25)'; ctx.beginPath(); ctx.roundRect(TERM.x-2,TERM.y+TERM.h-4,TERM.w+10,14,6); ctx.fill();
+  ctx.fillStyle='#2c3f6b'; ctx.beginPath(); ctx.roundRect(TERM.x-6,TERM.y-16,TERM.w+12,22,7); ctx.fill();
+  const tg=ctx.createLinearGradient(0,TERM.y,0,TERM.y+TERM.h); tg.addColorStop(0,'#243665'); tg.addColorStop(1,'#1a2750');
+  ctx.fillStyle=tg; ctx.beginPath(); ctx.roundRect(TERM.x,TERM.y,TERM.w,TERM.h,6); ctx.fill();
+  light(TERM.x+TERM.w/2,TERM.y+TERM.h/2,TERM.w*0.55,'rgba(120,170,235,0.10)',1);
+  for(let wx=TERM.x+12; wx<TERM.x+TERM.w-20; wx+=26){ const fl=0.12+0.10*((Math.sin(wx*0.7+T*0.01))*0.5+0.5);
+    ctx.fillStyle='rgba(150,205,255,'+fl+')'; ctx.fillRect(wx,TERM.y+8,18,18); }
+  const zones=[
+    {r:RETAIL,f:'rgba(176,125,36,0.32)',s:'rgba(230,179,90,0.85)'},
+    {r:FB,    f:'rgba(176,125,36,0.24)',s:'rgba(230,179,90,0.7)'},
+    {r:LOUNGE,f:'rgba(176,125,36,0.3)', s:'rgba(230,179,90,0.8)'},
+    {r:SECUR, f:'rgba(120,150,200,0.22)',s:'rgba(150,190,240,0.6)'},
+  ];
+  zones.forEach(z=>{ ctx.fillStyle=z.f; ctx.beginPath(); ctx.roundRect(z.r.x,z.r.y,z.r.w,z.r.h,4); ctx.fill();
+    ctx.strokeStyle=z.s; ctx.lineWidth=0.6; ctx.strokeRect(z.r.x,z.r.y,z.r.w,z.r.h);
+    ctx.fillStyle=z.s; ctx.font='600 9px Inter,sans-serif'; ctx.textAlign='center';
+    ctx.fillText(z.r.lbl,z.r.x+z.r.w/2,z.r.y+z.r.h/2+3); });
+  ctx.fillStyle='rgba(190,215,245,0.9)'; ctx.font='700 9px Inter,sans-serif'; ctx.textAlign='center';
+  ctx.fillText('TERMINAL',TERM.x+TERM.w-44,TERM.y-4);
+  GATE_X.forEach((gx,i)=>{ ctx.fillStyle='#3c5478'; ctx.fillRect(gx-9,TX_Y+14,18,30);
+    ctx.fillStyle='#6fa3cf'; ctx.font='8px Inter,sans-serif'; ctx.textAlign='center'; ctx.fillText('G'+(i+1),gx,TX_Y+38);
+    ctx.strokeStyle='#46618a'; ctx.lineWidth=3; ctx.beginPath(); ctx.moveTo(gx,TX_Y+44); ctx.lineTo(TERM.x+30+i*100,TERM.y); ctx.stroke(); });
+  ctx.fillStyle='#33486e'; ctx.fillRect(126,TERM.y+6,12,56);
+  ctx.fillStyle='#46618a'; ctx.beginPath(); ctx.roundRect(116,TERM.y-6,32,22,4); ctx.fill();
+  ctx.fillStyle='rgba(150,205,255,0.4)'; ctx.fillRect(120,TERM.y-2,24,12);
+  if(Math.floor(T/0.7)%2===0) light(132,TERM.y-9,5,'rgba(239,90,80,0.95)',0.9);
+  ctx.fillStyle='#9fb6cc'; ctx.font='7px Inter,sans-serif'; ctx.fillText('ATC',132,TERM.y+30);
+}
+
+function drawParking(){
+  ctx.fillStyle='rgba(0,0,0,0.22)'; ctx.beginPath(); ctx.roundRect(PARK.x-1,PARK.y+PARK.h-3,PARK.w+8,12,5); ctx.fill();
+  ctx.fillStyle='#1d242f'; ctx.beginPath(); ctx.roundRect(PARK.x,PARK.y,PARK.w,PARK.h,5); ctx.fill();
+  ctx.strokeStyle='rgba(230,179,90,0.5)'; ctx.lineWidth=0.7; ctx.strokeRect(PARK.x,PARK.y,PARK.w,PARK.h);
+  for(let row=0;row<5;row++) for(let col=0;col<4;col++){ const occ=((row*4+col)*37+Math.floor(T*0.02))%10>4;
+    ctx.fillStyle=occ?'rgba(230,179,90,0.3)':'rgba(70,80,100,0.4)'; ctx.fillRect(PARK.x+6+col*21,PARK.y+9+row*18,16,11); }
+  ctx.fillStyle='#e6b35a'; ctx.font='700 8px Inter,sans-serif'; ctx.textAlign='center'; ctx.fillText('CAR PARK',PARK.x+PARK.w/2,PARK.y-4);
+}
+function drawHotel(){
+  ctx.fillStyle='rgba(0,0,0,0.22)'; ctx.beginPath(); ctx.roundRect(HOTEL.x-1,HOTEL.y+HOTEL.h-3,HOTEL.w+8,11,5); ctx.fill();
+  ctx.fillStyle='#1b2937'; ctx.beginPath(); ctx.roundRect(HOTEL.x,HOTEL.y,HOTEL.w,HOTEL.h,4); ctx.fill();
+  ctx.strokeStyle='rgba(230,179,90,0.45)'; ctx.lineWidth=0.7; ctx.strokeRect(HOTEL.x,HOTEL.y,HOTEL.w,HOTEL.h);
+  for(let r=0;r<3;r++) for(let c=0;c<4;c++){ const on=(r+c+Math.floor(T*0.01))%3!==0;
+    ctx.fillStyle=on?'rgba(255,220,120,0.35)':'rgba(30,50,70,0.5)'; ctx.fillRect(HOTEL.x+6+c*17,HOTEL.y+6+r*17,12,12); }
+  ctx.fillStyle='#e6b35a'; ctx.font='700 8px Inter,sans-serif'; ctx.textAlign='center'; ctx.fillText('HOTEL',HOTEL.x+HOTEL.w/2,HOTEL.y-4);
+}
+
+function drawService(p){ const gx=GATE_X[p.gate], gy=TX_Y+2;
+  ctx.fillStyle='#7a8696'; ctx.fillRect(gx-23,gy+5,11,6);
+  ctx.strokeStyle='rgba(150,160,175,0.6)'; ctx.lineWidth=1; ctx.beginPath(); ctx.moveTo(gx-12,gy+7); ctx.lineTo(gx-4,gy+1); ctx.stroke();
+  ctx.fillStyle='#e0b020'; ctx.fillRect(gx+11,gy+5,6,4);
+  ctx.fillStyle='#3a4250'; ctx.fillRect(gx+18,gy+5,5,4); ctx.fillRect(gx+24,gy+5,5,4);
+}
+
+function drawPlane(p){
+  const s=p.sz;
+  ctx.save(); ctx.globalAlpha=0.24; ctx.fillStyle='#000';
+  ctx.beginPath(); ctx.ellipse(p.x+5,p.y+12,24*s,5*s,p.angle,0,Math.PI*2); ctx.fill(); ctx.restore();
+  ctx.save(); ctx.translate(p.x,p.y); ctx.rotate(p.angle);
+  ctx.fillStyle='#aebccd';
+  ctx.beginPath(); ctx.moveTo(3*s,2*s); ctx.lineTo(-3*s,2.5*s); ctx.lineTo(-13*s,17*s); ctx.lineTo(-6*s,17*s); ctx.lineTo(2*s,4*s); ctx.closePath(); ctx.fill();
+  ctx.beginPath(); ctx.moveTo(3*s,-2*s); ctx.lineTo(-3*s,-2.5*s); ctx.lineTo(-13*s,-17*s); ctx.lineTo(-6*s,-17*s); ctx.lineTo(2*s,-4*s); ctx.closePath(); ctx.fill();
+  ctx.fillStyle='#5b6a7d';
+  ctx.beginPath(); ctx.ellipse(-4*s,10*s,3.2*s,2*s,0,0,Math.PI*2); ctx.fill();
+  ctx.beginPath(); ctx.ellipse(-4*s,-10*s,3.2*s,2*s,0,0,Math.PI*2); ctx.fill();
+  ctx.fillStyle='#aebccd';
+  ctx.beginPath(); ctx.moveTo(-17*s,1*s); ctx.lineTo(-22*s,7*s); ctx.lineTo(-19*s,7*s); ctx.lineTo(-15*s,1.5*s); ctx.closePath(); ctx.fill();
+  ctx.beginPath(); ctx.moveTo(-17*s,-1*s); ctx.lineTo(-22*s,-7*s); ctx.lineTo(-19*s,-7*s); ctx.lineTo(-15*s,-1.5*s); ctx.closePath(); ctx.fill();
+  const fg=ctx.createLinearGradient(0,-6*s,0,6*s); fg.addColorStop(0,'#fbfdff'); fg.addColorStop(0.5,'#dde7f0'); fg.addColorStop(1,'#aebccd');
+  ctx.fillStyle=fg; ctx.beginPath();
+  ctx.moveTo(25*s,0); ctx.quadraticCurveTo(18*s,-5*s,6*s,-5.2*s); ctx.lineTo(-16*s,-2.6*s);
+  ctx.quadraticCurveTo(-23*s,-1.2*s,-24*s,0); ctx.quadraticCurveTo(-23*s,1.2*s,-16*s,2.6*s);
+  ctx.lineTo(6*s,5.2*s); ctx.quadraticCurveTo(18*s,5*s,25*s,0); ctx.closePath(); ctx.fill();
+  ctx.fillStyle=p.livery; ctx.beginPath(); ctx.moveTo(-13*s,0); ctx.lineTo(-22*s,-1.8*s); ctx.lineTo(-22*s,1.8*s); ctx.closePath(); ctx.fill();
+  ctx.fillStyle='#2b3e54'; ctx.beginPath(); ctx.ellipse(19*s,0,2.4*s,2.2*s,0,0,Math.PI*2); ctx.fill();
+  ctx.fillStyle='rgba(60,90,120,0.8)'; for(let i=0;i<9;i++) ctx.fillRect((12-i*3)*s,-0.9*s,1.5*s,1.8*s);
+  ctx.restore();
+  const ca=Math.cos(p.angle), sa=Math.sin(p.angle);
+  const wL={x:p.x+(-13*s)*ca-(-17*s)*sa,y:p.y+(-13*s)*sa+(-17*s)*ca};
+  const wR={x:p.x+(-13*s)*ca-(17*s)*sa,y:p.y+(-13*s)*sa+(17*s)*ca};
+  if(Math.sin(T*0.5+p.blink)>0.4){ light(wL.x,wL.y,3.5,'rgba(255,80,70,0.95)',0.9); light(wR.x,wR.y,3.5,'rgba(90,255,140,0.9)',0.9); }
+  if(Math.sin(T*0.9+p.blink)>0.8) light(p.x,p.y,4,'rgba(255,255,255,1)',1);
+  if(p.phase==='dep'){ light(p.x+(-20*s)*ca,p.y+(-20*s)*sa,8,'rgba(255,170,80,0.8)',0.7); }
+}
+
+function drawVeh(v){
+  const isBus=v.type==='bus'; const w=isBus?40:22,h=isBus?14:10;
+  ctx.save(); ctx.globalAlpha=0.3; ctx.fillStyle='#000'; ctx.beginPath(); ctx.ellipse(v.x,v.y+h/2+2,w/2,3,0,0,Math.PI*2); ctx.fill(); ctx.restore();
+  ctx.save(); ctx.translate(v.x,v.y);
+  const base=isBus?'#3f7bd0':v.type==='taxi'?'#e6c042':'#c44a3c';
+  ctx.fillStyle=base; ctx.beginPath(); ctx.roundRect(-w/2,-h/2,w,h,3); ctx.fill();
+  ctx.fillStyle='rgba(0,0,0,0.18)'; ctx.beginPath(); ctx.roundRect(-w/2,0,w,h/2,3); ctx.fill();
+  ctx.fillStyle='rgba(190,225,255,0.55)';
+  if(isBus){ for(let i=0;i<5;i++) ctx.fillRect(-w/2+4+i*7.4,-h/2+2,5,5); } else ctx.fillRect(-w/2+3,-h/2+2,8,h-5);
+  ctx.fillStyle='#111'; ctx.fillRect(-w/2+2,h/2-1,5,3); ctx.fillRect(w/2-7,h/2-1,5,3);
+  ctx.restore();
+  const dir=v.done?1:-1; // headlights lead direction of travel
+  light(v.x+dir*(w/2+2),v.y,7,'rgba(255,240,190,0.9)',0.55);
+  light(v.x-dir*(w/2+1),v.y,4,'rgba(255,70,60,0.9)',0.5);
+}
+
+function update(dt){
+  const fr=parseFloat(fR.value), rr=parseFloat(rR.value), sm=parseFloat(sea.value);
+  if(T-lastFlt>Math.max(50,360/fr)){ spawnPlane(); lastFlt=T; }
+  if(T-lastVeh>Math.max(22,150/rr)){ spawnVeh(); lastVeh=T; }
+
+  for(let i=planes.length-1;i>=0;i--){ const p=planes[i];
+    if(p.phase==='land'){ p.x+=dt*p.speed*1.6; p.y=lerp(RWY_Y-44,RWY_Y,Math.min(1,p.x/170));
+      if(p.x>GATE_X[p.gate]-10) p.phase='taxi';
+    } else if(p.phase==='taxi'){ p.x=lerp(p.x,GATE_X[p.gate],0.06); p.y=lerp(p.y,TX_Y,0.06);
+      if(Math.abs(p.x-GATE_X[p.gate])<3 && !p.dropped){ p.dropped=true; p.phase='gate'; p.dwell=rnd(170,320)/simSpd;
+        paxStock+=p.paxN;
+        spawnPax(GATE_X[p.gate],TX_Y+14,Math.max(3,Math.min(7,Math.round(p.paxN/28))),'arr');
+        moneys.push({x:p.x-6,y:TX_Y-6,label:'Landing fee',col:C.aero,life:1.7,vy:-1.1});
+        moneys.push({x:p.x+14,y:TX_Y-20,label:'Pax charge',col:C.aero,life:1.5,vy:-0.95}); }
+    } else if(p.phase==='gate'){ p.dwell-=dt; if(p.dwell<=0) p.phase='dep';
+    } else { p.x+=dt*p.speed*2.0; p.y-=dt*0.28; if(p.x>W+110) planes.splice(i,1); }
+    const dx=p.x-p.px, dy=p.y-p.py; if(Math.hypot(dx,dy)>0.06) p.angle=alerp(p.angle,Math.atan2(dy,dx),0.18);
+    p.px=p.x; p.py=p.y;
+  }
+
+  for(let i=vehs.length-1;i>=0;i--){ const v=vehs[i];
+    if(!v.arrived){ v.x-=dt*v.speed; const stopX=PARK.x-40+((v.paxN*37)%50-20);
+      if(v.x<stopX){ v.arrived=true; v.dwell=rnd(55,120)/simSpd; paxStock+=v.paxN;
+        spawnPax(v.x,ROAD_Y-14,v.type==='bus'?Math.min(6,Math.round(v.paxN/8)):2,'dep');
+        moneys.push({x:v.x,y:ROAD_Y-26,label:'Parking',col:C.comm,life:1.6,vy:-1.05});
+        if(Math.random()>0.5) moneys.push({x:v.x-20,y:ROAD_Y-40,label:'Retail',col:C.comm,life:1.4,vy:-0.9}); }
+    } else { v.dwell-=dt; if(v.dwell<=0) v.done=true; }
+    if(v.done){ v.x+=dt*v.speed*1.5; if(v.x>W+70) vehs.splice(i,1); }
+  }
+
+  // passengers — full bidirectional circulation
+  for(let i=pax.length-1;i>=0;i--){ const q=pax[i]; const tgt=q.path[q.stage];
+    if(tgt){ q.x=lerp(q.x,tgt.x,0.03*q.spd); q.y=lerp(q.y,tgt.y,0.03*q.spd);
+      if(q.a<1) q.a=Math.min(1,q.a+dt*0.06);
+      if(Math.abs(q.x-tgt.x)<5 && Math.abs(q.y-tgt.y)<5){
+        if(tgt.spend && !q.spent){ q.spent=true; moneys.push({x:q.x,y:q.y-4,label:tgt.zlbl,col:C.comm,life:1.2,vy:-0.7}); }
+        q.stage++; }
+    } else { q.a-=dt*0.05; if(q.a<=0){ pax.splice(i,1); continue; } }
+  }
+  for(let i=moneys.length-1;i>=0;i--){ const m=moneys[i]; m.y+=m.vy*dt; m.vy*=0.97; m.life-=dt*0.013; if(m.life<=0) moneys.splice(i,1); }
+
+  // terminal occupancy as a stock: inflow above, outflow drains over dwell time (Little's Law)
+  paxStock=Math.max(0, paxStock - paxStock/DWELL*dt);
+
+  // ---- finance ----
+  const mult=fr/6*sm, rm=rr/5*sm;
+  const nR=[4800*mult,2200*mult,600*mult,1100*mult,
+    1800*(0.6*mult+0.4*rm),1400*(0.55*mult+0.45*rm),2600*rm,900*mult*0.95,380*(0.5*mult+0.5*rm),440*(0.5*mult+0.5*rm)];
+  const nC=[2600*(0.7+0.3*mult),1900*(0.6*mult+0.4),1100*(0.5+0.5*mult),1500*(0.5+0.5*((mult+rm)/2)),
+    600*mult,500*(0.85+0.15*mult),700,400];
+  rSmooth=rSmooth.map((v,i)=>lerp(v,nR[i],0.06));
+  cSmooth=cSmooth.map((v,i)=>lerp(v,nC[i],0.06));
+
+  const totR=rSmooth.reduce((a,b)=>a+b,0), totC=cSmooth.reduce((a,b)=>a+b,0), totP=totR-totC;
+  const aeroTot=rSmooth.reduce((a,v,i)=>a+(STREAMS[i].aero?v:0),0), commTot=totR-aeroTot;
+  const paxRate=Math.max(1,fr*150*sm);
+  const revYr=totR*HRS_PER_YR, ebYr=totP*HRS_PER_YR, paxYr=paxRate*HRS_PER_YR, EV=ebYr*EV_MULT;
+  cumEB+=totP*dt/60; // bank EBITDA in real time
+
+  document.getElementById('kRev').textContent=money(revYr);
+  document.getElementById('kRevHr').textContent=money(totR);
+  document.getElementById('kEb').textContent=money(ebYr);
+  document.getElementById('kEb').style.color=totP>=0?'var(--aero)':'var(--cost)';
+  document.getElementById('kMargin').textContent=Math.round(totP/totR*100)+'%';
+  document.getElementById('kYield').textContent='£'+(totR/paxRate).toFixed(1);
+  document.getElementById('kPaxYr').textContent=num(paxYr);
+  document.getElementById('kThru').textContent=Math.round(paxRate).toLocaleString();
+  document.getElementById('sPax').textContent=Math.round(paxStock).toLocaleString();
+  document.getElementById('sBank').textContent=money(cumEB);
+  document.getElementById('sEV').textContent=money(EV);
+
+  const aPct=Math.round(aeroTot/totR*100);
+  document.getElementById('splitTot').textContent=money(revYr);
+  document.getElementById('segAero').style.width=aPct+'%';
+  document.getElementById('segComm').style.width=(100-aPct)+'%';
+  document.getElementById('segAero').textContent='Aero '+money(aeroTot*HRS_PER_YR)+' · '+aPct+'%';
+  document.getElementById('segComm').textContent='Commercial '+money(commTot*HRS_PER_YR)+' · '+(100-aPct)+'%';
+
+  document.getElementById('revSum').textContent=money(revYr)+' p.a.';
+  document.getElementById('costSum').textContent=money(totC*HRS_PER_YR)+' p.a.';
+  const maxR=Math.max(...rSmooth,1);
+  rSmooth.forEach((v,i)=>{ const b=document.getElementById('rb'+i),a=document.getElementById('ra'+i);
+    if(b) b.style.width=Math.round(v/maxR*100)+'%'; if(a) a.textContent=money(v*HRS_PER_YR); });
+  const maxC=Math.max(...cSmooth,1);
+  cSmooth.forEach((v,i)=>{ const b=document.getElementById('cb'+i),a=document.getElementById('ca'+i);
+    if(b) b.style.width=Math.round(v/maxC*100)+'%'; if(a) a.textContent=money(v*HRS_PER_YR); });
+
+  ebSample+=dt; if(ebSample>4){ ebSample=0; ebHist.push(ebYr); if(ebHist.length>90) ebHist.shift(); }
+}
+
+function drawHUD(){
+  const x=10,y=10,w=204,h=58; ctx.save();
+  ctx.fillStyle='rgba(10,20,34,0.62)'; ctx.beginPath(); ctx.roundRect(x,y,w,h,8); ctx.fill();
+  ctx.strokeStyle='rgba(255,255,255,0.08)'; ctx.lineWidth=1; ctx.stroke();
+  light(x+13,y+13,5,'rgba(55,192,142,1)',0.7);
+  ctx.fillStyle=C.aero; ctx.beginPath(); ctx.arc(x+13,y+13,3,0,Math.PI*2); ctx.fill();
+  ctx.fillStyle='#cfe0ea'; ctx.font='700 9px Inter,sans-serif'; ctx.textAlign='left'; ctx.fillText('OPERATIONS — LIVE',x+23,y+16);
+  ctx.fillStyle='rgba(170,190,205,0.85)'; ctx.font='9px Inter,sans-serif';
+  ctx.fillText(fltCount+' flights  ·  '+Math.round(paxStock).toLocaleString()+' pax in terminal',x+12,y+30);
+  if(ebHist.length>2){ const sx=x+12,sy=y+38,sw=w-24,sh=14;
+    const mn=Math.min(...ebHist),mx=Math.max(...ebHist),rng=Math.max(1,mx-mn);
+    ctx.beginPath(); ebHist.forEach((v,i)=>{ const px=sx+i/(ebHist.length-1)*sw, py=sy+sh-(v-mn)/rng*sh; i===0?ctx.moveTo(px,py):ctx.lineTo(px,py); });
+    ctx.strokeStyle=C.aero; ctx.lineWidth=1.5; ctx.stroke();
+    ctx.lineTo(sx+sw,sy+sh); ctx.lineTo(sx,sy+sh); ctx.closePath(); ctx.fillStyle='rgba(55,192,142,0.16)'; ctx.fill();
+    ctx.fillStyle='#9fe0c4'; ctx.font='700 9px Inter,sans-serif'; ctx.textAlign='right';
+    ctx.fillText('EBITDA '+money(ebHist[ebHist.length-1])+'/yr',x+w-12,y+34); }
+  ctx.restore();
+}
+
+function draw(){
+  ctx.clearRect(0,0,W,H); drawScene(); drawHotel(); drawParking(); drawTerminal();
+  planes.forEach(p=>{ if(p.phase==='gate') drawService(p); });
+  planes.forEach(drawPlane); vehs.forEach(drawVeh);
+  pax.forEach(q=>{ ctx.save(); ctx.globalAlpha=Math.max(0,q.a); ctx.fillStyle=q.col;
+    ctx.beginPath(); ctx.arc(q.x,q.y,q.r,0,Math.PI*2); ctx.fill();
+    ctx.beginPath(); ctx.arc(q.x,q.y-q.r*1.5,q.r*0.62,0,Math.PI*2); ctx.fill(); ctx.restore(); });
+  moneys.forEach(m=>{ const a=Math.max(0,Math.min(1,m.life*0.8)); ctx.save(); ctx.globalAlpha=a;
+    ctx.font='700 9px Inter,sans-serif'; ctx.textAlign='left'; const tw=ctx.measureText('£ '+m.label).width;
+    ctx.fillStyle='rgba(8,16,30,0.55)'; ctx.beginPath(); ctx.roundRect(m.x-4,m.y-9,tw+10,13,6); ctx.fill();
+    ctx.fillStyle=m.col; ctx.fillText('£ '+m.label,m.x+1,m.y+1); ctx.restore(); });
+  drawHUD();
+  ctx.save(); const vg=ctx.createRadialGradient(W/2,H/2,H*0.4,W/2,H/2,H*0.95);
+  vg.addColorStop(0,'rgba(0,0,0,0)'); vg.addColorStop(1,'rgba(0,0,0,0.28)'); ctx.fillStyle=vg; ctx.fillRect(0,0,W,H); ctx.restore();
+}
+
+let lastTs=null;
+function loop(ts){ if(!lastTs) lastTs=ts; const dt=Math.min((ts-lastTs)/16.67,3)*simSpd; lastTs=ts; T+=dt; update(dt); draw(); requestAnimationFrame(loop); }
+requestAnimationFrame(loop);
+})();
+</script>
 
   </div>
 </section>
