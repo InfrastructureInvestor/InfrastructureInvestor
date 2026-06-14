@@ -42,12 +42,13 @@
 
 #airsim .as-stage{position:relative;border-radius:14px;overflow:hidden;border:1px solid var(--border);box-shadow:0 12px 34px rgba(18,38,32,.10)}
 #airsim canvas{display:block;width:100%;aspect-ratio:720/360}
-#airsim .as-mini{position:fixed;right:18px;bottom:18px;width:248px;aspect-ratio:720/360;border-radius:11px;overflow:hidden;border:1px solid rgba(255,255,255,.14);box-shadow:0 12px 32px rgba(8,16,30,.4);opacity:0;transform:translateY(10px) scale(.98);pointer-events:none;transition:opacity .28s ease,transform .28s ease;z-index:70;cursor:pointer}
+#airsim .as-mini{position:fixed;right:20px;bottom:20px;width:clamp(300px,34vw,440px);aspect-ratio:720/360;border-radius:12px;overflow:hidden;border:1px solid rgba(255,255,255,.16);box-shadow:0 16px 40px rgba(8,16,30,.45);opacity:0;transform:translateY(12px) scale(.97);pointer-events:none;transition:opacity .28s ease,transform .28s ease;z-index:70;cursor:pointer}
 #airsim .as-mini.show{opacity:1;transform:none;pointer-events:auto}
+#airsim .as-mini:hover{border-color:rgba(55,192,142,.55)}
 #airsim .as-mini canvas{display:block;width:100%;height:100%;aspect-ratio:auto}
-#airsim .as-mini-tag{position:absolute;left:8px;top:7px;font-size:.56rem;font-weight:700;letter-spacing:.1em;color:#cfe0ea;background:rgba(10,20,34,.6);padding:2px 7px;border-radius:5px;display:flex;align-items:center;gap:5px}
+#airsim .as-mini-tag{position:absolute;left:9px;top:8px;font-size:.6rem;font-weight:700;letter-spacing:.1em;color:#cfe0ea;background:rgba(10,20,34,.62);padding:3px 8px;border-radius:6px;display:flex;align-items:center;gap:5px}
 #airsim .as-mini-tag::before{content:'';width:6px;height:6px;border-radius:50%;background:#37c08e;box-shadow:0 0 6px #37c08e}
-@media(max-width:560px){ #airsim .as-mini{width:168px;right:10px;bottom:10px} }
+@media(max-width:560px){ #airsim .as-mini{width:min(66vw,260px);right:10px;bottom:10px} }
 
 #airsim .as-legend{display:flex;gap:1.1rem;flex-wrap:wrap;margin:.7rem 0 .2rem}
 #airsim .leg{display:flex;align-items:center;gap:.4rem;font-size:.72rem;color:var(--text2)}
@@ -741,7 +742,7 @@ function draw(){
 const stageEl=document.querySelector('#airsim .as-stage');
 const miniEl=document.getElementById('asMini');
 const cvm=document.getElementById('cvMini'), mctx=cvm.getContext('2d');
-const MW=248, MH=124, MDPR=Math.max(2,Math.min(3,window.devicePixelRatio||1));
+const MW=440, MH=220, MDPR=Math.max(2,Math.min(3,window.devicePixelRatio||1));
 cvm.width=MW*MDPR; cvm.height=MH*MDPR; mctx.setTransform(MDPR,0,0,MDPR,0,0);
 let miniOn=false;
 if(miniEl){
