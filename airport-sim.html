@@ -42,6 +42,12 @@
 
 #airsim .as-stage{position:relative;border-radius:14px;overflow:hidden;border:1px solid var(--border);box-shadow:0 12px 34px rgba(18,38,32,.10)}
 #airsim canvas{display:block;width:100%;aspect-ratio:720/360}
+#airsim .as-mini{position:fixed;right:18px;bottom:18px;width:248px;aspect-ratio:720/360;border-radius:11px;overflow:hidden;border:1px solid rgba(255,255,255,.14);box-shadow:0 12px 32px rgba(8,16,30,.4);opacity:0;transform:translateY(10px) scale(.98);pointer-events:none;transition:opacity .28s ease,transform .28s ease;z-index:70;cursor:pointer}
+#airsim .as-mini.show{opacity:1;transform:none;pointer-events:auto}
+#airsim .as-mini canvas{display:block;width:100%;height:100%;aspect-ratio:auto}
+#airsim .as-mini-tag{position:absolute;left:8px;top:7px;font-size:.56rem;font-weight:700;letter-spacing:.1em;color:#cfe0ea;background:rgba(10,20,34,.6);padding:2px 7px;border-radius:5px;display:flex;align-items:center;gap:5px}
+#airsim .as-mini-tag::before{content:'';width:6px;height:6px;border-radius:50%;background:#37c08e;box-shadow:0 0 6px #37c08e}
+@media(max-width:560px){ #airsim .as-mini{width:168px;right:10px;bottom:10px} }
 
 #airsim .as-legend{display:flex;gap:1.1rem;flex-wrap:wrap;margin:.7rem 0 .2rem}
 #airsim .leg{display:flex;align-items:center;gap:.4rem;font-size:.72rem;color:var(--text2)}
@@ -165,24 +171,21 @@
   </div>
 
   <div class="as-ctrls">
-    <div class="ctrl"><label>Flights / hr</label><input type="range" id="fR" min="1" max="14" value="6" step="1"><span class="val" id="fV">6</span></div>
+    <div class="ctrl"><label>Annual passengers</label><input type="range" id="dPax" min="2" max="30" value="6" step="1"><span class="val" id="paxV">6m</span></div>
     <div class="as-divider"></div>
-    <div class="ctrl"><label>Surface traffic</label><input type="range" id="rR" min="1" max="10" value="5" step="1"><span class="val" id="rV">5</span></div>
+    <div class="ctrl"><label>Commercial £/pax</label><input type="range" id="dComm" min="3" max="25" value="8" step="1"><span class="val" id="commV">£8</span></div>
     <div class="as-divider"></div>
-    <div class="ctrl"><label>Season</label>
-      <select id="sea">
-        <option value="1">Normal</option>
-        <option value="1.65">Peak summer</option>
-        <option value="1.4">Christmas</option>
-        <option value="0.5">Off-peak</option>
-      </select>
-    </div>
+    <div class="ctrl"><label>Aero charge £/pax</label><input type="range" id="dAero" min="4" max="22" value="10" step="1"><span class="val" id="aeroV">£10</span></div>
     <div class="spd">
       <button class="on" id="b1">1×</button><button id="b2">2×</button><button id="b4">4×</button>
     </div>
   </div>
 
   <div class="as-stage"><canvas id="cv"></canvas></div>
+
+  <div class="as-mini" id="asMini" title="Back to the simulation">
+    <canvas id="cvMini"></canvas><span class="as-mini-tag">LIVE</span>
+  </div>
 
   <div class="as-legend">
     <span class="leg"><span class="dot" style="background:#37c08e"></span><b>Departing pax</b>&nbsp;car&nbsp;→&nbsp;shops&nbsp;→&nbsp;gate</span>
@@ -326,11 +329,11 @@ buildRows();
 let simSpd=1;
 ['b1','b2','b4'].forEach(id=>{ document.getElementById(id).onclick=()=>{ simSpd=parseInt(id.slice(1));
   ['b1','b2','b4'].forEach(i=>document.getElementById(i).classList.toggle('on',i===id)); }; });
-const fR=document.getElementById('fR'), rR=document.getElementById('rR'), sea=document.getElementById('sea');
+const dPax=document.getElementById('dPax'), dComm=document.getElementById('dComm'), dAero=document.getElementById('dAero');
 function pulse(){ document.querySelectorAll('#airsim .kpi,#airsim .stock').forEach(e=>{ e.classList.remove('pulse'); void e.offsetWidth; e.classList.add('pulse'); }); }
-fR.oninput=()=>{ document.getElementById('fV').textContent=fR.value; pulse(); };
-rR.oninput=()=>{ document.getElementById('rV').textContent=rR.value; pulse(); };
-sea.onchange=pulse;
+dPax.oninput=()=>{ document.getElementById('paxV').textContent=dPax.value+'m'; pulse(); };
+dComm.oninput=()=>{ document.getElementById('commV').textContent='£'+dComm.value; pulse(); };
+dAero.oninput=()=>{ document.getElementById('aeroV').textContent='£'+dAero.value; pulse(); };
 
 // ---------- investment calculator (DCF / LBO) ----------
 function gv(id){ const v=parseFloat(document.getElementById(id).value); return isFinite(v)?v:0; }
@@ -415,17 +418,18 @@ const GATE_X=[210,300,390,480], ROAD_Y=330;
 
 const planes=[],vehs=[],pax=[],moneys=[];
 let T=0,lastFlt=0,lastVeh=0,fltCount=0,paxStock=0,cumEB=0;
-let baseRevYr=0,baseCostYr=0,baseEbYr=0,cTick=0;
+let baseRevYr=0,baseCostYr=0,baseEbYr=0,cTick=0,spendProb=0.6;
+const PAX0=6e6/HRS_PER_YR; // base throughput (pax/hr) at default volume
 const ebHist=[]; let ebSample=0;
 const LIVERY=['#e0584e','#3a7bd0','#e6b35a','#8a7fe0','#37c08e','#d97bb0'];
 function rnd(a,b){return a+Math.random()*(b-a);} function lerp(a,b,t){return a+(b-a)*t;}
 function alerp(a,b,t){ let d=((b-a+Math.PI)%(2*Math.PI))-Math.PI; return a+d*t; }
 
 function spawnPlane(){
-  const fr=parseFloat(fR.value); fltCount++;
+  fltCount++;
   planes.push({x:-90,y:RWY_Y-44,px:-90,py:RWY_Y-44,angle:0,gate:Math.floor(Math.random()*4),
     phase:'land',speed:rnd(1.3,2.0),sz:rnd(0.95,1.15),
-    paxN:Math.max(40,Math.floor(rnd(90,210)*fr/6)),dropped:false,dwell:0,
+    paxN:Math.floor(rnd(110,190)),dropped:false,dwell:0,
     livery:LIVERY[Math.floor(Math.random()*LIVERY.length)],blink:Math.random()*6});
 }
 function spawnVeh(){
@@ -436,11 +440,11 @@ function spawnVeh(){
 function pickZone(){ const r=Math.random(); return r<0.42?RETAIL:r<0.74?FB:LOUNGE; }
 function spawnPax(sx,sy,n,dir){
   for(let k=0;k<n;k++){
-    if(pax.length>150) break;
+    if(pax.length>240) break;
     let path,col;
     if(dir==='dep'){
       const z=pickZone(); const gx=GATE_X[Math.floor(Math.random()*4)];
-      path=[{x:z.x+rnd(8,z.w-8),y:z.y+rnd(6,z.h-6),spend:Math.random()<0.65,zlbl:z.lbl},{x:gx+rnd(-6,6),y:TX_Y+12}];
+      path=[{x:z.x+rnd(8,z.w-8),y:z.y+rnd(6,z.h-6),spend:Math.random()<spendProb,zlbl:z.lbl},{x:gx+rnd(-6,6),y:TX_Y+12}];
       col=C.paxDep;
     } else {
       path=[{x:TERM.x+rnd(34,TERM.w-34),y:TERM.y+rnd(22,TERM.h-22)},{x:rnd(130,560),y:ROAD_Y-14}];
@@ -603,17 +607,21 @@ function drawVeh(v){
 }
 
 function update(dt){
-  const fr=parseFloat(fR.value), rr=parseFloat(rR.value), sm=parseFloat(sea.value);
-  if(T-lastFlt>Math.max(50,360/fr)){ spawnPlane(); lastFlt=T; }
-  if(T-lastVeh>Math.max(22,150/rr)){ spawnVeh(); lastVeh=T; }
+  const mppa=parseFloat(dPax.value), commPP=parseFloat(dComm.value), aeroPP=parseFloat(dAero.value);
+  const paxRate=Math.max(1, mppa*1e6/HRS_PER_YR);     // passengers per hour
+  const fr=Math.max(1, paxRate/150);                  // flights/hr derived from demand
+  const rr=Math.max(1, Math.min(16, paxRate/150));    // surface-vehicle intensity
+  const volF=Math.min(4, paxRate/PAX0);               // crowd-density factor vs base
+  spendProb=Math.max(0.18, Math.min(0.96, commPP/16));// higher spend/pax -> more shoppers
+  if(T-lastFlt>Math.max(26,360/fr)){ spawnPlane(); lastFlt=T; }
+  if(T-lastVeh>Math.max(10,150/rr)){ spawnVeh(); lastVeh=T; }
 
   for(let i=planes.length-1;i>=0;i--){ const p=planes[i];
     if(p.phase==='land'){ p.x+=dt*p.speed*1.6; p.y=lerp(RWY_Y-44,RWY_Y,Math.min(1,p.x/170));
       if(p.x>GATE_X[p.gate]-10) p.phase='taxi';
     } else if(p.phase==='taxi'){ p.x=lerp(p.x,GATE_X[p.gate],0.06); p.y=lerp(p.y,TX_Y,0.06);
       if(Math.abs(p.x-GATE_X[p.gate])<3 && !p.dropped){ p.dropped=true; p.phase='gate'; p.dwell=rnd(170,320)/simSpd;
-        paxStock+=p.paxN;
-        spawnPax(GATE_X[p.gate],TX_Y+14,Math.max(3,Math.min(7,Math.round(p.paxN/28))),'arr');
+        spawnPax(GATE_X[p.gate],TX_Y+14,Math.max(3,Math.min(10,Math.round(5*volF))),'arr');
         moneys.push({x:p.x-6,y:TX_Y-6,label:'Landing fee',col:C.aero,life:1.7,vy:-1.1});
         moneys.push({x:p.x+14,y:TX_Y-20,label:'Pax charge',col:C.aero,life:1.5,vy:-0.95}); }
     } else if(p.phase==='gate'){ p.dwell-=dt; if(p.dwell<=0) p.phase='dep';
@@ -624,8 +632,8 @@ function update(dt){
 
   for(let i=vehs.length-1;i>=0;i--){ const v=vehs[i];
     if(!v.arrived){ v.x-=dt*v.speed; const stopX=PARK.x-40+((v.paxN*37)%50-20);
-      if(v.x<stopX){ v.arrived=true; v.dwell=rnd(55,120)/simSpd; paxStock+=v.paxN;
-        spawnPax(v.x,ROAD_Y-14,v.type==='bus'?Math.min(6,Math.round(v.paxN/8)):2,'dep');
+      if(v.x<stopX){ v.arrived=true; v.dwell=rnd(55,120)/simSpd;
+        spawnPax(v.x,ROAD_Y-14,v.type==='bus'?Math.min(9,Math.round(4*volF)):Math.max(2,Math.round(2*volF)),'dep');
         moneys.push({x:v.x,y:ROAD_Y-26,label:'Parking',col:C.comm,life:1.6,vy:-1.05});
         if(Math.random()>0.5) moneys.push({x:v.x-20,y:ROAD_Y-40,label:'Retail',col:C.comm,life:1.4,vy:-0.9}); }
     } else { v.dwell-=dt; if(v.dwell<=0) v.done=true; }
@@ -643,21 +651,22 @@ function update(dt){
   }
   for(let i=moneys.length-1;i>=0;i--){ const m=moneys[i]; m.y+=m.vy*dt; m.vy*=0.97; m.life-=dt*0.013; if(m.life<=0) moneys.splice(i,1); }
 
-  // terminal occupancy as a stock: inflow above, outflow drains over dwell time (Little's Law)
-  paxStock=Math.max(0, paxStock - paxStock/DWELL*dt);
+  // terminal occupancy (a stock) = throughput × average dwell — tracks the volume lever
+  const occTarget=paxRate*0.66;
+  paxStock+=(occTarget-paxStock)*Math.min(1,0.02*dt);
 
-  // ---- finance ----
-  const mult=fr/6*sm, rm=rr/5*sm;
-  const nR=[4800*mult,2200*mult,600*mult,1100*mult,
-    1800*(0.6*mult+0.4*rm),1400*(0.55*mult+0.45*rm),2600*rm,900*mult*0.95,380*(0.5*mult+0.5*rm),440*(0.5*mult+0.5*rm)];
-  const nC=[2600*(0.7+0.3*mult),1900*(0.6*mult+0.4),1100*(0.5+0.5*mult),1500*(0.5+0.5*((mult+rm)/2)),
-    600*mult,500*(0.85+0.15*mult),700,400];
+  // ---- finance: revenue = passengers × yield (aero charge + commercial spend) ----
+  const aeroRev=paxRate*aeroPP, commRev=paxRate*commPP;   // £/hr by till
+  const aeroSum=8700, commSum=7520;                       // base weights for sub-streams
+  const nR=[aeroRev*4800/aeroSum, aeroRev*2200/aeroSum, aeroRev*600/aeroSum, aeroRev*1100/aeroSum,
+    commRev*1800/commSum, commRev*1400/commSum, commRev*2600/commSum, commRev*900/commSum, commRev*380/commSum, commRev*440/commSum];
+  const a=paxRate/PAX0;                                   // activity vs base
+  const nC=COSTS.map(c=> c.cls==='fix'? c.base : c.cls==='var'? c.base*a : c.base*(0.5+0.5*a));
   rSmooth=rSmooth.map((v,i)=>lerp(v,nR[i],0.06));
   cSmooth=cSmooth.map((v,i)=>lerp(v,nC[i],0.06));
 
   const totR=rSmooth.reduce((a,b)=>a+b,0), totC=cSmooth.reduce((a,b)=>a+b,0), totP=totR-totC;
-  const aeroTot=rSmooth.reduce((a,v,i)=>a+(STREAMS[i].aero?v:0),0), commTot=totR-aeroTot;
-  const paxRate=Math.max(1,fr*150*sm);
+  const aeroTot=rSmooth.reduce((s,v,i)=>s+(STREAMS[i].aero?v:0),0), commTot=totR-aeroTot;
   const revYr=totR*HRS_PER_YR, ebYr=totP*HRS_PER_YR, paxYr=paxRate*HRS_PER_YR, EV=ebYr*EV_MULT;
   baseRevYr=revYr; baseCostYr=totC*HRS_PER_YR; baseEbYr=ebYr;
   cumEB+=totP*dt/60; // bank EBITDA in real time
@@ -728,8 +737,29 @@ function draw(){
   vg.addColorStop(0,'rgba(0,0,0,0)'); vg.addColorStop(1,'rgba(0,0,0,0.28)'); ctx.fillStyle=vg; ctx.fillRect(0,0,W,H); ctx.restore();
 }
 
+// ---- floating mini-simulation (picture-in-picture) that follows on scroll ----
+const stageEl=document.querySelector('#airsim .as-stage');
+const miniEl=document.getElementById('asMini');
+const cvm=document.getElementById('cvMini'), mctx=cvm.getContext('2d');
+const MW=248, MH=124, MDPR=Math.max(2,Math.min(3,window.devicePixelRatio||1));
+cvm.width=MW*MDPR; cvm.height=MH*MDPR; mctx.setTransform(MDPR,0,0,MDPR,0,0);
+let miniOn=false;
+if(miniEl){
+  miniEl.addEventListener('click',()=>{ (stageEl||miniEl).scrollIntoView({behavior:'smooth',block:'center'}); });
+  if('IntersectionObserver' in window && stageEl){
+    new IntersectionObserver(es=>{ es.forEach(e=>{ miniOn=!e.isIntersecting; miniEl.classList.toggle('show',miniOn); }); },
+      {threshold:0, rootMargin:'-72px 0px -10% 0px'}).observe(stageEl);
+  }
+}
+
 let lastTs=null;
-function loop(ts){ if(!lastTs) lastTs=ts; const dt=Math.min((ts-lastTs)/16.67,3)*simSpd; lastTs=ts; T+=dt; update(dt); draw(); if((cTick=(cTick+1)%12)===0) renderModel(); requestAnimationFrame(loop); }
+function loop(ts){
+  if(!lastTs) lastTs=ts; const dt=Math.min((ts-lastTs)/16.67,3)*simSpd; lastTs=ts; T+=dt;
+  update(dt); draw();
+  if(miniOn){ mctx.clearRect(0,0,MW,MH); mctx.drawImage(cv,0,0,MW,MH); }
+  if((cTick=(cTick+1)%12)===0) renderModel();
+  requestAnimationFrame(loop);
+}
 requestAnimationFrame(loop);
 })();
 </script>
