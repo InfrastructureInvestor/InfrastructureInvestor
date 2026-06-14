@@ -389,11 +389,13 @@ function renderModel(){
   .forEach(id=>document.getElementById(id).addEventListener('input',renderModel));
 
 // ---------- scene geometry ----------
-const SEA_TOP=38, SEA_BOT=150, LANE_Y=104;     // ship lane
-const QUAY_TOP=150, QUAY_BOT=178;
-const YARD_TOP=178, YARD_BOT=300;
-const ROAD_Y=332, RAIL_Y=292;
-const BERTH_X=[175,360,545];
+const SEA_TOP=38, SEA_BOT=148, LANE_Y=100;     // ship lane
+const QUAY_TOP=148, QUAY_BOT=176;
+const YARD_TOP=176, YARD_BOT=300;
+const ROAD_Y=334, RAIL_Y=288;
+const BERTH_X=[170,360,550];
+const NS=20, X0=28, COLW=(W-56)/NS, BW=Math.min(COLW-3,16), BH=6, MAXROW=8, STK_BASE=RAIL_Y-10;
+const TRK_STOP=108;                             // trucks load here then exit left through the gate
 
 // ---------- entities ----------
 const ships=[], trucks=[], boxes=[], moneys=[];
@@ -401,26 +403,27 @@ let T=0,lastShip=0,lastTruck=0,shipCount=0,yardTEU=0,cumEB=0,cTick=0,boxProb=0.5
 let baseRevYr=0,baseCostYr=0,baseEbYr=0;
 const TEU0=2e6/HRS_PER_YR;
 const berthShip=[null,null,null];
+const cranes=[{ph:0,prev:0,col:'#d98b3a'},{ph:0,prev:0,col:'#3f86c0'},{ph:0,prev:0,col:'#4f9e7a'}];
 let train={x:-260,state:'idle',timer:0,dwell:0};
 function rnd(a,b){return a+Math.random()*(b-a);} function lerp(a,b,t){return a+(b-a)*t;}
 function rcol(){ return BOX[Math.floor(Math.random()*BOX.length)]; }
+function yardSlot(){ return {x:X0+rnd(2,W-58), y:rnd(STK_BASE-MAXROW*BH+4,STK_BASE-6)}; }
 
 function freeBerth(){ for(let i=0;i<3;i++) if(!berthShip[i]) return i; return -1; }
 function spawnShip(){
-  const b=freeBerth(); if(b<0) return;
-  shipCount++; berthShip[b]={};
-  ships.push({x:-170,y:LANE_Y,berth:b,phase:'in',speed:rnd(1.0,1.5),sz:rnd(0.9,1.15),
-    dwell:0,worked:false,bob:Math.random()*6,col:rcol(),col2:rcol()});
+  const b=freeBerth(); if(b<0) return; shipCount++;
+  const s={x:-185,y:LANE_Y,berth:b,phase:'in',speed:rnd(1.0,1.5),sz:rnd(0.95,1.18),dwell:0,worked:false,bob:Math.random()*6,col:rcol()};
+  ships.push(s); berthShip[b]=s;
 }
 function spawnTruck(){
-  trucks.push({x:W+50,y:ROAD_Y+rnd(-4,4),speed:rnd(1.9,2.9),arrived:false,dwell:0,done:false,
-    laden:Math.random()<0.5,col:rcol()});
+  trucks.push({x:W+50,y:ROAD_Y+rnd(-4,4),speed:rnd(1.9,2.9),arrived:false,dwell:0,done:false,laden:false,col:rcol()});
 }
-function spawnBox(sx,sy){
-  if(boxes.length>240) return;
-  boxes.push({x:sx,y:sy,tx:rnd(40,W-40),ty:rnd(YARD_TOP+12,YARD_BOT-10),
-    r:rnd(2.6,3.4),a:0,spd:rnd(0.5,1.0),col:rcol(),spent:false});
-}
+// container flowing FROM ship INTO the yard (crane drop)
+function addInBox(bx){ if(boxes.length>200) return; const t=yardSlot();
+  boxes.push({kind:'in',x:bx,y:YARD_TOP+8,tx:t.x,ty:t.y,a:1,spd:rnd(0.8,1.3),col:rcol()}); }
+// container leaving the yard onto a truck/train
+function addOutBox(tx,ty,truck){ if(boxes.length>200) return; const f=yardSlot();
+  boxes.push({kind:'out',x:f.x,y:f.y,tx,ty,a:1,spd:rnd(0.9,1.4),col:rcol(),truck:truck||null}); }
 
 function light(x,y,r,col,a){ ctx.save(); ctx.globalAlpha=a;
   const g=ctx.createRadialGradient(x,y,0,x,y,r); g.addColorStop(0,col); g.addColorStop(1,'rgba(0,0,0,0)');
@@ -465,40 +468,39 @@ function drawScene(){
 }
 
 function drawYard(){
-  // stacked containers; fill fraction scales with occupancy (maps to throughput lever)
-  const frac=Math.max(0.04,Math.min(1,yardTEU/YARD_MAX));
-  const cols=38, rows=5, cw=W/cols, rh=(RAIL_Y-8-YARD_TOP-6)/rows;
-  let idx=0; const total=cols*rows; const filled=Math.floor(total*frac);
-  for(let r=0;r<rows;r++) for(let c=0;c<cols;c++){
-    const x=c*cw+1.5, y=YARD_TOP+6+r*rh;
-    if(idx<filled){ const h=(((c*7+r*13)%100)/100); const col=BOX[(c+r*3)%BOX.length];
-      ctx.fillStyle=col; ctx.globalAlpha=0.82; ctx.fillRect(x,y,cw-2.4,rh-2.2);
-      ctx.globalAlpha=0.16; ctx.fillStyle='#fff'; ctx.fillRect(x,y,cw-2.4,1.6);
-      ctx.globalAlpha=0.22; ctx.fillStyle='#000'; ctx.fillRect(x,y+rh-3.2,cw-2.4,1.4);
-      ctx.globalAlpha=1;
-    } else { ctx.fillStyle='rgba(70,80,95,0.18)'; ctx.fillRect(x,y,cw-2.4,rh-2.2); }
-    idx++;
+  // discrete container stacks — height scales with yard occupancy (the stock); maps to the volume lever
+  const target=Math.round(Math.max(0.03,Math.min(1,yardTEU/YARD_MAX))*NS*MAXROW);
+  const base=Math.floor(target/NS), rem=target%NS;
+  for(let i=0;i<NS;i++){ const x=X0+i*COLW;
+    let h=Math.min(MAXROW, base+((i*7)%NS<rem?1:0));
+    ctx.fillStyle='rgba(70,80,95,0.13)'; ctx.fillRect(x,STK_BASE-MAXROW*BH,BW,MAXROW*BH-1); // slot guide
+    for(let r=0;r<h;r++){ const y=STK_BASE-(r+1)*BH;
+      ctx.fillStyle=BOX[(i*3+r)%BOX.length]; ctx.globalAlpha=0.9; ctx.fillRect(x,y,BW,BH-1);
+      ctx.globalAlpha=0.18; ctx.fillStyle='#fff'; ctx.fillRect(x,y,BW,1.2);
+      ctx.globalAlpha=0.22; ctx.fillStyle='#000'; ctx.fillRect(x,y+BH-2,BW,1.1); ctx.globalAlpha=1; }
   }
 }
 
-function drawCrane(bx,active){
-  // top-down stylised STS gantry: portal on quay, boom over ship, trolley
-  ctx.strokeStyle='#9aa6b4'; ctx.lineWidth=2.4;
-  ctx.beginPath(); ctx.moveTo(bx-26,QUAY_TOP+6); ctx.lineTo(bx-26,YARD_TOP+8); ctx.stroke();
-  ctx.beginPath(); ctx.moveTo(bx+26,QUAY_TOP+6); ctx.lineTo(bx+26,YARD_TOP+8); ctx.stroke();
-  // boom reaching seaward over the ship
-  ctx.strokeStyle='#b6c2d0'; ctx.lineWidth=3;
-  ctx.beginPath(); ctx.moveTo(bx,YARD_TOP+8); ctx.lineTo(bx,LANE_Y-18); ctx.stroke();
-  ctx.fillStyle='#8593a3'; ctx.fillRect(bx-30,QUAY_TOP+4,60,5);
-  // trolley
-  let ty;
-  if(active){ const ph=(Math.sin(T*0.05+bx)*0.5+0.5); ty=lerp(LANE_Y+2,YARD_TOP+14,ph);
-    ctx.fillStyle='#cfd8e2'; ctx.fillRect(bx-5,ty-4,10,8);
-    // hanging container when over yard side
-    if(ph>0.45){ ctx.fillStyle=rcolStable(bx); ctx.fillRect(bx-5,ty+6,10,7); }
-  } else { ty=QUAY_TOP+2; ctx.fillStyle='#8593a3'; ctx.fillRect(bx-5,ty-3,10,7); }
+function drawCrane(i){
+  // ship-to-shore gantry: legs on the quay, boom over the ship, a trolley that lifts each box ashore
+  const bx=BERTH_X[i], c=cranes[i];
+  const active=berthShip[i] && berthShip[i].phase==='berth';
+  const yTop=LANE_Y+2, yBot=YARD_TOP+8, carry=c.ph<0.5;
+  const ty=active ? (carry?lerp(yTop,yBot,c.ph*2):lerp(yBot,yTop,(c.ph-0.5)*2)) : QUAY_TOP+2;
+  ctx.save(); ctx.globalAlpha=active?1:0.55;
+  ctx.strokeStyle='#8c98a6'; ctx.lineWidth=2.2;
+  ctx.beginPath(); ctx.moveTo(bx-24,QUAY_TOP+4); ctx.lineTo(bx-24,YARD_TOP+10); ctx.stroke();
+  ctx.beginPath(); ctx.moveTo(bx+24,QUAY_TOP+4); ctx.lineTo(bx+24,YARD_TOP+10); ctx.stroke();
+  ctx.strokeStyle='#aab4c2'; ctx.lineWidth=3;
+  ctx.beginPath(); ctx.moveTo(bx,YARD_TOP+10); ctx.lineTo(bx,LANE_Y-24); ctx.stroke();   // boom seaward
+  ctx.fillStyle='#7e8a98'; ctx.fillRect(bx-28,QUAY_TOP+2,56,5);
+  ctx.strokeStyle='rgba(220,228,236,0.5)'; ctx.lineWidth=1;
+  ctx.beginPath(); ctx.moveTo(bx,QUAY_TOP+2); ctx.lineTo(bx,ty); ctx.stroke();           // hoist cable
+  ctx.fillStyle='#cfd8e2'; ctx.fillRect(bx-5,ty-3,10,6);                                  // trolley
+  if(active&&carry){ ctx.fillStyle=c.col; ctx.fillRect(bx-5,ty+5,10,7);
+    ctx.fillStyle='rgba(255,255,255,0.2)'; ctx.fillRect(bx-5,ty+5,10,1.4); }              // box being lifted
+  ctx.restore();
 }
-const _craneCol={}; function rcolStable(k){ if(!_craneCol[k]) _craneCol[k]=BOX[Math.floor(Math.random()*BOX.length)]; if(Math.random()<0.02) _craneCol[k]=BOX[Math.floor(Math.random()*BOX.length)]; return _craneCol[k]; }
 
 function drawShip(s){
   const L=78*s.sz, Wd=15*s.sz; const bob=Math.sin(T*0.04+s.bob)*1.2;
@@ -578,36 +580,47 @@ function update(dt){
       if(Math.abs(s.x-BERTH_X[s.berth])<2 && !s.worked){ s.worked=true; s.phase='berth'; s.dwell=rnd(220,400)/simSpd;
         moneys.push({x:s.x-10,y:QUAY_TOP-6,label:'Port dues',col:C.aero,life:1.7,vy:-1.1});
         moneys.push({x:s.x+16,y:QUAY_TOP-20,label:'Pilotage',col:C.aero,life:1.5,vy:-0.95}); }
-    } else if(s.phase==='berth'){ s.dwell-=dt;
-      if(Math.random()<0.10*volF*Math.min(1,dt)){ spawnBox(s.x+rnd(-40,40),LANE_Y+10);
-        if(Math.random()<boxProb) moneys.push({x:s.x+rnd(-30,30),y:QUAY_TOP+4,label:'Handling',col:C.comm,life:1.1,vy:-0.7}); }
-      if(s.dwell<=0){ s.phase='out'; berthShip[s.berth]=null; }
+    } else if(s.phase==='berth'){ s.dwell-=dt; if(s.dwell<=0){ s.phase='out'; berthShip[s.berth]=null; }
     } else { s.x+=dt*s.speed*2.0; if(s.x>W+200) ships.splice(i,1); }
   }
 
-  // trucks
+  // STS crane cycles — every berthed ship is worked; each completed lift drops a box into the yard
+  for(let i=0;i<3;i++){ const c=cranes[i]; const active=berthShip[i] && berthShip[i].phase==='berth';
+    if(active){ c.prev=c.ph; c.ph=(c.ph+dt*0.018*(0.55+0.45*volF))%1;
+      if(c.prev<0.5 && c.ph>=0.5){ c.col=rcol(); addInBox(BERTH_X[i]);
+        if(Math.random()<boxProb) moneys.push({x:BERTH_X[i]-8,y:QUAY_TOP-4,label:'Handling',col:C.comm,life:1.1,vy:-0.85}); }
+    } else { c.ph=lerp(c.ph,0,0.05); } }
+
+  // trucks — arrive at the gate, a box is plucked from the yard onto the truck, then it hauls out
   for(let i=trucks.length-1;i>=0;i--){ const v=trucks[i];
-    if(!v.arrived){ v.x-=dt*v.speed; const stopX=120+((i*53)%420);
-      if(v.x<stopX){ v.arrived=true; v.dwell=rnd(40,90)/simSpd;
-        moneys.push({x:v.x,y:ROAD_Y-22,label:v.laden?'Storage':'Haulage',col:C.comm,life:1.4,vy:-0.95}); v.laden=!v.laden; }
-    } else { v.dwell-=dt; if(v.dwell<=0) v.done=true; }
+    if(!v.arrived){ v.x-=dt*v.speed;
+      if(v.x<TRK_STOP+((i*37)%60)){ v.arrived=true; v.dwell=rnd(50,100)/simSpd; addOutBox(v.x,ROAD_Y-6,v); } }
+    else { v.dwell-=dt; if(v.dwell<=0) v.done=true; }
     if(v.done){ v.x-=dt*v.speed*1.4; if(v.x<-70) trucks.splice(i,1); }
   }
 
-  // boxes (containers moving into the yard)
+  // containers in motion — 'in' = crane→yard, 'out' = yard→truck/rail
   for(let i=boxes.length-1;i>=0;i--){ const q=boxes[i];
-    q.x=lerp(q.x,q.tx,0.03*q.spd); q.y=lerp(q.y,q.ty,0.03*q.spd);
-    if(q.a<1) q.a=Math.min(1,q.a+dt*0.06);
-    if(Math.abs(q.x-q.tx)<5 && Math.abs(q.y-q.ty)<5){ q.life=(q.life||1.2)-dt*0.05; if(q.life<=0){ boxes.splice(i,1); continue; } q.a=Math.max(0,q.life/1.2); }
+    q.x=lerp(q.x,q.tx,0.05*q.spd); q.y=lerp(q.y,q.ty,0.05*q.spd);
+    if(q.a<1) q.a=Math.min(1,q.a+dt*0.1);
+    if(Math.abs(q.x-q.tx)<5 && Math.abs(q.y-q.ty)<5){
+      if(q.kind==='out' && q.truck){ q.truck.laden=true; q.truck.col=q.col;
+        moneys.push({x:q.truck.x,y:ROAD_Y-20,label:'Haulage',col:C.comm,life:1.4,vy:-0.95}); }
+      boxes.splice(i,1);
+    }
   }
 
-  // train cycle (rail haulage)
+  // train cycle (rail haulage) — boxes move from the yard onto the wagons while loading
   train.timer-=dt;
   if(train.state==='idle'){ if(train.timer<=0){ train.state='in'; train.x=-260; } }
   else if(train.state==='in'){ train.x+=dt*2.2; if(train.x>W*0.6){ train.state='load'; train.dwell=rnd(120,200)/simSpd; } }
-  else if(train.state==='load'){ train.dwell-=dt; if(train.dwell<=0){ train.state='out';
-      moneys.push({x:train.x-60,y:RAIL_Y-14,label:'Rail',col:C.comm,life:1.5,vy:-0.9}); } }
+  else if(train.state==='load'){ if(Math.random()<0.10*Math.min(1,dt)) addOutBox(train.x-rnd(20,260),RAIL_Y,null);
+    train.dwell-=dt; if(train.dwell<=0){ train.state='out'; moneys.push({x:train.x-60,y:RAIL_Y-14,label:'Rail',col:C.comm,life:1.5,vy:-0.9}); } }
   else { train.x+=dt*2.6; if(train.x>W+330){ train.state='idle'; train.timer=rnd(260,520)/simSpd; } }
+
+  // storage / demurrage — the yard itself earns money while boxes dwell (scales with how full it is)
+  if(Math.random()<0.05*(yardTEU/YARD_MAX)*Math.min(1,dt)){ const t=yardSlot();
+    moneys.push({x:t.x,y:t.y-4,label:'Storage',col:C.comm,life:1.0,vy:-0.6}); }
 
   // money
   for(let i=moneys.length-1;i>=0;i--){ const m=moneys[i]; m.y+=m.vy*dt; m.vy*=0.97; m.life-=dt*0.013; if(m.life<=0) moneys.splice(i,1); }
@@ -681,16 +694,31 @@ function drawHUD(){
   ctx.restore();
 }
 
+function tag(txt,x,y){ ctx.fillStyle='rgba(180,196,210,0.55)'; ctx.font='700 8px Inter,sans-serif'; ctx.textAlign='center'; ctx.fillText(txt,x,y); }
+function chev(x,y,dir){ ctx.strokeStyle='rgba(150,180,210,0.30)'; ctx.lineWidth=1.6; ctx.beginPath();
+  if(dir==='down'){ ctx.moveTo(x-4,y-3); ctx.lineTo(x,y+1); ctx.lineTo(x+4,y-3); }
+  else { ctx.moveTo(x+3,y-4); ctx.lineTo(x-1,y); ctx.lineTo(x+3,y+4); } ctx.stroke(); }
+
+function drawBox(q){ const w=10,h=7; ctx.save(); ctx.globalAlpha=Math.max(0,q.a);
+  ctx.fillStyle='rgba(0,0,0,0.25)'; ctx.fillRect(q.x-w/2+1,q.y-h/2+2,w,h);
+  ctx.fillStyle=q.col; ctx.fillRect(q.x-w/2,q.y-h/2,w,h);
+  ctx.globalAlpha=Math.max(0,q.a)*0.25; ctx.fillStyle='#fff'; ctx.fillRect(q.x-w/2,q.y-h/2,w,1.6); ctx.restore(); }
+
 function draw(){
   ctx.clearRect(0,0,W,H); drawScene(); drawYard();
   drawTug();
   ships.forEach(drawShip);
-  BERTH_X.forEach((bx,i)=>drawCrane(bx, berthShip[i]!==null));
+  for(let i=0;i<3;i++) drawCrane(i);
   drawTrain();
   trucks.forEach(drawTruck);
-  boxes.forEach(q=>{ ctx.save(); ctx.globalAlpha=Math.max(0,q.a); ctx.fillStyle=q.col;
-    ctx.fillRect(q.x-q.r,q.y-q.r*0.7,q.r*2,q.r*1.4);
-    ctx.globalAlpha=Math.max(0,q.a)*0.3; ctx.fillStyle='#fff'; ctx.fillRect(q.x-q.r,q.y-q.r*0.7,q.r*2,1.2); ctx.restore(); });
+  boxes.forEach(drawBox);
+  // stage labels + flow direction — make the pipeline legible
+  tag('VESSEL BERTHS',360,SEA_TOP+12);
+  tag('QUAY CRANES',360,QUAY_TOP+22);
+  tag('CONTAINER YARD',360,STK_BASE-MAXROW*BH-6);
+  tag('GATE',TRK_STOP-30,ROAD_Y-22); tag('RAIL',60,RAIL_Y-10);
+  chev(470,QUAY_TOP+20,'down'); chev(250,QUAY_TOP+20,'down');   // inflow ship→yard
+  chev(TRK_STOP+44,ROAD_Y-6,'left'); chev(TRK_STOP+96,ROAD_Y-6,'left'); // outflow yard→gate
   moneys.forEach(m=>{ const a=Math.max(0,Math.min(1,m.life*0.8)); ctx.save(); ctx.globalAlpha=a;
     ctx.font='700 9px Inter,sans-serif'; ctx.textAlign='left'; const tw=ctx.measureText('£ '+m.label).width;
     ctx.fillStyle='rgba(8,16,30,0.55)'; ctx.beginPath(); ctx.roundRect(m.x-4,m.y-9,tw+10,13,6); ctx.fill();
