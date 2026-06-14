@@ -1,0 +1,746 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Airport Economics — Live Simulation</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Source+Serif+4:opsz,wght@8..60,400;8..60,500;8..60,600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#f5f7f6; --surface:#ffffff; --surface-2:#fbfcfc;
+  --border:#e7ebe9; --border-strong:#d8dedb; --text:#15201d; --text2:#4c5854; --muted:#8a948f;
+  --accent:#0c6b4f; --accent-soft:#e7f1ec;
+  --aero:#0c6b4f;      /* aeronautical / regulated till */
+  --comm:#b07d24;      /* commercial / non-regulated   */
+  --cost:#bc4733;      /* operating cost               */
+  --aero-soft:#e7f1ec; --comm-soft:#f6efe1; --cost-soft:#f6e8e4;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+#airsim{
+  font-family:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;
+  color:var(--text); width:100%; max-width:980px; margin:0 auto;
+  font-variant-numeric:tabular-nums;
+}
+#airsim .as-head{margin-bottom:1.1rem}
+#airsim .as-eyebrow{font-size:.66rem;letter-spacing:.16em;text-transform:uppercase;font-weight:600;color:var(--accent);margin-bottom:.5rem}
+#airsim h2{font-family:'Source Serif 4',Georgia,serif;font-weight:500;font-size:1.7rem;line-height:1.1;letter-spacing:-.015em;margin-bottom:.4rem}
+#airsim .as-sub{font-size:.86rem;color:var(--text2);line-height:1.6;max-width:640px}
+
+/* CONTROLS */
+#airsim .as-ctrls{display:flex;gap:.65rem;align-items:center;flex-wrap:wrap;margin:1.1rem 0 .7rem;
+  background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:.7rem .9rem}
+#airsim .ctrl{display:flex;align-items:center;gap:.55rem}
+#airsim .ctrl label{font-size:.7rem;color:var(--muted);letter-spacing:.04em;text-transform:uppercase;font-weight:600;white-space:nowrap}
+#airsim .ctrl input[type=range]{width:96px;-webkit-appearance:none;appearance:none;height:4px;border-radius:3px;background:var(--border-strong);outline:none}
+#airsim .ctrl input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;appearance:none;width:14px;height:14px;border-radius:50%;background:var(--accent);cursor:pointer;border:2px solid #fff;box-shadow:0 1px 3px rgba(0,0,0,.2)}
+#airsim .ctrl input[type=range]::-moz-range-thumb{width:14px;height:14px;border-radius:50%;background:var(--accent);cursor:pointer;border:2px solid #fff}
+#airsim .ctrl .val{font-size:.8rem;font-weight:600;min-width:14px;color:var(--text)}
+#airsim select{font-family:inherit;font-size:.78rem;font-weight:500;color:var(--text);border:1px solid var(--border-strong);border-radius:8px;padding:.32rem .5rem;background:var(--surface-2);cursor:pointer}
+#airsim .as-divider{width:1px;height:24px;background:var(--border);margin:0 .15rem}
+#airsim .spd{display:flex;gap:.25rem;margin-left:auto}
+#airsim .spd button{font-family:inherit;font-size:.72rem;font-weight:600;padding:.32rem .6rem;border-radius:7px;border:1px solid var(--border-strong);background:var(--surface-2);color:var(--text2);cursor:pointer;transition:all .12s}
+#airsim .spd button:hover{border-color:var(--accent)}
+#airsim .spd button.on{background:var(--accent);color:#fff;border-color:var(--accent)}
+
+/* CANVAS CARD */
+#airsim .as-stage{position:relative;border-radius:14px;overflow:hidden;border:1px solid var(--border);box-shadow:0 12px 34px rgba(18,38,32,.10)}
+#airsim canvas{display:block;width:100%;aspect-ratio:720/360}
+
+/* LEGEND */
+#airsim .as-legend{display:flex;gap:1.1rem;flex-wrap:wrap;margin:.7rem 0 .2rem}
+#airsim .leg{display:flex;align-items:center;gap:.4rem;font-size:.72rem;color:var(--text2)}
+#airsim .leg .dot{width:9px;height:9px;border-radius:50%;flex-shrink:0}
+#airsim .leg b{font-weight:600;color:var(--text)}
+
+/* KPIs */
+#airsim .as-kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:.7rem;margin:.9rem 0}
+#airsim .kpi{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:.85rem .95rem;position:relative;overflow:hidden}
+#airsim .kpi::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--accent)}
+#airsim .kpi.k-rev::before{background:var(--comm)}
+#airsim .kpi.k-yield::before{background:var(--aero)}
+#airsim .kpi.k-pax::before{background:#3a7bd0}
+#airsim .kpi .k{font-size:.65rem;letter-spacing:.05em;text-transform:uppercase;color:var(--muted);font-weight:600;margin-bottom:.3rem}
+#airsim .kpi .v{font-family:'Source Serif 4',Georgia,serif;font-size:1.55rem;font-weight:500;line-height:1;letter-spacing:-.01em}
+#airsim .kpi .s{font-size:.7rem;color:var(--text2);margin-top:.35rem}
+#airsim .kpi .s b{font-weight:600;color:var(--text)}
+
+/* SPLIT BAR */
+#airsim .as-split{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:.95rem 1.05rem;margin-bottom:.9rem}
+#airsim .split-head{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:.6rem}
+#airsim .split-head .t{font-size:.66rem;letter-spacing:.05em;text-transform:uppercase;color:var(--muted);font-weight:600}
+#airsim .split-head .tot{font-size:.74rem;color:var(--text2)}
+#airsim .split-head .tot b{font-weight:600;color:var(--text)}
+#airsim .split-bar{display:flex;height:26px;border-radius:7px;overflow:hidden;background:var(--border)}
+#airsim .split-seg{height:100%;display:flex;align-items:center;padding:0 .55rem;color:#fff;font-size:.72rem;font-weight:600;white-space:nowrap;transition:width .5s ease;min-width:0;overflow:hidden}
+#airsim .seg-aero{background:var(--aero)}
+#airsim .seg-comm{background:var(--comm)}
+#airsim .split-foot{display:flex;justify-content:space-between;gap:1rem;margin-top:.55rem;font-size:.72rem;color:var(--text2);line-height:1.5}
+#airsim .split-foot .note{flex:1}
+#airsim .split-foot .note b{color:var(--text);font-weight:600}
+
+/* PANELS */
+#airsim .as-panels{display:grid;grid-template-columns:1fr 1fr;gap:.9rem}
+#airsim .panel{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:1rem 1.1rem}
+#airsim .ptitle{font-size:.66rem;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);margin-bottom:.8rem;display:flex;justify-content:space-between;align-items:baseline}
+#airsim .ptitle .pt-sum{color:var(--text);font-weight:600;font-size:.74rem;text-transform:none;letter-spacing:0}
+#airsim .row{display:flex;align-items:center;gap:.5rem;margin-bottom:.5rem}
+#airsim .row:last-child{margin-bottom:0}
+#airsim .r-lbl{width:118px;font-size:.74rem;color:var(--text);flex-shrink:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+#airsim .r-tag{width:54px;flex-shrink:0;font-size:.58rem;font-weight:600;letter-spacing:.03em;text-transform:uppercase}
+#airsim .r-tag.aero{color:var(--aero)}
+#airsim .r-tag.comm{color:var(--comm)}
+#airsim .r-tag.fix{color:var(--muted)}
+#airsim .r-tag.var{color:var(--cost)}
+#airsim .r-tag.semi{color:#a06a2a}
+#airsim .bwrap{flex:1;height:7px;background:var(--border);border-radius:4px;overflow:hidden}
+#airsim .bfill{height:100%;border-radius:4px;transition:width .45s ease}
+#airsim .r-amt{width:46px;text-align:right;font-size:.74rem;font-weight:600;color:var(--text);flex-shrink:0}
+#airsim .as-foot{font-size:.68rem;color:var(--muted);line-height:1.6;margin-top:.9rem}
+#airsim .as-foot b{color:var(--text2);font-weight:600}
+
+@media(max-width:720px){
+  #airsim .as-kpis{grid-template-columns:repeat(2,1fr)}
+  #airsim .as-panels{grid-template-columns:1fr}
+  #airsim .spd{margin-left:0}
+  #airsim .r-lbl{width:96px}
+}
+</style>
+</head>
+<body>
+<div id="airsim">
+
+  <div class="as-head">
+    <div class="as-eyebrow">Transport · Airports</div>
+    <h2>What flows through an airport — and how it pays</h2>
+    <p class="as-sub">Aircraft and passengers are the raw throughput. Each movement and footstep converts into two revenue tills — regulated <b style="color:var(--aero)">aeronautical</b> charges and higher-margin <b style="color:var(--comm)">commercial</b> income — that together drive an airport's EBITDA. Adjust the drivers and watch the cash flow build.</p>
+  </div>
+
+  <div class="as-ctrls">
+    <div class="ctrl"><label>Flights / hr</label><input type="range" id="fR" min="1" max="14" value="6" step="1"><span class="val" id="fV">6</span></div>
+    <div class="as-divider"></div>
+    <div class="ctrl"><label>Surface traffic</label><input type="range" id="rR" min="1" max="10" value="5" step="1"><span class="val" id="rV">5</span></div>
+    <div class="as-divider"></div>
+    <div class="ctrl"><label>Season</label>
+      <select id="sea">
+        <option value="1">Normal</option>
+        <option value="1.65">Peak summer</option>
+        <option value="1.4">Christmas</option>
+        <option value="0.5">Off-peak</option>
+      </select>
+    </div>
+    <div class="spd">
+      <button class="on" id="b1">1×</button>
+      <button id="b2">2×</button>
+      <button id="b4">4×</button>
+    </div>
+  </div>
+
+  <div class="as-stage"><canvas id="cv"></canvas></div>
+
+  <div class="as-legend">
+    <span class="leg"><span class="dot" style="background:var(--aero)"></span><b>Aeronautical</b>&nbsp;regulated — landing, passenger & parking charges</span>
+    <span class="leg"><span class="dot" style="background:var(--comm)"></span><b>Commercial</b>&nbsp;retail, F&amp;B, car parking, lounges, property</span>
+    <span class="leg"><span class="dot" style="background:var(--cost)"></span><b>Operating cost</b>&nbsp;the airport's own opex</span>
+  </div>
+
+  <div class="as-kpis">
+    <div class="kpi k-eb"><div class="k">EBITDA / hr</div><div class="v" id="kEb">£0</div><div class="s"><b id="kMargin">0%</b> margin</div></div>
+    <div class="kpi k-rev"><div class="k">Revenue / hr</div><div class="v" id="kRev">£0</div><div class="s">aero + commercial</div></div>
+    <div class="kpi k-yield"><div class="k">Revenue / pax</div><div class="v" id="kYield">£0</div><div class="s">commercial yield matters</div></div>
+    <div class="kpi k-pax"><div class="k">Throughput</div><div class="v" id="kThru">0</div><div class="s"><b id="kInside">0</b> pax in terminal now</div></div>
+  </div>
+
+  <div class="as-split">
+    <div class="split-head">
+      <span class="t">The two tills — where revenue comes from</span>
+      <span class="tot">Total <b id="splitTot">£0</b> / hr</span>
+    </div>
+    <div class="split-bar">
+      <div class="split-seg seg-aero" id="segAero">Aero</div>
+      <div class="split-seg seg-comm" id="segComm">Commercial</div>
+    </div>
+    <div class="split-foot">
+      <span class="note"><b>Why investors watch the split:</b> aeronautical charges are capped by regulators, but commercial income is largely unregulated and carries far higher margins. Growing the commercial share per passenger is the core value-creation lever.</span>
+    </div>
+  </div>
+
+  <div class="as-panels">
+    <div class="panel">
+      <div class="ptitle">Revenue streams<span class="pt-sum" id="revSum">£0 / hr</span></div>
+      <div id="revRows"></div>
+    </div>
+    <div class="panel">
+      <div class="ptitle">Operating costs<span class="pt-sum" id="costSum">£0 / hr</span></div>
+      <div id="costRows"></div>
+    </div>
+  </div>
+
+  <p class="as-foot"><b>Illustrative model.</b> EBITDA = revenue − operating costs (excludes depreciation, interest and tax). Figures scale with the drivers above and are indicative of a mid-size regional hub, not any specific asset.</p>
+
+</div>
+
+<script>
+(function(){
+const cv = document.getElementById('cv');
+const ctx = cv.getContext('2d');
+const W = 720, H = 360;
+const DPR = Math.max(2, Math.min(3, window.devicePixelRatio || 1));
+cv.width = W * DPR; cv.height = H * DPR;
+ctx.setTransform(DPR, 0, 0, DPR, 0, 0);
+
+// ---- Brand-aligned canvas palette (legible on the dusk scene) ----
+const C = {
+  aero:'#37c08e', comm:'#e6b35a', cost:'#ef8166',
+  pax:'#d7e2ea', paxRoad:'#e8d2a8'
+};
+
+// ---- Financial model: investor-grade ----
+// Aeronautical = regulated till; Commercial = non-regulated, higher margin.
+const STREAMS = [
+  {name:'Landing & nav fees', tag:'Aero', aero:true,  base:4800},
+  {name:'Passenger charges',  tag:'Aero', aero:true,  base:2200},
+  {name:'Aircraft parking',   tag:'Aero', aero:true,  base:600},
+  {name:'Ground handling',    tag:'Aero', aero:true,  base:1100},
+  {name:'Retail concessions', tag:'Comm', aero:false, base:1800},
+  {name:'F&B concessions',    tag:'Comm', aero:false, base:1400},
+  {name:'Car parking',        tag:'Comm', aero:false, base:2600},
+  {name:'Premium lounges',    tag:'Comm', aero:false, base:900},
+  {name:'Advertising',        tag:'Comm', aero:false, base:380},
+  {name:'Property & hotel',   tag:'Comm', aero:false, base:440},
+];
+// Operating costs of the airport company. Tag flags operating leverage.
+const COSTS = [
+  {item:'Personnel & staff',    tag:'Semi', cls:'semi', base:2600},
+  {item:'Security & screening', tag:'Var',  cls:'var',  base:1900},
+  {item:'Airfield maintenance', tag:'Semi', cls:'semi', base:1100},
+  {item:'Terminal opex',        tag:'Semi', cls:'semi', base:1500},
+  {item:'ATC & navigation',     tag:'Var',  cls:'var',  base:600},
+  {item:'Marketing & routes',   tag:'Fixed',cls:'fix',  base:500},
+  {item:'Admin & overhead',     tag:'Fixed',cls:'fix',  base:700},
+  {item:'Insurance & rates',    tag:'Fixed',cls:'fix',  base:400},
+];
+
+let rSmooth = STREAMS.map(s => s.base);
+let cSmooth = COSTS.map(c => c.base);
+
+function fmtK(v){ v = Math.round(v); return v >= 1000 ? '£' + (v/1000).toFixed(1) + 'k' : '£' + v; }
+
+function buildRows(){
+  const re = document.getElementById('revRows'); re.innerHTML = '';
+  STREAMS.forEach((s,i) => {
+    const col = s.aero ? 'var(--aero)' : 'var(--comm)';
+    const tagcls = s.aero ? 'aero' : 'comm';
+    re.innerHTML += `<div class="row"><span class="r-lbl">${s.name}</span><span class="r-tag ${tagcls}">${s.tag}</span><span class="bwrap"><span class="bfill" id="rb${i}" style="background:${col};width:50%"></span></span><span class="r-amt" id="ra${i}">£0</span></div>`;
+  });
+  const ce = document.getElementById('costRows'); ce.innerHTML = '';
+  COSTS.forEach((c,i) => {
+    ce.innerHTML += `<div class="row"><span class="r-lbl">${c.item}</span><span class="r-tag ${c.cls}">${c.tag}</span><span class="bwrap"><span class="bfill" id="cb${i}" style="background:var(--cost);width:50%"></span></span><span class="r-amt" id="ca${i}">£0</span></div>`;
+  });
+}
+buildRows();
+
+// ---- Controls ----
+let simSpd = 1;
+['b1','b2','b4'].forEach(id => {
+  document.getElementById(id).onclick = () => {
+    simSpd = parseInt(id.slice(1));
+    ['b1','b2','b4'].forEach(i => document.getElementById(i).classList.toggle('on', i === id));
+  };
+});
+const fR = document.getElementById('fR'), rR = document.getElementById('rR'), sea = document.getElementById('sea');
+fR.oninput = () => document.getElementById('fV').textContent = fR.value;
+rR.oninput = () => document.getElementById('rV').textContent = rR.value;
+
+// ---- Scene geometry ----
+const RWY_Y = 92;                 // runway centreline
+const RWY_TOP = 76, RWY_H = 30;
+const TX_Y = 132;                 // gate stand row (apron)
+const TERM = {x:150, y:158, w:430, h:104};
+const RETAIL = {x:166, y:184, w:118, h:30};
+const FB     = {x:166, y:222, w:118, h:30};
+const LOUNGE = {x:312, y:184, w:96,  h:30};
+const SECUR  = {x:312, y:222, w:96,  h:30};
+const PARK   = {x:602, y:158, w:96,  h:104};
+const HOTEL  = {x:22,  y:200, w:80,  h:62};
+const GATE_X = [210, 300, 390, 480];
+const ROAD_Y = 330;
+
+// ---- Entities ----
+const planes = [], vehs = [], pax = [], moneys = [];
+let T = 0, lastFlt = 0, lastVeh = 0, fltCount = 0, paxIn = 0;
+const ebHist = []; let ebSample = 0;
+
+const LIVERY = ['#e0584e','#3a7bd0','#e6b35a','#8a7fe0','#37c08e','#d97bb0'];
+function rnd(a,b){ return a + Math.random()*(b-a); }
+function lerp(a,b,t){ return a + (b-a)*t; }
+
+function spawnPlane(){
+  const fr = parseFloat(fR.value);
+  fltCount++;
+  planes.push({
+    x:-90, y:RWY_Y-44, gate:Math.floor(Math.random()*4),
+    phase:'land', speed:rnd(1.3,2.0), sz:rnd(0.92,1.12),
+    paxN:Math.max(40, Math.floor(rnd(90,210)*fr/6)), dropped:false, dwell:0,
+    livery:LIVERY[Math.floor(Math.random()*LIVERY.length)], blink:Math.random()*6
+  });
+}
+function spawnVeh(){
+  const types=['car','car','car','bus','taxi'];
+  const type=types[Math.floor(Math.random()*5)];
+  vehs.push({
+    x:W+50, y:ROAD_Y+rnd(-4,4), type, speed:rnd(1.8,2.8),
+    paxN:type==='bus'?Math.floor(rnd(20,46)):Math.floor(rnd(1,4)),
+    arrived:false, dwell:0, done:false
+  });
+}
+function spawnPax(sx, sy, n, fromAir){
+  for(let k=0;k<n;k++){
+    // weighted destination among commercial zones / general concourse
+    const r = Math.random();
+    let zone;
+    if(r<0.30) zone=RETAIL; else if(r<0.55) zone=FB; else if(r<0.70) zone=LOUNGE;
+    else zone={x:TERM.x+20,y:TERM.y+20,w:TERM.w-40,h:TERM.h-40};
+    pax.push({
+      x:sx+rnd(-10,10), y:sy,
+      tx:zone.x+rnd(6,zone.w-6), ty:zone.y+rnd(6,zone.h-6),
+      r:rnd(2.0,2.8), life:rnd(10,22), a:0, spd:rnd(0.5,1.0),
+      col:fromAir?C.pax:C.paxRoad, spends:Math.random()<0.45, spent:false, dest:zone
+    });
+  }
+}
+
+// ---- Drawing helpers ----
+function light(x,y,r,col,a){
+  ctx.save(); ctx.globalAlpha=a;
+  const g=ctx.createRadialGradient(x,y,0,x,y,r);
+  g.addColorStop(0,col); g.addColorStop(1,'rgba(0,0,0,0)');
+  ctx.fillStyle=g; ctx.beginPath(); ctx.arc(x,y,r,0,Math.PI*2); ctx.fill();
+  ctx.restore();
+}
+
+function drawScene(){
+  // sky — dusk gradient
+  const sky=ctx.createLinearGradient(0,0,0,RWY_TOP+10);
+  sky.addColorStop(0,'#0c1733'); sky.addColorStop(0.55,'#1b2c4f'); sky.addColorStop(1,'#3a3a5c');
+  ctx.fillStyle=sky; ctx.fillRect(0,0,W,72);
+  // horizon glow
+  const hz=ctx.createLinearGradient(0,40,0,72);
+  hz.addColorStop(0,'rgba(214,128,84,0)'); hz.addColorStop(1,'rgba(224,146,90,0.32)');
+  ctx.fillStyle=hz; ctx.fillRect(0,40,W,32);
+  // stars
+  for(let i=0;i<70;i++){
+    const sx=(i*101+19)%W, sy=(i*47+7)%52;
+    ctx.fillStyle='rgba(255,255,255,'+(0.18+(i%5)*0.07)+')';
+    const tw=0.5+0.5*Math.sin(T*0.02+i);
+    ctx.globalAlpha=tw; ctx.fillRect(sx,sy,1,1); ctx.globalAlpha=1;
+  }
+  // moon
+  light(636,26,34,'rgba(255,240,210,0.5)',0.7);
+  ctx.fillStyle='#f3ecd6'; ctx.beginPath(); ctx.arc(636,26,11,0,Math.PI*2); ctx.fill();
+  ctx.fillStyle='#1b2c4f'; ctx.beginPath(); ctx.arc(631,23,9,0,Math.PI*2); ctx.fill();
+  // clouds
+  ctx.fillStyle='rgba(255,255,255,0.05)';
+  [90,300,520].forEach((cx,i)=>{
+    const cy=30+Math.sin(T*0.004+i)*4;
+    ctx.beginPath(); ctx.ellipse(cx,cy,48,13,0,0,Math.PI*2); ctx.fill();
+    ctx.beginPath(); ctx.ellipse(cx+26,cy-5,30,10,0,0,Math.PI*2); ctx.fill();
+  });
+  // approach lights (left of runway)
+  for(let i=0;i<5;i++){ light(8+i*9, RWY_Y, 4, 'rgba(255,255,255,0.5)', 0.4+0.3*Math.sin(T*0.06-i)); }
+
+  // ground (apron + landside)
+  const grd=ctx.createLinearGradient(0,RWY_TOP+RWY_H,0,H);
+  grd.addColorStop(0,'#23303f'); grd.addColorStop(0.55,'#1c2735'); grd.addColorStop(1,'#161f2b');
+  ctx.fillStyle=grd; ctx.fillRect(0,RWY_TOP,W,H-RWY_TOP);
+
+  // grass strip between apron and runway
+  ctx.fillStyle='#1f2e1c'; ctx.fillRect(0,RWY_TOP+RWY_H,W,12);
+
+  // RUNWAY
+  const rwy=ctx.createLinearGradient(0,RWY_TOP,0,RWY_TOP+RWY_H);
+  rwy.addColorStop(0,'#3a3e4a'); rwy.addColorStop(0.5,'#33363f'); rwy.addColorStop(1,'#2c2f37');
+  ctx.fillStyle=rwy; ctx.fillRect(0,RWY_TOP,W,RWY_H);
+  // centreline dashes
+  ctx.fillStyle='rgba(255,255,255,0.55)';
+  for(let x=12;x<W;x+=46) ctx.fillRect(x,RWY_Y-1.5,26,3);
+  // threshold bars
+  ctx.fillStyle='rgba(255,255,255,0.7)';
+  for(let i=0;i<6;i++) ctx.fillRect(14, RWY_TOP+3+i*4.4, 16, 2.4);
+  // edge lights
+  for(let x=10;x<W;x+=58){
+    light(x,RWY_TOP+1.5,3,'rgba(255,210,120,0.9)',0.5);
+    light(x,RWY_TOP+RWY_H-1.5,3,'rgba(255,210,120,0.9)',0.5);
+  }
+
+  // taxiway band toward terminal
+  ctx.fillStyle='#272b34'; ctx.fillRect(0,RWY_TOP+RWY_H+12,W,TX_Y-(RWY_TOP+RWY_H+12)+18);
+  // taxiway centre + blue edge lights
+  ctx.strokeStyle='rgba(245,200,70,0.5)'; ctx.lineWidth=1.4; ctx.setLineDash([10,12]);
+  ctx.beginPath(); ctx.moveTo(0,TX_Y+6); ctx.lineTo(W,TX_Y+6); ctx.stroke(); ctx.setLineDash([]);
+  for(let x=20;x<W;x+=70) light(x,TX_Y+16,2.6,'rgba(90,170,255,0.9)',0.5);
+
+  // apron stand markings under gates
+  ctx.strokeStyle='rgba(245,200,70,0.4)'; ctx.lineWidth=1;
+  GATE_X.forEach(gx=>{ ctx.beginPath(); ctx.moveTo(gx,TX_Y-2); ctx.lineTo(gx,TX_Y+14); ctx.stroke(); });
+
+  // landside plaza
+  ctx.fillStyle='#19232e'; ctx.fillRect(0,TERM.y+TERM.h+6,W,H-(TERM.y+TERM.h+6));
+  // trees
+  [120,138,470,500,558].forEach((tx,i)=>{
+    ctx.fillStyle='#21401f'; ctx.beginPath(); ctx.arc(tx,TERM.y+TERM.h+30,9,0,Math.PI*2); ctx.fill();
+    ctx.fillStyle='#1a3318'; ctx.beginPath(); ctx.arc(tx,TERM.y+TERM.h+24,6,0,Math.PI*2); ctx.fill();
+    ctx.fillStyle='#3a2818'; ctx.fillRect(tx-2,TERM.y+TERM.h+32,4,8);
+  });
+
+  // ROAD
+  const road=ctx.createLinearGradient(0,ROAD_Y-16,0,H);
+  road.addColorStop(0,'#23262c'); road.addColorStop(1,'#191b20');
+  ctx.fillStyle=road; ctx.fillRect(0,ROAD_Y-16,W,H-(ROAD_Y-16));
+  ctx.fillStyle='rgba(245,210,90,0.55)';
+  for(let x=0;x<W;x+=52) ctx.fillRect(x,ROAD_Y-1,28,2.5);
+  // kerb
+  ctx.fillStyle='#2f333a'; ctx.fillRect(0,ROAD_Y-20,W,4);
+}
+
+function drawTerminal(){
+  // shadow
+  ctx.fillStyle='rgba(0,0,0,0.25)'; ctx.beginPath();
+  ctx.roundRect(TERM.x-2, TERM.y+TERM.h-4, TERM.w+10, 14, 6); ctx.fill();
+  // roof
+  ctx.fillStyle='#2c3f6b'; ctx.beginPath(); ctx.roundRect(TERM.x-6,TERM.y-16,TERM.w+12,22,7); ctx.fill();
+  // body with glass gradient
+  const tg=ctx.createLinearGradient(0,TERM.y,0,TERM.y+TERM.h);
+  tg.addColorStop(0,'#243665'); tg.addColorStop(1,'#1a2750');
+  ctx.fillStyle=tg; ctx.beginPath(); ctx.roundRect(TERM.x,TERM.y,TERM.w,TERM.h,6); ctx.fill();
+  // warm interior glow
+  light(TERM.x+TERM.w/2, TERM.y+TERM.h/2, TERM.w*0.55, 'rgba(120,170,235,0.10)', 1);
+  // glass curtain windows along top
+  for(let wx=TERM.x+12; wx<TERM.x+TERM.w-20; wx+=26){
+    const fl=0.12+0.10*((Math.sin(wx*0.7+T*0.01))*0.5+0.5);
+    ctx.fillStyle='rgba(150,205,255,'+fl+')'; ctx.fillRect(wx,TERM.y+8,18,18);
+  }
+  // commercial / functional zones
+  const zones=[
+    {r:RETAIL, f:'rgba(176,125,36,0.32)', s:'rgba(230,179,90,0.85)', l:'Retail'},
+    {r:FB,     f:'rgba(176,125,36,0.24)', s:'rgba(230,179,90,0.7)',  l:'F&B'},
+    {r:LOUNGE, f:'rgba(176,125,36,0.3)',  s:'rgba(230,179,90,0.8)',  l:'Lounge'},
+    {r:SECUR,  f:'rgba(120,150,200,0.22)',s:'rgba(150,190,240,0.6)', l:'Security'},
+  ];
+  zones.forEach(z=>{
+    ctx.fillStyle=z.f; ctx.beginPath(); ctx.roundRect(z.r.x,z.r.y,z.r.w,z.r.h,4); ctx.fill();
+    ctx.strokeStyle=z.s; ctx.lineWidth=0.6; ctx.strokeRect(z.r.x,z.r.y,z.r.w,z.r.h);
+    ctx.fillStyle=z.s; ctx.font='600 9px Inter,sans-serif'; ctx.textAlign='center';
+    ctx.fillText(z.l, z.r.x+z.r.w/2, z.r.y+z.r.h/2+3);
+  });
+  // label
+  ctx.fillStyle='rgba(190,215,245,0.9)'; ctx.font='700 9px Inter,sans-serif'; ctx.textAlign='center';
+  ctx.fillText('TERMINAL', TERM.x+TERM.w-44, TERM.y-4);
+
+  // GATES + jet bridges
+  GATE_X.forEach((gx,i)=>{
+    ctx.fillStyle='#3c5478'; ctx.fillRect(gx-9,TX_Y+14,18,30);
+    ctx.fillStyle='#6fa3cf'; ctx.font='8px Inter,sans-serif'; ctx.textAlign='center';
+    ctx.fillText('G'+(i+1), gx, TX_Y+38);
+    // bridge stub to terminal
+    ctx.strokeStyle='#46618a'; ctx.lineWidth=3;
+    ctx.beginPath(); ctx.moveTo(gx,TX_Y+44); ctx.lineTo(TERM.x+30+i*100, TERM.y); ctx.stroke();
+  });
+
+  // ATC tower (left of terminal)
+  ctx.fillStyle='#33486e'; ctx.fillRect(126,TERM.y+6,12,56);
+  ctx.fillStyle='#46618a'; ctx.beginPath(); ctx.roundRect(116,TERM.y-6,32,22,4); ctx.fill();
+  ctx.fillStyle='rgba(150,205,255,0.4)'; ctx.fillRect(120,TERM.y-2,24,12);
+  if(Math.floor(T/0.7)%2===0) light(132,TERM.y-9,5,'rgba(239,90,80,0.95)',0.9);
+  ctx.fillStyle='#9fb6cc'; ctx.font='7px Inter,sans-serif'; ctx.fillText('ATC',132,TERM.y+30);
+}
+
+function drawParking(){
+  ctx.fillStyle='rgba(0,0,0,0.22)'; ctx.beginPath(); ctx.roundRect(PARK.x-1,PARK.y+PARK.h-3,PARK.w+8,12,5); ctx.fill();
+  ctx.fillStyle='#1d242f'; ctx.beginPath(); ctx.roundRect(PARK.x,PARK.y,PARK.w,PARK.h,5); ctx.fill();
+  ctx.strokeStyle='rgba(230,179,90,0.5)'; ctx.lineWidth=0.7; ctx.strokeRect(PARK.x,PARK.y,PARK.w,PARK.h);
+  for(let row=0;row<5;row++) for(let col=0;col<4;col++){
+    const occ=((row*4+col)*37+Math.floor(T*0.02))%10>4;
+    ctx.fillStyle=occ?'rgba(230,179,90,0.3)':'rgba(70,80,100,0.4)';
+    ctx.fillRect(PARK.x+6+col*21, PARK.y+9+row*18, 16, 11);
+  }
+  ctx.fillStyle='#e6b35a'; ctx.font='700 8px Inter,sans-serif'; ctx.textAlign='center';
+  ctx.fillText('CAR PARK', PARK.x+PARK.w/2, PARK.y-4);
+}
+
+function drawHotel(){
+  ctx.fillStyle='rgba(0,0,0,0.22)'; ctx.beginPath(); ctx.roundRect(HOTEL.x-1,HOTEL.y+HOTEL.h-3,HOTEL.w+8,11,5); ctx.fill();
+  ctx.fillStyle='#1b2937'; ctx.beginPath(); ctx.roundRect(HOTEL.x,HOTEL.y,HOTEL.w,HOTEL.h,4); ctx.fill();
+  ctx.strokeStyle='rgba(230,179,90,0.45)'; ctx.lineWidth=0.7; ctx.strokeRect(HOTEL.x,HOTEL.y,HOTEL.w,HOTEL.h);
+  for(let r=0;r<3;r++) for(let c=0;c<4;c++){
+    const on=(r+c+Math.floor(T*0.01))%3!==0;
+    ctx.fillStyle=on?'rgba(255,220,120,0.35)':'rgba(30,50,70,0.5)';
+    ctx.fillRect(HOTEL.x+6+c*17, HOTEL.y+6+r*17, 12, 12);
+  }
+  ctx.fillStyle='#e6b35a'; ctx.font='700 8px Inter,sans-serif'; ctx.textAlign='center';
+  ctx.fillText('HOTEL', HOTEL.x+HOTEL.w/2, HOTEL.y-4);
+}
+
+function drawPlane(p){
+  const s=p.sz;
+  // shadow
+  ctx.save(); ctx.globalAlpha=0.28; ctx.fillStyle='#000';
+  ctx.beginPath(); ctx.ellipse(p.x+6, p.y+14, 22*s, 5*s, 0, 0, Math.PI*2); ctx.fill(); ctx.restore();
+
+  ctx.save(); ctx.translate(p.x,p.y);
+  if(p.phase==='dep') ctx.scale(-1,1);
+  // wings
+  ctx.fillStyle='#8ea4bc';
+  ctx.beginPath(); ctx.moveTo(-3*s,-2*s); ctx.lineTo(6*s,-2*s); ctx.lineTo(16*s,11*s); ctx.lineTo(-8*s,11*s); ctx.closePath(); ctx.fill();
+  ctx.beginPath(); ctx.moveTo(-3*s,2*s); ctx.lineTo(6*s,2*s); ctx.lineTo(14*s,-9*s); ctx.lineTo(-6*s,-9*s); ctx.closePath(); ctx.globalAlpha=0.5; ctx.fill(); ctx.globalAlpha=1;
+  // fuselage
+  const fg=ctx.createLinearGradient(0,-7*s,0,7*s);
+  fg.addColorStop(0,'#eef3f8'); fg.addColorStop(0.5,'#cdd9e6'); fg.addColorStop(1,'#9fb0c2');
+  ctx.fillStyle=fg; ctx.beginPath(); ctx.ellipse(0,0,22*s,7*s,0,0,Math.PI*2); ctx.fill();
+  // tail fin (livery)
+  ctx.fillStyle=p.livery; ctx.beginPath();
+  ctx.moveTo(-16*s,-2*s); ctx.lineTo(-10*s,-13*s); ctx.lineTo(-6*s,-2*s); ctx.closePath(); ctx.fill();
+  // cabin windows
+  ctx.fillStyle='rgba(60,90,120,0.85)';
+  for(let i=0;i<6;i++) ctx.fillRect((-9+i*4.2)*s,-2*s,2.4*s,2.4*s);
+  // cockpit
+  ctx.fillStyle='#2c3e52'; ctx.beginPath(); ctx.ellipse(18*s,0,3.2*s,3*s,0,0,Math.PI*2); ctx.fill();
+  // engine glow on departure
+  if(p.phase==='dep'){ light(-20*s,3*s,9,'rgba(255,170,80,0.8)',0.7); }
+  ctx.restore();
+
+  // nav lights (screen space, no flip)
+  const blink=Math.sin(T*0.5+p.blink)>0.4;
+  if(blink){ light(p.x-18,p.y-3,4,'rgba(255,80,70,0.95)',0.9); light(p.x+18,p.y-3,4,'rgba(90,255,140,0.9)',0.9); }
+  if(Math.sin(T*0.9+p.blink)>0.8) light(p.x,p.y-6,5,'rgba(255,255,255,1)',1);
+}
+
+function drawVeh(v){
+  const isBus=v.type==='bus';
+  const w=isBus?40:22, h=isBus?14:10;
+  // shadow
+  ctx.save(); ctx.globalAlpha=0.3; ctx.fillStyle='#000';
+  ctx.beginPath(); ctx.ellipse(v.x, v.y+h/2+2, w/2, 3, 0, 0, Math.PI*2); ctx.fill(); ctx.restore();
+
+  ctx.save(); ctx.translate(v.x,v.y);
+  const base=isBus?'#3f7bd0':v.type==='taxi'?'#e6c042':'#c44a3c';
+  const bg=ctx.createLinearGradient(0,-h/2,0,h/2);
+  bg.addColorStop(0,base); bg.addColorStop(1,'rgba(0,0,0,0.35)');
+  ctx.fillStyle=base; ctx.beginPath(); ctx.roundRect(-w/2,-h/2,w,h,3); ctx.fill();
+  ctx.fillStyle='rgba(0,0,0,0.18)'; ctx.beginPath(); ctx.roundRect(-w/2,0,w,h/2,3); ctx.fill();
+  // windows
+  ctx.fillStyle='rgba(190,225,255,0.55)';
+  if(isBus){ for(let i=0;i<5;i++) ctx.fillRect(-w/2+4+i*7.4,-h/2+2,5,5); }
+  else ctx.fillRect(-w/2+3,-h/2+2,8,h-5);
+  // wheels
+  ctx.fillStyle='#111'; ctx.fillRect(-w/2+2,h/2-1,5,3); ctx.fillRect(w/2-7,h/2-1,5,3);
+  ctx.restore();
+  // headlights (front = left, moving left) + taillights (right)
+  light(v.x-w/2-2, v.y, 7, 'rgba(255,240,190,0.9)', 0.55);
+  light(v.x+w/2+1, v.y, 4, 'rgba(255,70,60,0.9)', 0.5);
+}
+
+function update(dt){
+  const fr=parseFloat(fR.value), rr=parseFloat(rR.value), sm=parseFloat(sea.value);
+
+  const flInt=Math.max(50, 360/fr);
+  if(T-lastFlt>flInt){ spawnPlane(); lastFlt=T; }
+  const vhInt=Math.max(22, 150/rr);
+  if(T-lastVeh>vhInt){ spawnVeh(); lastVeh=T; }
+
+  // planes
+  for(let i=planes.length-1;i>=0;i--){
+    const p=planes[i];
+    if(p.phase==='land'){
+      p.x+=dt*p.speed*1.6;
+      p.y=lerp(RWY_Y-44, RWY_Y, Math.min(1,p.x/170));
+      if(p.x>GATE_X[p.gate]-10) p.phase='taxi';
+    } else if(p.phase==='taxi'){
+      p.x=lerp(p.x,GATE_X[p.gate],0.06);
+      p.y=lerp(p.y,TX_Y,0.06);
+      if(Math.abs(p.x-GATE_X[p.gate])<3 && !p.dropped){
+        p.dropped=true; p.phase='gate'; p.dwell=rnd(170,320)/simSpd;
+        paxIn+=p.paxN;
+        spawnPax(GATE_X[p.gate], TX_Y+16, 6, true);
+        moneys.push({x:p.x-6, y:TX_Y-6, label:'Landing fee', col:C.aero, life:1.7, vy:-1.1});
+        moneys.push({x:p.x+14, y:TX_Y-20, label:'Pax charge', col:C.aero, life:1.5, vy:-0.95});
+      }
+    } else if(p.phase==='gate'){
+      p.dwell-=dt;
+      if(p.dwell<=0){ p.phase='dep'; paxIn=Math.max(0,paxIn-p.paxN); }
+    } else {
+      p.x+=dt*p.speed*2.0; p.y-=dt*0.25;
+      if(p.x>W+110) planes.splice(i,1);
+    }
+  }
+
+  // vehicles
+  for(let i=vehs.length-1;i>=0;i--){
+    const v=vehs[i];
+    if(!v.arrived){
+      v.x-=dt*v.speed;
+      const stopX=PARK.x-40+rnd(-20,30);
+      if(v.x<stopX){
+        v.arrived=true; v.dwell=rnd(55,120)/simSpd; paxIn+=v.paxN;
+        spawnPax(v.x, ROAD_Y-14, v.type==='bus'?4:2, false);
+        moneys.push({x:v.x, y:ROAD_Y-26, label:'Parking', col:C.comm, life:1.6, vy:-1.05});
+        if(Math.random()>0.5) moneys.push({x:v.x-20, y:ROAD_Y-40, label:'Retail', col:C.comm, life:1.4, vy:-0.9});
+      }
+    } else {
+      v.dwell-=dt;
+      if(v.dwell<=0){ v.done=true; paxIn=Math.max(0,paxIn-v.paxN); }
+    }
+    if(v.done){ v.x+=dt*v.speed*1.5; if(v.x>W+70) vehs.splice(i,1); }
+  }
+
+  // passengers
+  for(let i=pax.length-1;i>=0;i--){
+    const q=pax[i];
+    q.x=lerp(q.x,q.tx,0.025*q.spd); q.y=lerp(q.y,q.ty,0.025*q.spd);
+    if(q.a<1) q.a=Math.min(1,q.a+dt*0.08);
+    if(q.spends && !q.spent && Math.abs(q.x-q.tx)<6 && Math.abs(q.y-q.ty)<6){
+      q.spent=true;
+      const lbl = q.dest===LOUNGE?'Lounge':(q.dest===FB?'F&B':'Retail');
+      moneys.push({x:q.x, y:q.y-4, label:lbl, col:C.comm, life:1.2, vy:-0.7});
+    }
+    q.life-=dt*0.007;
+    if(q.life<1.4) q.a=Math.max(0,q.life/1.4);
+    if(q.life<=0) pax.splice(i,1);
+  }
+
+  // money
+  for(let i=moneys.length-1;i>=0;i--){
+    const m=moneys[i]; m.y+=m.vy*dt; m.vy*=0.97; m.life-=dt*0.013;
+    if(m.life<=0) moneys.splice(i,1);
+  }
+
+  // ---- finance ----
+  const mult=fr/6*sm, rm=rr/5*sm;
+  const nR=[
+    4800*mult, 2200*mult, 600*mult, 1100*mult,
+    1800*(0.6*mult+0.4*rm), 1400*(0.55*mult+0.45*rm), 2600*rm,
+    900*mult*0.95, 380*(0.5*mult+0.5*rm), 440*(0.5*mult+0.5*rm)
+  ];
+  const nC=[
+    2600*(0.7+0.3*mult), 1900*(0.6*mult+0.4), 1100*(0.5+0.5*mult), 1500*(0.5+0.5*((mult+rm)/2)),
+    600*mult, 500*(0.85+0.15*mult), 700, 400
+  ];
+  rSmooth=rSmooth.map((v,i)=>lerp(v,nR[i],0.045));
+  cSmooth=cSmooth.map((v,i)=>lerp(v,nC[i],0.045));
+
+  const totR=rSmooth.reduce((a,b)=>a+b,0);
+  const totC=cSmooth.reduce((a,b)=>a+b,0);
+  const totP=totR-totC;
+  const aeroTot=rSmooth.reduce((a,v,i)=>a+(STREAMS[i].aero?v:0),0);
+  const commTot=totR-aeroTot;
+  const paxRate=Math.max(1, fr*150*sm);
+
+  document.getElementById('kEb').textContent=fmtK(totP);
+  document.getElementById('kEb').style.color=totP>=0?'var(--accent)':'var(--cost)';
+  document.getElementById('kMargin').textContent=Math.round(totP/totR*100)+'%';
+  document.getElementById('kRev').textContent=fmtK(totR);
+  document.getElementById('kYield').textContent='£'+(totR/paxRate).toFixed(1);
+  document.getElementById('kThru').textContent=Math.round(paxRate).toLocaleString();
+  document.getElementById('kInside').textContent=Math.max(0,Math.round(paxIn)).toLocaleString();
+
+  // split bar
+  const aPct=Math.round(aeroTot/totR*100);
+  document.getElementById('splitTot').textContent=fmtK(totR);
+  document.getElementById('segAero').style.width=aPct+'%';
+  document.getElementById('segComm').style.width=(100-aPct)+'%';
+  document.getElementById('segAero').textContent='Aero '+fmtK(aeroTot)+'  ·  '+aPct+'%';
+  document.getElementById('segComm').textContent='Commercial '+fmtK(commTot)+'  ·  '+(100-aPct)+'%';
+
+  // panels
+  document.getElementById('revSum').textContent=fmtK(totR)+' / hr';
+  document.getElementById('costSum').textContent=fmtK(totC)+' / hr';
+  const maxR=Math.max(...rSmooth,1);
+  rSmooth.forEach((v,i)=>{ const b=document.getElementById('rb'+i),a=document.getElementById('ra'+i);
+    if(b) b.style.width=Math.round(v/maxR*100)+'%'; if(a) a.textContent=fmtK(v); });
+  const maxC=Math.max(...cSmooth,1);
+  cSmooth.forEach((v,i)=>{ const b=document.getElementById('cb'+i),a=document.getElementById('ca'+i);
+    if(b) b.style.width=Math.round(v/maxC*100)+'%'; if(a) a.textContent=fmtK(v); });
+
+  // sparkline history
+  ebSample+=dt;
+  if(ebSample>4){ ebSample=0; ebHist.push(totP); if(ebHist.length>90) ebHist.shift(); }
+}
+
+function drawHUD(){
+  const x=10,y=10,w=200,h=58;
+  ctx.save();
+  ctx.fillStyle='rgba(10,20,34,0.62)';
+  ctx.beginPath(); ctx.roundRect(x,y,w,h,8); ctx.fill();
+  ctx.strokeStyle='rgba(255,255,255,0.08)'; ctx.lineWidth=1; ctx.stroke();
+  // live dot
+  light(x+13,y+13,5,'rgba(55,192,142,1)',0.7);
+  ctx.fillStyle=C.aero; ctx.beginPath(); ctx.arc(x+13,y+13,3,0,Math.PI*2); ctx.fill();
+  ctx.fillStyle='#cfe0ea'; ctx.font='700 9px Inter,sans-serif'; ctx.textAlign='left';
+  ctx.fillText('OPERATIONS — LIVE', x+23, y+16);
+  ctx.fillStyle='rgba(170,190,205,0.85)'; ctx.font='9px Inter,sans-serif';
+  ctx.fillText(fltCount+' flights  ·  '+Math.max(0,Math.round(paxIn)).toLocaleString()+' pax inside', x+12, y+30);
+
+  // sparkline (EBITDA/hr trend)
+  if(ebHist.length>2){
+    const sx=x+12, sy=y+38, sw=w-24, sh=14;
+    const mn=Math.min(...ebHist), mx=Math.max(...ebHist), rng=Math.max(1,mx-mn);
+    ctx.beginPath();
+    ebHist.forEach((v,i)=>{ const px=sx+i/(ebHist.length-1)*sw, py=sy+sh-(v-mn)/rng*sh;
+      i===0?ctx.moveTo(px,py):ctx.lineTo(px,py); });
+    ctx.strokeStyle=C.aero; ctx.lineWidth=1.5; ctx.stroke();
+    ctx.lineTo(sx+sw,sy+sh); ctx.lineTo(sx,sy+sh); ctx.closePath();
+    ctx.fillStyle='rgba(55,192,142,0.16)'; ctx.fill();
+    const last=ebHist[ebHist.length-1];
+    ctx.fillStyle='#9fe0c4'; ctx.font='700 9px Inter,sans-serif'; ctx.textAlign='right';
+    ctx.fillText('EBITDA '+fmtK(last)+'/hr', x+w-12, y+34);
+  }
+  ctx.restore();
+}
+
+function draw(){
+  ctx.clearRect(0,0,W,H);
+  drawScene();
+  drawHotel();
+  drawParking();
+  drawTerminal();
+  planes.forEach(drawPlane);
+  vehs.forEach(drawVeh);
+  // passengers as little figures
+  pax.forEach(q=>{
+    ctx.save(); ctx.globalAlpha=Math.max(0,q.a);
+    ctx.fillStyle=q.col;
+    ctx.beginPath(); ctx.arc(q.x,q.y,q.r,0,Math.PI*2); ctx.fill();           // body
+    ctx.beginPath(); ctx.arc(q.x,q.y-q.r*1.5,q.r*0.62,0,Math.PI*2); ctx.fill(); // head
+    ctx.restore();
+  });
+  // money pills
+  moneys.forEach(m=>{
+    const a=Math.max(0,Math.min(1,m.life*0.8));
+    ctx.save(); ctx.globalAlpha=a; ctx.font='700 9px Inter,sans-serif'; ctx.textAlign='left';
+    const tw=ctx.measureText('£ '+m.label).width;
+    ctx.fillStyle='rgba(8,16,30,0.55)'; ctx.beginPath(); ctx.roundRect(m.x-4,m.y-9,tw+10,13,6); ctx.fill();
+    ctx.fillStyle=m.col; ctx.fillText('£ '+m.label, m.x+1, m.y+1);
+    ctx.restore();
+  });
+  drawHUD();
+  // subtle vignette
+  ctx.save();
+  const vg=ctx.createRadialGradient(W/2,H/2,H*0.4,W/2,H/2,H*0.95);
+  vg.addColorStop(0,'rgba(0,0,0,0)'); vg.addColorStop(1,'rgba(0,0,0,0.28)');
+  ctx.fillStyle=vg; ctx.fillRect(0,0,W,H); ctx.restore();
+}
+
+let lastTs=null;
+function loop(ts){
+  if(!lastTs) lastTs=ts;
+  const dt=Math.min((ts-lastTs)/16.67,3)*simSpd;
+  lastTs=ts; T+=dt;
+  update(dt); draw();
+  requestAnimationFrame(loop);
+}
+requestAnimationFrame(loop);
+})();
+</script>
+</body>
+</html>
