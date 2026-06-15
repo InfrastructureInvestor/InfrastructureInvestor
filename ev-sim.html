@@ -267,7 +267,7 @@ cv.width=W*DPR; cv.height=H*DPR; ctx.setTransform(DPR,0,0,DPR,0,0);
 
 const HRS_PER_YR=8760, EV_MULT=15, CAP_KW=80000, NBAYS=10, ELEC=0.20;
 const ENERGY0=CAP_KW*0.20;                 // base energy rate (kWh/hr) at 20% utilisation
-const C={aero:'#37c08e', comm:'#e6b35a', grid:'#5aa0e6'};
+const C={aero:'#37c08e', comm:'#e6b35a', grid:'#5aa0e6', idle:'#97a3b0'};
 const CARS=['#e0584e','#3a7bd0','#e6b35a','#4f9e7a','#cdd3d8','#8a7fe0','#d97bb0','#46b0a6'];
 
 // Two streams: charging (energy sales) and higher-margin ancillary & services
@@ -398,7 +398,7 @@ const cars=[], people=[], moneys=[], sparks=[];
 const bays=new Array(NBAYS).fill(null);
 let T=0,lastCar=0,carCount=0,vehNow=0,cumEB=0,cTick=0;
 let baseRevYr=0,baseCostYr=0,baseEbYr=0;
-let bessT=0, adT=0, gridT=0, activeCars=0;
+let bessT=0, adT=0, gridT=0, activeCars=0, powerMW=0;
 function rnd(a,b){return a+Math.random()*(b-a);} function lerp(a,b,t){return a+(b-a)*t;}
 function ccol(){ return CARS[Math.floor(Math.random()*CARS.length)]; }
 function freeBay(){ const f=[]; for(let i=0;i<NBAYS;i++) if(!bays[i]) f.push(i); return f.length?f[Math.floor(Math.random()*f.length)]:-1; }
@@ -467,14 +467,12 @@ function drawCanopy(){
 
 function drawCharger(i){
   const bx=BAYX[i], c=bays[i], active=c && c.phase==='charge';
-  // pillar
-  ctx.fillStyle='#33414e'; ctx.beginPath(); ctx.roundRect(bx-6,PILLAR_Y,12,30,2); ctx.fill();
-  // screen
-  ctx.fillStyle=active?'rgba(55,192,142,0.9)':'rgba(120,150,180,0.5)'; ctx.fillRect(bx-4,PILLAR_Y+3,8,7);
-  if(active) light(bx,PILLAR_Y+6,7,'rgba(55,192,142,0.8)',0.5);
-  // cable to car when charging
-  if(active){ ctx.strokeStyle='rgba(55,192,142,0.5)'; ctx.lineWidth=1.6;
-    ctx.beginPath(); ctx.moveTo(bx,PILLAR_Y+30); ctx.quadraticCurveTo(bx-8,PARK_Y-18,c.x,c.y-12); ctx.stroke(); }
+  ctx.fillStyle=active?'#3a4a58':'#2a313a'; ctx.beginPath(); ctx.roundRect(bx-6,PILLAR_Y,12,30,2); ctx.fill();
+  ctx.fillStyle=active?'rgba(55,200,140,0.95)':'rgba(110,125,140,0.4)'; ctx.fillRect(bx-4,PILLAR_Y+3,8,7); // screen
+  if(active){ light(bx,PILLAR_Y+6,8,'rgba(55,200,140,0.85)',0.55);
+    ctx.strokeStyle='rgba(95,185,245,0.45)'; ctx.lineWidth=2; ctx.beginPath();
+    ctx.moveTo(bx,PILLAR_Y+30); ctx.quadraticCurveTo(bx-8,PARK_Y-18,c.x,c.y-12); ctx.stroke(); }   // charging cable
+  else { ctx.fillStyle='rgba(110,125,140,0.35)'; ctx.fillRect(bx-2,PILLAR_Y+13,4,12); }              // idle: dim, no cable
 }
 
 function drawCar(c){
@@ -486,24 +484,38 @@ function drawCar(c){
   ctx.fillStyle='rgba(180,220,255,0.5)'; ctx.beginPath(); ctx.roundRect(-w/2+3,-h/2+5,w-6,9,2); ctx.fill();      // windscreen
   ctx.beginPath(); ctx.roundRect(-w/2+3,h/2-13,w-6,8,2); ctx.fill();
   ctx.restore();
-  // charge level bar when charging
-  if(c.phase==='charge'){ const bw=22,bx=c.x-bw/2,by=c.y-h/2-9;
-    ctx.fillStyle='rgba(8,16,30,0.6)'; ctx.fillRect(bx-1,by-1,bw+2,5);
-    ctx.fillStyle=C.aero; ctx.fillRect(bx,by,bw*Math.min(1,c.charge/100),3); }
+  // battery state-of-charge indicator while charging (red -> amber -> green) + bolt
+  if(c.phase==='charge'){ const bw=22,bx=c.x-bw/2,by=c.y-h/2-12, soc=Math.min(1,c.charge/100);
+    const col=soc<0.3?'#e0584e':soc<0.7?'#e6b35a':'#37c08e';
+    ctx.fillStyle='rgba(8,16,30,0.72)'; ctx.beginPath(); ctx.roundRect(bx-2,by-2,bw+4,8,2); ctx.fill();
+    ctx.fillStyle='rgba(255,255,255,0.18)'; ctx.fillRect(bx+bw,by+1,1.6,2);            // battery nub
+    ctx.fillStyle=col; ctx.fillRect(bx,by,bw*soc,4);
+    if(Math.sin(T*0.25)>0){ ctx.fillStyle='#fff'; ctx.font='700 7px Inter,sans-serif'; ctx.textAlign='center'; ctx.fillText('⚡',c.x,by+4); } }
 }
 
-function drawElectrons(){
-  // energy flowing IN from the grid along the busbar (the cost side) — density tracks active power
-  const n=Math.max(2,Math.min(22,Math.round(activeCars*2.2)+2)); const span=(CANOPY.x+CANOPY.w)-(SUB.x+SUB.w);
-  for(let k=0;k<n;k++){ const x=SUB.x+SUB.w+((T*1.8+k*span/n)%span); light(x,BUS_Y,3.2,'rgba(90,170,235,0.9)',0.5); }
-  // drop from busbar to each active charger
-  for(let i=0;i<NBAYS;i++){ if(bays[i] && bays[i].phase==='charge'){ const bx=BAYX[i];
-    const yy=BUS_Y+((T*2.2+i*40)%(PILLAR_Y-BUS_Y)); light(bx,yy,2.6,'rgba(90,170,235,0.85)',0.5); } }
+function feedPoint(bx,c,t){ // path: busbar -> pillar -> plug into car
+  if(t<0.42){ return {x:bx, y:lerp(BUS_Y,PILLAR_Y+4,t/0.42)}; }
+  const u=(t-0.42)/0.58, px=bx,py=PILLAR_Y+4, qx=c.x,qy=c.y-12, cxp=bx-8,cyp=PARK_Y-18;
+  return {x:(1-u)*(1-u)*px+2*(1-u)*u*cxp+u*u*qx, y:(1-u)*(1-u)*py+2*(1-u)*u*cyp+u*u*qy};
+}
+function drawEnergyFlow(){
+  // 1) grid feeding the busbar — blue energy flowing IN (the cost), left -> right
+  const span=(CANOPY.x+CANOPY.w)-(SUB.x+SUB.w);
+  const n=Math.max(3,Math.min(26,Math.round(activeCars*2)+3));
+  for(let k=0;k<n;k++){ const x=SUB.x+SUB.w+((T*1.9+k*span/n)%span); light(x,BUS_Y,3,'rgba(90,175,240,0.95)',0.5); }
+  for(let i=0;i<NBAYS;i++){ const c=bays[i]; if(!(c&&c.phase==='charge')) continue; const bx=BAYX[i];
+    ctx.strokeStyle='rgba(90,170,235,0.22)'; ctx.lineWidth=1; ctx.beginPath(); ctx.moveTo(bx,BUS_Y); ctx.lineTo(bx,PILLAR_Y); ctx.stroke();
+    // 2) energy travelling down the cable INTO the car
+    for(let k=0;k<3;k++){ const t=((T*0.013+k/3+i*0.11)%1); const p=feedPoint(bx,c,t); light(p.x,p.y,2.6,'rgba(95,185,245,0.95)',0.6); }
+    // 3) revenue rising OUT of the car (green) — payment per kWh
+    for(let k=0;k<2;k++){ const t=((T*0.02+k/2+i*0.2)%1); light(c.x+6,c.y-14-t*24,2.3,'rgba(55,200,140,0.95)',0.55*(1-t)); }
+  }
 }
 
 function update(dt){
   const u=parseFloat(dUtil.value)/100, cp=parseFloat(dPrice.value)/100, ap=parseFloat(dAnc.value)/100;
   const energyRate=CAP_KW*u;                       // kWh/hr
+  powerMW=energyRate/1000;
   const target=Math.round(u*NBAYS*1.1);            // bays we aim to keep busy
   // keep the forecourt populated to match utilisation
   const assigned=cars.filter(c=>c.phase!=='out').length;
@@ -532,6 +544,9 @@ function update(dt){
   adT-=dt; if(adT<=0){ adT=rnd(150,300)/simSpd; moneys.push({x:CANOPY.x+CANOPY.w-40,y:CANOPY.y-6,label:'Ads',col:C.comm,life:1.3,vy:-0.7}); }
   // electricity cost flowing in from the grid (the cost side)
   if(activeCars>0 && Math.random()<0.02*Math.min(1,dt)*activeCars){ moneys.push({x:SUB.x+SUB.w+6,y:BUS_Y-8,label:'Energy in',col:C.grid,life:1.2,vy:-0.7}); }
+  // idle chargers still incur fixed standing costs — the utilisation drag, made visible
+  if(Math.random()<0.02*Math.min(1,dt)){ const idle=[]; for(let i=0;i<NBAYS;i++) if(!bays[i]) idle.push(i);
+    if(idle.length){ const bi=idle[Math.floor(Math.random()*idle.length)]; moneys.push({x:BAYX[bi],y:PILLAR_Y-8,label:'Idle cost',col:C.idle,life:1.0,vy:-0.55}); } }
 
   for(let i=moneys.length-1;i>=0;i--){ const m=moneys[i]; m.y+=m.vy*dt; m.vy*=0.97; m.life-=dt*0.013; if(m.life<=0) moneys.splice(i,1); }
 
@@ -590,7 +605,7 @@ function drawHUD(){
   ctx.fillStyle=C.aero; ctx.beginPath(); ctx.arc(x+13,y+13,3,0,Math.PI*2); ctx.fill();
   ctx.fillStyle='#cfe0ea'; ctx.font='700 9px Inter,sans-serif'; ctx.textAlign='left'; ctx.fillText('EV CHARGING — LIVE',x+23,y+16);
   ctx.fillStyle='rgba(170,190,205,0.85)'; ctx.font='9px Inter,sans-serif';
-  ctx.fillText(carCount+' sessions  ·  '+vehNow+' charging now',x+12,y+30);
+  ctx.fillText(vehNow+' / '+NBAYS+' bays  ·  '+powerMW.toFixed(1)+' MW drawn',x+12,y+30);
   if(ebHist.length>2){ const sx=x+12,sy=y+38,sh=14,sw=w-24;
     const mn=Math.min(...ebHist,0),mx=Math.max(...ebHist,1),rng=Math.max(1,mx-mn);
     ctx.beginPath(); ebHist.forEach((v,i)=>{ const px=sx+i/(ebHist.length-1)*sw, py=sy+sh-(v-mn)/rng*sh; i===0?ctx.moveTo(px,py):ctx.lineTo(px,py); });
@@ -604,10 +619,10 @@ function tag(txt,x,y){ ctx.fillStyle='rgba(180,196,210,0.5)'; ctx.font='700 8px 
 
 function draw(){
   ctx.clearRect(0,0,W,H); drawScene();
-  drawElectrons();
   drawCanopy();
   for(let i=0;i<NBAYS;i++) drawCharger(i);
   cars.forEach(drawCar);
+  drawEnergyFlow();
   // retail unit
   ctx.fillStyle='#26303a'; ctx.beginPath(); ctx.roundRect(RETAIL.x,RETAIL.y,RETAIL.w,RETAIL.h,4); ctx.fill();
   for(let r=0;r<2;r++) for(let cc=0;cc<4;cc++){ ctx.fillStyle=(r+cc)%2?'rgba(255,220,120,0.3)':'rgba(120,160,200,0.25)'; ctx.fillRect(RETAIL.x+8+cc*20,RETAIL.y+8+r*18,15,12); }
@@ -618,7 +633,7 @@ function draw(){
   moneys.forEach(m=>{ const a=Math.max(0,Math.min(1,m.life*0.8)); ctx.save(); ctx.globalAlpha=a;
     ctx.font='700 9px Inter,sans-serif'; ctx.textAlign='left'; const tw=ctx.measureText('£ '+m.label).width;
     ctx.fillStyle='rgba(8,16,30,0.55)'; ctx.beginPath(); ctx.roundRect(m.x-4,m.y-9,tw+10,13,6); ctx.fill();
-    ctx.fillStyle=m.col; ctx.fillText((m.col===C.grid?'−£ ':'£ ')+m.label,m.x+1,m.y+1); ctx.restore(); });
+    const cost=(m.col===C.grid||m.col===C.idle); ctx.fillStyle=m.col; ctx.fillText((cost?'−£ ':'£ ')+m.label,m.x+1,m.y+1); ctx.restore(); });
   drawHUD();
   ctx.save(); const vg=ctx.createRadialGradient(W/2,H/2,H*0.4,W/2,H/2,H*0.95);
   vg.addColorStop(0,'rgba(0,0,0,0)'); vg.addColorStop(1,'rgba(0,0,0,0.28)'); ctx.fillStyle=vg; ctx.fillRect(0,0,W,H); ctx.restore();
