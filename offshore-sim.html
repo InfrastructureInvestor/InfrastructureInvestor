@@ -382,18 +382,19 @@ function renderModel(){
   .forEach(id=>document.getElementById(id).addEventListener('input',renderModel));
 
 // ---------- scene geometry ----------
-const HORIZON=146, SHORE_X=648, OSP={x:392,y:230};
+const HORIZON=150, SHORE_X=596, OSP={x:432,y:190}, GRID={x:672,y:118};
+const EC='rgba(127,208,255,0.95)';                       // electricity flow colour
 const TURB=[
-  {x:58,s:1.4,by:262},{x:150,s:1.05,by:226},{x:246,s:1.3,by:252},
-  {x:470,s:1.12,by:240},{x:556,s:0.95,by:218},{x:626,s:0.82,by:204},
-  {x:200,s:0.8,by:198},{x:330,s:0.92,by:210}
+  {x:46,s:1.4,by:266},{x:120,s:1.0,by:222},{x:150,s:0.8,by:196},{x:196,s:1.28,by:252},
+  {x:232,s:1.05,by:232},{x:262,s:0.92,by:208},{x:300,s:1.18,by:244},{x:352,s:0.85,by:200}
 ].map(t=>({...t,ang:Math.random()*6}));
 TURB.sort((a,b)=>a.by-b.by);
 
 // ---------- entities ----------
 const moneys=[];
-let T=0,cumEB=0,cTick=0,outNow=0,spin=0,genPhase=0,vessel={x:120,y:268,dir:1},oamT=0;
+let T=0,cumEB=0,cTick=0,outNow=0,spin=0,vessel={x:120,y:272,dir:1},oamT=0,cashT=0;
 let baseRevYr=0,baseCostYr=0,baseEbYr=0;
+let visLF=0.45,visConShare=0.65,visRevInt=0.5,merWob=1;
 function rnd(a,b){return a+Math.random()*(b-a);} function lerp(a,b,t){return a+(b-a)*t;}
 
 function light(x,y,r,col,a){ ctx.save(); ctx.globalAlpha=a;
@@ -401,13 +402,14 @@ function light(x,y,r,col,a){ ctx.save(); ctx.globalAlpha=a;
   ctx.fillStyle=g; ctx.beginPath(); ctx.arc(x,y,r,0,Math.PI*2); ctx.fill(); ctx.restore(); }
 
 function drawScene(){
-  // sky
   const sky=ctx.createLinearGradient(0,0,0,HORIZON); sky.addColorStop(0,'#13243f'); sky.addColorStop(0.6,'#2b4063'); sky.addColorStop(1,'#5b6a86');
   ctx.fillStyle=sky; ctx.fillRect(0,0,W,HORIZON);
   light(150,40,50,'rgba(255,238,205,0.4)',0.55);
-  // wind-driven clouds (drift speed tracks load factor)
-  ctx.fillStyle='rgba(255,255,255,0.06)';
-  [110,300,520,640].forEach((cx,i)=>{ const x=((cx + T*(0.3+spin*4))%(W+120))-60, cy=30+i*14+Math.sin(T*0.01+i)*3;
+  // wind streaks — speed tracks the load factor (this is what drives everything)
+  ctx.strokeStyle='rgba(200,220,240,0.10)'; ctx.lineWidth=1.4;
+  for(let k=0;k<14;k++){ const yy=14+k*9, x=((k*83 + T*(0.8+visLF*7))%(W+90))-60; ctx.beginPath(); ctx.moveTo(x,yy); ctx.lineTo(x+22,yy); ctx.stroke(); }
+  ctx.fillStyle='rgba(255,255,255,0.05)';
+  [120,360,560].forEach((cx,i)=>{ const x=((cx+T*(0.3+visLF*5))%(W+120))-60, cy=30+i*16+Math.sin(T*0.01+i)*3;
     ctx.beginPath(); ctx.ellipse(x,cy,46,12,0,0,Math.PI*2); ctx.fill(); ctx.beginPath(); ctx.ellipse(x+24,cy-5,28,9,0,0,Math.PI*2); ctx.fill(); });
   // sea
   const sea=ctx.createLinearGradient(0,HORIZON,0,H); sea.addColorStop(0,'#1d3a5c'); sea.addColorStop(1,'#0f2643');
@@ -415,12 +417,8 @@ function drawScene(){
   ctx.strokeStyle='rgba(130,180,225,0.10)'; ctx.lineWidth=1;
   for(let y=HORIZON+12;y<H;y+=15){ ctx.beginPath();
     for(let x=0;x<=W;x+=18){ const yy=y+Math.sin((x*0.05)+(T*0.05)+y)*1.7; x===0?ctx.moveTo(x,yy):ctx.lineTo(x,yy); } ctx.stroke(); }
-  // shore (right) + onshore grid connection
-  ctx.fillStyle='#243027'; ctx.beginPath(); ctx.moveTo(SHORE_X,HORIZON); ctx.lineTo(W,HORIZON); ctx.lineTo(W,H); ctx.lineTo(SHORE_X+16,H); ctx.closePath(); ctx.fill();
-  ctx.fillStyle='#2c3a45'; ctx.fillRect(W-46,HORIZON-26,30,26);                 // onshore substation
-  ctx.strokeStyle='#43505f'; ctx.lineWidth=2; ctx.beginPath(); ctx.moveTo(W-58,HORIZON-44); ctx.lineTo(W-58,HORIZON-4); ctx.stroke();
-  ctx.beginPath(); ctx.moveTo(W-66,HORIZON-36); ctx.lineTo(W-50,HORIZON-36); ctx.moveTo(W-68,HORIZON-28); ctx.lineTo(W-48,HORIZON-28); ctx.stroke();
-  ctx.fillStyle='rgba(120,160,200,0.7)'; ctx.font='700 7px Inter,sans-serif'; ctx.textAlign='center'; ctx.fillText('GRID',W-31,HORIZON-10);
+  // shore (right)
+  ctx.fillStyle='#243027'; ctx.beginPath(); ctx.moveTo(SHORE_X,HORIZON); ctx.lineTo(W,HORIZON); ctx.lineTo(W,H); ctx.lineTo(SHORE_X+40,H); ctx.closePath(); ctx.fill();
 }
 
 function drawOSP(){
@@ -457,34 +455,66 @@ function drawVessel(){
   ctx.fillStyle='#e8edf2'; ctx.fillRect(x-4,y-4,5,4); ctx.restore();
 }
 
-function drawGenFlow(){
-  // array cables: each turbine feeds the OSP (faint)
-  TURB.forEach(t=>{ ctx.strokeStyle='rgba(127,208,255,0.10)'; ctx.lineWidth=1; ctx.beginPath(); ctx.moveTo(t.x,t.by+4); ctx.lineTo(OSP.x,OSP.y+6); ctx.stroke(); });
-  // export cable OSP -> shore, with power pulses flowing to shore; density tracks output
-  ctx.strokeStyle='rgba(127,208,255,0.22)'; ctx.lineWidth=2; ctx.beginPath(); ctx.moveTo(OSP.x,OSP.y+2); ctx.lineTo(SHORE_X+8,HORIZON+10); ctx.stroke();
-  const lf=parseFloat(dLF.value)/100, con=parseFloat(dCon.value)/100;
-  const n=Math.max(3,Math.min(26,Math.round(lf*34)));
-  for(let k=0;k<n;k++){ const u=((T*0.012+k/n)%1); const x=lerp(OSP.x,SHORE_X+8,u), y=lerp(OSP.y+2,HORIZON+10,u);
-    const col = (k/n)<con ? 'rgba(55,200,140,0.95)' : 'rgba(230,179,90,0.95)';   // green=contracted, amber=merchant
-    light(x,y,2.7,col,0.6); }
-  // a few pulses from each turbine toward the OSP
-  TURB.forEach((t,i)=>{ if(Math.random()<lf*0.5){ const u=((T*0.02+i*0.13)%1); light(lerp(t.x,OSP.x,u),lerp(t.by+4,OSP.y+6,u),2,'rgba(127,208,255,0.8)',0.4*(1-u)); } });
+function flowDots(ax,ay,bx,by,n,speed,phase,fn){
+  for(let k=0;k<n;k++){ const u=((T*speed+k/n+phase)%1); const x=lerp(ax,bx,u),y=lerp(ay,by,u); const o=fn(k,n,u); light(x,y,o.r,o.c,0.6); }
+}
+function drawGridNode(){
+  const x=GRID.x,y=GRID.y;
+  ctx.strokeStyle='#4a5868'; ctx.lineWidth=2; ctx.beginPath(); ctx.moveTo(x,y-30); ctx.lineTo(x,y+22); ctx.stroke();
+  ctx.beginPath(); ctx.moveTo(x-9,y-22); ctx.lineTo(x+9,y-22); ctx.moveTo(x-11,y-13); ctx.lineTo(x+11,y-13); ctx.stroke();
+  ctx.fillStyle='#2c3a45'; ctx.beginPath(); ctx.roundRect(x-6,y+10,28,22,3); ctx.fill();
+  ctx.strokeStyle='rgba(120,160,200,0.5)'; ctx.lineWidth=0.7; ctx.strokeRect(x-6,y+10,28,22);
+  ctx.fillStyle='rgba(150,185,220,0.85)'; ctx.font='700 7px Inter,sans-serif'; ctx.textAlign='center'; ctx.fillText('GRID / MARKET',x+8,y+44);
+  drawGauge();
+}
+function drawGauge(){
+  const gx=GRID.x-46, gy=16, gw=60, gh=42;
+  ctx.fillStyle='rgba(10,20,34,0.55)'; ctx.beginPath(); ctx.roundRect(gx,gy,gw,gh,5); ctx.fill();
+  ctx.fillStyle='rgba(180,196,210,0.7)'; ctx.font='700 6.5px Inter,sans-serif'; ctx.textAlign='left'; ctx.fillText('POWER PRICE £/MWh',gx+5,gy+9);
+  const top=gy+14, bot=gy+gh-5, py=p=>bot-(Math.min(220,p)/220)*(bot-top);
+  const sy=py(STRIKE); ctx.strokeStyle='rgba(55,200,140,0.9)'; ctx.setLineDash([3,2]); ctx.lineWidth=1; ctx.beginPath(); ctx.moveTo(gx+22,sy); ctx.lineTo(gx+gw-5,sy); ctx.stroke(); ctx.setLineDash([]);
+  const mp=parseFloat(dPrice.value)*merWob, my=py(mp);
+  ctx.strokeStyle='rgba(230,179,90,0.5)'; ctx.lineWidth=1; ctx.beginPath(); ctx.moveTo(gx+22,my); ctx.lineTo(gx+gw-9,my); ctx.stroke();
+  ctx.fillStyle='#e6b35a'; ctx.beginPath(); ctx.arc(gx+gw-9,my,2.4,0,Math.PI*2); ctx.fill();
+  ctx.fillStyle='#7fd9b4'; ctx.font='6px Inter,sans-serif'; ctx.fillText('CfD',gx+4,sy+2);
+  ctx.fillStyle='#e6b35a'; ctx.fillText('Merch',gx+2,my+2);
+}
+function drawFlows(){
+  const lf=visLF;
+  // array cables — turbines feed the offshore substation (electricity, cyan)
+  TURB.forEach((t,i)=>{ ctx.strokeStyle='rgba(127,208,255,0.10)'; ctx.lineWidth=1; ctx.beginPath(); ctx.moveTo(t.x,t.by+2); ctx.lineTo(OSP.x,OSP.y+4); ctx.stroke();
+    flowDots(t.x,t.by+2,OSP.x,OSP.y+4,Math.max(1,Math.round(1+lf*4)),0.02,i*0.07,()=>({c:EC,r:1.8})); });
+  // export corridor guide rails: lower = electricity out, upper = cash back
+  ctx.strokeStyle='rgba(127,208,255,0.16)'; ctx.lineWidth=2; ctx.beginPath(); ctx.moveTo(OSP.x,OSP.y+5); ctx.lineTo(GRID.x-12,GRID.y+12); ctx.stroke();
+  ctx.strokeStyle='rgba(55,200,140,0.14)'; ctx.lineWidth=2; ctx.beginPath(); ctx.moveTo(OSP.x,OSP.y-7); ctx.lineTo(GRID.x-12,GRID.y); ctx.stroke();
+  // ENERGY: OSP -> GRID (cyan), density tracks generation
+  flowDots(OSP.x,OSP.y+5,GRID.x-12,GRID.y+12,Math.max(4,Math.round(4+lf*22)),0.016,0,()=>({c:EC,r:2.6}));
+  // CASH: GRID -> project (green contracted = steady, amber merchant = volatile)
+  flowDots(GRID.x-12,GRID.y,OSP.x,OSP.y-7,Math.max(4,Math.round(4+visRevInt*20)),0.014,0,(k,nn)=>{
+    const green=(k/nn)<visConShare;
+    return green ? {c:'rgba(55,200,140,0.95)',r:2.6} : {c:'rgba(230,179,90,0.95)',r:1.7+1.5*(0.5+0.5*Math.sin(T*0.05+k*1.7))}; });
+  // direction labels
+  const ex=(OSP.x+GRID.x)/2, ey=(OSP.y+GRID.y)/2;
+  ctx.font='700 8px Inter,sans-serif'; ctx.textAlign='center';
+  ctx.fillStyle='rgba(127,208,255,0.95)'; ctx.fillText('ELECTRICITY →',ex,ey+20);
+  ctx.fillStyle='rgba(95,210,150,0.95)'; ctx.fillText('← £ PAYMENTS',ex,ey-12);
 }
 
 function update(dt){
   const lf=parseFloat(dLF.value)/100, powerP=parseFloat(dPrice.value), con=parseFloat(dCon.value)/100;
   const genRate=CAP_MW*lf;                          // MWh/hr (= average MW)
-  spin=0.02+lf*0.16;                                // rotor speed tracks the wind
+  visLF=lf; spin=0.02+lf*0.16;                      // rotor speed tracks the wind
+  merWob=1+0.22*Math.sin(T*0.05)+0.12*Math.sin(T*0.11+1.3);  // merchant price volatility (visual)
   TURB.forEach(t=>t.ang+=dt*spin);
   outNow=lerp(outNow, genRate*(1+0.05*Math.sin(T*0.04)), Math.min(1,0.05*dt));
 
-  // service vessel patrols between turbines (O&M)
-  vessel.x+=dt*0.5*vessel.dir; if(vessel.x>560){vessel.dir=-1;} if(vessel.x<90){vessel.dir=1;}
-  oamT-=dt; if(oamT<=0){ oamT=rnd(200,360)/simSpd; moneys.push({x:vessel.x,y:vessel.y-10,label:'O&M',col:C.cost,life:1.3,vy:-0.7}); }
+  // service vessel patrols the farm (O&M cost)
+  vessel.x+=dt*0.5*vessel.dir; if(vessel.x>360){vessel.dir=-1;} if(vessel.x<60){vessel.dir=1;}
+  oamT-=dt; if(oamT<=0){ oamT=rnd(220,380)/simSpd; moneys.push({x:vessel.x,y:vessel.y-10,label:'O&M',col:C.cost,life:1.3,vy:-0.7}); }
 
-  // revenue arriving at the grid — split contracted (green) vs merchant (amber) by the contracted share
-  if(Math.random()<0.06*Math.min(1,dt)*(0.4+lf)){ const merchant=Math.random()>con;
-    moneys.push({x:W-40,y:HORIZON-30,label:merchant?'Merchant':'CfD',col:merchant?C.comm:C.aero,life:1.5,vy:-0.95}); }
+  // cash collected back at the project — contracted (green) vs merchant (amber)
+  cashT-=dt; if(cashT<=0){ cashT=rnd(70,150)/simSpd; const merchant=Math.random()>visConShare;
+    moneys.push({x:OSP.x-12,y:OSP.y-24,label:merchant?'Merchant':'CfD',col:merchant?C.comm:C.aero,life:1.5,vy:-0.9}); }
 
   for(let i=moneys.length-1;i>=0;i--){ const m=moneys[i]; m.y+=m.vy*dt; m.vy*=0.97; m.life-=dt*0.013; if(m.life<=0) moneys.splice(i,1); }
 
@@ -498,6 +528,7 @@ function update(dt){
 
   const totR=rSmooth.reduce((x,y)=>x+y,0), totC=cSmooth.reduce((x,y)=>x+y,0), totP=totR-totC;
   const conTot=rSmooth.reduce((s,v,i)=>s+(STREAMS[i].aero?v:0),0), merTot=totR-conTot;
+  visConShare=conTot/Math.max(1,totR); visRevInt=Math.max(0.06,Math.min(1,totR/93600));
   const revYr=totR*HRS_PER_YR, ebYr=totP*HRS_PER_YR, genYr=genRate*HRS_PER_YR, EV=ebYr*EV_MULT;
   baseRevYr=revYr; baseCostYr=totC*HRS_PER_YR; baseEbYr=ebYr;
   cumEB+=totP*dt/60;
@@ -560,8 +591,9 @@ function draw(){
   drawVessel();
   TURB.forEach(drawTurbine);
   drawOSP();
-  drawGenFlow();
-  tag('OFFSHORE WIND FARM',250,HORIZON+18); tag('EXPORT CABLE → SHORE',520,OSP.y-24);
+  drawGridNode();
+  drawFlows();
+  tag('OFFSHORE WIND FARM',180,HORIZON+18);
   moneys.forEach(m=>{ const a=Math.max(0,Math.min(1,m.life*0.8)); ctx.save(); ctx.globalAlpha=a;
     ctx.font='700 9px Inter,sans-serif'; ctx.textAlign='left'; const cost=(m.col===C.cost); const tw=ctx.measureText((cost?'−£ ':'£ ')+m.label).width;
     ctx.fillStyle='rgba(8,16,30,0.55)'; ctx.beginPath(); ctx.roundRect(m.x-4,m.y-9,tw+10,13,6); ctx.fill();
