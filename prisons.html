@@ -403,8 +403,10 @@ function renderModel(){
 
 // ---------- scene geometry ----------
 // ---------- scene geometry (secure estate, front elevation) ----------
-const EB_X=138, EB_Y=92, EB_COLS=12, EB_CW=37, EB_CH=26;   // cellblock window grid
-const GATE_X=W/2, GATE_Y=300, GROUND=270;
+const EB_X=138, EB_Y=78, EB_COLS=12, EB_CW=37, EB_CH=24;   // cellblock window grid
+const GATE_X=588, GATE_Y=300, GROUND=268;
+const COMM={x:150,y:216,w:300,h:46};                        // association (communal) room
+const FIG='rgba(13,28,22,0.85)';                            // prisoner silhouette
 function cellXY(i){ const r=Math.floor(i/EB_COLS), c=i%EB_COLS; return {x:EB_X+c*EB_CW, y:EB_Y+r*EB_CH}; }
 function winCount(places){ return Math.max(12,Math.min(54,Math.round(places/30))); }
 
@@ -452,14 +454,79 @@ function drawEstate(places,avail){
   ctx.fillStyle='#2b322c'; ctx.beginPath(); ctx.roundRect(bx,by,bw,bh,4); ctx.fill();
   ctx.fillStyle='#3a443b'; ctx.fillRect(bx,by,bw,8);                            // roof band
   ctx.fillStyle='rgba(150,170,150,0.5)'; ctx.font='700 8px Inter,sans-serif'; ctx.textAlign='left'; ctx.fillText('CELLBLOCK',bx+6,by-6);
-  for(let i=0;i<NWIN;i++){ const p=cellXY(i), wx=p.x+3, wy=p.y+2, ww=EB_CW-9, wh=EB_CH-9, avail2=i<litN;
-    if(avail2){ ctx.fillStyle='#1e3a30'; ctx.fillRect(wx,wy,ww,wh);
-      const gl=0.5+0.25*Math.sin(T*0.05+i); ctx.fillStyle='rgba(123,214,170,'+gl+')'; ctx.fillRect(wx+1,wy+1,ww-2,wh-2);
-      light(wx+ww/2,wy+wh/2,8,'rgba(55,192,142,0.4)',0.5);
-    } else { ctx.fillStyle='#33211f'; ctx.fillRect(wx,wy,ww,wh);
-      ctx.fillStyle='rgba(210,80,64,0.55)'; ctx.fillRect(wx+1,wy+1,ww-2,wh-2);
-      light(wx+ww/2,wy+wh/2,8,'rgba(210,80,64,0.4)',0.5); }
-    ctx.fillStyle='rgba(20,26,22,0.8)'; for(let b=1;b<=3;b++){ ctx.fillRect(wx+b*(ww/4),wy,1,wh); }  // bars
+  for(let i=0;i<NWIN;i++){ const p=cellXY(i), wx=p.x+3, wy=p.y+2, ww=EB_CW-9, wh=EB_CH-7, occ=i<litN;
+    if(occ){
+      // warm-lit occupied cell — a prisoner lives here
+      const g=ctx.createLinearGradient(0,wy,0,wy+wh); g.addColorStop(0,'#2f6b54'); g.addColorStop(1,'#1b4534');
+      ctx.fillStyle=g; ctx.fillRect(wx,wy,ww,wh);
+      ctx.fillStyle='rgba(123,214,170,'+(0.16+0.09*Math.sin(T*0.05+i))+')'; ctx.fillRect(wx,wy,ww,wh);
+      drawPrisoner(wx+ww/2, wy+wh-1.5, i, ww, wh);          // person behind the bars
+      light(wx+ww/2,wy+wh/2,7,'rgba(55,192,142,0.32)',0.5);
+    } else {
+      // out-of-use cell — empty, dark, triggers a deduction
+      ctx.fillStyle='#241a19'; ctx.fillRect(wx,wy,ww,wh);
+      ctx.fillStyle='rgba(150,55,46,0.30)'; ctx.fillRect(wx,wy,ww,wh);
+      light(wx+ww/2,wy+wh/2,7,'rgba(210,80,64,0.32)',0.45);
+    }
+    // bars + frame in front
+    ctx.fillStyle='rgba(15,21,17,0.85)'; for(let b=1;b<=4;b++) ctx.fillRect(wx+b*(ww/5),wy,1,wh);
+    ctx.fillStyle='rgba(34,42,36,0.9)'; ctx.fillRect(wx,wy,ww,1); ctx.fillRect(wx,wy+wh-1,ww,1);
+  }
+}
+// a prisoner standing behind the bars, with light idle motion; behaviour varies by cell
+function drawPrisoner(cx,footY,seed,ww,wh){
+  const k=seed%4, sway=Math.sin(T*0.035+seed*1.3)*1.2;
+  const x=cx+sway*0.5;
+  const headR=Math.max(1.6,wh*0.14), bodyW=Math.max(3.2,ww*0.17), bodyH=Math.max(6,wh*0.52), topY=footY-bodyH;
+  ctx.fillStyle=FIG;
+  ctx.beginPath(); ctx.roundRect(x-bodyW/2,topY,bodyW,bodyH,1.4); ctx.fill();          // torso
+  ctx.beginPath(); ctx.arc(x,topY-headR+0.6,headR,0,Math.PI*2); ctx.fill();            // head
+  ctx.strokeStyle=FIG; ctx.lineWidth=Math.max(1,bodyW*0.34);
+  if(k===0){ const ay=topY+bodyH*0.32;                                                 // gripping the bars
+    ctx.beginPath(); ctx.moveTo(x-bodyW*0.3,ay); ctx.lineTo(x-bodyW*1.0,ay-2); ctx.moveTo(x+bodyW*0.3,ay); ctx.lineTo(x+bodyW*1.0,ay-2); ctx.stroke();
+  } else if(k===1){ const ar=Math.sin(T*0.045+seed)*2.2;                               // pacing, one arm swinging
+    ctx.beginPath(); ctx.moveTo(x,topY+bodyH*0.28); ctx.lineTo(x+bodyW*0.9,topY+bodyH*0.28-2-ar); ctx.stroke();
+  }
+  ctx.fillStyle=FIG; ctx.fillRect(x-bodyW*0.45,footY-1,bodyW*0.9,1.4);                  // feet
+}
+function seatedFigure(x,footY,seed,toward){
+  const sway=Math.sin(T*0.03+seed)*0.5; ctx.fillStyle=FIG;
+  ctx.beginPath(); ctx.roundRect(x-3+sway,footY-10,6,8,2); ctx.fill();                 // hunched torso
+  ctx.beginPath(); ctx.arc(x+sway,footY-12,2.5,0,Math.PI*2); ctx.fill();               // head
+  ctx.strokeStyle=FIG; ctx.lineWidth=1.5; ctx.beginPath(); ctx.moveTo(x+sway,footY-7); ctx.lineTo(x+toward*7,footY-5); ctx.stroke();  // arm to table
+}
+function standFigure(x,footY,seed){
+  const sway=Math.sin(T*0.035+seed)*1; ctx.fillStyle=FIG;
+  ctx.beginPath(); ctx.roundRect(x-3+sway*0.5,footY-15,6,13,2); ctx.fill();
+  ctx.beginPath(); ctx.arc(x+sway*0.5,footY-18,2.7,0,Math.PI*2); ctx.fill();
+  ctx.strokeStyle=FIG; ctx.lineWidth=1.7; ctx.beginPath(); ctx.moveTo(x+sway*0.5,footY-12); ctx.lineTo(x+4,footY-14); ctx.stroke();  // hand to mouth
+}
+// the association room — prisoners out of cell playing cards and smoking; how many depends on the regime (availability)
+function drawCommunal(avail){
+  const x0=COMM.x,y0=COMM.y,w=COMM.w,h=COMM.h, floorY=y0+h-9;
+  ctx.fillStyle='#222b26'; ctx.beginPath(); ctx.roundRect(x0,y0,w,h,5); ctx.fill();
+  ctx.fillStyle='rgba(120,150,120,0.10)'; ctx.fillRect(x0,y0,w,h);
+  ctx.fillStyle='#2c352e'; ctx.fillRect(x0+4,floorY,w-8,h-(floorY-y0)-4);              // floor
+  light(x0+w*0.5,floorY-6,70,'rgba(120,180,150,0.10)',1);
+  ctx.strokeStyle='rgba(150,165,150,0.22)'; ctx.lineWidth=1;                            // glazed mullions
+  for(let x=x0+24;x<x0+w;x+=26){ ctx.beginPath(); ctx.moveTo(x,y0+2); ctx.lineTo(x,floorY); ctx.stroke(); }
+  ctx.strokeStyle='rgba(150,165,150,0.4)'; ctx.strokeRect(x0,y0,w,h);
+  ctx.fillStyle='rgba(150,170,150,0.5)'; ctx.font='700 7px Inter,sans-serif'; ctx.textAlign='left'; ctx.fillText('ASSOCIATION',x0+6,y0-4);
+
+  const nOut=Math.max(1,Math.min(4,Math.round(1+3*((avail-0.85)/0.15))));
+  // card table with a hand of cards
+  const tx=x0+w*0.52, ty=floorY-1;
+  ctx.fillStyle='#3a4a40'; ctx.beginPath(); ctx.ellipse(tx,ty,24,6,0,0,Math.PI*2); ctx.fill();
+  ctx.fillStyle='#e8ecee'; for(let c=0;c<3;c++){ ctx.save(); ctx.translate(tx-3,ty-2); ctx.rotate((c-1)*0.32); ctx.fillRect(-2,-3,4,6); ctx.restore(); }
+  // card players seated around the table
+  if(nOut>=1) seatedFigure(tx-28,floorY,1,1);
+  if(nOut>=2) seatedFigure(tx+28,floorY,2,-1);
+  if(nOut>=4) seatedFigure(tx,floorY+2,5,1);
+  // smoker by the window, with rising smoke
+  if(nOut>=3){ const sx=x0+26, sy=floorY; standFigure(sx,sy,9);
+    const mx=sx+4, my=sy-15; ctx.fillStyle='#e07a6a'; ctx.fillRect(mx,my,2,1);          // cigarette tip
+    for(let s=0;s<5;s++){ const t=((T*0.5)+s*8)%40, a=Math.max(0,0.35*(1-t/40));
+      ctx.fillStyle='rgba(205,212,212,'+a+')'; ctx.beginPath(); ctx.arc(mx+2+Math.sin((t+s)*0.3)*3.2, my-2-t, 1.5+t*0.05, 0, Math.PI*2); ctx.fill(); }
   }
 }
 function drawGatehouse(){
@@ -559,6 +626,7 @@ function draw(){
   ctx.clearRect(0,0,W,H); drawScene();
   drawPerimeter();
   drawEstate(visPlaces,visAvail);
+  drawCommunal(visAvail);
   drawGatehouse();
   ctx.fillStyle='rgba(160,180,160,0.55)'; ctx.font='700 7px Inter,sans-serif'; ctx.textAlign='center'; ctx.fillText('SECURE ESTATE — available cells earn the unitary charge; unavailable cells trigger deductions',W/2,H-6);
   moneys.forEach(m=>{ const a=Math.max(0,Math.min(1,m.life*0.8)); ctx.save(); ctx.globalAlpha=a;
