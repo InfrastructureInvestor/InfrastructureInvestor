@@ -3,14 +3,12 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Roads — Infrastructure Investor</title>
+<title>Toll Road Economics — Live Simulation</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,500;0,8..60,600;1,8..60,400&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="styles.css">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Source+Serif+4:opsz,wght@8..60,400;8..60,500;8..60,600&display=swap" rel="stylesheet">
 <style>
-
-#rdsim{
+:root{
   --bg:#f5f7f6; --surface:#ffffff; --surface-2:#fbfcfc;
   --border:#e7ebe9; --border-strong:#d8dedb; --text:#15201d; --text2:#4c5854; --muted:#8a948f;
   --accent:#0c6b4f; --accent-soft:#e7f1ec;
@@ -147,35 +145,9 @@
   #rdsim .calc-grid{grid-template-columns:1fr}
   #rdsim .out-cards{grid-template-columns:repeat(2,1fr)}
 }
-
 </style>
 </head>
 <body>
-
-<nav>
-  <div class="wrap">
-    <a class="nav-logo" href="index.html"><span class="pulse"></span>Infrastructure Reference</a>
-    <div class="nav-meta">Infrastructure Investor</div>
-  </div>
-</nav>
-
-<section class="hero">
-  <div class="wrap">
-    <div class="breadcrumb"><a href="index.html">Home</a><span class="sep">/</span><a href="transport.html">Transport</a><span class="sep">/</span>Roads</div>
-    <div class="hero-eyebrow">Transport</div>
-    <h1><em>Roads</em></h1>
-    <p class="hero-sub">An interactive economic model of a toll-road concession — watch cars and HGVs flow under the toll gantry, see the light-vehicle and heavy-goods revenue split, and run the investment case live.</p>
-  </div>
-</section>
-
-<section class="tools-section">
-  <div class="wrap">
-
-    <div class="section-header">
-      <div class="section-label">Interactive model</div>
-      <div class="section-line"></div>
-    </div>
-
 <div id="rdsim">
 
   <div class="as-head">
@@ -611,15 +583,5 @@ function loop(ts){
 requestAnimationFrame(loop);
 })();
 </script>
-
-  </div>
-</section>
-
-<footer>
-  <div class="wrap">
-    <div class="footer-text">© 2026 Infrastructure Investor | theinfrastructureinvestor.com</div>
-  </div>
-</footer>
-
 </body>
 </html>
