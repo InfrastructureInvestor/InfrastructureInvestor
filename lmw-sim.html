@@ -3,13 +3,12 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Electricity distribution — Infrastructure Investor</title>
+<title>Last-mile Water (RCV) Economics — Live Simulation</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,500;0,8..60,600;1,8..60,400&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="styles.css">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Source+Serif+4:opsz,wght@8..60,400;8..60,500;8..60,600&display=swap" rel="stylesheet">
 <style>
-#edsim{
+:root{
   --bg:#f5f7f6; --surface:#ffffff; --surface-2:#fbfcfc;
   --border:#e7ebe9; --border-strong:#d8dedb; --text:#15201d; --text2:#4c5854; --muted:#8a948f;
   --accent:#0c6b4f; --accent-soft:#e7f1ec;
@@ -17,189 +16,148 @@
   --stock:#2f5fb0; --stock-soft:#eaf0fa;
 }
 *{box-sizing:border-box;margin:0;padding:0}
-#edsim{font-family:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;color:var(--text);width:100%;max-width:980px;margin:0 auto;font-variant-numeric:tabular-nums}
-#edsim .as-head{margin-bottom:1.1rem}
-#edsim .as-eyebrow{font-size:.66rem;letter-spacing:.16em;text-transform:uppercase;font-weight:600;color:var(--accent);margin-bottom:.5rem}
-#edsim h2{font-family:'Source Serif 4',Georgia,serif;font-weight:500;font-size:1.7rem;line-height:1.1;letter-spacing:-.015em;margin-bottom:.4rem}
-#edsim .as-sub{font-size:.86rem;color:var(--text2);line-height:1.6;max-width:660px}
-#edsim .as-ctrls{display:flex;gap:.65rem;align-items:center;flex-wrap:wrap;margin:1.1rem 0 .7rem;background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:.7rem .9rem}
-#edsim .ctrl{display:flex;align-items:center;gap:.55rem}
-#edsim .ctrl label{font-size:.7rem;color:var(--muted);letter-spacing:.04em;text-transform:uppercase;font-weight:600;white-space:nowrap}
-#edsim .ctrl input[type=range]{width:90px;-webkit-appearance:none;appearance:none;height:4px;border-radius:3px;background:var(--border-strong);outline:none}
-#edsim .ctrl input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;appearance:none;width:14px;height:14px;border-radius:50%;background:var(--accent);cursor:pointer;border:2px solid #fff;box-shadow:0 1px 3px rgba(0,0,0,.2)}
-#edsim .ctrl input[type=range]::-moz-range-thumb{width:14px;height:14px;border-radius:50%;background:var(--accent);cursor:pointer;border:2px solid #fff}
-#edsim .ctrl .val{font-size:.8rem;font-weight:600;min-width:14px;color:var(--text)}
-#edsim .as-divider{width:1px;height:24px;background:var(--border);margin:0 .15rem}
-#edsim .spd{display:flex;gap:.25rem;margin-left:auto}
-#edsim .spd button{font-family:inherit;font-size:.72rem;font-weight:600;padding:.32rem .6rem;border-radius:7px;border:1px solid var(--border-strong);background:var(--surface-2);color:var(--text2);cursor:pointer;transition:all .12s}
-#edsim .spd button:hover{border-color:var(--accent)}
-#edsim .spd button.on{background:var(--accent);color:#fff;border-color:var(--accent)}
-#edsim .as-stage{position:relative;border-radius:14px;overflow:hidden;border:1px solid var(--border);box-shadow:0 12px 34px rgba(18,38,32,.10)}
-#edsim canvas{display:block;width:100%;aspect-ratio:720/360}
-#edsim .as-mini{position:fixed;right:20px;bottom:20px;width:clamp(300px,34vw,440px);aspect-ratio:720/360;border-radius:12px;overflow:hidden;border:1px solid rgba(255,255,255,.16);box-shadow:0 16px 40px rgba(8,16,30,.45);opacity:0;transform:translateY(12px) scale(.97);pointer-events:none;transition:opacity .28s ease,transform .28s ease;z-index:70;cursor:pointer}
-#edsim .as-mini.show{opacity:1;transform:none;pointer-events:auto}
-#edsim .as-mini:hover{border-color:rgba(55,192,142,.55)}
-#edsim .as-mini canvas{display:block;width:100%;height:100%;aspect-ratio:auto}
-#edsim .as-mini-tag{position:absolute;left:9px;top:8px;font-size:.6rem;font-weight:700;letter-spacing:.1em;color:#cfe0ea;background:rgba(10,20,34,.62);padding:3px 8px;border-radius:6px;display:flex;align-items:center;gap:5px}
-#edsim .as-mini-tag::before{content:'';width:6px;height:6px;border-radius:50%;background:#37c08e;box-shadow:0 0 6px #37c08e}
-@media(max-width:560px){ #edsim .as-mini{width:min(66vw,260px);right:10px;bottom:10px} }
-#edsim .as-legend{display:flex;gap:1.1rem;flex-wrap:wrap;margin:.7rem 0 .2rem}
-#edsim .leg{display:flex;align-items:center;gap:.4rem;font-size:.72rem;color:var(--text2)}
-#edsim .leg .dot{width:9px;height:9px;border-radius:50%;flex-shrink:0}
-#edsim .leg b{font-weight:600;color:var(--text)}
-#edsim .band-label{display:flex;align-items:center;gap:.6rem;margin:1.1rem 0 .55rem}
-#edsim .band-label .t{font-size:.66rem;letter-spacing:.08em;text-transform:uppercase;font-weight:600;color:var(--muted)}
-#edsim .band-label .ln{flex:1;height:1px;background:var(--border)}
-#edsim .band-label .hint{font-size:.68rem;color:var(--muted);font-weight:400;text-transform:none;letter-spacing:0}
-#edsim .as-kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:.7rem}
-#edsim .kpi,#edsim .stock{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:.85rem .95rem;position:relative;overflow:hidden}
-#edsim .kpi::before,#edsim .stock::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px}
-#edsim .kpi.k-eb::before{background:var(--aero)}
-#edsim .kpi.k-rev::before{background:var(--comm)}
-#edsim .kpi.k-yield::before{background:var(--aero)}
-#edsim .kpi.k-pax::before{background:#3a7bd0}
-#edsim .stock::before{background:var(--stock)}
-#edsim .kpi .k,#edsim .stock .k{font-size:.65rem;letter-spacing:.05em;text-transform:uppercase;color:var(--muted);font-weight:600;margin-bottom:.3rem}
-#edsim .kpi .v,#edsim .stock .v{font-family:'Source Serif 4',Georgia,serif;font-size:1.55rem;font-weight:500;line-height:1;letter-spacing:-.01em}
-#edsim .stock .v{color:var(--stock)}
-#edsim .kpi .s,#edsim .stock .s{font-size:.7rem;color:var(--text2);margin-top:.35rem}
-#edsim .kpi .s b,#edsim .stock .s b{font-weight:600;color:var(--text)}
-#edsim .as-stocks{display:grid;grid-template-columns:repeat(3,1fr);gap:.7rem}
-#edsim .stock{background:linear-gradient(180deg,var(--stock-soft),var(--surface))}
+#lmwsim{font-family:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;color:var(--text);width:100%;max-width:980px;margin:0 auto;font-variant-numeric:tabular-nums}
+#lmwsim .as-head{margin-bottom:1.1rem}
+#lmwsim .as-eyebrow{font-size:.66rem;letter-spacing:.16em;text-transform:uppercase;font-weight:600;color:var(--accent);margin-bottom:.5rem}
+#lmwsim h2{font-family:'Source Serif 4',Georgia,serif;font-weight:500;font-size:1.7rem;line-height:1.1;letter-spacing:-.015em;margin-bottom:.4rem}
+#lmwsim .as-sub{font-size:.86rem;color:var(--text2);line-height:1.6;max-width:660px}
+#lmwsim .as-ctrls{display:flex;gap:.65rem;align-items:center;flex-wrap:wrap;margin:1.1rem 0 .7rem;background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:.7rem .9rem}
+#lmwsim .ctrl{display:flex;align-items:center;gap:.55rem}
+#lmwsim .ctrl label{font-size:.7rem;color:var(--muted);letter-spacing:.04em;text-transform:uppercase;font-weight:600;white-space:nowrap}
+#lmwsim .ctrl input[type=range]{width:90px;-webkit-appearance:none;appearance:none;height:4px;border-radius:3px;background:var(--border-strong);outline:none}
+#lmwsim .ctrl input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;appearance:none;width:14px;height:14px;border-radius:50%;background:var(--accent);cursor:pointer;border:2px solid #fff;box-shadow:0 1px 3px rgba(0,0,0,.2)}
+#lmwsim .ctrl input[type=range]::-moz-range-thumb{width:14px;height:14px;border-radius:50%;background:var(--accent);cursor:pointer;border:2px solid #fff}
+#lmwsim .ctrl .val{font-size:.8rem;font-weight:600;min-width:14px;color:var(--text)}
+#lmwsim .as-divider{width:1px;height:24px;background:var(--border);margin:0 .15rem}
+#lmwsim .spd{display:flex;gap:.25rem;margin-left:auto}
+#lmwsim .spd button{font-family:inherit;font-size:.72rem;font-weight:600;padding:.32rem .6rem;border-radius:7px;border:1px solid var(--border-strong);background:var(--surface-2);color:var(--text2);cursor:pointer;transition:all .12s}
+#lmwsim .spd button:hover{border-color:var(--accent)}
+#lmwsim .spd button.on{background:var(--accent);color:#fff;border-color:var(--accent)}
+#lmwsim .as-stage{position:relative;border-radius:14px;overflow:hidden;border:1px solid var(--border);box-shadow:0 12px 34px rgba(18,38,32,.10)}
+#lmwsim canvas{display:block;width:100%;aspect-ratio:720/360}
+#lmwsim .as-mini{position:fixed;right:20px;bottom:20px;width:clamp(300px,34vw,440px);aspect-ratio:720/360;border-radius:12px;overflow:hidden;border:1px solid rgba(255,255,255,.16);box-shadow:0 16px 40px rgba(8,16,30,.45);opacity:0;transform:translateY(12px) scale(.97);pointer-events:none;transition:opacity .28s ease,transform .28s ease;z-index:70;cursor:pointer}
+#lmwsim .as-mini.show{opacity:1;transform:none;pointer-events:auto}
+#lmwsim .as-mini:hover{border-color:rgba(55,192,142,.55)}
+#lmwsim .as-mini canvas{display:block;width:100%;height:100%;aspect-ratio:auto}
+#lmwsim .as-mini-tag{position:absolute;left:9px;top:8px;font-size:.6rem;font-weight:700;letter-spacing:.1em;color:#cfe0ea;background:rgba(10,20,34,.62);padding:3px 8px;border-radius:6px;display:flex;align-items:center;gap:5px}
+#lmwsim .as-mini-tag::before{content:'';width:6px;height:6px;border-radius:50%;background:#37c08e;box-shadow:0 0 6px #37c08e}
+@media(max-width:560px){ #lmwsim .as-mini{width:min(66vw,260px);right:10px;bottom:10px} }
+#lmwsim .as-legend{display:flex;gap:1.1rem;flex-wrap:wrap;margin:.7rem 0 .2rem}
+#lmwsim .leg{display:flex;align-items:center;gap:.4rem;font-size:.72rem;color:var(--text2)}
+#lmwsim .leg .dot{width:9px;height:9px;border-radius:50%;flex-shrink:0}
+#lmwsim .leg b{font-weight:600;color:var(--text)}
+#lmwsim .band-label{display:flex;align-items:center;gap:.6rem;margin:1.1rem 0 .55rem}
+#lmwsim .band-label .t{font-size:.66rem;letter-spacing:.08em;text-transform:uppercase;font-weight:600;color:var(--muted)}
+#lmwsim .band-label .ln{flex:1;height:1px;background:var(--border)}
+#lmwsim .band-label .hint{font-size:.68rem;color:var(--muted);font-weight:400;text-transform:none;letter-spacing:0}
+#lmwsim .as-kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:.7rem}
+#lmwsim .kpi,#lmwsim .stock{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:.85rem .95rem;position:relative;overflow:hidden}
+#lmwsim .kpi::before,#lmwsim .stock::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px}
+#lmwsim .kpi.k-eb::before{background:var(--aero)}
+#lmwsim .kpi.k-rev::before{background:var(--comm)}
+#lmwsim .kpi.k-yield::before{background:var(--aero)}
+#lmwsim .kpi.k-pax::before{background:#3a7bd0}
+#lmwsim .stock::before{background:var(--stock)}
+#lmwsim .kpi .k,#lmwsim .stock .k{font-size:.65rem;letter-spacing:.05em;text-transform:uppercase;color:var(--muted);font-weight:600;margin-bottom:.3rem}
+#lmwsim .kpi .v,#lmwsim .stock .v{font-family:'Source Serif 4',Georgia,serif;font-size:1.55rem;font-weight:500;line-height:1;letter-spacing:-.01em}
+#lmwsim .stock .v{color:var(--stock)}
+#lmwsim .kpi .s,#lmwsim .stock .s{font-size:.7rem;color:var(--text2);margin-top:.35rem}
+#lmwsim .kpi .s b,#lmwsim .stock .s b{font-weight:600;color:var(--text)}
+#lmwsim .as-stocks{display:grid;grid-template-columns:repeat(3,1fr);gap:.7rem}
+#lmwsim .stock{background:linear-gradient(180deg,var(--stock-soft),var(--surface))}
 @keyframes kpulse{0%{box-shadow:0 0 0 0 rgba(47,95,176,0)}28%{box-shadow:0 0 0 3px rgba(47,95,176,.22)}100%{box-shadow:0 0 0 0 rgba(47,95,176,0)}}
-#edsim .pulse{animation:kpulse .75s ease}
-#edsim .as-split{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:.95rem 1.05rem;margin-top:.9rem}
-#edsim .split-head{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:.6rem}
-#edsim .split-head .t{font-size:.66rem;letter-spacing:.05em;text-transform:uppercase;color:var(--muted);font-weight:600}
-#edsim .split-head .tot{font-size:.74rem;color:var(--text2)}
-#edsim .split-head .tot b{font-weight:600;color:var(--text)}
-#edsim .split-bar{display:flex;height:26px;border-radius:7px;overflow:hidden;background:var(--border)}
-#edsim .split-seg{height:100%;display:flex;align-items:center;padding:0 .55rem;color:#fff;font-size:.72rem;font-weight:600;white-space:nowrap;transition:width .5s ease;min-width:0;overflow:hidden}
-#edsim .seg-aero{background:var(--aero)} #edsim .seg-comm{background:var(--comm)}
-#edsim .split-foot{margin-top:.55rem;font-size:.72rem;color:var(--text2);line-height:1.5}
-#edsim .split-foot b{color:var(--text);font-weight:600}
-#edsim .as-panels{display:grid;grid-template-columns:1fr 1fr;gap:.9rem;margin-top:.9rem}
-#edsim .panel{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:1rem 1.1rem}
-#edsim .ptitle{font-size:.66rem;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);margin-bottom:.8rem;display:flex;justify-content:space-between;align-items:baseline}
-#edsim .ptitle .pt-sum{color:var(--text);font-weight:600;font-size:.74rem;text-transform:none;letter-spacing:0}
-#edsim .row{display:flex;align-items:center;gap:.5rem;margin-bottom:.5rem}
-#edsim .row:last-child{margin-bottom:0}
-#edsim .r-lbl{width:128px;font-size:.74rem;color:var(--text);flex-shrink:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-#edsim .r-tag{width:54px;flex-shrink:0;font-size:.57rem;font-weight:600;letter-spacing:.03em;text-transform:uppercase}
-#edsim .r-tag.aero{color:var(--aero)} #edsim .r-tag.comm{color:var(--comm)}
-#edsim .r-tag.fix{color:var(--muted)} #edsim .r-tag.var{color:var(--cost)} #edsim .r-tag.semi{color:#a06a2a}
-#edsim .bwrap{flex:1;height:7px;background:var(--border);border-radius:4px;overflow:hidden}
-#edsim .bfill{height:100%;border-radius:4px;transition:width .45s ease}
-#edsim .r-amt{width:54px;text-align:right;font-size:.74rem;font-weight:600;color:var(--text);flex-shrink:0}
-#edsim .as-foot{font-size:.68rem;color:var(--muted);line-height:1.6;margin-top:.9rem}
-#edsim .as-foot b{color:var(--text2);font-weight:600}
-#edsim .calc-note{font-size:.8rem;color:var(--text2);line-height:1.6;margin-bottom:.85rem}
-#edsim .calc-note b{color:var(--text);font-weight:600}
-#edsim .calc-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:.9rem;margin-bottom:.9rem}
-#edsim .cgroup{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:.9rem 1rem}
-#edsim .cgroup h4{font-size:.62rem;letter-spacing:.07em;text-transform:uppercase;color:var(--muted);font-weight:600;margin-bottom:.7rem}
-#edsim .cfield{display:flex;align-items:center;justify-content:space-between;gap:.5rem;margin-bottom:.5rem}
-#edsim .cfield:last-child{margin-bottom:0}
-#edsim .cfield label{font-size:.74rem;color:var(--text);line-height:1.25}
-#edsim .cfield .ig{display:flex;align-items:center;gap:.25rem;flex-shrink:0}
-#edsim .cfield input{width:56px;font-family:inherit;font-size:.78rem;font-weight:600;text-align:right;color:var(--text);border:1px solid var(--border-strong);border-radius:7px;padding:.28rem .35rem;background:var(--surface-2);font-variant-numeric:tabular-nums}
-#edsim .cfield input:focus{outline:none;border-color:var(--accent)}
-#edsim .cfield .u{font-size:.7rem;color:var(--muted);width:12px;text-align:left}
-#edsim .out-cards{display:grid;grid-template-columns:repeat(4,1fr);gap:.7rem;margin-bottom:.9rem}
-#edsim .ocard{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:.85rem .95rem;position:relative;overflow:hidden}
-#edsim .ocard::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--muted)}
-#edsim .ocard.unlev::before{background:var(--aero)}
-#edsim .ocard.lev{background:linear-gradient(180deg,var(--accent-soft),var(--surface))}
-#edsim .ocard.lev::before{background:var(--accent)}
-#edsim .ocard .k{font-size:.63rem;letter-spacing:.05em;text-transform:uppercase;color:var(--muted);font-weight:600;margin-bottom:.3rem}
-#edsim .ocard .v{font-family:'Source Serif 4',Georgia,serif;font-size:1.5rem;font-weight:500;line-height:1;letter-spacing:-.01em}
-#edsim .ocard.lev .v{color:var(--accent)}
-#edsim .ocard .s{font-size:.7rem;color:var(--text2);margin-top:.3rem}
-#edsim .calc-sum{display:flex;flex-wrap:wrap;gap:.45rem 1.4rem;background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:.8rem 1rem;margin-bottom:.9rem;font-size:.74rem;color:var(--text2)}
-#edsim .calc-sum span{white-space:nowrap}
-#edsim .calc-sum b{color:var(--text);font-weight:600}
-#edsim .calc-sum .lbl{color:var(--muted)}
-#edsim .jwrap{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:.9rem 1rem;margin-bottom:.9rem}
-#edsim .jhead{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:.9rem;gap:1rem}
-#edsim .jhead .t{font-size:.63rem;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);font-weight:600}
-#edsim .jhead .lg{font-size:.68rem;color:var(--text2)}
-#edsim .jchart{display:flex;align-items:stretch;gap:3px;height:132px;position:relative;margin-bottom:18px}
-#edsim .jaxis{position:absolute;left:0;right:0;top:50%;height:1px;background:var(--border-strong)}
-#edsim .jcol{flex:1;position:relative;min-width:0}
-#edsim .jbar{position:absolute;left:16%;right:16%;border-radius:3px;min-height:2px}
-#edsim .jbar.pos{background:var(--accent);bottom:50%}
-#edsim .jbar.neg{background:var(--cost);top:50%}
-#edsim .jbar.exit{background:#0a5a42}
-#edsim .jlbl{position:absolute;bottom:-16px;left:0;right:0;text-align:center;font-size:.6rem;color:var(--muted)}
-#edsim .ptable{width:100%;border-collapse:collapse;font-size:.72rem;font-variant-numeric:tabular-nums}
-#edsim .ptable th,#edsim .ptable td{text-align:right;padding:.32rem .45rem;border-bottom:1px solid var(--border);white-space:nowrap}
-#edsim .ptable th{color:var(--muted);font-weight:600;font-size:.61rem;letter-spacing:.03em;text-transform:uppercase}
-#edsim .ptable td:first-child,#edsim .ptable th:first-child{text-align:left;color:var(--text2)}
-#edsim .ptable tr:last-child td{border-bottom:none}
-#edsim .tscroll{overflow-x:auto}
+#lmwsim .pulse{animation:kpulse .75s ease}
+#lmwsim .as-split{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:.95rem 1.05rem;margin-top:.9rem}
+#lmwsim .split-head{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:.6rem}
+#lmwsim .split-head .t{font-size:.66rem;letter-spacing:.05em;text-transform:uppercase;color:var(--muted);font-weight:600}
+#lmwsim .split-head .tot{font-size:.74rem;color:var(--text2)}
+#lmwsim .split-head .tot b{font-weight:600;color:var(--text)}
+#lmwsim .split-bar{display:flex;height:26px;border-radius:7px;overflow:hidden;background:var(--border)}
+#lmwsim .split-seg{height:100%;display:flex;align-items:center;padding:0 .55rem;color:#fff;font-size:.72rem;font-weight:600;white-space:nowrap;transition:width .5s ease;min-width:0;overflow:hidden}
+#lmwsim .seg-aero{background:var(--aero)} #lmwsim .seg-comm{background:var(--comm)}
+#lmwsim .split-foot{margin-top:.55rem;font-size:.72rem;color:var(--text2);line-height:1.5}
+#lmwsim .split-foot b{color:var(--text);font-weight:600}
+#lmwsim .as-panels{display:grid;grid-template-columns:1fr 1fr;gap:.9rem;margin-top:.9rem}
+#lmwsim .panel{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:1rem 1.1rem}
+#lmwsim .ptitle{font-size:.66rem;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);margin-bottom:.8rem;display:flex;justify-content:space-between;align-items:baseline}
+#lmwsim .ptitle .pt-sum{color:var(--text);font-weight:600;font-size:.74rem;text-transform:none;letter-spacing:0}
+#lmwsim .row{display:flex;align-items:center;gap:.5rem;margin-bottom:.5rem}
+#lmwsim .row:last-child{margin-bottom:0}
+#lmwsim .r-lbl{width:128px;font-size:.74rem;color:var(--text);flex-shrink:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+#lmwsim .r-tag{width:54px;flex-shrink:0;font-size:.57rem;font-weight:600;letter-spacing:.03em;text-transform:uppercase}
+#lmwsim .r-tag.aero{color:var(--aero)} #lmwsim .r-tag.comm{color:var(--comm)}
+#lmwsim .r-tag.fix{color:var(--muted)} #lmwsim .r-tag.var{color:var(--cost)} #lmwsim .r-tag.semi{color:#a06a2a}
+#lmwsim .bwrap{flex:1;height:7px;background:var(--border);border-radius:4px;overflow:hidden}
+#lmwsim .bfill{height:100%;border-radius:4px;transition:width .45s ease}
+#lmwsim .r-amt{width:54px;text-align:right;font-size:.74rem;font-weight:600;color:var(--text);flex-shrink:0}
+#lmwsim .as-foot{font-size:.68rem;color:var(--muted);line-height:1.6;margin-top:.9rem}
+#lmwsim .as-foot b{color:var(--text2);font-weight:600}
+#lmwsim .calc-note{font-size:.8rem;color:var(--text2);line-height:1.6;margin-bottom:.85rem}
+#lmwsim .calc-note b{color:var(--text);font-weight:600}
+#lmwsim .calc-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:.9rem;margin-bottom:.9rem}
+#lmwsim .cgroup{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:.9rem 1rem}
+#lmwsim .cgroup h4{font-size:.62rem;letter-spacing:.07em;text-transform:uppercase;color:var(--muted);font-weight:600;margin-bottom:.7rem}
+#lmwsim .cfield{display:flex;align-items:center;justify-content:space-between;gap:.5rem;margin-bottom:.5rem}
+#lmwsim .cfield:last-child{margin-bottom:0}
+#lmwsim .cfield label{font-size:.74rem;color:var(--text);line-height:1.25}
+#lmwsim .cfield .ig{display:flex;align-items:center;gap:.25rem;flex-shrink:0}
+#lmwsim .cfield input{width:56px;font-family:inherit;font-size:.78rem;font-weight:600;text-align:right;color:var(--text);border:1px solid var(--border-strong);border-radius:7px;padding:.28rem .35rem;background:var(--surface-2);font-variant-numeric:tabular-nums}
+#lmwsim .cfield input:focus{outline:none;border-color:var(--accent)}
+#lmwsim .cfield .u{font-size:.7rem;color:var(--muted);width:12px;text-align:left}
+#lmwsim .out-cards{display:grid;grid-template-columns:repeat(4,1fr);gap:.7rem;margin-bottom:.9rem}
+#lmwsim .ocard{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:.85rem .95rem;position:relative;overflow:hidden}
+#lmwsim .ocard::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--muted)}
+#lmwsim .ocard.unlev::before{background:var(--aero)}
+#lmwsim .ocard.lev{background:linear-gradient(180deg,var(--accent-soft),var(--surface))}
+#lmwsim .ocard.lev::before{background:var(--accent)}
+#lmwsim .ocard .k{font-size:.63rem;letter-spacing:.05em;text-transform:uppercase;color:var(--muted);font-weight:600;margin-bottom:.3rem}
+#lmwsim .ocard .v{font-family:'Source Serif 4',Georgia,serif;font-size:1.5rem;font-weight:500;line-height:1;letter-spacing:-.01em}
+#lmwsim .ocard.lev .v{color:var(--accent)}
+#lmwsim .ocard .s{font-size:.7rem;color:var(--text2);margin-top:.3rem}
+#lmwsim .calc-sum{display:flex;flex-wrap:wrap;gap:.45rem 1.4rem;background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:.8rem 1rem;margin-bottom:.9rem;font-size:.74rem;color:var(--text2)}
+#lmwsim .calc-sum span{white-space:nowrap}
+#lmwsim .calc-sum b{color:var(--text);font-weight:600}
+#lmwsim .calc-sum .lbl{color:var(--muted)}
+#lmwsim .jwrap{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:.9rem 1rem;margin-bottom:.9rem}
+#lmwsim .jhead{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:.9rem;gap:1rem}
+#lmwsim .jhead .t{font-size:.63rem;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);font-weight:600}
+#lmwsim .jhead .lg{font-size:.68rem;color:var(--text2)}
+#lmwsim .jchart{display:flex;align-items:stretch;gap:3px;height:132px;position:relative;margin-bottom:18px}
+#lmwsim .jaxis{position:absolute;left:0;right:0;top:50%;height:1px;background:var(--border-strong)}
+#lmwsim .jcol{flex:1;position:relative;min-width:0}
+#lmwsim .jbar{position:absolute;left:16%;right:16%;border-radius:3px;min-height:2px}
+#lmwsim .jbar.pos{background:var(--accent);bottom:50%}
+#lmwsim .jbar.neg{background:var(--cost);top:50%}
+#lmwsim .jbar.exit{background:#0a5a42}
+#lmwsim .jlbl{position:absolute;bottom:-16px;left:0;right:0;text-align:center;font-size:.6rem;color:var(--muted)}
+#lmwsim .ptable{width:100%;border-collapse:collapse;font-size:.72rem;font-variant-numeric:tabular-nums}
+#lmwsim .ptable th,#lmwsim .ptable td{text-align:right;padding:.32rem .45rem;border-bottom:1px solid var(--border);white-space:nowrap}
+#lmwsim .ptable th{color:var(--muted);font-weight:600;font-size:.61rem;letter-spacing:.03em;text-transform:uppercase}
+#lmwsim .ptable td:first-child,#lmwsim .ptable th:first-child{text-align:left;color:var(--text2)}
+#lmwsim .ptable tr:last-child td{border-bottom:none}
+#lmwsim .tscroll{overflow-x:auto}
 @media(max-width:720px){
-  #edsim .as-kpis{grid-template-columns:repeat(2,1fr)}
-  #edsim .as-stocks{grid-template-columns:1fr}
-  #edsim .as-panels{grid-template-columns:1fr}
-  #edsim .spd{margin-left:0}
-  #edsim .r-lbl{width:110px}
-  #edsim .calc-grid{grid-template-columns:1fr}
-  #edsim .out-cards{grid-template-columns:repeat(2,1fr)}
+  #lmwsim .as-kpis{grid-template-columns:repeat(2,1fr)}
+  #lmwsim .as-stocks{grid-template-columns:1fr}
+  #lmwsim .as-panels{grid-template-columns:1fr}
+  #lmwsim .spd{margin-left:0}
+  #lmwsim .r-lbl{width:110px}
+  #lmwsim .calc-grid{grid-template-columns:1fr}
+  #lmwsim .out-cards{grid-template-columns:repeat(2,1fr)}
 }
 </style>
 </head>
 <body>
-
-<nav>
-  <div class="wrap">
-    <a class="nav-logo" href="index.html"><span class="pulse"></span>Infrastructure Reference</a>
-    <div class="nav-meta">Infrastructure Investor</div>
-  </div>
-</nav>
-
-<section class="hero">
-  <div class="wrap">
-    <div class="breadcrumb"><a href="index.html">Home</a><span class="sep">/</span><a href="energy-utilities.html">Energy &amp; Utilities</a><span class="sep">/</span>Electricity distribution</div>
-    <div class="hero-eyebrow">Energy &amp; Utilities</div>
-    <h1>Electricity <em>distribution</em></h1>
-    <p class="hero-sub">An interactive economic model of a regulated electricity distribution network (DNO) — watch power flow from the primary substation along the poles to homes, see the RAB return vs depreciation &amp; allowances split, and run the investment case live. The RIIO-ED2 revenue calculator is below.</p>
-  </div>
-</section>
-
-<section class="tools-section">
-  <div class="wrap">
-
-    <div class="section-header">
-      <div class="section-label">Tools</div>
-      <div class="section-line"></div>
-    </div>
-
-    <div class="tools-grid">
-
-      <a class="tool-card" href="riio_ed2_calculator.html">
-        <div class="card-top"><div class="card-icon">⚡</div><div class="card-status">Live</div></div>
-        <div class="card-title">RIIO-ED2 Revenue Calculator</div>
-        <div class="card-sub">Build a DNO's allowed revenue from the RIIO-ED2 building blocks, with editable Final Determination inputs and a live waterfall.</div>
-        <div class="card-arrow">Open tool →</div>
-      </a>
-
-    </div>
-
-    <div class="section-header">
-      <div class="section-label">Interactive model</div>
-      <div class="section-line"></div>
-    </div>
-
-<div id="edsim">
+<div id="lmwsim">
 
   <div class="as-head">
-    <div class="as-eyebrow">Energy &amp; Utilities · Electricity distribution</div>
-    <h2>How a regulated DNO earns — the RAB machine</h2>
-    <p class="as-sub">A distribution network operator (DNO) owns the regional poles, cables and substations that carry power the last leg to homes and businesses, and is paid a <b>regulated revenue</b> set by Ofgem (RIIO-ED). The building blocks are the classic regulated ones: a <b>return on the Regulated Asset Base (RAB)</b>, plus recovery of <b>depreciation</b> and a <b>totex allowance</b>, with <b>incentives</b>. The energy transition is a tailwind: connecting EVs, heat pumps and distributed generation drives heavy investment that <b>grows the RAB</b>. The case turns on the RAB, the allowed return, and performance.</p>
+    <div class="as-eyebrow">Energy &amp; Utilities · Last-mile water</div>
+    <h2>How a last-mile water network earns — the RCV machine</h2>
+    <p class="as-sub">A New Appointment and Variation (NAV) operator owns the <b>final water and wastewater connection</b> for a new development — the mains and pipes that link new homes to the public network. It is a <b>local monopoly</b> regulated by Ofwat, earning a <b>regulated return</b> for decades. Economically it is the same regulated machine as a water company: a <b>return on a Regulatory Capital Value (RCV)</b>, plus <b>depreciation</b> and a small <b>opex allowance</b>. The RCV compounds with every new plot connected — a portfolio of annuities. The case turns on the RCV, the allowed return, and connection growth.</p>
   </div>
 
   <div class="as-ctrls">
-    <div class="ctrl"><label>RAB</label><input type="range" id="dTen" min="4" max="16" value="9" step="0.5"><span class="val" id="tenV">£9bn</span></div>
+    <div class="ctrl"><label>RCV</label><input type="range" id="dTen" min="0.5" max="4" value="1.5" step="0.25"><span class="val" id="tenV">£1.5bn</span></div>
     <div class="as-divider"></div>
     <div class="ctrl"><label>Allowed return</label><input type="range" id="dRent" min="4" max="9" value="5.5" step="0.25"><span class="val" id="rentV">5.50%</span></div>
     <div class="as-divider"></div>
@@ -216,8 +174,8 @@
   </div>
 
   <div class="as-legend">
-    <span class="leg"><span class="dot" style="background:var(--aero)"></span><b>Return on RAB</b>&nbsp;allowed return on the asset base</span>
-    <span class="leg"><span class="dot" style="background:#5aa0e6"></span><b>Power to homes</b>&nbsp;electricity distributed the last leg</span>
+    <span class="leg"><span class="dot" style="background:var(--aero)"></span><b>Return on RCV</b>&nbsp;allowed return on the asset base</span>
+    <span class="leg"><span class="dot" style="background:#5aa0e6"></span><b>Water to plots</b>&nbsp;supply to newly connected homes</span>
     <span class="leg"><span class="dot" style="background:var(--comm)"></span><b>Depreciation &amp; allowances</b>&nbsp;cost recovery + incentives</span>
     <span class="leg"><span class="dot" style="background:var(--cost)"></span><b>Operating cost</b>&nbsp;network O&amp;M (totex)</span>
   </div>
@@ -226,13 +184,13 @@
   <div class="as-kpis">
     <div class="kpi k-rev"><div class="k">Revenue p.a.</div><div class="v" id="kRev">£0</div><div class="s"><b id="kRevHr">£0</b> / hr</div></div>
     <div class="kpi k-eb"><div class="k">EBITDA p.a.</div><div class="v" id="kEb">£0</div><div class="s"><b id="kMargin">0%</b> margin</div></div>
-    <div class="kpi k-yield"><div class="k">EBITDA / RAB</div><div class="v" id="kYield">0%</div><div class="s">RAB yield</div></div>
-    <div class="kpi k-pax"><div class="k">Regulated asset base</div><div class="v" id="kPaxYr">£0bn</div><div class="s"><b id="kThru">6.0%</b> allowed return</div></div>
+    <div class="kpi k-yield"><div class="k">EBITDA / RCV</div><div class="v" id="kYield">0%</div><div class="s">RCV yield</div></div>
+    <div class="kpi k-pax"><div class="k">Regulatory capital value</div><div class="v" id="kPaxYr">£0bn</div><div class="s"><b id="kThru">6.0%</b> allowed return</div></div>
   </div>
 
   <div class="band-label"><span class="t">Stocks — what the flows accumulate into</span><span class="ln"></span><span class="hint">live</span></div>
   <div class="as-stocks">
-    <div class="stock"><div class="k">Return on RAB · session</div><div class="v" id="sPax">£0</div><div class="s">the regulated annuity</div></div>
+    <div class="stock"><div class="k">Return on RCV · session</div><div class="v" id="sPax">£0</div><div class="s">the regulated annuity</div></div>
     <div class="stock"><div class="k">EBITDA banked · session</div><div class="v" id="sBank">£0</div><div class="s">accumulating in real time</div></div>
     <div class="stock"><div class="k">Implied enterprise value</div><div class="v" id="sEV">£0</div><div class="s">at <b>12×</b> EBITDA</div></div>
   </div>
@@ -243,10 +201,10 @@
       <span class="tot">Total <b id="splitTot">£0</b> p.a.</span>
     </div>
     <div class="split-bar">
-      <div class="split-seg seg-aero" id="segAero">Return on RAB</div>
+      <div class="split-seg seg-aero" id="segAero">Return on RCV</div>
       <div class="split-seg seg-comm" id="segComm">Depreciation &amp; allowances</div>
     </div>
-    <div class="split-foot"><b>Why investors prize regulated networks:</b> a DNO is a regional monopoly paid an allowed return on an <b>inflation-linked</b> asset base, with no commodity risk and very low demand sensitivity — defensive, predictable cash flow that supports a premium-to-RAB valuation and heavy leverage. The structural tailwind is electrification: EVs, heat pumps and distributed generation require reinforcement that <b>grows the RAB</b> for years. The swing factor is the periodic price review — a lower allowed return re-bases every pound of RAB.</div>
+    <div class="split-foot"><b>Why investors prize last-mile water:</b> each adopted connection is a local monopoly paid a regulated, <b>inflation-linked</b> return for the life of the assets — and once commissioned the pipes are almost cost-free to run. New connections are often <b>developer-funded</b>, so the NAV grows its RCV with little of its own capital, compounding a portfolio of annuities. That asset-light, recurring, regulated profile commands premium-to-RCV valuations and high leverage. The swing factors are connection volumes (housebuilding) and the allowed return set by Ofwat.</div>
   </div>
 
   <div class="as-panels">
@@ -259,10 +217,10 @@
 
   <div class="calc-grid">
     <div class="cgroup"><h4>Operating</h4>
-      <div class="cfield"><label>RAB growth p.a.</label><span class="ig"><input id="iRevG" type="number" value="3" step="0.5"><span class="u">%</span></span></div>
+      <div class="cfield"><label>RCV growth p.a.</label><span class="ig"><input id="iRevG" type="number" value="3" step="0.5"><span class="u">%</span></span></div>
       <div class="cfield"><label>OpEx vs base</label><span class="ig"><input id="iOpex" type="number" value="100" step="1"><span class="u">%</span></span></div>
       <div class="cfield"><label>Cost inflation p.a.</label><span class="ig"><input id="iCostG" type="number" value="3" step="0.5"><span class="u">%</span></span></div>
-      <div class="cfield"><label>Capex (RAB growth)</label><span class="ig"><input id="iCapex" type="number" value="30" step="1"><span class="u">%</span></span></div>
+      <div class="cfield"><label>Capex (RCV growth)</label><span class="ig"><input id="iCapex" type="number" value="30" step="1"><span class="u">%</span></span></div>
       <div class="cfield"><label>Depreciation</label><span class="ig"><input id="iDA" type="number" value="9" step="1"><span class="u">%</span></span></div>
       <div class="cfield"><label>Tax rate</label><span class="ig"><input id="iTax" type="number" value="25" step="1"><span class="u">%</span></span></div>
     </div>
@@ -297,7 +255,7 @@
     <table class="ptable"><thead id="ptHead"></thead><tbody id="ptBody"></tbody></table>
   </div>
 
-  <p class="as-foot"><b>Illustrative model.</b> Represents an Ofgem RIIO-ED regulated electricity distribution network (a DNO). Allowed revenue = return on the Regulated Asset Base (RAB × allowed return) + regulatory depreciation + a totex allowance + a performance/incentive adjustment (as a % of RAB). Cash totex runs at the allowance, so EBITDA ≈ return + depreciation + incentives. The RAB is inflation-indexed and grows with network investment (electrification-driven). EBITDA = allowed revenue − cash opex; excludes the periodic price-review reset. The investment case is a simplified DCF. For illustration only — not investment advice, and not any specific asset.</p>
+  <p class="as-foot"><b>Illustrative model.</b> Represents a New Appointment and Variation (NAV) / last-mile water portfolio of adopted connection assets, regulated by Ofwat. Regulated revenue = return on the Regulatory Capital Value (RCV × allowed return) + regulatory depreciation + a small opex allowance + a performance/incentive adjustment (as a % of RCV). Cash opex runs at the allowance, so EBITDA ≈ return + depreciation + incentives. The RCV is inflation-indexed and grows as new (often developer-funded) connections are adopted. EBITDA = regulated revenue − cash opex; excludes the periodic price-review reset. The investment case is a simplified DCF. For illustration only — not investment advice, and not any specific asset.</p>
 
 </div>
 
@@ -312,16 +270,16 @@ const C={aero:'#37c08e', comm:'#e6b35a', sig:'#5aa0e6', cost:'#ef8166', fire:'#e
 
 // Three streams (regulatory building blocks): return on RAB vs depreciation vs opex allowance + incentives
 const STREAMS=[
-  {name:'Return on RAB',        tag:'Return',aero:true,  kind:'ret'},
+  {name:'Return on RCV',        tag:'Return',aero:true,  kind:'ret'},
   {name:'Regulatory depreciation',tag:'Dep', aero:false, kind:'dep'},
   {name:'Opex allowance + incentives',tag:'Opex',aero:false, kind:'opex'},
 ];
 // cash totex opex (modelled to run at the allowance) — all scale with RAB
 const COSTS=[
-  {item:'Network O&M',        driver:'rab',rate:0.011,tag:'RAB', cls:'var'},
-  {item:'System operation',   driver:'rab',rate:0.006,tag:'RAB', cls:'var'},
-  {item:'Business support',   driver:'rab',rate:0.005,tag:'RAB', cls:'fix'},
-  {item:'Insurance & rates',  driver:'rab',rate:0.003,tag:'RAB', cls:'fix'},
+  {item:'Network O&M',        driver:'rab',rate:0.011,tag:'RCV', cls:'var'},
+  {item:'System operation',   driver:'rab',rate:0.006,tag:'RCV', cls:'var'},
+  {item:'Business support',   driver:'rab',rate:0.005,tag:'RCV', cls:'fix'},
+  {item:'Insurance & rates',  driver:'rab',rate:0.003,tag:'RCV', cls:'fix'},
 ];
 let rSmooth=STREAMS.map(()=>1), cSmooth=COSTS.map(()=>200);
 
@@ -344,8 +302,8 @@ let simSpd=1;
 ['b1','b2','b4'].forEach(id=>{ document.getElementById(id).onclick=()=>{ simSpd=parseInt(id.slice(1));
   ['b1','b2','b4'].forEach(i=>document.getElementById(i).classList.toggle('on',i===id)); }; });
 const dTen=document.getElementById('dTen'), dRent=document.getElementById('dRent'), dTow=document.getElementById('dTow');
-function pulse(){ document.querySelectorAll('#edsim .kpi,#edsim .stock').forEach(e=>{ e.classList.remove('pulse'); void e.offsetWidth; e.classList.add('pulse'); }); }
-dTen.oninput=()=>{ document.getElementById('tenV').textContent='£'+parseInt(dTen.value)+'bn'; pulse(); };
+function pulse(){ document.querySelectorAll('#lmwsim .kpi,#lmwsim .stock').forEach(e=>{ e.classList.remove('pulse'); void e.offsetWidth; e.classList.add('pulse'); }); }
+dTen.oninput=()=>{ document.getElementById('tenV').textContent='£'+parseFloat(dTen.value)+'bn'; pulse(); };
 dRent.oninput=()=>{ document.getElementById('rentV').textContent=parseFloat(dRent.value).toFixed(2)+'%'; pulse(); };
 dTow.oninput=()=>{ const v=parseFloat(dTow.value); document.getElementById('towV').textContent=(v>=0?'+':'')+v.toFixed(1)+'%'; pulse(); };
 
@@ -391,7 +349,7 @@ function renderModel(){
   document.getElementById('cBaseEb').textContent=money(baseEbYr);
   const m=computeModel();
   const set=(id,t)=>{ const e=document.getElementById(id); if(e) e.textContent=t; };
-  if(!m){ ['oUIRR','oLIRR','oMOIC','oProfit'].forEach(id=>set(id,'—')); document.getElementById('calcSum').innerHTML='<span class="lbl">At this RAB / allowed return the EBITDA is too thin to value on a multiple — raise the RAB or the allowed return.</span>'; return; }
+  if(!m){ ['oUIRR','oLIRR','oMOIC','oProfit'].forEach(id=>set(id,'—')); document.getElementById('calcSum').innerHTML='<span class="lbl">At this RCV / allowed return the EBITDA is too thin to value on a multiple — raise the RCV or the allowed return.</span>'; return; }
   set('oUIRR',pctTxt(m.uIRR)); set('oLIRR',pctTxt(m.lIRR));
   set('oMOIC',isFinite(m.moic)?m.moic.toFixed(2)+'×':'—');
   set('oProfit',money(m.profit));
@@ -421,7 +379,7 @@ const moneys=[];
 let T=0,cumEB=0,cTick=0,cumReturn=0,visRAB=15,visRet=6,visPerf=0.5,baseRevYr=0,baseCostYr=0,baseEbYr=0,retT=0,depT=0,costT=0,subFlash=0;
 function rnd(a,b){return a+Math.random()*(b-a);} function lerp(a,b,t){return a+(b-a)*t;}
 function num(v){ if(v>=1e6) return (v/1e6).toFixed(2)+'m'; if(v>=1e3) return (v/1e3).toFixed(0)+'k'; return Math.round(v).toString(); }
-function nPoles(){ return Math.max(3,Math.min(8,Math.round(visRAB/2.2))); }
+function nPoles(){ return Math.max(3,Math.min(8,Math.round(visRAB*2.2))); }
 function poleX(i,n){ return 168 + i*((HOMES_X-44)-168)/Math.max(1,n-1); }
 function light(x,y,r,col,a){ ctx.save(); ctx.globalAlpha=a;
   const g=ctx.createRadialGradient(x,y,0,x,y,r); g.addColorStop(0,col); g.addColorStop(1,'rgba(0,0,0,0)');
@@ -436,55 +394,53 @@ function drawScene(){
   const fg=ctx.createLinearGradient(0,GY,0,H); fg.addColorStop(0,'#26302a'); fg.addColorStop(1,'#172019');
   ctx.fillStyle=fg; ctx.fillRect(0,GY,W,H-GY);
 }
-// primary substation — the grid supply point feeding the local network
-function drawPrimarySub(){
+// connection chamber — the point where the NAV connects to the public water main
+function drawKiosk(){
   const x=SUB_X;
-  ctx.fillStyle='#202830'; ctx.fillRect(x-42,250,84,GY-250);                                 // pad
-  ctx.strokeStyle='rgba(150,160,150,0.3)'; ctx.lineWidth=1; ctx.strokeRect(x-42,232,84,GY-232);  // fence
-  // incoming gantry (HV feed from off-scene transmission)
-  ctx.strokeStyle='#7e8893'; ctx.lineWidth=2; ctx.beginPath(); ctx.moveTo(x-42,198); ctx.lineTo(x+24,198); ctx.stroke();
-  ctx.beginPath(); ctx.moveTo(x-28,198); ctx.lineTo(x-28,250); ctx.moveTo(x+12,198); ctx.lineTo(x+12,250); ctx.stroke();
-  // transformer box with cooling fins
-  ctx.fillStyle='#3a434d'; ctx.fillRect(x-22,252,44,GY-254);
-  ctx.fillStyle='#2c343c'; for(let f=0;f<7;f++) ctx.fillRect(x-19+f*6,254,2,GY-258);
-  ctx.fillStyle='#5b6470'; ctx.fillRect(x-12,244,3,9); ctx.fillRect(x-1,244,3,9); ctx.fillRect(x+10,244,3,9);  // bushings
-  const hum=0.22+0.16*Math.sin(T*0.12); light(x,272,28,'rgba(95,170,235,'+hum+')',0.7);
-  ctx.fillStyle='rgba(170,185,200,0.6)'; ctx.font='700 7px Inter,sans-serif'; ctx.textAlign='center'; ctx.fillText('PRIMARY SUBSTATION',x,GY+16);
+  // public main entering from off-scene (left), into a valve/meter chamber
+  ctx.strokeStyle='#3f7fb3'; ctx.lineWidth=4; ctx.beginPath(); ctx.moveTo(x-44,GY-12); ctx.lineTo(x,GY-12); ctx.stroke();
+  ctx.fillStyle='#202830'; ctx.fillRect(x-18,GY-28,36,28);                                     // chamber box
+  ctx.fillStyle='#2c343c'; ctx.fillRect(x-18,GY-32,36,5);                                       // lid
+  // stop valve wheel on top
+  ctx.strokeStyle='#7e8893'; ctx.lineWidth=2; ctx.beginPath(); ctx.moveTo(x,GY-32); ctx.lineTo(x,GY-40); ctx.stroke();
+  ctx.beginPath(); ctx.arc(x,GY-42,4,0,Math.PI*2); ctx.stroke();
+  ctx.strokeStyle='rgba(150,160,150,0.3)'; ctx.lineWidth=1; ctx.strokeRect(x-28,GY-46,56,46);   // compound
+  const sh=0.22+0.16*Math.sin(T*0.12); light(x,GY-14,24,'rgba(95,170,235,'+sh+')',0.7);
+  ctx.fillStyle='rgba(170,185,200,0.6)'; ctx.font='700 7px Inter,sans-serif'; ctx.textAlign='center'; ctx.fillText('POINT OF CONNECTION',x,GY+16);
 }
-// wooden distribution pole with a crossarm and insulators
-function drawPole(x){
-  ctx.strokeStyle='#6b513a'; ctx.lineWidth=3.5; ctx.beginPath(); ctx.moveTo(x,GY); ctx.lineTo(x,POLE_TOP); ctx.stroke();
-  ctx.strokeStyle='#5a4530'; ctx.lineWidth=2.5; ctx.beginPath(); ctx.moveTo(x-11,POLE_TOP+10); ctx.lineTo(x+11,POLE_TOP+10); ctx.stroke();
-  ctx.fillStyle='#9aa4ae'; ctx.fillRect(x-10,POLE_TOP+6,3,4); ctx.fillRect(x+7,POLE_TOP+6,3,4); ctx.fillRect(x-1.5,POLE_TOP+2,3,4);
-}
-// home with a roof and a window that glows as it draws power
-function drawHome(x,base,sc,glow){
+// new-build plot — connected homes show a water-meter glow; the last plot is still under construction
+function drawPlot(x,base,sc,glow,building){
   const w=34*sc,h=26*sc;
+  if(building){
+    ctx.strokeStyle='rgba(180,170,150,0.5)'; ctx.lineWidth=1;                                  // scaffolding shell
+    ctx.strokeRect(x-w/2-3,base-h-6,w+6,h+6);
+    ctx.beginPath(); ctx.moveTo(x-w/2-3,base-h*0.5); ctx.lineTo(x+w/2+3,base-h*0.5); ctx.stroke();
+    ctx.fillStyle='#39414a'; ctx.fillRect(x-w/2,base-h,w,h);
+    ctx.fillStyle='#454f59'; ctx.beginPath(); ctx.moveTo(x-w/2-2,base-h); ctx.lineTo(x,base-h-12*sc); ctx.lineTo(x+w/2+2,base-h); ctx.closePath(); ctx.fill();
+    return;
+  }
   ctx.fillStyle='#2a3138'; ctx.fillRect(x-w/2,base-h,w,h);
   ctx.fillStyle='#363f48'; ctx.beginPath(); ctx.moveTo(x-w/2-2,base-h); ctx.lineTo(x,base-h-12*sc); ctx.lineTo(x+w/2+2,base-h); ctx.closePath(); ctx.fill();
-  const wy=base-h*0.55;
-  ctx.fillStyle='rgba(255,210,120,'+(0.12+0.82*glow)+')'; ctx.fillRect(x-6*sc,wy-5*sc,12*sc,10*sc);
-  if(glow>0.2) light(x,wy,16*sc,'rgba(255,200,110,'+(0.55*glow)+')',0.85);
+  ctx.fillStyle='rgba(220,225,230,0.16)'; ctx.fillRect(x-6*sc,base-h*0.55-5*sc,12*sc,10*sc);    // neutral window
+  // water-meter indicator pulsing at the base as supply flows
+  ctx.fillStyle='rgba(95,170,235,'+(0.35+0.6*glow)+')'; ctx.beginPath(); ctx.arc(x,base-3,2.6,0,Math.PI*2); ctx.fill();
+  if(glow>0.4) light(x,base-3,11*sc,'rgba(95,170,235,'+(0.5*glow)+')',0.85);
 }
 function drawNetworkScene(){
-  const n=nPoles();
-  const pts=[{x:SUB_X+24,y:200}];
-  for(let i=0;i<n;i++) pts.push({x:poleX(i,n),y:POLE_TOP+10});
-  pts.push({x:HOMES_X-8,y:GY-78});                                                            // service drop to homes
-  // feeder conductor (sagging) with power pulses flowing substation -> homes
-  for(let i=0;i<pts.length-1;i++){ const a=pts[i], b=pts[i+1], sag=12;
-    ctx.strokeStyle='rgba(150,162,174,0.55)'; ctx.lineWidth=1.4;
-    ctx.beginPath(); ctx.moveTo(a.x,a.y); ctx.quadraticCurveTo((a.x+b.x)/2,(a.y+b.y)/2+sag,b.x,b.y); ctx.stroke();
-    const u=((T*0.05+i*0.18)%1), px=lerp(a.x,b.x,u), py=lerp(a.y,b.y,u)+sag*2*u*(1-u)*2;
-    ctx.fillStyle='rgba(95,170,235,0.95)'; ctx.fillRect(px-1.4,py-1.4,3,3); light(px,py,5,'rgba(95,170,235,0.5)',0.8);
-  }
-  for(let i=0;i<n;i++) drawPole(poleX(i,n));
-  drawPrimarySub();
-  // homes cluster — windows glow as power is delivered
-  drawHome(HOMES_X+10,GY-2,1.1, 0.45+0.5*Math.abs(Math.sin(T*0.06)));
-  drawHome(HOMES_X+56,GY-2,0.95,0.45+0.5*Math.abs(Math.sin(T*0.06+1.6)));
-  drawHome(HOMES_X+100,GY-2,1.05,0.45+0.5*Math.abs(Math.sin(T*0.06+2.9)));
-  ctx.fillStyle='rgba(170,185,200,0.6)'; ctx.font='700 7px Inter,sans-serif'; ctx.textAlign='center'; ctx.fillText('HOMES & BUSINESSES',HOMES_X+56,GY+16);
+  const n=nPoles();                                                                            // number of adopted plots
+  const CY=GY+26;                                                                              // buried main depth (foreground)
+  // buried water main: down from chamber, along the trench, with service pipes up to each plot
+  ctx.strokeStyle='rgba(70,130,180,0.55)'; ctx.lineWidth=2.4;
+  ctx.beginPath(); ctx.moveTo(SUB_X,GY-6); ctx.lineTo(SUB_X,CY); ctx.lineTo(poleX(n-1,n),CY); ctx.stroke();
+  for(let i=0;i<n;i++){ const px=poleX(i,n); ctx.beginPath(); ctx.moveTo(px,CY); ctx.lineTo(px,GY-4); ctx.stroke(); }
+  // water flowing along the buried main, chamber -> plots
+  for(let k=0;k<5;k++){ const u=((T*0.045+k*0.2)%1), x0=SUB_X, x1=poleX(n-1,n), px=lerp(x0,x1,u);
+    ctx.fillStyle='rgba(120,190,240,0.95)'; ctx.beginPath(); ctx.arc(px,CY,2,0,Math.PI*2); ctx.fill(); light(px,CY,5,'rgba(95,170,235,0.5)',0.8); }
+  drawKiosk();
+  // plots — all connected except the last, which is still being built
+  for(let i=0;i<n;i++){ const px=poleX(i,n), building=(i===n-1);
+    drawPlot(px,GY-2,0.92,0.45+0.5*Math.abs(Math.sin(T*0.06+i*1.3)),building); }
+  ctx.fillStyle='rgba(170,185,200,0.6)'; ctx.font='700 7px Inter,sans-serif'; ctx.textAlign='center'; ctx.fillText('ADOPTED CONNECTIONS — NEW-BUILD ESTATE',(SUB_X+poleX(n-1,n))/2+40,GY+16);
 }
 
 function update(dt){
@@ -549,9 +505,9 @@ function drawHUD(){
   ctx.strokeStyle='rgba(255,255,255,0.08)'; ctx.lineWidth=1; ctx.stroke();
   light(x+13,y+13,5,'rgba(55,192,142,1)',0.7);
   ctx.fillStyle=C.aero; ctx.beginPath(); ctx.arc(x+13,y+13,3,0,Math.PI*2); ctx.fill();
-  ctx.fillStyle='#cfe0ea'; ctx.font='700 9px Inter,sans-serif'; ctx.textAlign='left'; ctx.fillText('DISTRIBUTION (DNO) — LIVE',x+23,y+16);
+  ctx.fillStyle='#cfe0ea'; ctx.font='700 9px Inter,sans-serif'; ctx.textAlign='left'; ctx.fillText('LAST-MILE WATER (NAV) — LIVE',x+23,y+16);
   ctx.fillStyle='rgba(170,190,205,0.85)'; ctx.font='9px Inter,sans-serif';
-  ctx.fillText('£'+visRAB+'bn RAB  ·  '+visRet.toFixed(2)+'% return  ·  '+(visPerf>=0?'+':'')+visPerf.toFixed(1)+'%',x+12,y+30);
+  ctx.fillText('£'+visRAB+'bn RCV  ·  '+visRet.toFixed(2)+'% return  ·  '+(visPerf>=0?'+':'')+visPerf.toFixed(1)+'%',x+12,y+30);
   if(ebHist.length>2){ const sx=x+12,sy=y+38,sh=14,sw=w-24;
     const mn=Math.min(...ebHist,0),mx=Math.max(...ebHist,1),rng=Math.max(1,mx-mn);
     ctx.beginPath(); ebHist.forEach((v,i)=>{ const px=sx+i/(ebHist.length-1)*sw, py=sy+sh-(v-mn)/rng*sh; i===0?ctx.moveTo(px,py):ctx.lineTo(px,py); });
@@ -565,7 +521,7 @@ function drawHUD(){
 function draw(){
   ctx.clearRect(0,0,W,H); drawScene();
   drawNetworkScene();
-  ctx.fillStyle='rgba(180,190,200,0.55)'; ctx.font='700 7px Inter,sans-serif'; ctx.textAlign='center'; ctx.fillText('REGULATED DISTRIBUTION — an allowed return on the inflation-linked network that powers homes',W/2,H-6);
+  ctx.fillStyle='rgba(180,190,200,0.55)'; ctx.font='700 7px Inter,sans-serif'; ctx.textAlign='center'; ctx.fillText('LAST-MILE WATER — a regulated return on adopted pipes that connect new homes',W/2,H-6);
   moneys.forEach(m=>{ const a=Math.max(0,Math.min(1,m.life*0.8)); ctx.save(); ctx.globalAlpha=a;
     ctx.font='700 9px Inter,sans-serif'; ctx.textAlign='left'; const cost=(m.col===C.cost); const tw=ctx.measureText((cost?'−£ ':'£ ')+m.label).width;
     ctx.fillStyle='rgba(8,16,30,0.55)'; ctx.beginPath(); ctx.roundRect(m.x-tw/2-4,m.y-9,tw+8,13,6); ctx.fill();
@@ -576,7 +532,7 @@ function draw(){
 }
 
 // ---- floating mini-simulation ----
-const stageEl=document.querySelector('#edsim .as-stage');
+const stageEl=document.querySelector('#lmwsim .as-stage');
 const miniEl=document.getElementById('asMini');
 const cvm=document.getElementById('cvMini'), mctx=cvm.getContext('2d');
 const MW=440, MH=220, MDPR=Math.max(2,Math.min(3,window.devicePixelRatio||1));
@@ -601,15 +557,5 @@ function loop(ts){
 requestAnimationFrame(loop);
 })();
 </script>
-
-  </div>
-</section>
-
-<footer>
-  <div class="wrap">
-    <div class="footer-text">© 2026 Infrastructure Investor | theinfrastructureinvestor.com</div>
-  </div>
-</footer>
-
 </body>
 </html>
