@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Compare returns — Infrastructure Investor</title>
+<meta name="description" content="Base-case returns at a glance across every UK infrastructure sub-sector — revenue, EBITDA margin, unlevered and levered IRR, MOIC and implied EV, from the interactive models.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,500;0,8..60,600;1,8..60,400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+<style>
+#compare .lead { font-size: 0.9rem; color: var(--text2); line-height: 1.7; max-width: 720px; margin-bottom: 1.4rem; }
+#compare .lead b { color: var(--text); font-weight: 600; }
+
+#compare .filters { display: flex; flex-wrap: wrap; gap: 0.45rem; margin-bottom: 1.3rem; }
+#compare .chip-f { font-family: inherit; font-size: 0.74rem; font-weight: 600; color: var(--text2); background: var(--surface); border: 1px solid var(--border-strong); border-radius: 999px; padding: 0.42rem 0.9rem; cursor: pointer; transition: all 0.12s ease; }
+#compare .chip-f:hover { border-color: var(--accent); color: var(--accent); }
+#compare .chip-f.on { background: var(--accent); color: #fff; border-color: var(--accent); }
+
+#compare .table-wrap { background: var(--surface); border: 1px solid var(--border); border-radius: 14px; overflow-x: auto; box-shadow: 0 10px 30px rgba(18,38,32,0.05); }
+#compare table { width: 100%; border-collapse: collapse; font-variant-numeric: tabular-nums; min-width: 860px; }
+#compare thead th { position: sticky; top: 0; background: var(--surface-2); font-size: 0.62rem; letter-spacing: 0.06em; text-transform: uppercase; color: var(--muted); font-weight: 600; text-align: right; padding: 0.85rem 0.9rem; border-bottom: 1px solid var(--border); cursor: pointer; white-space: nowrap; user-select: none; }
+#compare thead th:first-child, #compare thead th.tl { text-align: left; }
+#compare thead th:hover { color: var(--accent); }
+#compare thead th .arr { opacity: 0; font-size: 0.7rem; margin-left: 0.2rem; }
+#compare thead th.sort .arr { opacity: 1; }
+#compare tbody tr { border-bottom: 1px solid var(--border); transition: background 0.1s ease; cursor: pointer; }
+#compare tbody tr:last-child { border-bottom: none; }
+#compare tbody tr:hover { background: var(--accent-soft); }
+#compare td { padding: 0.7rem 0.9rem; text-align: right; font-size: 0.84rem; color: var(--text); white-space: nowrap; }
+#compare td.name { text-align: left; font-weight: 600; letter-spacing: -0.01em; }
+#compare td.name a { color: var(--text); text-decoration: none; }
+#compare tbody tr:hover td.name a { color: var(--accent); }
+#compare td.cls { text-align: left; }
+#compare .cls-tag { font-size: 0.66rem; font-weight: 600; color: var(--text2); }
+#compare .cls-dot { display: inline-block; width: 8px; height: 8px; border-radius: 50%; margin-right: 0.45rem; vertical-align: middle; }
+#compare .irr-cell { position: relative; }
+#compare .irr-bar { position: absolute; left: 0; top: 50%; transform: translateY(-50%); height: 60%; background: var(--accent-soft); border-radius: 4px; z-index: 0; }
+#compare .irr-val { position: relative; z-index: 1; font-weight: 600; }
+#compare .foot-note { font-size: 0.72rem; color: var(--muted); line-height: 1.7; margin-top: 1.1rem; max-width: 760px; }
+#compare .foot-note b { color: var(--text2); font-weight: 600; }
+@media (max-width: 640px) { #compare td, #compare thead th { padding: 0.6rem 0.6rem; } }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="wrap">
+    <a class="nav-logo" href="index.html"><span class="pulse"></span>Infrastructure Reference</a>
+    <div class="nav-meta">Infrastructure Investor</div>
+  </div>
+</nav>
+
+<section class="hero">
+  <div class="wrap">
+    <div class="breadcrumb"><a href="index.html">Home</a><span class="sep">/</span>Compare returns</div>
+    <div class="hero-eyebrow">Cross-sector</div>
+    <h1>Returns <em>at a glance</em></h1>
+    <p class="hero-sub">Every interactive model's base case, side by side. Compare revenue, margin, unlevered and levered IRR, equity multiple and implied enterprise value across all UK infrastructure sub-sectors — then click through to run any of them live.</p>
+  </div>
+</section>
+
+<section class="tools-section" id="compare">
+  <div class="wrap">
+
+    <p class="lead">Figures are each model's <b>year-one base case</b> at its default assumptions — a like-for-like starting point, not a forecast. Sort any column; filter by asset class. Click a row to open its live simulation.</p>
+
+    <div class="filters" id="filters"></div>
+
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr id="head"></tr>
+        </thead>
+        <tbody id="body"></tbody>
+      </table>
+    </div>
+
+    <p class="foot-note"><b>Methodology.</b> Each row is generated from the corresponding interactive simulation at its default inputs. <b>Unlevered IRR</b> is the asset/project return; <b>levered IRR</b> is the return to equity after debt; <b>MOIC</b> is the equity multiple over the model's default hold; <b>EV</b> is the implied enterprise value at the model's entry multiple. Regulated networks (RAB/RCV) and availability-based PFI/PPP show defensive, lower-but-stable returns; merchant and growth assets (EV charging, ports, offshore wind) show higher but more variable returns. Illustrative only — not investment advice, and not tied to any specific asset.</p>
+
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="footer-text">© 2026 Infrastructure Investor | theinfrastructureinvestor.com · <a href="community.html" style="color:var(--accent);text-decoration:none;font-weight:600">Community</a></div>
+  </div>
+</footer>
+
+<script>
+(function () {
+  var CLS = {
+    'Energy & Utilities': '#0c6b4f',
+    'Transport': '#b07d24',
+    'Digital Infrastructure': '#2f5fb0',
+    'Social Infrastructure': '#bc4733',
+    'Energy Transition': '#37934f',
+    'Environmental & Waste': '#6a6b3a'
+  };
+  // Base case per sub-sector, generated from each interactive model's default assumptions.
+  var DATA = [
+    ['Electricity transmission','Energy & Utilities','electricity-transmission.html','£1.68bn','£1.30bn','78%','6.4%','9.1%','2.54×','£15.66bn'],
+    ['Gas transmission','Energy & Utilities','gas-transmission.html','£784m','£609m','78%','6.4%','9.1%','2.54×','£7.31bn'],
+    ['Gas distribution','Energy & Utilities','gas-distribution.html','£784m','£609m','78%','6.4%','9.1%','2.54×','£7.31bn'],
+    ['Water & wastewater','Energy & Utilities','water-wastewater.html','£1.26bn','£960m','76%','6.3%','9.0%','2.52×','£11.52bn'],
+    ['Roads','Transport','roads.html','£73.4m','£49.1m','67%','6.0%','6.7%','1.80×','£1.08bn'],
+    ['Rail infrastructure','Transport','rail-infrastructure.html','£172m','£90.8m','53%','5.3%','5.8%','1.82×','£1.82bn'],
+    ['Bridges','Transport','bridges.html','£76.6m','£56.8m','74%','5.3%','5.8%','1.83×','£1.36bn'],
+    ['Airports','Transport','airports.html','£108m','£46.9m','43%','8.9%','10.5%','2.51×','£844m'],
+    ['Ports','Transport','ports.html','£204m','£112m','55%','8.3%','10.5%','2.43×','£1.57bn'],
+    ['Rolling stock','Transport','rolling-stock.html','£185m','£141m','76%','8.2%','12.4%','2.77×','£1.55bn'],
+    ['EV charging','Transport','ev-charging.html','£84.1m','£24.4m','29%','18.9%','22.0%','4.29×','£365m'],
+    ['Data centres','Digital Infrastructure','data-centres.html','£67.3m','£40.7m','60%','7.1%','7.9%','1.99×','£814m'],
+    ['Fibre networks','Digital Infrastructure','fibre-networks.html','£25.2m','£11.8m','47%','7.4%','8.6%','2.11×','£188m'],
+    ['Mobile towers','Digital Infrastructure','mobile-towers.html','£97.2m','£55.4m','57%','7.2%','8.3%','2.06×','£1.22bn'],
+    ['Subsea cables','Digital Infrastructure','subsea-cables.html','£112m','£69.5m','62%','7.8%','9.3%','2.39×','£973m'],
+    ['Hospitals','Social Infrastructure','hospitals.html','£76.6m','£40.9m','53%','6.1%','8.2%','2.31×','£654m'],
+    ['Schools','Social Infrastructure','schools.html','£65.2m','£33.9m','52%','6.1%','8.2%','2.29×','£543m'],
+    ['Courts','Social Infrastructure','courts.html','£68.2m','£37.6m','55%','6.1%','8.3%','2.32×','£602m'],
+    ['Prisons','Social Infrastructure','prisons.html','£56.0m','£26.9m','48%','5.9%','7.9%','2.12×','£430m'],
+    ['Defence estate','Social Infrastructure','military.html','£83.8m','£45.2m','54%','6.4%','9.2%','2.48×','£679m'],
+    ['Student accommodation','Social Infrastructure','student-accommodation.html','£54.9m','£39.7m','72%','5.5%','6.0%','1.68×','£755m'],
+    ['Offshore wind','Energy Transition','offshore-wind.html','£305m','£214m','70%','6.8%','8.5%','2.35×','£2.57bn'],
+    ['Onshore wind','Energy Transition','onshore-wind.html','£12.8m','£9.6m','75%','7.5%','10.0%','2.64×','£105m'],
+    ['Solar','Energy Transition','solar.html','£20.6m','£16.4m','80%','7.0%','9.2%','2.44×','£180m'],
+    ['Battery storage','Energy Transition','battery-storage.html','£5.3m','£3.5m','66%','6.8%','7.7%','1.86×','£31.6m'],
+    ['Pumped hydro','Energy Transition','pumped-hydro.html','£104m','£67.3m','65%','5.8%','6.6%','2.15×','£875m'],
+    ['Hydrogen','Energy Transition','hydrogen.html','£56.1m','£9.6m','17%','5.7%','5.9%','1.52×','£96.4m'],
+    ['Nuclear','Energy Transition','nuclear.html','£1.12bn','£625m','56%','6.0%','7.1%','2.36×','£8.74bn'],
+    ['Waste-to-energy','Environmental & Waste','waste-to-energy.html','£84.8m','£49.3m','58%','7.6%','10.5%','2.32×','£493m'],
+    ['Anaerobic digestion','Environmental & Waste','anaerobic-digestion.html','£7.9m','£4.2m','52%','7.3%','10.0%','2.23×','£41.6m'],
+    ['Recycling infrastructure','Environmental & Waste','recycling-infrastructure.html','£28.2m','£8.3m','29%','4.6%','4.6%','1.45×','£66.4m']
+  ];
+  var COLS = [
+    { k: 0, label: 'Sub-sector', cls: 'name' },
+    { k: 1, label: 'Asset class', cls: 'cls' },
+    { k: 3, label: 'Revenue p.a.' },
+    { k: 4, label: 'EBITDA p.a.' },
+    { k: 5, label: 'Margin' },
+    { k: 6, label: 'Unlev. IRR' },
+    { k: 7, label: 'Levered IRR' },
+    { k: 8, label: 'MOIC' },
+    { k: 9, label: 'Implied EV' }
+  ];
+  function numify(s) {
+    if (s == null) return -1;
+    var m = String(s).replace(/[£,×%\s]/g, '');
+    var v = parseFloat(m);
+    if (!isFinite(v)) return -1;
+    if (/bn/i.test(s)) v *= 1e9; else if (/m/i.test(s)) v *= 1e6;
+    return v;
+  }
+  var maxLIRR = Math.max.apply(null, DATA.map(function (r) { return numify(r[7]); }));
+
+  var filter = 'All', sortK = 7, sortDir = -1; // default: levered IRR desc
+
+  var head = document.getElementById('head');
+  COLS.forEach(function (c) {
+    var th = document.createElement('th');
+    if (c.cls === 'name' || c.cls === 'cls') th.className = 'tl';
+    th.innerHTML = c.label + '<span class="arr"></span>';
+    th.addEventListener('click', function () {
+      if (sortK === c.k) sortDir = -sortDir; else { sortK = c.k; sortDir = (c.cls ? 1 : -1); }
+      paint();
+    });
+    th.dataset.k = c.k;
+    head.appendChild(th);
+  });
+
+  var filters = document.getElementById('filters');
+  ['All'].concat(Object.keys(CLS)).forEach(function (f) {
+    var b = document.createElement('button');
+    b.className = 'chip-f' + (f === 'All' ? ' on' : '');
+    b.textContent = f;
+    b.addEventListener('click', function () {
+      filter = f;
+      filters.querySelectorAll('.chip-f').forEach(function (x) { x.classList.toggle('on', x === b); });
+      paint();
+    });
+    filters.appendChild(b);
+  });
+
+  function paint() {
+    var rows = DATA.filter(function (r) { return filter === 'All' || r[1] === filter; });
+    var textCol = (sortK === 0 || sortK === 1);
+    rows.sort(function (a, b) {
+      var va = textCol ? String(a[sortK]).toLowerCase() : numify(a[sortK]);
+      var vb = textCol ? String(b[sortK]).toLowerCase() : numify(b[sortK]);
+      if (va < vb) return -1 * sortDir; if (va > vb) return 1 * sortDir; return 0;
+    });
+    head.querySelectorAll('th').forEach(function (th) {
+      var on = +th.dataset.k === sortK;
+      th.classList.toggle('sort', on);
+      th.querySelector('.arr').textContent = on ? (sortDir < 0 ? '▾' : '▴') : '';
+    });
+    var body = document.getElementById('body');
+    body.innerHTML = rows.map(function (r) {
+      var lirrPct = Math.max(0, numify(r[7])) / maxLIRR * 100;
+      return '<tr onclick="location.href=\'' + r[2] + '\'">' +
+        '<td class="name"><a href="' + r[2] + '">' + r[0] + '</a></td>' +
+        '<td class="cls"><span class="cls-tag"><span class="cls-dot" style="background:' + CLS[r[1]] + '"></span>' + r[1] + '</span></td>' +
+        '<td>' + r[3] + '</td>' +
+        '<td>' + r[4] + '</td>' +
+        '<td>' + r[5] + '</td>' +
+        '<td>' + r[6] + '</td>' +
+        '<td class="irr-cell"><span class="irr-bar" style="width:' + lirrPct + '%"></span><span class="irr-val">' + r[7] + '</span></td>' +
+        '<td>' + r[8] + '</td>' +
+        '<td>' + r[9] + '</td>' +
+      '</tr>';
+    }).join('');
+  }
+  paint();
+})();
+</script>
+<script src="site.js" defer></script>
+</body>
+</html>
