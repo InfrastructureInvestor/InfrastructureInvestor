@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Community — Infrastructure Investor</title>
+<meta name="description" content="Join the discussion — ask questions, share views and debate UK infrastructure investing with the Infrastructure Reference community.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,500;0,8..60,600;1,8..60,400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+<style>
+#community .lead { font-size: 0.9rem; color: var(--text2); line-height: 1.7; max-width: 660px; margin-bottom: 0.5rem; }
+#community .lead b { color: var(--text); font-weight: 600; }
+
+/* House rules */
+#community .guide-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 1rem; }
+#community .guide-card { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 1.3rem 1.4rem; }
+#community .guide-icon { width: 34px; height: 34px; border-radius: 9px; background: var(--accent-soft); color: var(--accent); display: flex; align-items: center; justify-content: center; font-size: 1rem; margin-bottom: 0.85rem; }
+#community .guide-title { font-size: 0.95rem; font-weight: 600; color: var(--text); margin-bottom: 0.4rem; letter-spacing: -0.01em; }
+#community .guide-desc { font-size: 0.8rem; color: var(--text2); line-height: 1.6; }
+
+/* Comments panel */
+#community .comments-wrap { background: var(--surface); border: 1px solid var(--border); border-radius: 14px; padding: 1.5rem 1.6rem 1.75rem; box-shadow: 0 10px 30px rgba(18,38,32,0.05); }
+#community .signin-note { display: flex; align-items: center; gap: 0.6rem; font-size: 0.78rem; color: var(--text2); margin-bottom: 1.25rem; padding-bottom: 1.25rem; border-bottom: 1px solid var(--border); line-height: 1.55; }
+#community .signin-note .badge { flex-shrink: 0; font-size: 0.6rem; letter-spacing: 0.08em; text-transform: uppercase; font-weight: 600; padding: 0.3rem 0.6rem; border-radius: 999px; background: var(--accent-soft); color: var(--accent); }
+#community .signin-note a { color: var(--accent); font-weight: 600; text-decoration: none; }
+#community .signin-note a:hover { text-decoration: underline; }
+
+/* Setup-required state (shown until Giscus is connected) */
+#community .setup-note { border: 1px dashed var(--border-strong); border-radius: 12px; padding: 2rem 1.75rem; background: var(--surface-2); }
+#community .setup-note .ph-label { display: block; font-size: 0.66rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); font-weight: 600; margin-bottom: 0.9rem; }
+#community .setup-note p { font-size: 0.86rem; color: var(--text2); line-height: 1.7; margin-bottom: 0.9rem; max-width: 620px; }
+#community .setup-note ol { margin: 0 0 0.25rem 1.1rem; padding: 0; }
+#community .setup-note li { font-size: 0.84rem; color: var(--text2); line-height: 1.75; margin-bottom: 0.35rem; }
+#community .setup-note code { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 0.78rem; background: var(--accent-soft); color: var(--accent); padding: 0.1rem 0.35rem; border-radius: 5px; }
+#community .setup-note a { color: var(--accent); font-weight: 600; text-decoration: none; }
+#community .setup-note a:hover { text-decoration: underline; }
+
+#community .giscus { width: 100%; }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="wrap">
+    <a class="nav-logo" href="index.html"><span class="pulse"></span>Infrastructure Reference</a>
+    <div class="nav-meta">Infrastructure Investor</div>
+  </div>
+</nav>
+
+<section class="hero">
+  <div class="wrap">
+    <div class="breadcrumb"><a href="index.html">Home</a><span class="sep">/</span>Community</div>
+    <div class="hero-eyebrow">Community</div>
+    <h1>Join the <em>discussion</em></h1>
+    <p class="hero-sub">A space for analysts, investors and operators to ask questions, share views and debate the assets, models and regulatory shifts shaping UK infrastructure. Comments are public and powered by GitHub Discussions.</p>
+  </div>
+</section>
+
+<section class="tools-section" id="community">
+  <div class="wrap">
+
+    <div class="section-header">
+      <div class="section-label">House rules</div>
+      <div class="section-line"></div>
+    </div>
+
+    <div class="guide-grid">
+      <div class="guide-card">
+        <div class="guide-icon">✶</div>
+        <div class="guide-title">Be constructive</div>
+        <div class="guide-desc">Add signal: a question, a data point, a counter-argument. Disagree with the idea, never the person. Assume good faith.</div>
+      </div>
+      <div class="guide-card">
+        <div class="guide-icon">⚖</div>
+        <div class="guide-title">Not investment advice</div>
+        <div class="guide-desc">Everything here is for discussion and education only. Nothing posted is financial advice or a recommendation. Do your own work.</div>
+      </div>
+      <div class="guide-card">
+        <div class="guide-icon">⌨</div>
+        <div class="guide-title">Keep it clean</div>
+        <div class="guide-desc">No spam, self-promotion, confidential or market-sensitive information. Off-topic and abusive comments will be removed.</div>
+      </div>
+    </div>
+
+    <div class="section-header">
+      <div class="section-label">Comments</div>
+      <div class="section-line"></div>
+    </div>
+
+    <p class="lead">Sign in with your GitHub account to post, reply and react. New here? <b>Read the room</b> — skim the thread before adding to it.</p>
+
+    <div class="comments-wrap">
+      <div class="signin-note">
+        <span class="badge">GitHub</span>
+        <span>Comments are stored in <b>GitHub Discussions</b> and shown here in real time. You'll sign in with a free GitHub account the first time you post — your email stays private.</span>
+      </div>
+
+      <!-- Giscus mounts here; the setup notice below is replaced once connected -->
+      <div id="giscus-mount" class="giscus"></div>
+
+      <div class="setup-note" id="setupNote">
+        <span class="ph-label">Almost there — connect Giscus</span>
+        <p>This comment board is built and ready. It needs a one-time connection to GitHub Discussions before comments go live. From the repository:</p>
+        <ol>
+          <li>Make sure the repo is <b>public</b> and turn on <b>Settings → Discussions</b>.</li>
+          <li>Install the Giscus app on the repo: <a href="https://github.com/apps/giscus" target="_blank" rel="noopener">github.com/apps/giscus</a>.</li>
+          <li>Open <a href="https://giscus.app" target="_blank" rel="noopener">giscus.app</a>, enter <code>infrastructureinvestor/infrastructureinvestor</code>, choose a Discussion category (e.g. <em>General</em>), and copy the generated <code>data-repo-id</code> and <code>data-category-id</code>.</li>
+          <li>Paste those two values into the <code>GISCUS</code> config near the bottom of <code>community.html</code>.</li>
+        </ol>
+        <p style="margin-bottom:0">Until then, visitors see this friendly notice instead of an error.</p>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="footer-text">© 2026 Infrastructure Investor | theinfrastructureinvestor.com</div>
+  </div>
+</footer>
+
+<script>
+(function () {
+  // ---- Giscus configuration -------------------------------------------------
+  // After enabling GitHub Discussions + installing the Giscus app, grab the two
+  // IDs from https://giscus.app and paste them below. Nothing else needs changing.
+  const GISCUS = {
+    repo:       'infrastructureinvestor/infrastructureinvestor',
+    repoId:     'PASTE_REPO_ID_HERE',
+    category:   'General',
+    categoryId: 'PASTE_CATEGORY_ID_HERE',
+    mapping:    'pathname',   // one discussion thread for this page
+    theme:      'light',      // 'light' | 'dark' | a hosted CSS URL for a custom look
+    lang:       'en'
+  };
+  // ---------------------------------------------------------------------------
+
+  const configured = !/PASTE_/.test(GISCUS.repoId) && !/PASTE_/.test(GISCUS.categoryId);
+  const setupNote = document.getElementById('setupNote');
+
+  if (!configured) return;            // leave the friendly setup notice in place
+  if (setupNote) setupNote.style.display = 'none';
+
+  const s = document.createElement('script');
+  s.src = 'https://giscus.app/client.js';
+  s.setAttribute('data-repo', GISCUS.repo);
+  s.setAttribute('data-repo-id', GISCUS.repoId);
+  s.setAttribute('data-category', GISCUS.category);
+  s.setAttribute('data-category-id', GISCUS.categoryId);
+  s.setAttribute('data-mapping', GISCUS.mapping);
+  s.setAttribute('data-strict', '0');
+  s.setAttribute('data-reactions-enabled', '1');
+  s.setAttribute('data-emit-metadata', '0');
+  s.setAttribute('data-input-position', 'top');
+  s.setAttribute('data-theme', GISCUS.theme);
+  s.setAttribute('data-lang', GISCUS.lang);
+  s.setAttribute('data-loading', 'lazy');
+  s.crossOrigin = 'anonymous';
+  s.async = true;
+  document.getElementById('giscus-mount').appendChild(s);
+})();
+</script>
+
+</body>
+</html>
