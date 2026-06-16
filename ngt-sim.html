@@ -3,14 +3,12 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Gas distribution — Infrastructure Investor</title>
+<title>Gas Transmission (RAB) Economics — Live Simulation</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,500;0,8..60,600;1,8..60,400&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="styles.css">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Source+Serif+4:opsz,wght@8..60,400;8..60,500;8..60,600&display=swap" rel="stylesheet">
 <style>
-
-#gdsim{
+:root{
   --bg:#f5f7f6; --surface:#ffffff; --surface-2:#fbfcfc;
   --border:#e7ebe9; --border-strong:#d8dedb; --text:#15201d; --text2:#4c5854; --muted:#8a948f;
   --accent:#0c6b4f; --accent-soft:#e7f1ec;
@@ -18,174 +16,148 @@
   --stock:#2f5fb0; --stock-soft:#eaf0fa;
 }
 *{box-sizing:border-box;margin:0;padding:0}
-#gdsim{font-family:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;color:var(--text);width:100%;max-width:980px;margin:0 auto;font-variant-numeric:tabular-nums}
-#gdsim .as-head{margin-bottom:1.1rem}
-#gdsim .as-eyebrow{font-size:.66rem;letter-spacing:.16em;text-transform:uppercase;font-weight:600;color:var(--accent);margin-bottom:.5rem}
-#gdsim h2{font-family:'Source Serif 4',Georgia,serif;font-weight:500;font-size:1.7rem;line-height:1.1;letter-spacing:-.015em;margin-bottom:.4rem}
-#gdsim .as-sub{font-size:.86rem;color:var(--text2);line-height:1.6;max-width:660px}
-#gdsim .as-ctrls{display:flex;gap:.65rem;align-items:center;flex-wrap:wrap;margin:1.1rem 0 .7rem;background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:.7rem .9rem}
-#gdsim .ctrl{display:flex;align-items:center;gap:.55rem}
-#gdsim .ctrl label{font-size:.7rem;color:var(--muted);letter-spacing:.04em;text-transform:uppercase;font-weight:600;white-space:nowrap}
-#gdsim .ctrl input[type=range]{width:90px;-webkit-appearance:none;appearance:none;height:4px;border-radius:3px;background:var(--border-strong);outline:none}
-#gdsim .ctrl input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;appearance:none;width:14px;height:14px;border-radius:50%;background:var(--accent);cursor:pointer;border:2px solid #fff;box-shadow:0 1px 3px rgba(0,0,0,.2)}
-#gdsim .ctrl input[type=range]::-moz-range-thumb{width:14px;height:14px;border-radius:50%;background:var(--accent);cursor:pointer;border:2px solid #fff}
-#gdsim .ctrl .val{font-size:.8rem;font-weight:600;min-width:14px;color:var(--text)}
-#gdsim .as-divider{width:1px;height:24px;background:var(--border);margin:0 .15rem}
-#gdsim .spd{display:flex;gap:.25rem;margin-left:auto}
-#gdsim .spd button{font-family:inherit;font-size:.72rem;font-weight:600;padding:.32rem .6rem;border-radius:7px;border:1px solid var(--border-strong);background:var(--surface-2);color:var(--text2);cursor:pointer;transition:all .12s}
-#gdsim .spd button:hover{border-color:var(--accent)}
-#gdsim .spd button.on{background:var(--accent);color:#fff;border-color:var(--accent)}
-#gdsim .as-stage{position:relative;border-radius:14px;overflow:hidden;border:1px solid var(--border);box-shadow:0 12px 34px rgba(18,38,32,.10)}
-#gdsim canvas{display:block;width:100%;aspect-ratio:720/360}
-#gdsim .as-mini{position:fixed;right:20px;bottom:20px;width:clamp(300px,34vw,440px);aspect-ratio:720/360;border-radius:12px;overflow:hidden;border:1px solid rgba(255,255,255,.16);box-shadow:0 16px 40px rgba(8,16,30,.45);opacity:0;transform:translateY(12px) scale(.97);pointer-events:none;transition:opacity .28s ease,transform .28s ease;z-index:70;cursor:pointer}
-#gdsim .as-mini.show{opacity:1;transform:none;pointer-events:auto}
-#gdsim .as-mini:hover{border-color:rgba(55,192,142,.55)}
-#gdsim .as-mini canvas{display:block;width:100%;height:100%;aspect-ratio:auto}
-#gdsim .as-mini-tag{position:absolute;left:9px;top:8px;font-size:.6rem;font-weight:700;letter-spacing:.1em;color:#cfe0ea;background:rgba(10,20,34,.62);padding:3px 8px;border-radius:6px;display:flex;align-items:center;gap:5px}
-#gdsim .as-mini-tag::before{content:'';width:6px;height:6px;border-radius:50%;background:#37c08e;box-shadow:0 0 6px #37c08e}
-@media(max-width:560px){ #gdsim .as-mini{width:min(66vw,260px);right:10px;bottom:10px} }
-#gdsim .as-legend{display:flex;gap:1.1rem;flex-wrap:wrap;margin:.7rem 0 .2rem}
-#gdsim .leg{display:flex;align-items:center;gap:.4rem;font-size:.72rem;color:var(--text2)}
-#gdsim .leg .dot{width:9px;height:9px;border-radius:50%;flex-shrink:0}
-#gdsim .leg b{font-weight:600;color:var(--text)}
-#gdsim .band-label{display:flex;align-items:center;gap:.6rem;margin:1.1rem 0 .55rem}
-#gdsim .band-label .t{font-size:.66rem;letter-spacing:.08em;text-transform:uppercase;font-weight:600;color:var(--muted)}
-#gdsim .band-label .ln{flex:1;height:1px;background:var(--border)}
-#gdsim .band-label .hint{font-size:.68rem;color:var(--muted);font-weight:400;text-transform:none;letter-spacing:0}
-#gdsim .as-kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:.7rem}
-#gdsim .kpi,#gdsim .stock{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:.85rem .95rem;position:relative;overflow:hidden}
-#gdsim .kpi::before,#gdsim .stock::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px}
-#gdsim .kpi.k-eb::before{background:var(--aero)}
-#gdsim .kpi.k-rev::before{background:var(--comm)}
-#gdsim .kpi.k-yield::before{background:var(--aero)}
-#gdsim .kpi.k-pax::before{background:#3a7bd0}
-#gdsim .stock::before{background:var(--stock)}
-#gdsim .kpi .k,#gdsim .stock .k{font-size:.65rem;letter-spacing:.05em;text-transform:uppercase;color:var(--muted);font-weight:600;margin-bottom:.3rem}
-#gdsim .kpi .v,#gdsim .stock .v{font-family:'Source Serif 4',Georgia,serif;font-size:1.55rem;font-weight:500;line-height:1;letter-spacing:-.01em}
-#gdsim .stock .v{color:var(--stock)}
-#gdsim .kpi .s,#gdsim .stock .s{font-size:.7rem;color:var(--text2);margin-top:.35rem}
-#gdsim .kpi .s b,#gdsim .stock .s b{font-weight:600;color:var(--text)}
-#gdsim .as-stocks{display:grid;grid-template-columns:repeat(3,1fr);gap:.7rem}
-#gdsim .stock{background:linear-gradient(180deg,var(--stock-soft),var(--surface))}
+#gtsim{font-family:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;color:var(--text);width:100%;max-width:980px;margin:0 auto;font-variant-numeric:tabular-nums}
+#gtsim .as-head{margin-bottom:1.1rem}
+#gtsim .as-eyebrow{font-size:.66rem;letter-spacing:.16em;text-transform:uppercase;font-weight:600;color:var(--accent);margin-bottom:.5rem}
+#gtsim h2{font-family:'Source Serif 4',Georgia,serif;font-weight:500;font-size:1.7rem;line-height:1.1;letter-spacing:-.015em;margin-bottom:.4rem}
+#gtsim .as-sub{font-size:.86rem;color:var(--text2);line-height:1.6;max-width:660px}
+#gtsim .as-ctrls{display:flex;gap:.65rem;align-items:center;flex-wrap:wrap;margin:1.1rem 0 .7rem;background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:.7rem .9rem}
+#gtsim .ctrl{display:flex;align-items:center;gap:.55rem}
+#gtsim .ctrl label{font-size:.7rem;color:var(--muted);letter-spacing:.04em;text-transform:uppercase;font-weight:600;white-space:nowrap}
+#gtsim .ctrl input[type=range]{width:90px;-webkit-appearance:none;appearance:none;height:4px;border-radius:3px;background:var(--border-strong);outline:none}
+#gtsim .ctrl input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;appearance:none;width:14px;height:14px;border-radius:50%;background:var(--accent);cursor:pointer;border:2px solid #fff;box-shadow:0 1px 3px rgba(0,0,0,.2)}
+#gtsim .ctrl input[type=range]::-moz-range-thumb{width:14px;height:14px;border-radius:50%;background:var(--accent);cursor:pointer;border:2px solid #fff}
+#gtsim .ctrl .val{font-size:.8rem;font-weight:600;min-width:14px;color:var(--text)}
+#gtsim .as-divider{width:1px;height:24px;background:var(--border);margin:0 .15rem}
+#gtsim .spd{display:flex;gap:.25rem;margin-left:auto}
+#gtsim .spd button{font-family:inherit;font-size:.72rem;font-weight:600;padding:.32rem .6rem;border-radius:7px;border:1px solid var(--border-strong);background:var(--surface-2);color:var(--text2);cursor:pointer;transition:all .12s}
+#gtsim .spd button:hover{border-color:var(--accent)}
+#gtsim .spd button.on{background:var(--accent);color:#fff;border-color:var(--accent)}
+#gtsim .as-stage{position:relative;border-radius:14px;overflow:hidden;border:1px solid var(--border);box-shadow:0 12px 34px rgba(18,38,32,.10)}
+#gtsim canvas{display:block;width:100%;aspect-ratio:720/360}
+#gtsim .as-mini{position:fixed;right:20px;bottom:20px;width:clamp(300px,34vw,440px);aspect-ratio:720/360;border-radius:12px;overflow:hidden;border:1px solid rgba(255,255,255,.16);box-shadow:0 16px 40px rgba(8,16,30,.45);opacity:0;transform:translateY(12px) scale(.97);pointer-events:none;transition:opacity .28s ease,transform .28s ease;z-index:70;cursor:pointer}
+#gtsim .as-mini.show{opacity:1;transform:none;pointer-events:auto}
+#gtsim .as-mini:hover{border-color:rgba(55,192,142,.55)}
+#gtsim .as-mini canvas{display:block;width:100%;height:100%;aspect-ratio:auto}
+#gtsim .as-mini-tag{position:absolute;left:9px;top:8px;font-size:.6rem;font-weight:700;letter-spacing:.1em;color:#cfe0ea;background:rgba(10,20,34,.62);padding:3px 8px;border-radius:6px;display:flex;align-items:center;gap:5px}
+#gtsim .as-mini-tag::before{content:'';width:6px;height:6px;border-radius:50%;background:#37c08e;box-shadow:0 0 6px #37c08e}
+@media(max-width:560px){ #gtsim .as-mini{width:min(66vw,260px);right:10px;bottom:10px} }
+#gtsim .as-legend{display:flex;gap:1.1rem;flex-wrap:wrap;margin:.7rem 0 .2rem}
+#gtsim .leg{display:flex;align-items:center;gap:.4rem;font-size:.72rem;color:var(--text2)}
+#gtsim .leg .dot{width:9px;height:9px;border-radius:50%;flex-shrink:0}
+#gtsim .leg b{font-weight:600;color:var(--text)}
+#gtsim .band-label{display:flex;align-items:center;gap:.6rem;margin:1.1rem 0 .55rem}
+#gtsim .band-label .t{font-size:.66rem;letter-spacing:.08em;text-transform:uppercase;font-weight:600;color:var(--muted)}
+#gtsim .band-label .ln{flex:1;height:1px;background:var(--border)}
+#gtsim .band-label .hint{font-size:.68rem;color:var(--muted);font-weight:400;text-transform:none;letter-spacing:0}
+#gtsim .as-kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:.7rem}
+#gtsim .kpi,#gtsim .stock{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:.85rem .95rem;position:relative;overflow:hidden}
+#gtsim .kpi::before,#gtsim .stock::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px}
+#gtsim .kpi.k-eb::before{background:var(--aero)}
+#gtsim .kpi.k-rev::before{background:var(--comm)}
+#gtsim .kpi.k-yield::before{background:var(--aero)}
+#gtsim .kpi.k-pax::before{background:#3a7bd0}
+#gtsim .stock::before{background:var(--stock)}
+#gtsim .kpi .k,#gtsim .stock .k{font-size:.65rem;letter-spacing:.05em;text-transform:uppercase;color:var(--muted);font-weight:600;margin-bottom:.3rem}
+#gtsim .kpi .v,#gtsim .stock .v{font-family:'Source Serif 4',Georgia,serif;font-size:1.55rem;font-weight:500;line-height:1;letter-spacing:-.01em}
+#gtsim .stock .v{color:var(--stock)}
+#gtsim .kpi .s,#gtsim .stock .s{font-size:.7rem;color:var(--text2);margin-top:.35rem}
+#gtsim .kpi .s b,#gtsim .stock .s b{font-weight:600;color:var(--text)}
+#gtsim .as-stocks{display:grid;grid-template-columns:repeat(3,1fr);gap:.7rem}
+#gtsim .stock{background:linear-gradient(180deg,var(--stock-soft),var(--surface))}
 @keyframes kpulse{0%{box-shadow:0 0 0 0 rgba(47,95,176,0)}28%{box-shadow:0 0 0 3px rgba(47,95,176,.22)}100%{box-shadow:0 0 0 0 rgba(47,95,176,0)}}
-#gdsim .pulse{animation:kpulse .75s ease}
-#gdsim .as-split{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:.95rem 1.05rem;margin-top:.9rem}
-#gdsim .split-head{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:.6rem}
-#gdsim .split-head .t{font-size:.66rem;letter-spacing:.05em;text-transform:uppercase;color:var(--muted);font-weight:600}
-#gdsim .split-head .tot{font-size:.74rem;color:var(--text2)}
-#gdsim .split-head .tot b{font-weight:600;color:var(--text)}
-#gdsim .split-bar{display:flex;height:26px;border-radius:7px;overflow:hidden;background:var(--border)}
-#gdsim .split-seg{height:100%;display:flex;align-items:center;padding:0 .55rem;color:#fff;font-size:.72rem;font-weight:600;white-space:nowrap;transition:width .5s ease;min-width:0;overflow:hidden}
-#gdsim .seg-aero{background:var(--aero)} #gdsim .seg-comm{background:var(--comm)}
-#gdsim .split-foot{margin-top:.55rem;font-size:.72rem;color:var(--text2);line-height:1.5}
-#gdsim .split-foot b{color:var(--text);font-weight:600}
-#gdsim .as-panels{display:grid;grid-template-columns:1fr 1fr;gap:.9rem;margin-top:.9rem}
-#gdsim .panel{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:1rem 1.1rem}
-#gdsim .ptitle{font-size:.66rem;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);margin-bottom:.8rem;display:flex;justify-content:space-between;align-items:baseline}
-#gdsim .ptitle .pt-sum{color:var(--text);font-weight:600;font-size:.74rem;text-transform:none;letter-spacing:0}
-#gdsim .row{display:flex;align-items:center;gap:.5rem;margin-bottom:.5rem}
-#gdsim .row:last-child{margin-bottom:0}
-#gdsim .r-lbl{width:128px;font-size:.74rem;color:var(--text);flex-shrink:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-#gdsim .r-tag{width:54px;flex-shrink:0;font-size:.57rem;font-weight:600;letter-spacing:.03em;text-transform:uppercase}
-#gdsim .r-tag.aero{color:var(--aero)} #gdsim .r-tag.comm{color:var(--comm)}
-#gdsim .r-tag.fix{color:var(--muted)} #gdsim .r-tag.var{color:var(--cost)} #gdsim .r-tag.semi{color:#a06a2a}
-#gdsim .bwrap{flex:1;height:7px;background:var(--border);border-radius:4px;overflow:hidden}
-#gdsim .bfill{height:100%;border-radius:4px;transition:width .45s ease}
-#gdsim .r-amt{width:54px;text-align:right;font-size:.74rem;font-weight:600;color:var(--text);flex-shrink:0}
-#gdsim .as-foot{font-size:.68rem;color:var(--muted);line-height:1.6;margin-top:.9rem}
-#gdsim .as-foot b{color:var(--text2);font-weight:600}
-#gdsim .calc-note{font-size:.8rem;color:var(--text2);line-height:1.6;margin-bottom:.85rem}
-#gdsim .calc-note b{color:var(--text);font-weight:600}
-#gdsim .calc-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:.9rem;margin-bottom:.9rem}
-#gdsim .cgroup{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:.9rem 1rem}
-#gdsim .cgroup h4{font-size:.62rem;letter-spacing:.07em;text-transform:uppercase;color:var(--muted);font-weight:600;margin-bottom:.7rem}
-#gdsim .cfield{display:flex;align-items:center;justify-content:space-between;gap:.5rem;margin-bottom:.5rem}
-#gdsim .cfield:last-child{margin-bottom:0}
-#gdsim .cfield label{font-size:.74rem;color:var(--text);line-height:1.25}
-#gdsim .cfield .ig{display:flex;align-items:center;gap:.25rem;flex-shrink:0}
-#gdsim .cfield input{width:56px;font-family:inherit;font-size:.78rem;font-weight:600;text-align:right;color:var(--text);border:1px solid var(--border-strong);border-radius:7px;padding:.28rem .35rem;background:var(--surface-2);font-variant-numeric:tabular-nums}
-#gdsim .cfield input:focus{outline:none;border-color:var(--accent)}
-#gdsim .cfield .u{font-size:.7rem;color:var(--muted);width:12px;text-align:left}
-#gdsim .out-cards{display:grid;grid-template-columns:repeat(4,1fr);gap:.7rem;margin-bottom:.9rem}
-#gdsim .ocard{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:.85rem .95rem;position:relative;overflow:hidden}
-#gdsim .ocard::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--muted)}
-#gdsim .ocard.unlev::before{background:var(--aero)}
-#gdsim .ocard.lev{background:linear-gradient(180deg,var(--accent-soft),var(--surface))}
-#gdsim .ocard.lev::before{background:var(--accent)}
-#gdsim .ocard .k{font-size:.63rem;letter-spacing:.05em;text-transform:uppercase;color:var(--muted);font-weight:600;margin-bottom:.3rem}
-#gdsim .ocard .v{font-family:'Source Serif 4',Georgia,serif;font-size:1.5rem;font-weight:500;line-height:1;letter-spacing:-.01em}
-#gdsim .ocard.lev .v{color:var(--accent)}
-#gdsim .ocard .s{font-size:.7rem;color:var(--text2);margin-top:.3rem}
-#gdsim .calc-sum{display:flex;flex-wrap:wrap;gap:.45rem 1.4rem;background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:.8rem 1rem;margin-bottom:.9rem;font-size:.74rem;color:var(--text2)}
-#gdsim .calc-sum span{white-space:nowrap}
-#gdsim .calc-sum b{color:var(--text);font-weight:600}
-#gdsim .calc-sum .lbl{color:var(--muted)}
-#gdsim .jwrap{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:.9rem 1rem;margin-bottom:.9rem}
-#gdsim .jhead{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:.9rem;gap:1rem}
-#gdsim .jhead .t{font-size:.63rem;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);font-weight:600}
-#gdsim .jhead .lg{font-size:.68rem;color:var(--text2)}
-#gdsim .jchart{display:flex;align-items:stretch;gap:3px;height:132px;position:relative;margin-bottom:18px}
-#gdsim .jaxis{position:absolute;left:0;right:0;top:50%;height:1px;background:var(--border-strong)}
-#gdsim .jcol{flex:1;position:relative;min-width:0}
-#gdsim .jbar{position:absolute;left:16%;right:16%;border-radius:3px;min-height:2px}
-#gdsim .jbar.pos{background:var(--accent);bottom:50%}
-#gdsim .jbar.neg{background:var(--cost);top:50%}
-#gdsim .jbar.exit{background:#0a5a42}
-#gdsim .jlbl{position:absolute;bottom:-16px;left:0;right:0;text-align:center;font-size:.6rem;color:var(--muted)}
-#gdsim .ptable{width:100%;border-collapse:collapse;font-size:.72rem;font-variant-numeric:tabular-nums}
-#gdsim .ptable th,#gdsim .ptable td{text-align:right;padding:.32rem .45rem;border-bottom:1px solid var(--border);white-space:nowrap}
-#gdsim .ptable th{color:var(--muted);font-weight:600;font-size:.61rem;letter-spacing:.03em;text-transform:uppercase}
-#gdsim .ptable td:first-child,#gdsim .ptable th:first-child{text-align:left;color:var(--text2)}
-#gdsim .ptable tr:last-child td{border-bottom:none}
-#gdsim .tscroll{overflow-x:auto}
+#gtsim .pulse{animation:kpulse .75s ease}
+#gtsim .as-split{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:.95rem 1.05rem;margin-top:.9rem}
+#gtsim .split-head{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:.6rem}
+#gtsim .split-head .t{font-size:.66rem;letter-spacing:.05em;text-transform:uppercase;color:var(--muted);font-weight:600}
+#gtsim .split-head .tot{font-size:.74rem;color:var(--text2)}
+#gtsim .split-head .tot b{font-weight:600;color:var(--text)}
+#gtsim .split-bar{display:flex;height:26px;border-radius:7px;overflow:hidden;background:var(--border)}
+#gtsim .split-seg{height:100%;display:flex;align-items:center;padding:0 .55rem;color:#fff;font-size:.72rem;font-weight:600;white-space:nowrap;transition:width .5s ease;min-width:0;overflow:hidden}
+#gtsim .seg-aero{background:var(--aero)} #gtsim .seg-comm{background:var(--comm)}
+#gtsim .split-foot{margin-top:.55rem;font-size:.72rem;color:var(--text2);line-height:1.5}
+#gtsim .split-foot b{color:var(--text);font-weight:600}
+#gtsim .as-panels{display:grid;grid-template-columns:1fr 1fr;gap:.9rem;margin-top:.9rem}
+#gtsim .panel{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:1rem 1.1rem}
+#gtsim .ptitle{font-size:.66rem;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);margin-bottom:.8rem;display:flex;justify-content:space-between;align-items:baseline}
+#gtsim .ptitle .pt-sum{color:var(--text);font-weight:600;font-size:.74rem;text-transform:none;letter-spacing:0}
+#gtsim .row{display:flex;align-items:center;gap:.5rem;margin-bottom:.5rem}
+#gtsim .row:last-child{margin-bottom:0}
+#gtsim .r-lbl{width:128px;font-size:.74rem;color:var(--text);flex-shrink:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+#gtsim .r-tag{width:54px;flex-shrink:0;font-size:.57rem;font-weight:600;letter-spacing:.03em;text-transform:uppercase}
+#gtsim .r-tag.aero{color:var(--aero)} #gtsim .r-tag.comm{color:var(--comm)}
+#gtsim .r-tag.fix{color:var(--muted)} #gtsim .r-tag.var{color:var(--cost)} #gtsim .r-tag.semi{color:#a06a2a}
+#gtsim .bwrap{flex:1;height:7px;background:var(--border);border-radius:4px;overflow:hidden}
+#gtsim .bfill{height:100%;border-radius:4px;transition:width .45s ease}
+#gtsim .r-amt{width:54px;text-align:right;font-size:.74rem;font-weight:600;color:var(--text);flex-shrink:0}
+#gtsim .as-foot{font-size:.68rem;color:var(--muted);line-height:1.6;margin-top:.9rem}
+#gtsim .as-foot b{color:var(--text2);font-weight:600}
+#gtsim .calc-note{font-size:.8rem;color:var(--text2);line-height:1.6;margin-bottom:.85rem}
+#gtsim .calc-note b{color:var(--text);font-weight:600}
+#gtsim .calc-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:.9rem;margin-bottom:.9rem}
+#gtsim .cgroup{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:.9rem 1rem}
+#gtsim .cgroup h4{font-size:.62rem;letter-spacing:.07em;text-transform:uppercase;color:var(--muted);font-weight:600;margin-bottom:.7rem}
+#gtsim .cfield{display:flex;align-items:center;justify-content:space-between;gap:.5rem;margin-bottom:.5rem}
+#gtsim .cfield:last-child{margin-bottom:0}
+#gtsim .cfield label{font-size:.74rem;color:var(--text);line-height:1.25}
+#gtsim .cfield .ig{display:flex;align-items:center;gap:.25rem;flex-shrink:0}
+#gtsim .cfield input{width:56px;font-family:inherit;font-size:.78rem;font-weight:600;text-align:right;color:var(--text);border:1px solid var(--border-strong);border-radius:7px;padding:.28rem .35rem;background:var(--surface-2);font-variant-numeric:tabular-nums}
+#gtsim .cfield input:focus{outline:none;border-color:var(--accent)}
+#gtsim .cfield .u{font-size:.7rem;color:var(--muted);width:12px;text-align:left}
+#gtsim .out-cards{display:grid;grid-template-columns:repeat(4,1fr);gap:.7rem;margin-bottom:.9rem}
+#gtsim .ocard{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:.85rem .95rem;position:relative;overflow:hidden}
+#gtsim .ocard::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--muted)}
+#gtsim .ocard.unlev::before{background:var(--aero)}
+#gtsim .ocard.lev{background:linear-gradient(180deg,var(--accent-soft),var(--surface))}
+#gtsim .ocard.lev::before{background:var(--accent)}
+#gtsim .ocard .k{font-size:.63rem;letter-spacing:.05em;text-transform:uppercase;color:var(--muted);font-weight:600;margin-bottom:.3rem}
+#gtsim .ocard .v{font-family:'Source Serif 4',Georgia,serif;font-size:1.5rem;font-weight:500;line-height:1;letter-spacing:-.01em}
+#gtsim .ocard.lev .v{color:var(--accent)}
+#gtsim .ocard .s{font-size:.7rem;color:var(--text2);margin-top:.3rem}
+#gtsim .calc-sum{display:flex;flex-wrap:wrap;gap:.45rem 1.4rem;background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:.8rem 1rem;margin-bottom:.9rem;font-size:.74rem;color:var(--text2)}
+#gtsim .calc-sum span{white-space:nowrap}
+#gtsim .calc-sum b{color:var(--text);font-weight:600}
+#gtsim .calc-sum .lbl{color:var(--muted)}
+#gtsim .jwrap{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:.9rem 1rem;margin-bottom:.9rem}
+#gtsim .jhead{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:.9rem;gap:1rem}
+#gtsim .jhead .t{font-size:.63rem;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);font-weight:600}
+#gtsim .jhead .lg{font-size:.68rem;color:var(--text2)}
+#gtsim .jchart{display:flex;align-items:stretch;gap:3px;height:132px;position:relative;margin-bottom:18px}
+#gtsim .jaxis{position:absolute;left:0;right:0;top:50%;height:1px;background:var(--border-strong)}
+#gtsim .jcol{flex:1;position:relative;min-width:0}
+#gtsim .jbar{position:absolute;left:16%;right:16%;border-radius:3px;min-height:2px}
+#gtsim .jbar.pos{background:var(--accent);bottom:50%}
+#gtsim .jbar.neg{background:var(--cost);top:50%}
+#gtsim .jbar.exit{background:#0a5a42}
+#gtsim .jlbl{position:absolute;bottom:-16px;left:0;right:0;text-align:center;font-size:.6rem;color:var(--muted)}
+#gtsim .ptable{width:100%;border-collapse:collapse;font-size:.72rem;font-variant-numeric:tabular-nums}
+#gtsim .ptable th,#gtsim .ptable td{text-align:right;padding:.32rem .45rem;border-bottom:1px solid var(--border);white-space:nowrap}
+#gtsim .ptable th{color:var(--muted);font-weight:600;font-size:.61rem;letter-spacing:.03em;text-transform:uppercase}
+#gtsim .ptable td:first-child,#gtsim .ptable th:first-child{text-align:left;color:var(--text2)}
+#gtsim .ptable tr:last-child td{border-bottom:none}
+#gtsim .tscroll{overflow-x:auto}
 @media(max-width:720px){
-  #gdsim .as-kpis{grid-template-columns:repeat(2,1fr)}
-  #gdsim .as-stocks{grid-template-columns:1fr}
-  #gdsim .as-panels{grid-template-columns:1fr}
-  #gdsim .spd{margin-left:0}
-  #gdsim .r-lbl{width:110px}
-  #gdsim .calc-grid{grid-template-columns:1fr}
-  #gdsim .out-cards{grid-template-columns:repeat(2,1fr)}
+  #gtsim .as-kpis{grid-template-columns:repeat(2,1fr)}
+  #gtsim .as-stocks{grid-template-columns:1fr}
+  #gtsim .as-panels{grid-template-columns:1fr}
+  #gtsim .spd{margin-left:0}
+  #gtsim .r-lbl{width:110px}
+  #gtsim .calc-grid{grid-template-columns:1fr}
+  #gtsim .out-cards{grid-template-columns:repeat(2,1fr)}
 }
-
 </style>
 </head>
 <body>
-
-<nav>
-  <div class="wrap">
-    <a class="nav-logo" href="index.html"><span class="pulse"></span>Infrastructure Reference</a>
-    <div class="nav-meta">Infrastructure Investor</div>
-  </div>
-</nav>
-
-<section class="hero">
-  <div class="wrap">
-    <div class="breadcrumb"><a href="index.html">Home</a><span class="sep">/</span><a href="energy-utilities.html">Energy &amp; Utilities</a><span class="sep">/</span>Gas distribution</div>
-    <div class="hero-eyebrow">Energy &amp; Utilities</div>
-    <h1>Gas <em>distribution</em></h1>
-    <p class="hero-sub">An interactive economic model of a regulated gas distribution network — watch gas flow from the district governor along the main to homes, see the RAB return vs depreciation &amp; allowances split, and run the investment case live.</p>
-  </div>
-</section>
-
-<section class="tools-section">
-  <div class="wrap">
-
-    <div class="section-header">
-      <div class="section-label">Interactive model</div>
-      <div class="section-line"></div>
-    </div>
-
-<div id="gdsim">
+<div id="gtsim">
 
   <div class="as-head">
-    <div class="as-eyebrow">Energy &amp; Utilities · Gas distribution</div>
-    <h2>How a gas distribution network earns — the RAB machine</h2>
-    <p class="as-sub">A gas distribution network (a GDN) owns the local lower-pressure mains that carry gas from the transmission system to homes and businesses, and is paid a <b>regulated revenue</b> set by Ofgem (RIIO-GD). The building blocks are the classic regulated ones: a <b>return on the Regulated Asset Base (RAB)</b>, plus recovery of <b>depreciation</b> and a <b>totex allowance</b>, with <b>incentives</b>. A big slug of GDN spend is the mandated <b>iron-mains replacement</b> programme, which keeps the RAB growing. The case turns on the RAB, the allowed return, and performance.</p>
+    <div class="as-eyebrow">Energy &amp; Utilities · Gas transmission</div>
+    <h2>How the gas grid earns — the RAB machine</h2>
+    <p class="as-sub">A gas transmission network owns the high-pressure pipelines and compressor stations of the National Transmission System, and is paid a <b>regulated revenue</b> set by Ofgem (RIIO). The building blocks are the classic regulated ones: a <b>return on the Regulated Asset Base (RAB)</b> at an allowed cost of capital, plus recovery of <b>depreciation</b> and a <b>totex allowance</b>, with <b>incentives</b> for out- (or under-) performance. The RAB is inflation-protected. The twist for gas is the energy transition: as demand falls long-term, the regulator may shorten asset lives (faster depreciation) to avoid stranding. The case turns on the RAB, the allowed return, and performance.</p>
   </div>
 
   <div class="as-ctrls">
-    <div class="ctrl"><label>RAB</label><input type="range" id="dTen" min="3" max="14" value="7" step="0.5"><span class="val" id="tenV">£7bn</span></div>
+    <div class="ctrl"><label>RAB</label><input type="range" id="dTen" min="3" max="15" value="7" step="0.5"><span class="val" id="tenV">£7bn</span></div>
     <div class="as-divider"></div>
     <div class="ctrl"><label>Allowed return</label><input type="range" id="dRent" min="4" max="9" value="6" step="0.25"><span class="val" id="rentV">6.00%</span></div>
     <div class="as-divider"></div>
@@ -203,9 +175,9 @@
 
   <div class="as-legend">
     <span class="leg"><span class="dot" style="background:var(--aero)"></span><b>Return on RAB</b>&nbsp;allowed return on the asset base</span>
-    <span class="leg"><span class="dot" style="background:#5aa0e6"></span><b>Gas to homes</b>&nbsp;mains supplying connected premises</span>
+    <span class="leg"><span class="dot" style="background:#5aa0e6"></span><b>Gas flow</b>&nbsp;high-pressure gas across the system</span>
     <span class="leg"><span class="dot" style="background:var(--comm)"></span><b>Depreciation &amp; allowances</b>&nbsp;cost recovery + incentives</span>
-    <span class="leg"><span class="dot" style="background:var(--cost)"></span><b>Operating cost</b>&nbsp;mains, emergency &amp; replacement totex</span>
+    <span class="leg"><span class="dot" style="background:var(--cost)"></span><b>Operating cost</b>&nbsp;compression &amp; network totex</span>
   </div>
 
   <div class="band-label"><span class="t">Flows — annualised from current assumptions</span><span class="ln"></span><span class="hint">per year</span></div>
@@ -232,7 +204,7 @@
       <div class="split-seg seg-aero" id="segAero">Return on RAB</div>
       <div class="split-seg seg-comm" id="segComm">Depreciation &amp; allowances</div>
     </div>
-    <div class="split-foot"><b>Why investors prize regulated networks:</b> a GDN is a monopoly on an essential service, paid an allowed return on an <b>inflation-linked</b> asset base with charges recovered from every connected home — defensive, predictable cash flow that supports a premium-to-RAB valuation and heavy leverage. The mandated <b>iron-mains replacement</b> programme reliably grows the RAB. The long-run question is the <b>energy transition</b>: if heating electrifies or shifts to hydrogen, throughput and asset lives come under pressure — typically handled through faster depreciation rather than stranding.</div>
+    <div class="split-foot"><b>Why investors prize regulated networks:</b> the revenue is about as safe as infrastructure income gets — a monopoly system paid an allowed return on an <b>inflation-linked</b> asset base, insulated from commodity prices and short-run demand, which supports a premium-to-RAB valuation and heavy leverage. For <b>gas</b> specifically the key debate is the <b>energy transition</b>: lower long-run throughput raises stranding risk, so the regulator tends to allow faster depreciation (shorter asset lives) — protecting cash recovery but shrinking the long-dated base. Allowed-return resets at each price review remain the swing factor.</div>
   </div>
 
   <div class="as-panels">
@@ -283,7 +255,7 @@
     <table class="ptable"><thead id="ptHead"></thead><tbody id="ptBody"></tbody></table>
   </div>
 
-  <p class="as-foot"><b>Illustrative model.</b> Represents an Ofgem RIIO-style regulated gas distribution network (a GDN). Allowed revenue is built from regulatory building blocks: a return on the Regulated Asset Base (RAB × allowed return), regulatory depreciation, a totex allowance (including the iron-mains replacement programme), and a performance/incentive adjustment (positive or negative) shown as a percentage of RAB. Operating costs are the network’s cash totex (mains maintenance, emergency response, replacement; modelled to run at the allowance), so EBITDA ≈ return + depreciation + incentives. The RAB is inflation-indexed and grows with investment. EBITDA = allowed revenue − cash opex; excludes the periodic price-review reset and long-run energy-transition effects. The investment case is a simplified DCF. For illustration only — not investment advice, and not any specific asset.</p>
+  <p class="as-foot"><b>Illustrative model.</b> Represents an Ofgem RIIO-style regulated gas transmission network (the National Transmission System). Allowed revenue is built from regulatory building blocks: a return on the Regulated Asset Base (RAB × allowed return), regulatory depreciation, a totex allowance, and a performance/incentive adjustment (positive or negative) shown as a percentage of RAB. Operating costs are the network’s cash totex (compression fuel, O&amp;M; modelled to run at the allowance), so EBITDA ≈ return + depreciation + incentives. The RAB is inflation-indexed; for gas, energy-transition stranding risk is typically managed via accelerated depreciation rather than written off here. EBITDA = allowed revenue − cash opex; excludes the periodic price-review reset. The investment case is a simplified DCF. For illustration only — not investment advice, and not any specific asset.</p>
 
 </div>
 
@@ -330,7 +302,7 @@ let simSpd=1;
 ['b1','b2','b4'].forEach(id=>{ document.getElementById(id).onclick=()=>{ simSpd=parseInt(id.slice(1));
   ['b1','b2','b4'].forEach(i=>document.getElementById(i).classList.toggle('on',i===id)); }; });
 const dTen=document.getElementById('dTen'), dRent=document.getElementById('dRent'), dTow=document.getElementById('dTow');
-function pulse(){ document.querySelectorAll('#gdsim .kpi,#gdsim .stock').forEach(e=>{ e.classList.remove('pulse'); void e.offsetWidth; e.classList.add('pulse'); }); }
+function pulse(){ document.querySelectorAll('#gtsim .kpi,#gtsim .stock').forEach(e=>{ e.classList.remove('pulse'); void e.offsetWidth; e.classList.add('pulse'); }); }
 dTen.oninput=()=>{ document.getElementById('tenV').textContent='£'+parseInt(dTen.value)+'bn'; pulse(); };
 dRent.oninput=()=>{ document.getElementById('rentV').textContent=parseFloat(dRent.value).toFixed(2)+'%'; pulse(); };
 dTow.oninput=()=>{ const v=parseFloat(dTow.value); document.getElementById('towV').textContent=(v>=0?'+':'')+v.toFixed(1)+'%'; pulse(); };
@@ -402,74 +374,63 @@ function renderModel(){
   .forEach(id=>document.getElementById(id).addEventListener('input',renderModel));
 
 // ---------- scene geometry (energy-from-waste plant, side elevation) ----------
-const GY=266, MY=304, GOV_X=52;
+const GY=300, PIPE_Y=250, COMP_X=300, TERM_X=46, AGI_X=632;
 const moneys=[];
 let T=0,cumEB=0,cTick=0,cumReturn=0,visRAB=7,visRet=6,visPerf=0.5,baseRevYr=0,baseCostYr=0,baseEbYr=0,retT=0,depT=0,costT=0,subFlash=0;
 function rnd(a,b){return a+Math.random()*(b-a);} function lerp(a,b,t){return a+(b-a)*t;}
 function num(v){ if(v>=1e6) return (v/1e6).toFixed(2)+'m'; if(v>=1e3) return (v/1e3).toFixed(0)+'k'; return Math.round(v).toString(); }
-function nHouses(){ return Math.max(6,Math.min(13,Math.round(visRAB*1.3))); }
-function houseX(i,n){ return 118 + i*(606-118)/Math.max(1,n-1); }
+function nComp(){ return Math.max(1,Math.min(4,Math.round(visRAB/4))); }   // compressor units scale with RAB
 function light(x,y,r,col,a){ ctx.save(); ctx.globalAlpha=a;
   const g=ctx.createRadialGradient(x,y,0,x,y,r); g.addColorStop(0,col); g.addColorStop(1,'rgba(0,0,0,0)');
   ctx.fillStyle=g; ctx.beginPath(); ctx.arc(x,y,r,0,Math.PI*2); ctx.fill(); ctx.restore(); }
 
 function drawScene(){
-  const sky=ctx.createLinearGradient(0,0,0,GY); sky.addColorStop(0,'#101a2c'); sky.addColorStop(1,'#34405a');
+  const sky=ctx.createLinearGradient(0,0,0,GY); sky.addColorStop(0,'#101a2c'); sky.addColorStop(1,'#33405a');
   ctx.fillStyle=sky; ctx.fillRect(0,0,W,GY);
   for(let i=0;i<16;i++){ const sx=(i*167+13)%W, sy=(i*41+6)%52; ctx.globalAlpha=0.14+0.28*Math.sin(T*0.02+i); ctx.fillStyle='rgba(255,255,255,0.5)'; ctx.fillRect(sx,sy,1,1); ctx.globalAlpha=1; }
-  ctx.fillStyle='#3a3f44'; ctx.fillRect(0,GY,W,8);                              // pavement/road surface
-  const sub=ctx.createLinearGradient(0,GY+8,0,H); sub.addColorStop(0,'#3a3128'); sub.addColorStop(1,'#241d16');
-  ctx.fillStyle=sub; ctx.fillRect(0,GY+8,W,H-GY-8);                             // subsurface (cutaway)
-  ctx.fillStyle='rgba(120,100,80,0.3)'; for(let i=0;i<40;i++){ const rx=(i*53)%W, ry=GY+14+((i*37)%(H-GY-18)); ctx.fillRect(rx,ry,2,2); }  // soil specks
+  ctx.fillStyle='rgba(22,32,28,0.7)'; ctx.beginPath(); ctx.moveTo(0,GY);     // rolling hills
+  for(let x=0;x<=W;x+=26) ctx.lineTo(x,GY-22-16*Math.sin(x*0.012)); ctx.lineTo(W,GY); ctx.fill();
+  const fg=ctx.createLinearGradient(0,GY,0,H); fg.addColorStop(0,'#26302a'); fg.addColorStop(1,'#172019');
+  ctx.fillStyle=fg; ctx.fillRect(0,GY,W,H-GY);
 }
-function drawHouse(x,seed){
-  const by=GY-30;
-  ctx.fillStyle='#39434e'; ctx.fillRect(x-15,by,30,30);
-  ctx.fillStyle='#4a5560'; ctx.beginPath(); ctx.moveTo(x-18,by); ctx.lineTo(x,by-13); ctx.lineTo(x+18,by); ctx.closePath(); ctx.fill();
-  // warm window (heating on)
-  ctx.fillStyle='rgba(255,210,140,0.8)'; ctx.fillRect(x-10,by+7,9,9); ctx.fillRect(x+2,by+7,9,9);
-  // gas flame at the hob/boiler — flickers
-  const fh=4+1.6*Math.sin(T*0.3+seed*2);
-  ctx.fillStyle='#5ab0ff'; ctx.beginPath(); ctx.moveTo(x,by+30-fh); ctx.quadraticCurveTo(x-3,by+30-fh/2,x,by+30); ctx.quadraticCurveTo(x+3,by+30-fh/2,x,by+30-fh); ctx.fill();
-  light(x,by+30,6,'rgba(90,176,255,0.4)',0.6);
+function drawPipeline(){
+  // buried high-pressure pipe running the length, with above-ground sections at terminal/compressor/AGI
+  ctx.strokeStyle='#5a6068'; ctx.lineWidth=9; ctx.beginPath(); ctx.moveTo(TERM_X,PIPE_Y); ctx.lineTo(AGI_X,PIPE_Y); ctx.stroke();
+  ctx.strokeStyle='#79828c'; ctx.lineWidth=6; ctx.beginPath(); ctx.moveTo(TERM_X,PIPE_Y); ctx.lineTo(AGI_X,PIPE_Y); ctx.stroke();
+  ctx.strokeStyle='rgba(150,160,170,0.5)'; ctx.lineWidth=1; for(let x=TERM_X;x<AGI_X;x+=26){ ctx.beginPath(); ctx.moveTo(x,PIPE_Y-4); ctx.lineTo(x,PIPE_Y+4); ctx.stroke(); }  // pipe segments
+  // gas flow pulses left -> right
+  for(let p=0;p<12;p++){ const u=((T*0.03+p/12)%1); ctx.fillStyle='rgba(150,200,235,0.9)'; const px=lerp(TERM_X,AGI_X,u); ctx.fillRect(px-2,PIPE_Y-2,4,4); }
 }
-function drawGovernor(){
-  ctx.fillStyle='#2e363f'; ctx.fillRect(GOV_X-18,GY-34,40,34);                  // kiosk
-  ctx.fillStyle='#3f4954'; ctx.fillRect(GOV_X-18,GY-38,40,5);
-  ctx.strokeStyle='#79828c'; ctx.lineWidth=3;                                   // inlet (HP) -> outlet (LP) pipework
-  ctx.beginPath(); ctx.moveTo(GOV_X-30,GY-20); ctx.lineTo(GOV_X-18,GY-20); ctx.stroke();
-  ctx.beginPath(); ctx.moveTo(GOV_X+22,GY-12); ctx.lineTo(GOV_X+22,MY); ctx.stroke();
-  ctx.fillStyle='#e8a33a'; ctx.beginPath(); ctx.arc(GOV_X-18,GY-20,2.4,0,Math.PI*2); ctx.fill();   // valve
-  ctx.fillStyle='rgba(170,185,200,0.6)'; ctx.font='700 7px Inter,sans-serif'; ctx.textAlign='center'; ctx.fillText('DISTRICT GOVERNOR',GOV_X+2,GY-42);
+function drawTerminal(){
+  ctx.fillStyle='#2e363f'; ctx.fillRect(4,212,70,GY-212);                                   // reception terminal block
+  for(const sx of [18,40,62]){ ctx.fillStyle='#3f4954'; ctx.beginPath(); ctx.arc(sx,224,8,0,Math.PI*2); ctx.fill();   // storage spheres
+    ctx.strokeStyle='#5b6470'; ctx.lineWidth=1; ctx.beginPath(); ctx.moveTo(sx,232); ctx.lineTo(sx,244); ctx.stroke(); }
+  ctx.fillStyle='rgba(170,185,200,0.55)'; ctx.font='700 7px Inter,sans-serif'; ctx.textAlign='left'; ctx.fillText('ENTRY TERMINAL',6,206);
 }
-function drawDig(dx){
-  ctx.fillStyle='#1c1610'; ctx.fillRect(dx-22,GY,44,42);                        // open trench breaking the road
-  // coil of new yellow PE pipe
-  ctx.strokeStyle='#e8c23a'; ctx.lineWidth=3; ctx.beginPath(); ctx.arc(dx-30,GY-8,7,0,Math.PI*2); ctx.stroke();
-  // mini excavator (boom gently moves)
-  const ba=-0.5+0.25*Math.sin(T*0.08); ctx.fillStyle='#d8a32a'; ctx.fillRect(dx+4,GY-16,18,12);
-  ctx.fillStyle='#2a2e33'; ctx.fillRect(dx+3,GY-4,20,5);
-  ctx.strokeStyle='#d8a32a'; ctx.lineWidth=3; ctx.save(); ctx.translate(dx+8,GY-12); ctx.rotate(ba); ctx.beginPath(); ctx.moveTo(0,0); ctx.lineTo(16,0); ctx.stroke(); ctx.restore();
-  // red/white barriers
-  for(let i=0;i<4;i++){ ctx.fillStyle=i%2?'#cf3b34':'#e8ecee'; ctx.fillRect(dx-24+i*12,GY-6,12,3); }
-  ctx.fillStyle='rgba(210,180,90,0.7)'; ctx.font='700 6px Inter,sans-serif'; ctx.textAlign='center'; ctx.fillText('MAINS REPLACEMENT',dx,GY-22);
+function drawCompressor(){
+  const n=nComp(), bx=COMP_X-46, bw=92;
+  ctx.fillStyle='#2b333b'; ctx.fillRect(bx,196,bw,GY-196);                                   // compressor hall
+  ctx.fillStyle='#37414b'; ctx.fillRect(bx,190,bw,8);
+  // above-ground pipework loop into the hall
+  ctx.strokeStyle='#79828c'; ctx.lineWidth=5;
+  ctx.beginPath(); ctx.moveTo(bx-2,PIPE_Y); ctx.lineTo(bx+6,PIPE_Y); ctx.lineTo(bx+6,222); ctx.lineTo(bx+bw-6,222); ctx.lineTo(bx+bw-6,PIPE_Y); ctx.lineTo(bx+bw+2,PIPE_Y); ctx.stroke();
+  // exhaust stacks (one per compressor unit) with heat shimmer
+  for(let i=0;i<n;i++){ const ex=bx+16+i*((bw-28)/Math.max(1,n-0)); ctx.fillStyle='#454d56'; ctx.fillRect(ex,150,7,46);
+    for(let p=0;p<4;p++){ const u=(T*0.02+p/4+i*0.3)%1; ctx.fillStyle='rgba(210,210,200,'+(0.18*(1-u))+')'; ctx.beginPath(); ctx.arc(ex+3+Math.sin(u*6)*5,150-u*40,3+u*7,0,Math.PI*2); ctx.fill(); } }
+  const glow=0.2+0.15*Math.sin(T*0.1); light(COMP_X,232,40,'rgba(120,180,235,'+glow+')',0.7);
+  ctx.fillStyle='rgba(170,185,200,0.6)'; ctx.font='700 7px Inter,sans-serif'; ctx.textAlign='center'; ctx.fillText('COMPRESSOR STATION ×'+n,COMP_X,184);
 }
-function drawNetworkScene(){
-  const n=nHouses(), xs=[]; for(let i=0;i<n;i++) xs.push(houseX(i,n));
-  drawGovernor();
-  // buried distribution main (yellow), governor -> along the street, with gas flow pulses
-  ctx.strokeStyle='#9a7a1e'; ctx.lineWidth=7; ctx.beginPath(); ctx.moveTo(GOV_X+22,MY); ctx.lineTo(660,MY); ctx.stroke();
-  ctx.strokeStyle='#e8c23a'; ctx.lineWidth=4; ctx.beginPath(); ctx.moveTo(GOV_X+22,MY); ctx.lineTo(660,MY); ctx.stroke();
-  for(let p=0;p<12;p++){ const u=((T*0.03+p/12)%1); ctx.fillStyle='rgba(122,192,232,0.95)'; const px=lerp(GOV_X+22,660,u); ctx.fillRect(px-1.6,MY-1.6,3.2,3.2); }
-  // houses + service risers from the main up to each
-  for(let i=0;i<n;i++){ const x=xs[i];
-    ctx.strokeStyle='#e8c23a'; ctx.lineWidth=2; ctx.beginPath(); ctx.moveTo(x,MY); ctx.lineTo(x,GY); ctx.stroke();
-    const u=((T*0.05+i*0.3)%1); ctx.fillStyle='rgba(122,192,232,0.9)'; ctx.fillRect(x-1.4,lerp(MY,GY,u)-1.4,2.8,2.8);   // gas rising to home
-    drawHouse(x,i);
-  }
-  // an iron-mains replacement dig in one of the gaps
-  drawDig((xs[Math.min(n-1,Math.floor(n*0.5))]+xs[Math.min(n-1,Math.floor(n*0.5)+1)||n-1])/2);
+function drawAGI(){
+  // above-ground installation / offtake feeding distribution & power
+  ctx.fillStyle='#202830'; ctx.fillRect(AGI_X-6,236,720-(AGI_X-6),GY-236);
+  ctx.strokeStyle='rgba(150,160,150,0.3)'; ctx.lineWidth=1; ctx.strokeRect(AGI_X-6,228,720-(AGI_X-6),GY-228);
+  ctx.strokeStyle='#79828c'; ctx.lineWidth=4;                                                // offtake riser + valves
+  ctx.beginPath(); ctx.moveTo(AGI_X,PIPE_Y); ctx.lineTo(AGI_X+14,PIPE_Y); ctx.lineTo(AGI_X+14,242); ctx.stroke();
+  ctx.beginPath(); ctx.moveTo(AGI_X+34,PIPE_Y); ctx.lineTo(AGI_X+34,242); ctx.stroke();
+  for(const vx of [AGI_X+14,AGI_X+34]){ ctx.fillStyle='#e8a33a'; ctx.beginPath(); ctx.arc(vx,PIPE_Y+8,2.6,0,Math.PI*2); ctx.fill(); }  // valve actuators (yellow)
+  ctx.fillStyle='rgba(170,185,200,0.6)'; ctx.font='700 7px Inter,sans-serif'; ctx.textAlign='center'; ctx.fillText('OFFTAKE → DISTRIBUTION',AGI_X+44,GY+16);
 }
+function drawNetworkScene(){ drawTerminal(); drawPipeline(); drawCompressor(); drawAGI(); }
 
 function update(dt){
   const RAB=parseFloat(dTen.value)*1e9, ret=parseFloat(dRent.value)/100, perf=parseFloat(dTow.value)/100;
@@ -477,9 +438,9 @@ function update(dt){
   subFlash*=Math.pow(0.9,dt);
 
   // ---- money markers (collected at the grid supply point) ----
-  retT-=dt; if(retT<=0){ retT=rnd(26,46)/simSpd; subFlash=1; if(moneys.length<40) moneys.push({x:rnd(160,560),y:GY-46,label:'Return',col:C.aero,life:1.1,vy:-0.7}); }
-  depT-=dt; if(depT<=0){ depT=rnd(40,72)/simSpd; if(moneys.length<40) moneys.push({x:rnd(160,560),y:GY-46,label:Math.random()<0.5?'Depreciation':'Allowance',col:C.comm,life:1.2,vy:-0.6}); }
-  costT-=dt; if(costT<=0){ costT=rnd(90,150)/simSpd; if(moneys.length<40) moneys.push({x:rnd(140,560),y:GY+24,label:Math.random()<0.5?'Replacement':'Network O&M',col:C.cost,life:1.2,vy:-0.5}); }
+  retT-=dt; if(retT<=0){ retT=rnd(26,46)/simSpd; subFlash=1; if(moneys.length<40) moneys.push({x:AGI_X+rnd(0,50),y:210,label:'Return',col:C.aero,life:1.1,vy:-0.7}); }
+  depT-=dt; if(depT<=0){ depT=rnd(40,72)/simSpd; if(moneys.length<40) moneys.push({x:AGI_X+rnd(0,50),y:224,label:Math.random()<0.5?'Depreciation':'Allowance',col:C.comm,life:1.2,vy:-0.6}); }
+  costT-=dt; if(costT<=0){ costT=rnd(90,150)/simSpd; if(moneys.length<40) moneys.push({x:rnd(110,520),y:GY-24,label:Math.random()<0.5?'Totex':'Network O&M',col:C.cost,life:1.2,vy:-0.5}); }
   for(let i=moneys.length-1;i>=0;i--){ const m=moneys[i]; m.y+=m.vy*dt; m.vy*=0.97; m.life-=dt*0.014; if(m.life<=0) moneys.splice(i,1); }
 
   // ---- finance: RIIO building blocks — return on RAB + depreciation + opex allowance + incentives ----
@@ -533,7 +494,7 @@ function drawHUD(){
   ctx.strokeStyle='rgba(255,255,255,0.08)'; ctx.lineWidth=1; ctx.stroke();
   light(x+13,y+13,5,'rgba(55,192,142,1)',0.7);
   ctx.fillStyle=C.aero; ctx.beginPath(); ctx.arc(x+13,y+13,3,0,Math.PI*2); ctx.fill();
-  ctx.fillStyle='#cfe0ea'; ctx.font='700 9px Inter,sans-serif'; ctx.textAlign='left'; ctx.fillText('GAS DISTRIBUTION — LIVE',x+23,y+16);
+  ctx.fillStyle='#cfe0ea'; ctx.font='700 9px Inter,sans-serif'; ctx.textAlign='left'; ctx.fillText('GAS TRANSMISSION — LIVE',x+23,y+16);
   ctx.fillStyle='rgba(170,190,205,0.85)'; ctx.font='9px Inter,sans-serif';
   ctx.fillText('£'+visRAB+'bn RAB  ·  '+visRet.toFixed(2)+'% return  ·  '+(visPerf>=0?'+':'')+visPerf.toFixed(1)+'%',x+12,y+30);
   if(ebHist.length>2){ const sx=x+12,sy=y+38,sh=14,sw=w-24;
@@ -549,7 +510,7 @@ function drawHUD(){
 function draw(){
   ctx.clearRect(0,0,W,H); drawScene();
   drawNetworkScene();
-  ctx.fillStyle='rgba(180,190,200,0.55)'; ctx.font='700 7px Inter,sans-serif'; ctx.textAlign='center'; ctx.fillText('GAS DISTRIBUTION — an allowed return on the inflation-linked mains network, recovered via standing charges',W/2,H-6);
+  ctx.fillStyle='rgba(180,190,200,0.55)'; ctx.font='700 7px Inter,sans-serif'; ctx.textAlign='center'; ctx.fillText('GAS TRANSMISSION — an allowed return on the inflation-linked asset base of the high-pressure system',W/2,H-6);
   moneys.forEach(m=>{ const a=Math.max(0,Math.min(1,m.life*0.8)); ctx.save(); ctx.globalAlpha=a;
     ctx.font='700 9px Inter,sans-serif'; ctx.textAlign='left'; const cost=(m.col===C.cost); const tw=ctx.measureText((cost?'−£ ':'£ ')+m.label).width;
     ctx.fillStyle='rgba(8,16,30,0.55)'; ctx.beginPath(); ctx.roundRect(m.x-tw/2-4,m.y-9,tw+8,13,6); ctx.fill();
@@ -560,7 +521,7 @@ function draw(){
 }
 
 // ---- floating mini-simulation ----
-const stageEl=document.querySelector('#gdsim .as-stage');
+const stageEl=document.querySelector('#gtsim .as-stage');
 const miniEl=document.getElementById('asMini');
 const cvm=document.getElementById('cvMini'), mctx=cvm.getContext('2d');
 const MW=440, MH=220, MDPR=Math.max(2,Math.min(3,window.devicePixelRatio||1));
@@ -585,15 +546,5 @@ function loop(ts){
 requestAnimationFrame(loop);
 })();
 </script>
-
-  </div>
-</section>
-
-<footer>
-  <div class="wrap">
-    <div class="footer-text">© 2026 Infrastructure Investor | theinfrastructureinvestor.com</div>
-  </div>
-</footer>
-
 </body>
 </html>
