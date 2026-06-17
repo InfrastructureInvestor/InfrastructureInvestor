@@ -4,7 +4,7 @@ A status summary for whoever picks this up next. Last updated: 2026-06-17.
 
 ## What this site is
 
-A static reference site for **UK (soon global) infrastructure investing**. Every
+A static reference site for **global infrastructure investing**. Every
 sub-sector has an interactive, self-contained HTML page with a live canvas
 animation of the asset's physical flows plus an investor financial framing
 (revenue → costs → EBITDA → a DCF/LBO style calculator). Audience: people who

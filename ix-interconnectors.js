@@ -27,7 +27,7 @@
     name:'Celtic Interconnector', geo:'Ireland ⇄ France', continent:'Europe', cur:'€', geoKey:'celtic',
     lede:'Ireland\'s first direct link to the European mainland — 700&nbsp;MW of HVDC cable beneath the Celtic Sea, and the cleanest illustration of the merchant-versus-regulated question.',
     s1:'<p class="body">An <b>interconnector</b> is a high-voltage cable that joins two separate electricity grids so power can flow between them. Grids are otherwise islands: each balances its own supply and demand, and prices can differ sharply across a border at the same moment. A link lets electricity move to wherever it is scarcest — and therefore dearest.</p>'+
-       '<p class="body">Three forces drive the build-out: <b>security of supply</b>, <b>integrating renewables</b> (exporting surplus wind instead of curtailing it, importing when it is calm), and <b>price convergence</b>. At 700&nbsp;MW the Celtic Interconnector can carry roughly the consumption of <b>450,000 homes</b>, and is Ireland\'s first direct link to the continental European grid — until now it was tethered only to Great Britain.</p>',
+       '<p class="body">Three forces drive the build-out: <b>security of supply</b>, <b>integrating renewables</b> (exporting surplus wind instead of curtailing it, importing when it is calm), and <b>price convergence</b>. At 700&nbsp;MW the Celtic Interconnector can carry roughly the consumption of <b>450,000 homes</b>, and is Ireland\'s first direct link to the continental European grid — until now its only interconnectors ran east across the Irish Sea.</p>',
     facts:[['700 MW','Capacity','≈ 450,000 homes'],['575 km','Route length','~500 km on the seabed'],['±320 kV','HVDC','direct current'],['~€1.6 bn','Total cost','EirGrid &amp; RTÉ'],['€531 m','EU grant','CEF — largest ever'],['~2027','First power','building now']],
     s2:'Over a long sea crossing, ordinary <b>alternating current</b> won\'t reach — it wastes itself charging the cable\'s capacitance. So interconnectors use <b>high-voltage direct current (HVDC)</b>, with a <b>converter station</b> at each end turning grid AC into ±320&nbsp;kV DC for the crossing and back again. Celtic\'s converters sit at <b>Knockraha</b> near Cork and <b>La Martyre</b> in Brittany. The link carries at most its <b>rated capacity</b>, one direction at a time, and power always flows from the <b>cheaper</b> market to the <b>dearer</b> one. Set the price gap and watch.',
     driverLab:'Price gap IE−FR', availLab:'Availability', hrK:'Value captured /hr', yrS:'within the cap-and-floor band',
@@ -55,11 +55,11 @@
     calc:{build:2.31,grant:531,om:22,revG:1,floor:70,cap:180,tax:25,exit:14,lev:6,rd:5,amort:3,hold:15},
     map:{
       home:['Ireland','France'],
-      labels:[['IRELAND',-8.0,53.35,'land'],['FRANCE',-1.55,48.1,'land'],['GREAT BRITAIN',-1.9,53.0,'context'],['CELTIC SEA',-6.7,50.3,'sea'],['ATLANTIC',-10.3,49.0,'seafaint']],
+      labels:[['IRELAND',-8.0,53.35,'land'],['FRANCE',-1.55,48.1,'land'],['CELTIC SEA',-6.7,50.3,'sea'],['ATLANTIC',-10.3,49.0,'seafaint']],
       nodeA:{lng:-8.00,lat:51.88,label:'Knockraha',sub:'Cork · converter',below:false},
       nodeB:{lng:-4.10,lat:48.62,label:'La Martyre',sub:'Brittany · converter',below:true},
       route:[[-8.0,51.88],[-7.3,50.6],[-5.6,49.4],[-4.1,48.62]],
-      footer:'HVDC · ±320 kV · routed through the Celtic Sea, west of Britain',
+      footer:'HVDC · ±320 kV · routed through the Celtic Sea',
       flowText:{toA:['France → Ireland','importing cheaper French power'],toB:['Ireland → France','exporting cheaper Irish power'],none:['No flow','prices are level']}}
   },
 
