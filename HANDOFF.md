@@ -4,124 +4,179 @@ A status summary for whoever picks this up next. Last updated: 2026-06-17.
 
 ## What this site is
 
-A static reference site for **global infrastructure investing**. Every
+A static reference site for **global infrastructure investing** (it began
+UK-focused; it is now global — do **not** reintroduce UK scope framing). Every
 sub-sector has an interactive, self-contained HTML page with a live canvas
-animation of the asset's physical flows plus an investor financial framing
-(revenue → costs → EBITDA → a DCF/LBO style calculator). Audience: people who
-**already work in the industry** — it is a reference, not a course (no quizzes).
+animation of the asset plus an investor financial framing (revenue → costs →
+EBITDA → a DCF/LBO calculator). Audience: people who **already work in the
+industry** — a reference, not a course (no quizzes).
 
-- **Hosting:** GitHub Pages, custom domain `theinfrastructureinvestor.com` (see `CNAME`).
+- **Hosting:** GitHub Pages, custom domain `theinfrastructureinvestor.com` (`CNAME`).
 - **Stack:** plain HTML + one shared `styles.css` + vanilla JS. No build step, no
   framework, no dependencies. Pages are standalone `.html` files at repo root.
-- **Repo scope in sessions:** `infrastructureinvestor/infrastructureinvestor`, default branch `main`.
+- **Repo:** `infrastructureinvestor/infrastructureinvestor`, default branch `main`.
 
-## Conventions (important — keep these consistent)
+## Workflow + environment gotchas (read this)
 
-- **Design system:** light theme, off-white `--bg:#f5f7f6`, green accent
-  `--accent:#0c6b4f`, `Source Serif 4` headings + `Inter` body. CSS variables live
-  in `styles.css :root`. Per-page styles are scoped under a unique `#id`
-  (e.g. `#ix`, `#subsim`) so they never leak.
-- **No emoji** in UI/headings — this is a premium publication. Use serif numerals,
-  geometric marks, or nothing.
-- **Each page includes:** `anim-guard.js` in `<head>` (freezes canvas loops for
-  `prefers-reduced-motion`), `styles.css`, meta/OG/favicon block, and
-  `<script src="site.js" defer></script>` before `</body>`.
-- **`site.js`** = shared nav enhancement + ⌘K command palette. It has an embedded
-  `INDEX` array — **add new pages to it** so search finds them.
-- **`anim-guard.js`** is a no-op unless the user prefers reduced motion. Canvas
-  loops use `requestAnimationFrame`; sliders also call the draw fn directly so the
-  UI stays interactive when the loop is frozen.
-- **Validation pattern:** there is no browser in the agent environment. Validate JS
-  headlessly with Node by mocking `document`/canvas `ctx` (a Proxy returning no-ops;
-  `createLinearGradient`/`createRadialGradient` → `{addColorStop}`; `measureText` →
-  `{width}`), firing input handlers, and reading element `.textContent`. Then ask
-  the user to eyeball the live page via githack (below).
-- **Live preview of a branch (no merge):**
-  `https://raw.githack.com/InfrastructureInvestor/InfrastructureInvestor/<branch>/<file>.html`
-- **Git:** branch from `main`; one PR per piece of work. Commits/PRs end with the
-  Claude Code trailer/links. Do not put model identifiers in artifacts.
+- Develop on your assigned feature branch; commit + push there; open **one PR per
+  piece of work** via the GitHub **MCP tools** (no `gh` CLI). Don't open a PR
+  unless asked — but the user routinely asks at the end of each task.
+- **This repo auto-merges PRs within minutes.** So after a PR merges, any further
+  commits you push sit on the branch with **no open PR** ("stranded"). After every
+  push: `git fetch origin main` then `git log --oneline origin/main..<branch>`; if
+  the previous PR already merged, **open a new PR** for the new commits.
+- Commit trailer on every commit:
+  `Co-Authored-By: Claude Opus 4.8 <noreply@anthropic.com>` + a `Claude-Session:` link.
+  PR bodies end with the Claude Code line. **Never** put a model id in any artifact.
+- No browser in the env. Validate headlessly (below); ask the user to eyeball via
+  githack: `https://raw.githack.com/InfrastructureInvestor/InfrastructureInvestor/<branch>/<file>.html`
 
-## Where things stand
+## Conventions (keep consistent)
 
-### Merged to `main`
-- Interactive economic sims embedded across **all six asset classes** (31 sub-sectors).
-- **`compare.html`** — sortable cross-asset returns table (base cases pulled from each sim).
-- **`site.js` + ⌘K palette + real nav**; **`community.html`** (Giscus comments —
-  see "Open items"); **SEO/social pass** (favicon `favicon.svg`, `og-image.svg`,
-  per-page meta/OG, `404.html`, `robots.txt`, reduced-motion `anim-guard.js`).
-- A first Celtic Interconnector deep-dive was merged onto `subsea-cables.html`
-  (PRs #44/#45) — **then deliberately removed** (see below).
+- Design system in `styles.css :root`: off-white `--bg:#f5f7f6`, green
+  `--accent:#0c6b4f`, `--cost:#bc4733`, `Source Serif 4` headings + `Inter` body.
+  Per-page CSS scoped under a unique id. **No emoji** in UI.
+- Every page: `anim-guard.js` in `<head>` (freezes canvas for reduced-motion),
+  `styles.css`, meta/OG/favicon block, `site.js` before `</body>`.
+- Add new pages to the `INDEX` array in `site.js` (powers ⌘K search) and to the
+  parent category page's subtype-grid card (badge `Guide` for reference pages).
+- Canvas loops use `requestAnimationFrame`; sliders **also call the draw fn
+  directly** on `input` so the UI works when the loop is frozen. Gate
+  particle/physics updates to real frames with an `_anim` flag (the loop sets
+  `_anim=true` around `frame()`; slider-driven redraws leave it false) so dragging
+  stays crisp.
 
-### Open PR — the current focus
-**PR #46 · branch `claude/interconnector-explainer`** — this is the live work.
-- Adds **`electricity-interconnectors.html`**: a new dedicated page (interconnectors
-  are a different asset species from data cables, so they got their own page).
-- **Reverts `subsea-cables.html`** to the data-cable model only (Celtic moved off it).
-- Adds the sub-sector to `energy-utilities.html` (now 9 sub-sectors) and to the
-  `site.js` search index.
-- **Not yet merged.** Preview:
-  `https://raw.githack.com/InfrastructureInvestor/InfrastructureInvestor/claude/interconnector-explainer/electricity-interconnectors.html`
+## Validation (headless)
 
-## The page template (the agreed direction)
+1. **Logic / no-throw:** Node harness that mocks `document` + canvas `ctx` (a Proxy
+   returning no-op fns; `createLinearGradient`/`createRadialGradient` →
+   `{addColorStop}`; `measureText` → `{width}`; `roundRect` present). Build a
+   registry of fake elements by id with `value`/`textContent`/`addEventListener`,
+   fire the `ixSelect` `change` handler per asset, read `.textContent` of the
+   output ids. This prints revenue / margin / IRRs per asset — use it to **tune
+   the returns ladder**.
+2. **Visual:** `npm install canvas --no-save` (then `rm -rf node_modules` before
+   committing — it must NOT be committed), run the engine with a real node-canvas
+   bound to `#ixcv`, pump ~200 rAF frames, write a PNG, and Read it to eyeball the
+   scene. There are throwaway harnesses in `/tmp` (`test-*.js`, `render-*.js`) you
+   can adapt; rebuild them if gone.
 
-`electricity-interconnectors.html` is the **prototype template** for "make the asset
-real." It is a practitioner reference that fuses the how-it-works explainer with the
-real asset and a working model. Sections (with a sticky section rail):
+## THE TEMPLATE — "practitioner reference" pages (the core pattern)
 
-1. **What it is & why it exists** — incl. translating capacity to something tangible
-   (700 MW ≈ 450,000 homes). Key-facts strip.
-2. **How it works** — the interactive **map** (real Ireland/GB/France coastlines via
-   equirectangular projection; HVDC cable; converter stations; flow follows the price
-   gap) + a **"Try this"** prompt. The map is well-liked — keep its quality bar.
-3. **How it earns** — congestion rent; the two business models (cap-and-floor vs regulated).
-4. **What it costs & how it's financed** — a live **EBITDA waterfall** (revenue → each
-   operating cost → EBITDA) + the **capital stack** (€1.62bn, €530.7m EU grant, EirGrid
-   €800m debt, RTÉ €404m, 65/35 split) + **build timeline**.
-5. **Cash flows & returns** — a **working DCF/LBO** driven by the live inputs (price
-   gap €/MWh, capacity, availability, build cost, grant, O&M, growth, tax, exit
-   multiple, leverage, cost of debt, hold). Anchored to **net build cost** so IRR moves
-   with price/MWh. Includes a **cap-and-floor revenue band** (floor/cap inputs) that
-   keeps returns credible. Outputs unlevered & levered IRR, MOIC, payback, an equity
-   cash-flow chart, and an expandable year-by-year schedule.
-6. **What drives the return** — the key sensitivities.
+Prototype: `electricity-interconnectors.html`. Each reference page is **3 files**:
 
-The "Celtic Interconnector · Ireland ⇄ France" header is framed as **"In focus"** to
-anticipate a **global library** of example assets (US, Australia, Asia, Africa).
+1. **`<segment>.html`** — markup + a big `<style>` block scoped to `#ix`. **Clone an
+   existing reference page** (e.g. `data-centres.html` or `ports.html`) and adapt:
+   title/meta/OG, breadcrumb + hero (`<section class="hero brhero">`), the `<select
+   id="ixSelect">` options, three slider labels, the four readout-card labels, the
+   "Model A" card, the standalone-sim link, and the two `<script>` srcs. **Linear
+   single-column layout already baked in**: `#ix`, `.ix-bar .wrap`, `.brhero .wrap`
+   all `max-width:880px;margin:0 auto`, and `.ix-lede`/`p.body` have **no**
+   max-width (text and figures share one 880px column — don't reintroduce text caps).
+2. **`<segment>-geo.js`** (or feature-config) — geometry/scene data keyed by asset:
+   `var GEO = { key:{...}, ... }`. Loaded as a plain `<script>` (NOT defer) before
+   the engine.
+3. **`<segment>-<engine>.js`** (defer) — the IIFE: the `ASSETS` data library, the
+   canvas renderer, the EBITDA waterfall, the DCF, `render(key)`, and the wiring.
 
-### Base-case sanity (defaults, validated headlessly)
-700 MW, €18/MWh gap → ~€105m revenue, ~€75m EBITDA (72% margin), ~5.7% unlevered /
-~6.7% levered IRR. Widening the gap lifts returns (collared by the cap); narrowing
-floors them; removing the €531m grant drops IRR to ~2.1%.
+### Element ids the engine reads/writes (shared across all clones)
+- Sliders `ixCap`, `ixSpread`, `ixAvail`; labels `ixDriverLab`,`ixAvailLab`;
+  value spans `ixCapV`,`ixSpreadV`,`ixAvailV`. Picker `ixSelect`. Canvas `ixcv`.
+- Hero: `ixAssetName`,`ixAssetGeo`,`ixCont`,`ixBarName`,`ixLede`,`ixFacts`,`ixTry`.
+- Readouts: `ixDir`/`ixDirS`, `ixMW`/`ixMWs`, `ixHrK`/`ixHr`, `ixYr`/`ixYrS`.
+- Body: `s1body`,`s2intro`,`s3intro`, `mbTag`/`mbTitle`/`mbBody`,
+  `s4intro1`/`wfNote`/`s4intro2`, `ixWaterfall`/`wfMargin`,
+  `finStackH`/`finSplitL`/`finSplitR`/`finSplit`/`finList`/`finNote`,`finTimeline`,
+  `calcNote`,`s6intro`,`breakers`,`ixSrc`.
+- Calculator inputs: `iBuild`/`uBuild`, `iGrant`/`uGrant`, `iCapex`, `iRevG`,
+  `iFloor`/`uFloor`, `iCap`/`uCap`, `iTax`, `iExit`, `iLev`, `iRd`, `iAmort`, `iHold`.
+- Outputs: `oUIRR`,`oLIRR`,`oMOIC`,`oPB`,`calcSum`,`jchart`,`ptHead`,`ptBody`.
+- Sticky rail anchors: `#explore #story #earn #cost #returns #drivers`.
+
+### `ASSETS[key]` shape
+`name, geo, continent, cur, geoKey, lede, s1(html), facts[[n,label,detail]…],
+s2, driverLab, availLab, hrK, yrS, preset, try, s3, mb{tag,title,body},
+s4a, wfNote, s4b, stackH, splitL, splitR, split[[segCls,pct,label]…],
+finList[[rowCls,label,amount]…], finNote, timeline[[year,event]…], calcNote,
+s6, breakers[…], src, econ{…}, opex{…}, calc{…}, map{labels,footer}`. Plus an
+`ORDER` array of keys and a scroll-spy at the bottom.
+
+### Economics conventions
+- Three sliders = (capacity/throughput) × (price/driver) × (third lever). Revenue
+  is annual; build the gross, then clamp to a `floor`/`cap` band (the `iFloor`/`iCap`
+  inputs — used for MRG / regulated tariff / pass-through bands).
+- Opex = **four lines** drawn in the EBITDA waterfall, the largest tied to volume.
+- DCF: `invest = (iBuild − iGrant) × 1e6` (build cost OR acquisition/lease price,
+  per asset — labelled "Build / entry cost"; calc-sum says "Invested capital").
+  `computeModel()` grows revenue/EBITDA at `iRevG`, taxes EBIT, subtracts maint
+  capex `iCapex`, layers debt (`iLev`,`iRd`,`iAmort`), adds an exit at `iExit ×`
+  final EBITDA. Outputs unlevered/levered IRR, MOIC, payback.
+- **Calibrate the returns ladder** with the Node harness: set `exit ≈` the implied
+  entry multiple (build/EBITDA) and keep growth moderate, or you get absurd
+  MOICs/IRRs. Make `floor`/`cap` not bind at base case. Make each region's IRR tell
+  a story (core/landlord low; EM/operator higher; "bought at a full price" deals low).
+
+### Animation recipes (two styles in use)
+- **Geographic map** (interconnectors, bridges, ports): animated sea background +
+  `land` polygons on top + a route/quay + moving units (vehicles/vessels) + a
+  toll/value point + coins, with shadows/gradients/vignette and a compass+caption.
+  Bridges/ports use real-ish coastlines/harbours; ports add a **ship berth/scheduler**
+  (vessels visibly arrive → berth → depart, tied to the throughput slider) and
+  gantry cranes with a clear **pick→carry→drop** box cycle.
+- **Facility plan** (data centres): a campus plan (substation+grid feed, generators,
+  chillers, dark data halls of blinking racks lit by occupancy, meet-me room) PLUS
+  the **value-flow diagram** the user asked for: `$` tokens flagged by source —
+  green **"$ data"** flowing IN (revenue), red **"$ power"/"$ cooling"** flowing OUT
+  (cost) — at rates that scale with the live economics. See `dc-centres.js`
+  (`drawFlows`, `flag`, `VF` paths). **This `$`-in/out value-flow is a candidate to
+  retrofit onto the ports & bridges maps for consistency.**
+
+## Segments completed (all merged unless noted)
+
+Each is the 3-file template with a **6-example regional library** (one per region —
+Europe, North America, South America, Australia/Oceania, Middle East, China — each a
+**different business model**), researched figures (operator/regulator/filings; private
+assets flagged illustrative), and headless-validated returns.
+
+- **Electricity interconnectors** — `electricity-interconnectors.html` + `ix-interconnectors.js` + `ix-geo.js`. The prototype. (Celtic, Champlain-Hudson, Marinus, GCC, Garabi, Cahora Bassa.)
+- **Bridges** — `bridges.html` + `br-bridges.js` + `br-geo.js`. Øresund, Confederation, Rio–Niterói, Sydney Harbour, King Fahd Causeway, HZMB. (`bridge-sim.html` standalone sim kept.)
+- **Ports** — `ports.html` + `pt-ports.js` + `pt-geo.js`. Rotterdam, Los Angeles, Cartagena, Melbourne, Jebel Ali, Shanghai/Yangshan. (`ports-sim.html` kept.)
+- **Data centres** — `data-centres.html` + `dc-centres.js` + `dc-geo.js`. Equinix, Northern Virginia, Ascenty, AirTrunk, Khazna, GDS. Includes the **value-flow `$` diagram**. (`data-centre-sim.html` kept.)
+- **Layout/animation passes:** centred the reference pages on one linear 880px
+  column (interconnectors + all the above); cinematic upgrade of the bridge/port maps.
+- **Globalisation:** removed UK scope/positioning across the site (homepage now
+  "Global Infrastructure"; category heroes + meta; tool framing). **Kept** the named
+  regulators/frameworks the UK tools are *about* (Ofgem, Ofwat, RIIO, PR24, NESO,
+  gilts, UK ETS), their `.gov.uk`/`.co.uk` source URLs/data feeds, and all assets.
 
 ## Open items / decisions for the user
 
-1. **PR #46 merge** — awaiting the user's live review + merge.
-2. **Two questions raised on #46:** (a) should the calculator default to the
-   **cap-and-floor merchant** view (current) or Celtic's **regulated allowed-return**
-   view? (b) the wide-spread case still shows a racy levered IRR — tighten the default cap?
-3. **Community/Giscus** (`community.html`) is built but **not connected**: needs the
-   repo public + Discussions enabled + the Giscus app installed, then paste the two IDs
-   (`data-repo-id`, `data-category-id`) into the `GISCUS` config in `community.html`.
-4. **OG image** is an SVG (no rasteriser available); converting `og-image.svg` to a
-   1200×630 PNG would maximise social-card compatibility.
+1. **UK-specific tools** (`riio_ed2_calculator.html`, `regulatory_tracker.html`
+   "Ofgem & Ofwat", `macro_dashboard.html`, `wacc-calculator.html`) are inherently
+   UK in substance even after de-UK'ing the wording. Decide whether to keep them as
+   regional tools, generalise them, or retire them now the site is global.
+2. **Retrofit the value-flow `$` diagram** (data centres) onto ports/bridges maps?
+3. **Community/Giscus** (`community.html`) still not connected: needs repo public +
+   Discussions + Giscus app, then paste the two ids into the `GISCUS` config.
+4. **OG image** is an SVG; a 1200×630 PNG would maximise social-card compatibility.
+5. **`compare.html`** base-case table predates the new reference pages — refresh its
+   rows from the bridges/ports/data-centres models when convenient.
 
 ## Suggested next steps
 
-- Merge #46 once the interconnector template is approved.
-- Roll the **template** out: a **data-cable worked example** back on `subsea-cables.html`
-  (same shape), then other sub-sectors, each with a real "in focus" asset.
-- Build out the **global library** (multiple example assets per sub-sector, by region).
-- Tier-2 polish still open from earlier: shareable sim state via URL, CSV export,
-  a risk–return scatter on `compare.html`, dark mode, a glossary/methodology layer.
+- **Airports** is the obvious next segment to template (transport category, has
+  `airports.html` + likely a `*-sim.html`). Same pattern: 6 real airports by region,
+  different models (regulated single-till vs dual-till, privatised concession,
+  sovereign hub, etc.), an apron/terminal animation (arrivals/departures, value-flow
+  of aero vs retail income), and a calibrated returns ladder.
+- Keep rolling the template across remaining sub-sectors with real "in focus" assets.
 
 ## Map of key files
 
-- `index.html` — landing (asset classes, cross-sector tools, compare/community cards).
-- `styles.css` — shared design system + nav/palette CSS.
-- `site.js` — shared nav + ⌘K palette (embedded search `INDEX`).
-- `anim-guard.js` — reduced-motion guard (loaded in every page `<head>`).
-- `<asset-class>.html` — 6 category pages (e.g. `energy-utilities.html`).
-- `<sub-sector>.html` — sub-sector pages with embedded sims.
-- `*-sim.html` — standalone sim source files (also embedded into their sub-sector page).
-- `electricity-interconnectors.html` — the new template prototype (on PR #46).
-- `compare.html`, `community.html`, `404.html`, `robots.txt`, `favicon.svg`, `og-image.svg`.
+- `index.html` — landing. `styles.css` — design system + nav/palette CSS.
+- `site.js` — shared nav + ⌘K palette (embedded search `INDEX`). `anim-guard.js` — reduced-motion guard.
+- `<asset-class>.html` — 6 category pages (energy-utilities, transport, digital-infrastructure, social-infrastructure, energy-transition, environmental-waste).
+- `<sub-sector>.html` — sub-sector pages; `*-sim.html` — standalone sims.
+- **Reference pages (the template):** `electricity-interconnectors.html`/`ix-*.js`,
+  `bridges.html`/`br-*.js`, `ports.html`/`pt-*.js`, `data-centres.html`/`dc-*.js`.
+- `compare.html`, `community.html`, `404.html`, `robots.txt`, `favicon.svg`, `og-image.svg`, `sitemap.xml`.
