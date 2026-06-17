@@ -55,7 +55,7 @@
     opex:{inspect:430,major:320,collect:1.6,admin:170,concRate:0.03},
     calc:{build:60000,grant:8000,capex:6,revG:2,floor:0,cap:8000,tax:25,exit:6,lev:2,rd:5,amort:2,hold:30},
     map:{
-      labels:[['ENGLAND',-1.30,52.06,'land'],['CHILTERNS',-0.92,51.78,'context'],['NORTH SEA',-0.02,52.30,'sea']],
+      labels:[['GREAT BRITAIN',-1.70,53.30,'land'],['NORTH SEA',0.95,54.10,'sea'],['CELTIC SEA',-5.30,51.00,'seafaint']],
       route:[[-0.133,51.529],[-0.30,51.55],[-0.58,51.64],[-0.90,51.80],[-1.20,52.00],[-1.50,52.22],[-1.74,52.42],[-1.886,52.481]],
       stops:[{lng:-0.133,lat:51.529,label:'London Euston',sub:'central terminus',below:true},
              {lng:-1.72,lat:52.42,label:'Interchange',sub:'Solihull · Birmingham Airport',below:true},
@@ -96,7 +96,7 @@
     opex:{inspect:120,major:160,collect:9,admin:140,concRate:0.18},
     calc:{build:16000,grant:0,capex:8,revG:2,floor:0,cap:4000,tax:25,exit:11,lev:4,rd:4,amort:3,hold:25},
     map:{
-      labels:[['FRANCE',2.45,45.05,'land'],['MEDITERRANEAN',4.35,43.06,'sea'],['ATLANTIC',-0.18,47.60,'seafaint']],
+      labels:[['FRANCE',0.95,46.70,'land'],['MEDITERRANEAN',5.30,42.55,'sea'],['ATLANTIC',-3.60,45.40,'seafaint']],
       route:[[2.373,48.844],[2.80,47.95],[3.55,47.15],[4.25,46.45],[4.78,45.95],[4.859,45.760],[4.86,45.10],[4.82,44.45],[4.80,43.98],[5.12,43.58],[5.380,43.303]],
       stops:[{lng:2.373,lat:48.844,label:'Paris Gare de Lyon',sub:'origin',below:false},
              {lng:4.859,lat:45.760,label:'Lyon Part-Dieu',sub:'hub',below:true},
@@ -137,7 +137,7 @@
     opex:{inspect:260000,major:230000,collect:1200,admin:140000,concRate:0.05},
     calc:{build:5400000,grant:0,capex:10,revG:1.5,floor:0,cap:2500000,tax:30,exit:9,lev:3,rd:1.5,amort:3,hold:25},
     map:{
-      labels:[['JAPAN',137.9,35.95,'land'],['PACIFIC OCEAN',138.2,34.20,'sea'],['SEA OF JAPAN',137.0,36.12,'seafaint']],
+      labels:[['JAPAN',138.40,36.70,'land'],['PACIFIC OCEAN',138.60,33.30,'sea'],['SEA OF JAPAN',134.40,37.40,'seafaint']],
       route:[[139.767,35.681],[139.45,35.34],[138.70,35.12],[137.85,34.97],[137.20,35.07],[136.882,35.170],[136.25,35.10],[135.768,34.986],[135.60,34.82],[135.500,34.733]],
       stops:[{lng:139.767,lat:35.681,label:'Tokyo',sub:'eastern terminus',below:false},
              {lng:136.882,lat:35.170,label:'Nagoya',sub:'midpoint hub',below:false},
@@ -178,7 +178,7 @@
     opex:{inspect:120,major:75,collect:1.8,admin:75,concRate:0.04},
     calc:{build:6000,grant:0,capex:8,revG:7,floor:0,cap:1500,tax:25,exit:14,lev:5,rd:8,amort:1,hold:20},
     map:{
-      labels:[['FLORIDA',-81.05,27.35,'land'],['ATLANTIC OCEAN',-80.35,27.60,'sea'],['GULF',-81.66,26.55,'seafaint']],
+      labels:[['FLORIDA',-81.70,28.80,'land'],['ATLANTIC OCEAN',-79.85,27.30,'sea'],['GULF OF MEXICO',-83.10,27.10,'seafaint']],
       route:[[-80.191,25.779],[-80.16,26.00],[-80.143,26.122],[-80.10,26.45],[-80.054,26.712],[-80.05,27.30],[-80.20,27.95],[-80.62,28.32],[-81.05,28.42],[-81.308,28.429]],
       stops:[{lng:-80.191,lat:25.779,label:'MiamiCentral',sub:'southern terminus',below:true},
              {lng:-80.054,lat:26.712,label:'West Palm Beach',sub:'coast',below:false},
@@ -219,7 +219,7 @@
     opex:{inspect:120,major:90,collect:1.0,admin:70,concRate:0.06},
     calc:{build:60000,grant:30000,capex:5,revG:3,floor:0,cap:6000,tax:0,exit:11,lev:2,rd:5,amort:3,hold:30},
     map:{
-      labels:[['SAUDI ARABIA',40.15,22.95,'land'],['RED SEA',38.80,22.90,'sea']],
+      labels:[['SAUDI ARABIA',42.30,26.30,'land'],['RED SEA',36.30,21.40,'sea']],
       route:[[39.826,21.423],[39.55,21.49],[39.20,21.54],[39.10,22.00],[39.08,22.40],[39.18,23.10],[39.40,23.85],[39.611,24.467]],
       stops:[{lng:39.826,lat:21.423,label:'Mecca',sub:'southern terminus',below:true},
              {lng:39.10,lat:22.40,label:'KAEC / Jeddah',sub:'airport · economic city',below:false},
@@ -260,7 +260,7 @@
     opex:{inspect:9000,major:7000,collect:25,admin:6000,concRate:0.12},
     calc:{build:290000,grant:0,capex:6,revG:4,floor:0,cap:60000,tax:25,exit:12,lev:2,rd:4,amort:2,hold:25},
     map:{
-      labels:[['CHINA',116.40,35.40,'land'],['NANJING',118.95,32.08,'context'],['YELLOW SEA',121.20,34.60,'sea']],
+      labels:[['CHINA',114.60,34.30,'land'],['YELLOW SEA',122.80,35.00,'sea'],['BOHAI',118.60,39.50,'seafaint']],
       route:[[116.378,39.865],[116.80,39.40],[117.21,39.13],[117.10,38.00],[117.00,36.67],[117.10,35.40],[117.28,34.26],[117.95,33.20],[118.80,32.06],[119.85,31.72],[120.85,31.40],[121.32,31.20]],
       stops:[{lng:116.378,lat:39.865,label:'Beijing South',sub:'northern terminus',below:false},
              {lng:117.00,lat:36.67,label:'Jinan West',sub:'midpoint hub',below:false},
@@ -311,55 +311,40 @@
   }
   function rr(x,y,w,h,r){ if(ctx.roundRect){ ctx.beginPath(); ctx.roundRect(x,y,w,h,r); } else { ctx.beginPath(); ctx.rect(x,y,w,h); } }
 
-  /* terrain background: land gradient + drifting light + faint field/contour lines */
-  function drawTerrain(){
+  /* animated sea background: depth gradient + drifting light bands + fine caustics */
+  function drawSea(){
     var g=ctx.createLinearGradient(0,0,0,H);
-    g.addColorStop(0,'#eef3ea'); g.addColorStop(0.55,'#e6efe2'); g.addColorStop(1,'#dde9d6');
+    g.addColorStop(0,'#e1eef6'); g.addColorStop(0.55,'#cfe5f0'); g.addColorStop(1,'#b9d8e8');
     ctx.fillStyle=g; ctx.fillRect(0,0,W,H);
     ctx.save();
     for(var i=0;i<5;i++){
-      var yy=((T*0.16 + i*150)%(H+260))-130;
+      var yy=((T*0.22 + i*150)%(H+260))-130;
       var lg=ctx.createLinearGradient(0,yy,0,yy+90);
-      lg.addColorStop(0,'rgba(255,255,255,0)'); lg.addColorStop(0.5,'rgba(255,255,255,0.12)'); lg.addColorStop(1,'rgba(255,255,255,0)');
+      lg.addColorStop(0,'rgba(255,255,255,0)'); lg.addColorStop(0.5,'rgba(255,255,255,0.16)'); lg.addColorStop(1,'rgba(255,255,255,0)');
       ctx.fillStyle=lg; ctx.fillRect(0,yy,W,90);
     }
-    ctx.strokeStyle='rgba(120,150,118,0.10)'; ctx.lineWidth=1;
-    for(var j=0;j<10;j++){ var ly=24+j*((H-30)/10), off=(j*29)%52;
+    ctx.strokeStyle='rgba(118,162,198,0.12)'; ctx.lineWidth=1;
+    for(var j=0;j<9;j++){ var ly=26+j*((H-30)/9), off=(T*0.6+j*33)%48;
       ctx.beginPath();
-      for(var x=-off;x<W;x+=52){ ctx.moveTo(x,ly+Math.sin((x)*0.012+j)*3.2); ctx.lineTo(x+30,ly+Math.sin((x+30)*0.012+j)*3.2); }
+      for(var x=-off;x<W;x+=48){ ctx.moveTo(x,ly+Math.sin((x+T)*0.02)*2.2); ctx.lineTo(x+22,ly+Math.sin((x+22+T)*0.02)*2.2); }
       ctx.stroke(); }
     ctx.restore();
   }
 
-  /* water bodies (sea / coast) drawn on top of the land for orientation */
-  function drawWater(){
-    var G=GEO[A.geoKey]; if(!G.sea) return;
-    G.sea.forEach(function(p){
-      var faint=/faint/i.test(p[0]);
-      ctx.save(); ctx.shadowColor='rgba(40,80,120,0.16)'; ctx.shadowBlur=12; ctx.shadowOffsetY=2;
+  /* land: the real country/region outline — soft drop shadow, subtle gradient,
+     crisp coast + inner highlight (host country shaded green) */
+  function drawLand(){
+    var home=(A.map.home||GEO[A.geoKey].home||[]);
+    GEO[A.geoKey].polys.forEach(function(p){
+      var homeP = home.indexOf(p[0])>=0;
+      ctx.save(); ctx.shadowColor='rgba(20,42,32,0.20)'; ctx.shadowBlur=15; ctx.shadowOffsetY=4;
       poly(p[1]);
       var lg=ctx.createLinearGradient(0,0,0,H);
-      lg.addColorStop(0,'#dceaf3'); lg.addColorStop(1,'#c6dded');
-      ctx.fillStyle=lg; ctx.globalAlpha=faint?0.5:1; ctx.fill(); ctx.restore();
-      poly(p[1]); ctx.strokeStyle='rgba(96,140,176,0.4)'; ctx.lineWidth=1.1; ctx.stroke();
-      poly(p[1]); ctx.strokeStyle='rgba(255,255,255,0.4)'; ctx.lineWidth=0.6; ctx.stroke();
-      /* a couple of drifting wave ticks inside the water */
-      ctx.save(); poly(p[1]); ctx.clip();
-      ctx.strokeStyle='rgba(120,160,196,0.14)'; ctx.lineWidth=1;
-      for(var k=0;k<7;k++){ var wy=30+k*((H-30)/7), o=(T*0.5+k*33)%46;
-        ctx.beginPath(); for(var wx=-o;wx<W;wx+=46){ ctx.moveTo(wx,wy+Math.sin((wx+T)*0.02)*2); ctx.lineTo(wx+20,wy+Math.sin((wx+20+T)*0.02)*2); } ctx.stroke(); }
-      ctx.restore();
-    });
-  }
-
-  /* optional terrain regions (hills etc.) drawn as a soft darker shading */
-  function drawRegions(){
-    var G=GEO[A.geoKey]; if(!G.land) return;
-    G.land.forEach(function(p){
-      ctx.save(); poly(p[1]);
-      var lg=ctx.createLinearGradient(0,0,0,H); lg.addColorStop(0,'rgba(170,196,164,0.45)'); lg.addColorStop(1,'rgba(150,180,146,0.35)');
-      ctx.fillStyle=lg; ctx.fill();
-      ctx.strokeStyle='rgba(120,150,120,0.30)'; ctx.lineWidth=1; ctx.stroke(); ctx.restore();
+      if(homeP){ lg.addColorStop(0,'#e9f2ea'); lg.addColorStop(1,'#d3e5d6'); }
+      else { lg.addColorStop(0,'#eef0ec'); lg.addColorStop(1,'#e0e4de'); }
+      ctx.fillStyle=lg; ctx.fill(); ctx.restore();
+      poly(p[1]); ctx.strokeStyle= homeP?'rgba(12,107,79,0.42)':'rgba(96,114,104,0.4)'; ctx.lineWidth=homeP?1.4:1.05; ctx.stroke();
+      poly(p[1]); ctx.strokeStyle='rgba(255,255,255,0.45)'; ctx.lineWidth=0.6; ctx.stroke();
     });
   }
 
@@ -449,9 +434,8 @@
 
     // ---- scene ----
     ctx.clearRect(0,0,W,H);
-    drawTerrain();
-    drawWater();
-    drawRegions();
+    drawSea();
+    drawLand();
     M.labels.forEach(function(l){ var st=LSTY[l[3]]||LSTY.land; ctx.save();
       ctx.shadowColor='rgba(255,255,255,0.7)'; ctx.shadowBlur=4; ctx.fillStyle=st[0]; ctx.font=st[1];
       ctx.textAlign='center'; ctx.fillText(l[0],PX(l[1]),PY(l[2])); ctx.restore(); });
