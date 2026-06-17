@@ -4,164 +4,192 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Bridges — Infrastructure Investor</title>
+<meta name="description" content="A reference on tolled bridges and fixed links — how they earn, what they cost and how they are financed — illustrated with real assets from six regions: the Øresund Bridge (Denmark–Sweden), Confederation Bridge (Canada), Rio–Niterói (Brazil), the Sydney Harbour Bridge, the King Fahd Causeway (Saudi Arabia–Bahrain) and the Hong Kong–Zhuhai–Macau Bridge.">
 <script src="anim-guard.js"></script>
-<meta name="description" content="An interactive economic model of a tolled estuary crossing — watch vehicles cross the bridge and pay at the toll point, see the light vs heavy revenue split,…">
 <link rel="icon" type="image/svg+xml" href="favicon.svg">
 <link rel="canonical" href="https://theinfrastructureinvestor.com/bridges.html">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Infrastructure Reference">
 <meta property="og:title" content="Bridges — Infrastructure Investor">
-<meta property="og:description" content="An interactive economic model of a tolled estuary crossing — watch vehicles cross the bridge and pay at the toll point, see the light vs heavy revenue split,…">
+<meta property="og:description" content="How a tolled bridge or fixed link earns and is financed, illustrated with real assets from six regions.">
 <meta property="og:url" content="https://theinfrastructureinvestor.com/bridges.html">
 <meta property="og:image" content="https://theinfrastructureinvestor.com/og-image.svg">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Bridges — Infrastructure Investor">
-<meta name="twitter:description" content="An interactive economic model of a tolled estuary crossing — watch vehicles cross the bridge and pay at the toll point, see the light vs heavy revenue split,…">
+<meta name="twitter:description" content="How a tolled bridge or fixed link earns and is financed, illustrated with real assets from six regions.">
 <meta name="twitter:image" content="https://theinfrastructureinvestor.com/og-image.svg">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,500;0,8..60,600;1,8..60,400&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="styles.css">
 <style>
+/* ---- sticky control bar : worked-example picker + section nav ---- */
+.ix-bar{position:sticky;top:0;z-index:80;background:rgba(255,255,255,0.93);backdrop-filter:blur(10px);border-bottom:1px solid var(--border)}
+.ix-bar .wrap{display:flex;align-items:center;gap:1.1rem;padding:.5rem 2rem;max-width:1000px}
+.ix-bar-name{font-family:'Source Serif 4',Georgia,serif;font-size:.92rem;font-weight:600;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;flex:0 1 auto}
+.ix-bar-nav{display:flex;gap:.1rem;overflow-x:auto;scrollbar-width:none;margin-left:auto}
+.ix-bar-nav::-webkit-scrollbar{display:none}
+.ix-bar-nav a{flex:0 0 auto;font-size:.72rem;font-weight:600;color:var(--muted);text-decoration:none;padding:.4rem .65rem;border-radius:8px;white-space:nowrap;transition:all .12s}
+.ix-bar-nav a:hover{color:var(--accent)}
+.ix-bar-nav a.on{color:var(--accent);background:var(--accent-soft)}
+@media(max-width:780px){.ix-bar .wrap{gap:.6rem;padding:.5rem 1.25rem}.ix-bar-name{max-width:55%}}
 
-#brsim{
-  --bg:#f5f7f6; --surface:#ffffff; --surface-2:#fbfcfc;
-  --border:#e7ebe9; --border-strong:#d8dedb; --text:#15201d; --text2:#4c5854; --muted:#8a948f;
-  --accent:#0c6b4f; --accent-soft:#e7f1ec;
-  --aero:#0c6b4f; --comm:#b07d24; --cost:#bc4733;
-  --stock:#2f5fb0; --stock-soft:#eaf0fa;
-}
-*{box-sizing:border-box;margin:0;padding:0}
-#brsim{font-family:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;color:var(--text);width:100%;max-width:980px;margin:0 auto;font-variant-numeric:tabular-nums}
-#brsim .as-head{margin-bottom:1.1rem}
-#brsim .as-eyebrow{font-size:.66rem;letter-spacing:.16em;text-transform:uppercase;font-weight:600;color:var(--accent);margin-bottom:.5rem}
-#brsim h2{font-family:'Source Serif 4',Georgia,serif;font-weight:500;font-size:1.7rem;line-height:1.1;letter-spacing:-.015em;margin-bottom:.4rem}
-#brsim .as-sub{font-size:.86rem;color:var(--text2);line-height:1.6;max-width:660px}
-#brsim .as-ctrls{display:flex;gap:.65rem;align-items:center;flex-wrap:wrap;margin:1.1rem 0 .7rem;background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:.7rem .9rem}
-#brsim .ctrl{display:flex;align-items:center;gap:.55rem}
-#brsim .ctrl label{font-size:.7rem;color:var(--muted);letter-spacing:.04em;text-transform:uppercase;font-weight:600;white-space:nowrap}
-#brsim .ctrl input[type=range]{width:90px;-webkit-appearance:none;appearance:none;height:4px;border-radius:3px;background:var(--border-strong);outline:none}
-#brsim .ctrl input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;appearance:none;width:14px;height:14px;border-radius:50%;background:var(--accent);cursor:pointer;border:2px solid #fff;box-shadow:0 1px 3px rgba(0,0,0,.2)}
-#brsim .ctrl input[type=range]::-moz-range-thumb{width:14px;height:14px;border-radius:50%;background:var(--accent);cursor:pointer;border:2px solid #fff}
-#brsim .ctrl .val{font-size:.8rem;font-weight:600;min-width:14px;color:var(--text)}
-#brsim .as-divider{width:1px;height:24px;background:var(--border);margin:0 .15rem}
-#brsim .spd{display:flex;gap:.25rem;margin-left:auto}
-#brsim .spd button{font-family:inherit;font-size:.72rem;font-weight:600;padding:.32rem .6rem;border-radius:7px;border:1px solid var(--border-strong);background:var(--surface-2);color:var(--text2);cursor:pointer;transition:all .12s}
-#brsim .spd button:hover{border-color:var(--accent)}
-#brsim .spd button.on{background:var(--accent);color:#fff;border-color:var(--accent)}
-#brsim .as-stage{position:relative;border-radius:14px;overflow:hidden;border:1px solid var(--border);box-shadow:0 12px 34px rgba(18,38,32,.10)}
-#brsim canvas{display:block;width:100%;aspect-ratio:720/360}
-#brsim .as-mini{position:fixed;right:20px;bottom:20px;width:clamp(300px,34vw,440px);aspect-ratio:720/360;border-radius:12px;overflow:hidden;border:1px solid rgba(255,255,255,.16);box-shadow:0 16px 40px rgba(8,16,30,.45);opacity:0;transform:translateY(12px) scale(.97);pointer-events:none;transition:opacity .28s ease,transform .28s ease;z-index:70;cursor:pointer}
-#brsim .as-mini.show{opacity:1;transform:none;pointer-events:auto}
-#brsim .as-mini:hover{border-color:rgba(55,192,142,.55)}
-#brsim .as-mini canvas{display:block;width:100%;height:100%;aspect-ratio:auto}
-#brsim .as-mini-tag{position:absolute;left:9px;top:8px;font-size:.6rem;font-weight:700;letter-spacing:.1em;color:#cfe0ea;background:rgba(10,20,34,.62);padding:3px 8px;border-radius:6px;display:flex;align-items:center;gap:5px}
-#brsim .as-mini-tag::before{content:'';width:6px;height:6px;border-radius:50%;background:#37c08e;box-shadow:0 0 6px #37c08e}
-@media(max-width:560px){ #brsim .as-mini{width:min(66vw,260px);right:10px;bottom:10px} }
-#brsim .as-legend{display:flex;gap:1.1rem;flex-wrap:wrap;margin:.7rem 0 .2rem}
-#brsim .leg{display:flex;align-items:center;gap:.4rem;font-size:.72rem;color:var(--text2)}
-#brsim .leg .dot{width:9px;height:9px;border-radius:50%;flex-shrink:0}
-#brsim .leg b{font-weight:600;color:var(--text)}
-#brsim .band-label{display:flex;align-items:center;gap:.6rem;margin:1.1rem 0 .55rem}
-#brsim .band-label .t{font-size:.66rem;letter-spacing:.08em;text-transform:uppercase;font-weight:600;color:var(--muted)}
-#brsim .band-label .ln{flex:1;height:1px;background:var(--border)}
-#brsim .band-label .hint{font-size:.68rem;color:var(--muted);font-weight:400;text-transform:none;letter-spacing:0}
-#brsim .as-kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:.7rem}
-#brsim .kpi,#brsim .stock{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:.85rem .95rem;position:relative;overflow:hidden}
-#brsim .kpi::before,#brsim .stock::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px}
-#brsim .kpi.k-eb::before{background:var(--aero)}
-#brsim .kpi.k-rev::before{background:var(--comm)}
-#brsim .kpi.k-yield::before{background:var(--aero)}
-#brsim .kpi.k-pax::before{background:#3a7bd0}
-#brsim .stock::before{background:var(--stock)}
-#brsim .kpi .k,#brsim .stock .k{font-size:.65rem;letter-spacing:.05em;text-transform:uppercase;color:var(--muted);font-weight:600;margin-bottom:.3rem}
-#brsim .kpi .v,#brsim .stock .v{font-family:'Source Serif 4',Georgia,serif;font-size:1.55rem;font-weight:500;line-height:1;letter-spacing:-.01em}
-#brsim .stock .v{color:var(--stock)}
-#brsim .kpi .s,#brsim .stock .s{font-size:.7rem;color:var(--text2);margin-top:.35rem}
-#brsim .kpi .s b,#brsim .stock .s b{font-weight:600;color:var(--text)}
-#brsim .as-stocks{display:grid;grid-template-columns:repeat(3,1fr);gap:.7rem}
-#brsim .stock{background:linear-gradient(180deg,var(--stock-soft),var(--surface))}
-@keyframes kpulse{0%{box-shadow:0 0 0 0 rgba(47,95,176,0)}28%{box-shadow:0 0 0 3px rgba(47,95,176,.22)}100%{box-shadow:0 0 0 0 rgba(47,95,176,0)}}
-#brsim .pulse{animation:kpulse .75s ease}
-#brsim .as-split{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:.95rem 1.05rem;margin-top:.9rem}
-#brsim .split-head{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:.6rem}
-#brsim .split-head .t{font-size:.66rem;letter-spacing:.05em;text-transform:uppercase;color:var(--muted);font-weight:600}
-#brsim .split-head .tot{font-size:.74rem;color:var(--text2)}
-#brsim .split-head .tot b{font-weight:600;color:var(--text)}
-#brsim .split-bar{display:flex;height:26px;border-radius:7px;overflow:hidden;background:var(--border)}
-#brsim .split-seg{height:100%;display:flex;align-items:center;padding:0 .55rem;color:#fff;font-size:.72rem;font-weight:600;white-space:nowrap;transition:width .5s ease;min-width:0;overflow:hidden}
-#brsim .seg-aero{background:var(--aero)} #brsim .seg-comm{background:var(--comm)}
-#brsim .split-foot{margin-top:.55rem;font-size:.72rem;color:var(--text2);line-height:1.5}
-#brsim .split-foot b{color:var(--text);font-weight:600}
-#brsim .as-panels{display:grid;grid-template-columns:1fr 1fr;gap:.9rem;margin-top:.9rem}
-#brsim .panel{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:1rem 1.1rem}
-#brsim .ptitle{font-size:.66rem;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);margin-bottom:.8rem;display:flex;justify-content:space-between;align-items:baseline}
-#brsim .ptitle .pt-sum{color:var(--text);font-weight:600;font-size:.74rem;text-transform:none;letter-spacing:0}
-#brsim .row{display:flex;align-items:center;gap:.5rem;margin-bottom:.5rem}
-#brsim .row:last-child{margin-bottom:0}
-#brsim .r-lbl{width:128px;font-size:.74rem;color:var(--text);flex-shrink:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-#brsim .r-tag{width:54px;flex-shrink:0;font-size:.57rem;font-weight:600;letter-spacing:.03em;text-transform:uppercase}
-#brsim .r-tag.aero{color:var(--aero)} #brsim .r-tag.comm{color:var(--comm)}
-#brsim .r-tag.fix{color:var(--muted)} #brsim .r-tag.var{color:var(--cost)} #brsim .r-tag.semi{color:#a06a2a}
-#brsim .bwrap{flex:1;height:7px;background:var(--border);border-radius:4px;overflow:hidden}
-#brsim .bfill{height:100%;border-radius:4px;transition:width .45s ease}
-#brsim .r-amt{width:54px;text-align:right;font-size:.74rem;font-weight:600;color:var(--text);flex-shrink:0}
-#brsim .as-foot{font-size:.68rem;color:var(--muted);line-height:1.6;margin-top:.9rem}
-#brsim .as-foot b{color:var(--text2);font-weight:600}
-#brsim .calc-note{font-size:.8rem;color:var(--text2);line-height:1.6;margin-bottom:.85rem}
-#brsim .calc-note b{color:var(--text);font-weight:600}
-#brsim .calc-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:.9rem;margin-bottom:.9rem}
-#brsim .cgroup{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:.9rem 1rem}
-#brsim .cgroup h4{font-size:.62rem;letter-spacing:.07em;text-transform:uppercase;color:var(--muted);font-weight:600;margin-bottom:.7rem}
-#brsim .cfield{display:flex;align-items:center;justify-content:space-between;gap:.5rem;margin-bottom:.5rem}
-#brsim .cfield:last-child{margin-bottom:0}
-#brsim .cfield label{font-size:.74rem;color:var(--text);line-height:1.25}
-#brsim .cfield .ig{display:flex;align-items:center;gap:.25rem;flex-shrink:0}
-#brsim .cfield input{width:56px;font-family:inherit;font-size:.78rem;font-weight:600;text-align:right;color:var(--text);border:1px solid var(--border-strong);border-radius:7px;padding:.28rem .35rem;background:var(--surface-2);font-variant-numeric:tabular-nums}
-#brsim .cfield input:focus{outline:none;border-color:var(--accent)}
-#brsim .cfield .u{font-size:.7rem;color:var(--muted);width:12px;text-align:left}
-#brsim .out-cards{display:grid;grid-template-columns:repeat(4,1fr);gap:.7rem;margin-bottom:.9rem}
-#brsim .ocard{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:.85rem .95rem;position:relative;overflow:hidden}
-#brsim .ocard::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--muted)}
-#brsim .ocard.unlev::before{background:var(--aero)}
-#brsim .ocard.lev{background:linear-gradient(180deg,var(--accent-soft),var(--surface))}
-#brsim .ocard.lev::before{background:var(--accent)}
-#brsim .ocard .k{font-size:.63rem;letter-spacing:.05em;text-transform:uppercase;color:var(--muted);font-weight:600;margin-bottom:.3rem}
-#brsim .ocard .v{font-family:'Source Serif 4',Georgia,serif;font-size:1.5rem;font-weight:500;line-height:1;letter-spacing:-.01em}
-#brsim .ocard.lev .v{color:var(--accent)}
-#brsim .ocard .s{font-size:.7rem;color:var(--text2);margin-top:.3rem}
-#brsim .calc-sum{display:flex;flex-wrap:wrap;gap:.45rem 1.4rem;background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:.8rem 1rem;margin-bottom:.9rem;font-size:.74rem;color:var(--text2)}
-#brsim .calc-sum span{white-space:nowrap}
-#brsim .calc-sum b{color:var(--text);font-weight:600}
-#brsim .calc-sum .lbl{color:var(--muted)}
-#brsim .jwrap{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:.9rem 1rem;margin-bottom:.9rem}
-#brsim .jhead{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:.9rem;gap:1rem}
-#brsim .jhead .t{font-size:.63rem;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);font-weight:600}
-#brsim .jhead .lg{font-size:.68rem;color:var(--text2)}
-#brsim .jchart{display:flex;align-items:stretch;gap:3px;height:132px;position:relative;margin-bottom:18px}
-#brsim .jaxis{position:absolute;left:0;right:0;top:50%;height:1px;background:var(--border-strong)}
-#brsim .jcol{flex:1;position:relative;min-width:0}
-#brsim .jbar{position:absolute;left:16%;right:16%;border-radius:3px;min-height:2px}
-#brsim .jbar.pos{background:var(--accent);bottom:50%}
-#brsim .jbar.neg{background:var(--cost);top:50%}
-#brsim .jbar.exit{background:#0a5a42}
-#brsim .jlbl{position:absolute;bottom:-16px;left:0;right:0;text-align:center;font-size:.6rem;color:var(--muted)}
-#brsim .ptable{width:100%;border-collapse:collapse;font-size:.72rem;font-variant-numeric:tabular-nums}
-#brsim .ptable th,#brsim .ptable td{text-align:right;padding:.32rem .45rem;border-bottom:1px solid var(--border);white-space:nowrap}
-#brsim .ptable th{color:var(--muted);font-weight:600;font-size:.61rem;letter-spacing:.03em;text-transform:uppercase}
-#brsim .ptable td:first-child,#brsim .ptable th:first-child{text-align:left;color:var(--text2)}
-#brsim .ptable tr:last-child td{border-bottom:none}
-#brsim .tscroll{overflow-x:auto}
-@media(max-width:720px){
-  #brsim .as-kpis{grid-template-columns:repeat(2,1fr)}
-  #brsim .as-stocks{grid-template-columns:1fr}
-  #brsim .as-panels{grid-template-columns:1fr}
-  #brsim .spd{margin-left:0}
-  #brsim .r-lbl{width:110px}
-  #brsim .calc-grid{grid-template-columns:1fr}
-  #brsim .out-cards{grid-template-columns:repeat(2,1fr)}
-}
+#ix{max-width:880px}
 
+/* ---- overview hero (the live asset) ---- */
+.ix-hero{margin:1.4rem 0 .4rem}
+#ix .ix-hero-top{display:flex;align-items:center;justify-content:space-between;gap:1rem;flex-wrap:wrap;margin-bottom:.5rem}
+#ix .ix-pick{display:flex;align-items:center;gap:.5rem;flex:0 0 auto}
+#ix .ix-pick .lab{font-size:.58rem;font-weight:700;letter-spacing:.11em;text-transform:uppercase;color:var(--muted)}
+#ix .ix-pick select{font-family:'Source Serif 4',Georgia,serif;font-size:.92rem;font-weight:500;color:var(--text);background:#fff;border:1px solid var(--border-strong);border-radius:9px;padding:.42rem 1.9rem .42rem .7rem;cursor:pointer;letter-spacing:-.01em;max-width:340px;
+  -webkit-appearance:none;appearance:none;background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'><path d='M2 4l4 4 4-4' stroke='%230c6b4f' stroke-width='1.6' fill='none' stroke-linecap='round'/></svg>");background-repeat:no-repeat;background-position:right .6rem center}
+#ix .ix-pick select:focus{outline:none;border-color:var(--accent)}
+#ix .ix-eyebrow{font-size:.64rem;font-weight:700;letter-spacing:.13em;text-transform:uppercase;color:var(--accent);margin-bottom:0}
+#ix .ix-hero h2{font-family:'Source Serif 4',Georgia,serif;font-weight:500;font-size:2.05rem;line-height:1.04;letter-spacing:-.02em;margin:0;display:inline}
+#ix .ix-geochip{display:inline-block;font-size:.72rem;font-weight:600;color:var(--accent);background:var(--accent-soft);border-radius:999px;padding:.24rem .7rem;margin-left:.6rem;vertical-align:middle;white-space:nowrap}
+#ix .ix-lede{font-size:1.02rem;color:var(--text2);line-height:1.6;max-width:710px;margin:.7rem 0 1.05rem}
+#ix .ix-lede b{color:var(--text);font-weight:600}
+#ix .ix-hint{font-size:.74rem;color:var(--muted);margin:0 0 .55rem;display:flex;align-items:center;gap:.4rem}
+#ix .ix-hint::before{content:'';width:7px;height:7px;border-radius:50%;background:var(--accent);flex:0 0 auto}
+
+#ix .sec{padding-top:.6rem;margin-bottom:1.5rem;scroll-margin-top:64px}
+.ix-hero{scroll-margin-top:64px}
+#ix .sec-head{display:flex;align-items:baseline;gap:.7rem;margin:1.7rem 0 .7rem}
+#ix .sec-no{font-family:'Source Serif 4',Georgia,serif;font-size:1.05rem;font-weight:600;color:var(--accent)}
+#ix .sec-head h2{font-family:'Source Serif 4',Georgia,serif;font-weight:500;font-size:1.55rem;line-height:1.1;letter-spacing:-.015em}
+#ix p.body{font-size:.92rem;color:var(--text2);line-height:1.75;max-width:730px;margin-bottom:.8rem}
+#ix p.body b{color:var(--text);font-weight:600}
+
+#ix .ix-facts{display:grid;grid-template-columns:repeat(6,1fr);gap:.7rem;margin:1rem 0 .2rem}
+#ix .fact{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:.85rem .9rem}
+#ix .fact .n{font-family:'Source Serif 4',Georgia,serif;font-size:1.4rem;color:var(--accent);font-weight:500;line-height:1}
+#ix .fact .l{font-size:.6rem;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;margin-top:.4rem;font-weight:600}
+#ix .fact .d{font-size:.68rem;color:var(--text2);margin-top:.2rem;line-height:1.4}
+
+#ix .ix-ctrls{display:flex;gap:.65rem;align-items:center;flex-wrap:wrap;margin:.4rem 0 .7rem;background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:.7rem .9rem}
+#ix .ix-ctrls .ctrl{display:flex;align-items:center;gap:.55rem}
+#ix .ix-ctrls label{font-size:.7rem;color:var(--muted);letter-spacing:.04em;text-transform:uppercase;font-weight:600;white-space:nowrap}
+#ix .ix-ctrls input[type=range]{-webkit-appearance:none;appearance:none;height:4px;border-radius:3px;background:var(--border-strong);outline:none}
+#ix .ix-ctrls #ixCap{width:120px}#ix .ix-ctrls #ixAvail{width:80px}
+#ix .ix-ctrls #ixSpread{width:130px;background:var(--border-strong)}
+#ix .ix-ctrls input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;appearance:none;width:16px;height:16px;border-radius:50%;background:#fff;cursor:pointer;border:2px solid var(--accent);box-shadow:0 1px 3px rgba(0,0,0,.25)}
+#ix .ix-ctrls input[type=range]::-moz-range-thumb{width:16px;height:16px;border-radius:50%;background:#fff;cursor:pointer;border:2px solid var(--accent)}
+#ix .ix-ctrls .val{font-size:.8rem;font-weight:600;color:var(--text);min-width:30px}
+#ix .ix-ctrls .as-divider{width:1px;height:24px;background:var(--border)}
+#ix .preset{margin-left:auto;font-family:inherit;font-size:.72rem;font-weight:600;color:#fff;background:var(--accent);border:none;border-radius:8px;padding:.5rem .85rem;cursor:pointer;transition:background .12s}
+#ix .preset:hover{background:#0a5a42}
+#ix .ix-stage{position:relative;border-radius:14px;overflow:hidden;border:1px solid var(--border);box-shadow:0 12px 34px rgba(18,38,32,.08)}
+#ix .ix-stage canvas{display:block;width:100%;aspect-ratio:720/520}
+#ix .ix-readout{display:grid;grid-template-columns:repeat(4,1fr);gap:.7rem;margin-top:.7rem}
+#ix .rocard{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:.8rem .9rem;position:relative;overflow:hidden}
+#ix .rocard::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--accent)}
+#ix .rocard .k{font-size:.6rem;letter-spacing:.05em;text-transform:uppercase;color:var(--muted);font-weight:600;margin-bottom:.3rem}
+#ix .rocard .v{font-family:'Source Serif 4',Georgia,serif;font-size:1.25rem;font-weight:500;line-height:1.05;color:var(--text)}
+#ix .rocard .s{font-size:.66rem;color:var(--text2);margin-top:.25rem;line-height:1.4}
+#ix .try{font-size:.78rem;color:var(--text2);line-height:1.6;margin-top:.7rem;padding:.7rem .9rem;background:var(--accent-soft);border-left:3px solid var(--accent);border-radius:8px}
+#ix .try b{color:var(--text);font-weight:600}
+
+#ix .two{display:grid;grid-template-columns:1fr 1fr;gap:.9rem;margin-top:.4rem}
+#ix .mcard{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:1.05rem 1.2rem}
+#ix .mcard.reg{background:linear-gradient(180deg,var(--accent-soft),var(--surface))}
+#ix .mcard h4{font-size:.95rem;font-weight:600;color:var(--text);margin-bottom:.15rem;letter-spacing:-.01em}
+#ix .mcard .tag{font-size:.64rem;letter-spacing:.05em;text-transform:uppercase;color:var(--muted);font-weight:600;margin-bottom:.6rem}
+#ix .mcard p{font-size:.81rem;color:var(--text2);line-height:1.6}
+#ix .mcard p b{color:var(--text);font-weight:600}
+
+/* EBITDA waterfall */
+#ix .wf-wrap{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:1.1rem 1.2rem;margin:.2rem 0 .9rem}
+#ix .wf-head{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:.6rem}
+#ix .wf-head .t{font-size:.66rem;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);font-weight:600}
+#ix .wf-head .m{font-size:.74rem;color:var(--text2)}#ix .wf-head .m b{color:var(--text);font-weight:600}
+#ix .wf{width:100%;height:200px}
+#ix .wf-note{font-size:.72rem;color:var(--muted);line-height:1.55;margin-top:.5rem}
+
+/* financing */
+#ix .fin-wrap{display:grid;grid-template-columns:1fr 1fr;gap:.9rem}
+#ix .fin-col{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:1.1rem 1.25rem}
+#ix .fin-h{font-size:.66rem;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);font-weight:600;margin-bottom:.95rem}
+#ix .fin-split-lbl{display:flex;justify-content:space-between;font-size:.66rem;color:var(--muted);text-transform:uppercase;letter-spacing:.04em;font-weight:600;margin-bottom:.4rem}
+#ix .fin-split{display:flex;height:30px;border-radius:7px;overflow:hidden;margin-bottom:1.15rem}
+#ix .fin-split .seg{display:flex;align-items:center;padding:0 .65rem;color:#fff;font-size:.72rem;font-weight:600;white-space:nowrap;overflow:hidden}
+#ix .fin-split .s1{background:var(--accent)}#ix .fin-split .s2{background:#2f5fb0}
+#ix .fin-list{list-style:none;margin:0;padding:0}
+#ix .fin-list li{display:flex;justify-content:space-between;gap:1rem;font-size:.8rem;padding:.42rem 0;border-bottom:1px solid var(--border)}
+#ix .fin-list li:last-child{border-bottom:none}
+#ix .fin-list .fl{color:var(--text2)}
+#ix .fin-list .fa{color:var(--text);font-weight:600;font-variant-numeric:tabular-nums;white-space:nowrap}
+#ix .fin-list li.sub .fl{color:var(--muted);padding-left:.7rem;font-size:.76rem}
+#ix .fin-list li.sub .fa{color:var(--text2);font-weight:500}
+#ix .fin-list li.rest .fa{color:var(--muted);font-weight:500;font-style:italic}
+#ix .fin-note{font-size:.74rem;color:var(--text2);line-height:1.6;margin-top:.95rem}
+#ix .fin-note b{color:var(--text);font-weight:600}
+#ix .tl{list-style:none;margin:0;padding:0}
+#ix .tl li{display:grid;grid-template-columns:74px 1fr;gap:.9rem;padding-bottom:1.05rem}
+#ix .tl li:last-child{padding-bottom:0}
+#ix .tl .yr{font-size:.72rem;font-weight:700;color:var(--accent);text-align:right;padding-top:1px;font-variant-numeric:tabular-nums}
+#ix .tl .ev{font-size:.8rem;color:var(--text2);line-height:1.55;border-left:2px solid var(--border-strong);padding-left:1rem;padding-bottom:.2rem;position:relative}
+#ix .tl li:last-child .ev{border-left-color:transparent}
+#ix .tl .ev::before{content:'';position:absolute;left:-6px;top:4px;width:10px;height:10px;border-radius:50%;background:var(--accent);box-shadow:0 0 0 3px var(--accent-soft)}
+#ix .tl .ev b{color:var(--text);font-weight:600}
+
+/* calculator */
+#ix .calc-note{font-size:.85rem;color:var(--text2);line-height:1.65;margin-bottom:.85rem}#ix .calc-note b{color:var(--text);font-weight:600}
+#ix .calc-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:.9rem;margin-bottom:.9rem}
+#ix .cgroup{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:.9rem 1rem}
+#ix .cgroup h4{font-size:.62rem;letter-spacing:.07em;text-transform:uppercase;color:var(--muted);font-weight:600;margin-bottom:.7rem}
+#ix .cfield{display:flex;align-items:center;justify-content:space-between;gap:.5rem;margin-bottom:.5rem}
+#ix .cfield:last-child{margin-bottom:0}
+#ix .cfield label{font-size:.74rem;color:var(--text);line-height:1.25}
+#ix .cfield .ig{display:flex;align-items:center;gap:.25rem;flex-shrink:0}
+#ix .cfield input{width:62px;font-family:inherit;font-size:.78rem;font-weight:600;text-align:right;color:var(--text);border:1px solid var(--border-strong);border-radius:7px;padding:.28rem .35rem;background:var(--surface-2);font-variant-numeric:tabular-nums}
+#ix .cfield input:focus{outline:none;border-color:var(--accent)}
+#ix .cfield .u{font-size:.7rem;color:var(--muted);width:34px;text-align:left}
+#ix .out-cards{display:grid;grid-template-columns:repeat(4,1fr);gap:.7rem;margin-bottom:.9rem}
+#ix .ocard{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:.85rem .95rem;position:relative;overflow:hidden}
+#ix .ocard::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--muted)}
+#ix .ocard.unlev::before{background:#0c6b4f}#ix .ocard.lev{background:linear-gradient(180deg,var(--accent-soft),var(--surface))}#ix .ocard.lev::before{background:var(--accent)}
+#ix .ocard .k{font-size:.63rem;letter-spacing:.05em;text-transform:uppercase;color:var(--muted);font-weight:600;margin-bottom:.3rem}
+#ix .ocard .v{font-family:'Source Serif 4',Georgia,serif;font-size:1.5rem;font-weight:500;line-height:1;letter-spacing:-.01em}
+#ix .ocard.lev .v{color:var(--accent)}
+#ix .ocard .s{font-size:.7rem;color:var(--text2);margin-top:.3rem}
+#ix .calc-sum{display:flex;flex-wrap:wrap;gap:.45rem 1.4rem;background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:.8rem 1rem;margin-bottom:.9rem;font-size:.74rem;color:var(--text2)}
+#ix .calc-sum span{white-space:nowrap}#ix .calc-sum b{color:var(--text);font-weight:600}#ix .calc-sum .lbl{color:var(--muted)}
+#ix .jwrap{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:.9rem 1rem;margin-bottom:.9rem}
+#ix .jhead{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:.9rem;gap:1rem}
+#ix .jhead .t{font-size:.63rem;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);font-weight:600}
+#ix .jhead .lg{font-size:.68rem;color:var(--text2)}
+#ix .jchart{display:flex;align-items:stretch;gap:2px;height:140px;position:relative;margin-bottom:18px}
+#ix .jaxis{position:absolute;left:0;right:0;top:50%;height:1px;background:var(--border-strong)}
+#ix .jcol{flex:1;position:relative;min-width:0}
+#ix .jbar{position:absolute;left:12%;right:12%;border-radius:3px;min-height:2px}
+#ix .jbar.pos{background:var(--accent);bottom:50%}#ix .jbar.neg{background:var(--cost);top:50%}#ix .jbar.exit{background:#0a5a42}
+#ix .jlbl{position:absolute;bottom:-16px;left:0;right:0;text-align:center;font-size:.58rem;color:var(--muted)}
+#ix .ptable{width:100%;border-collapse:collapse;font-size:.72rem;font-variant-numeric:tabular-nums}
+#ix .ptable th,#ix .ptable td{text-align:right;padding:.32rem .45rem;border-bottom:1px solid var(--border);white-space:nowrap}
+#ix .ptable th{color:var(--muted);font-weight:600;font-size:.61rem;letter-spacing:.03em;text-transform:uppercase}
+#ix .ptable td:first-child,#ix .ptable th:first-child{text-align:left;color:var(--text2)}
+#ix .ptable tr:last-child td{border-bottom:none}
+#ix .tscroll{overflow-x:auto}
+#ix details.more{margin-bottom:.9rem}
+#ix details.more summary{font-size:.74rem;font-weight:600;color:var(--accent);cursor:pointer;padding:.3rem 0}
+
+#ix .breakers{list-style:none;margin:.2rem 0 0;padding:0;display:grid;grid-template-columns:1fr 1fr;gap:.5rem .9rem}
+#ix .breakers li{font-size:.82rem;color:var(--text2);line-height:1.55;padding-left:1rem;position:relative}
+#ix .breakers li::before{content:'';position:absolute;left:0;top:7px;width:6px;height:6px;border-radius:50%;background:var(--accent)}
+#ix .breakers b{color:var(--text);font-weight:600}
+
+#ix .ix-src{font-size:.7rem;color:var(--muted);line-height:1.8;margin-top:1.4rem}
+#ix .ix-src a{color:var(--text2);text-decoration:none;border-bottom:1px solid var(--border-strong)}
+#ix .ix-src a:hover{color:var(--accent)}
+
+@media(max-width:760px){
+  #ix .ix-facts{grid-template-columns:repeat(3,1fr)}
+  #ix .ix-readout{grid-template-columns:repeat(2,1fr)}
+  #ix .two,#ix .fin-wrap,#ix .breakers{grid-template-columns:1fr}
+  #ix .calc-grid{grid-template-columns:1fr}
+  #ix .out-cards{grid-template-columns:repeat(2,1fr)}
+  #ix .ix-hero h2{font-size:1.7rem}
+}
 </style>
 </head>
 <body>
@@ -177,493 +205,190 @@
   <div class="wrap">
     <div class="breadcrumb"><a href="index.html">Home</a><span class="sep">/</span><a href="transport.html">Transport</a><span class="sep">/</span>Bridges</div>
     <div class="hero-eyebrow">Transport</div>
-    <h1><em>Bridges</em></h1>
-    <p class="hero-sub">An interactive economic model of a tolled estuary crossing — watch vehicles cross the bridge and pay at the toll point, see the light vs heavy revenue split, and run the investment case live.</p>
+    <h1>Tolled <em>bridges</em> &amp; fixed links</h1>
+    <p class="hero-sub">A critical crossing is the closest thing to a true monopoly in infrastructure — one structure, no competing route for miles, and a charge on every vehicle. Pick a real asset below and follow it through the map, the business model and a working returns model.</p>
   </div>
 </section>
 
-<section class="tools-section">
+<div class="ix-bar">
   <div class="wrap">
-
-    <div class="section-header">
-      <div class="section-label">Interactive model</div>
-      <div class="section-line"></div>
-    </div>
-
-<div id="brsim">
-
-  <div class="as-head">
-    <div class="as-eyebrow">Transport · Bridges</div>
-    <h2>What crosses a toll bridge — and how it pays</h2>
-    <p class="as-sub">A tolled estuary crossing is the purest infrastructure monopoly there is: one structure, no competing route, and a charge on every vehicle that crosses. The cost base — inspection, structural maintenance, toll collection — is tiny and almost entirely <b>fixed</b>, so <b>nearly every toll drops straight to profit</b>. The investment case turns on the daily <b>crossings</b>, the toll, and the share of heavy vehicles, which pay a multiple.</p>
+    <span class="ix-bar-name" id="ixBarName">—</span>
+    <nav class="ix-bar-nav" aria-label="Sections">
+      <a href="#explore" data-step="1">Overview</a>
+      <a href="#story" data-step="2">How it works</a>
+      <a href="#earn" data-step="3">How it earns</a>
+      <a href="#cost" data-step="4">Costs &amp; financing</a>
+      <a href="#returns" data-step="5">Returns</a>
+      <a href="#drivers" data-step="6">What drives it</a>
+    </nav>
   </div>
-
-  <div class="as-ctrls">
-    <div class="ctrl"><label>Crossings/day</label><input type="range" id="dTen" min="20000" max="150000" value="70000" step="5000"><span class="val" id="tenV">70,000</span></div>
-    <div class="as-divider"></div>
-    <div class="ctrl"><label>Toll £/car</label><input type="range" id="dRent" min="1" max="10" value="2.5" step="0.25"><span class="val" id="rentV">£2.50</span></div>
-    <div class="as-divider"></div>
-    <div class="ctrl"><label>Heavy share</label><input type="range" id="dTow" min="5" max="25" value="12" step="1"><span class="val" id="towV">12%</span></div>
-    <div class="spd">
-      <button class="on" id="b1">1×</button><button id="b2">2×</button><button id="b4">4×</button>
-    </div>
-  </div>
-
-  <div class="as-stage"><canvas id="cv"></canvas></div>
-
-  <div class="as-mini" id="asMini" title="Back to the simulation">
-    <canvas id="cvMini"></canvas><span class="as-mini-tag">LIVE</span>
-  </div>
-
-  <div class="as-legend">
-    <span class="leg"><span class="dot" style="background:var(--aero)"></span><b>Light vehicle</b>&nbsp;cars &amp; vans — the volume base</span>
-    <span class="leg"><span class="dot" style="background:var(--comm)"></span><b>Heavy vehicle</b>&nbsp;HGVs &amp; coaches — pay ~2.5×</span>
-    <span class="leg"><span class="dot" style="background:#5aa0e6"></span><b>Toll point</b>&nbsp;every crossing charged at the plaza</span>
-    <span class="leg"><span class="dot" style="background:var(--cost)"></span><b>Operating cost</b>&nbsp;tiny &amp; mostly fixed</span>
-  </div>
-
-  <div class="band-label"><span class="t">Flows — annualised from current assumptions</span><span class="ln"></span><span class="hint">per year</span></div>
-  <div class="as-kpis">
-    <div class="kpi k-rev"><div class="k">Revenue p.a.</div><div class="v" id="kRev">£0</div><div class="s"><b id="kRevHr">£0</b> / hr</div></div>
-    <div class="kpi k-eb"><div class="k">EBITDA p.a.</div><div class="v" id="kEb">£0</div><div class="s"><b id="kMargin">0%</b> margin</div></div>
-    <div class="kpi k-yield"><div class="k">Revenue / crossing</div><div class="v" id="kYield">£0</div><div class="s">blended toll</div></div>
-    <div class="kpi k-pax"><div class="k">Crossings / day</div><div class="v" id="kPaxYr">0</div><div class="s"><b id="kThru">12%</b> heavy</div></div>
-  </div>
-
-  <div class="band-label"><span class="t">Stocks — what the flows accumulate into</span><span class="ln"></span><span class="hint">live</span></div>
-  <div class="as-stocks">
-    <div class="stock"><div class="k">Crossings · session</div><div class="v" id="sPax">0</div><div class="s">at <b id="sCap">70,000</b> / day</div></div>
-    <div class="stock"><div class="k">EBITDA banked · session</div><div class="v" id="sBank">£0</div><div class="s">accumulating in real time</div></div>
-    <div class="stock"><div class="k">Implied enterprise value</div><div class="v" id="sEV">£0</div><div class="s">at <b>24×</b> EBITDA</div></div>
-  </div>
-
-  <div class="as-split">
-    <div class="split-head">
-      <span class="t">Where revenue comes from</span>
-      <span class="tot">Total <b id="splitTot">£0</b> p.a.</span>
-    </div>
-    <div class="split-bar">
-      <div class="split-seg seg-aero" id="segAero">Light vehicles</div>
-      <div class="split-seg seg-comm" id="segComm">Heavy vehicles</div>
-    </div>
-    <div class="split-foot"><b>Why investors prize toll bridges:</b> a critical crossing is the closest thing to a true monopoly in infrastructure — there is usually no alternative for miles, so traffic is exceptionally inelastic and tolls are typically inflation-linked. A single structure has a minuscule, almost wholly fixed cost base, so margins run 70–85% and the highest multiples follow. The only real questions are how busy the crossing is and how long the concession runs.</div>
-  </div>
-
-  <div class="as-panels">
-    <div class="panel"><div class="ptitle">Revenue streams<span class="pt-sum" id="revSum">£0 p.a.</span></div><div id="revRows"></div></div>
-    <div class="panel"><div class="ptitle">Operating costs<span class="pt-sum" id="costSum">£0 p.a.</span></div><div id="costRows"></div></div>
-  </div>
-
-  <div class="band-label"><span class="t">Investment case — should you buy it?</span><span class="ln"></span><span class="hint">DCF returns</span></div>
-  <p class="calc-note">Year-1 financials flow live from the simulation above: revenue <b id="cBaseRev">£0</b> and EBITDA <b id="cBaseEb">£0</b> p.a. Set your deal terms below — the <b style="color:var(--aero)">unlevered IRR</b> (asset return) and <b style="color:var(--accent)">levered IRR</b> (return to equity, after debt) recompute instantly.</p>
-
-  <div class="calc-grid">
-    <div class="cgroup"><h4>Operating</h4>
-      <div class="cfield"><label>Revenue growth p.a.</label><span class="ig"><input id="iRevG" type="number" value="3" step="0.5"><span class="u">%</span></span></div>
-      <div class="cfield"><label>OpEx vs base</label><span class="ig"><input id="iOpex" type="number" value="100" step="1"><span class="u">%</span></span></div>
-      <div class="cfield"><label>Cost inflation p.a.</label><span class="ig"><input id="iCostG" type="number" value="3" step="0.5"><span class="u">%</span></span></div>
-      <div class="cfield"><label>Maintenance capex</label><span class="ig"><input id="iCapex" type="number" value="5" step="1"><span class="u">%</span></span></div>
-      <div class="cfield"><label>Depreciation</label><span class="ig"><input id="iDA" type="number" value="3" step="1"><span class="u">%</span></span></div>
-      <div class="cfield"><label>Tax rate</label><span class="ig"><input id="iTax" type="number" value="25" step="1"><span class="u">%</span></span></div>
-    </div>
-    <div class="cgroup"><h4>Valuation &amp; hold</h4>
-      <div class="cfield"><label>Entry EV / EBITDA</label><span class="ig"><input id="iEntry" type="number" value="24" step="0.5"><span class="u">×</span></span></div>
-      <div class="cfield"><label>Exit EV / EBITDA</label><span class="ig"><input id="iExit" type="number" value="22" step="0.5"><span class="u">×</span></span></div>
-      <div class="cfield"><label>Hold period</label><span class="ig"><input id="iHold" type="number" value="12" step="1" min="3" max="25"><span class="u">y</span></span></div>
-    </div>
-    <div class="cgroup"><h4>Financing</h4>
-      <div class="cfield"><label>Leverage (Net&nbsp;debt&nbsp;/&nbsp;EBITDA)</label><span class="ig"><input id="iLev" type="number" value="7" step="0.5"><span class="u">×</span></span></div>
-      <div class="cfield"><label>Cost of debt</label><span class="ig"><input id="iRd" type="number" value="5.5" step="0.25"><span class="u">%</span></span></div>
-      <div class="cfield"><label>Debt amortisation p.a.</label><span class="ig"><input id="iAmort" type="number" value="0" step="1"><span class="u">%</span></span></div>
-    </div>
-  </div>
-
-  <div class="out-cards">
-    <div class="ocard unlev"><div class="k">Unlevered IRR</div><div class="v" id="oUIRR">—</div><div class="s">asset / project return</div></div>
-    <div class="ocard lev"><div class="k">Levered IRR</div><div class="v" id="oLIRR">—</div><div class="s">return to equity</div></div>
-    <div class="ocard"><div class="k">Equity multiple</div><div class="v" id="oMOIC">—</div><div class="s">MOIC over hold</div></div>
-    <div class="ocard"><div class="k">Equity gain</div><div class="v" id="oProfit">—</div><div class="s">exit equity − invested</div></div>
-  </div>
-
-  <div class="calc-sum" id="calcSum"></div>
-
-  <div class="jwrap">
-    <div class="jhead"><span class="t">Equity cash-flow profile</span><span class="lg" id="jLeg">£m · <span style="color:var(--cost)">■</span> invested &nbsp; <span style="color:var(--accent)">■</span> returned</span></div>
-    <div class="jchart" id="jchart"><div class="jaxis"></div></div>
-  </div>
-
-  <div class="jwrap tscroll">
-    <div class="jhead"><span class="t">Projection — £m per year</span></div>
-    <table class="ptable"><thead id="ptHead"></thead><tbody id="ptBody"></tbody></table>
-  </div>
-
-  <p class="as-foot"><b>Illustrative model.</b> Represents a tolled estuary/river crossing concession. Revenue = crossings × toll, where heavy vehicles pay a multiple of the car toll, plus modest commercial income. Operating costs (structural inspection &amp; maintenance, a major-works provision, toll collection, insurance and a revenue-linked concession fee) are small and dominated by fixed items, with only the collection cost and the concession fee scaling with volume — so each extra crossing is overwhelmingly incremental margin and traffic drives the result. EBITDA = revenue − operating costs; excludes upfront construction/acquisition capex. The investment case is a simplified DCF. For illustration only — not investment advice, and not any specific asset.</p>
-
 </div>
 
-<script>
-(function(){
-const cv=document.getElementById('cv'); const ctx=cv.getContext('2d');
-const W=720,H=360; const DPR=Math.max(2,Math.min(3,window.devicePixelRatio||1));
-cv.width=W*DPR; cv.height=H*DPR; ctx.setTransform(DPR,0,0,DPR,0,0);
+<section class="tools-section" id="ix">
+  <div class="wrap">
 
-const HRS_PER_YR=8760, EV_MULT=24;
-const C={aero:'#37c08e', comm:'#e6b35a', sig:'#5aa0e6', cost:'#ef8166'};
+    <!-- OVERVIEW / live asset -->
+    <div class="ix-hero" id="explore">
+      <div class="ix-hero-top">
+        <div class="ix-eyebrow">In focus · <span id="ixCont">—</span></div>
+        <div class="ix-pick">
+          <span class="lab">Example</span>
+          <select id="ixSelect" aria-label="Choose a worked example">
+            <option value="oresund">Øresund Bridge · Denmark ⇄ Sweden</option>
+            <option value="confed">Confederation Bridge · New Brunswick ⇄ PEI</option>
+            <option value="rioniteroi">Rio–Niterói · Rio de Janeiro ⇄ Niterói</option>
+            <option value="sydney">Sydney Harbour Bridge · Sydney</option>
+            <option value="kingfahd">King Fahd Causeway · Saudi Arabia ⇄ Bahrain</option>
+            <option value="hzmb">Hong Kong–Zhuhai–Macau Bridge · Pearl River</option>
+          </select>
+        </div>
+      </div>
+      <div><h2 id="ixAssetName">—</h2><span class="ix-geochip" id="ixAssetGeo">—</span></div>
+      <p class="ix-lede" id="ixLede">—</p>
+      <p class="ix-hint">Drag the sliders to see what crosses the bridge — and what it earns.</p>
 
-const DAYS=365, HGV_MULT=2.5;   // heavy vehicles pay ~2.5× a car to cross
-// Two tills: light-vehicle tolls (volume base) vs heavy vehicles (pay the multiple)
-const STREAMS=[
-  {name:'Light vehicle tolls',  tag:'Light',  aero:true,  kind:'light'},
-  {name:'Heavy vehicle tolls',  tag:'Heavy',  aero:false, kind:'heavy'},
-  {name:'Permits & commercial', tag:'Comm',   aero:false, kind:'anc'},
-];
-// cost lines: driver = 'fixed' (flat), 'txn' (per crossing), 'rev' (% of revenue)
-const COSTS=[
-  {item:'Structural inspection',driver:'fixed',base:8000000, tag:'Fixed',cls:'fix'},
-  {item:'Major-works provision',driver:'fixed',base:4000000, tag:'Fixed',cls:'fix'},
-  {item:'Toll collection',      driver:'txn',  rate:0.10,    tag:'Var',  cls:'var'},
-  {item:'Insurance & admin',    driver:'fixed',base:3000000, tag:'Fixed',cls:'fix'},
-  {item:'Concession fee',       driver:'rev',  rate:0.03,    tag:'Var',  cls:'var'},
-];
-let rSmooth=STREAMS.map(()=>1), cSmooth=COSTS.map(()=>200);
+      <div class="ix-ctrls">
+        <div class="ctrl"><label>Traffic</label><input type="range" id="ixCap" min="2000" max="40000" value="20000" step="500"><span class="val" id="ixCapV">20,000 /day</span></div>
+        <div class="as-divider"></div>
+        <div class="ctrl"><label id="ixDriverLab">Toll / car</label><input type="range" id="ixSpread" min="1" max="500" value="200" step="1"><span class="val" id="ixSpreadV">—</span></div>
+        <div class="as-divider"></div>
+        <div class="ctrl"><label id="ixAvailLab">Heavy share</label><input type="range" id="ixAvail" min="3" max="30" value="12" step="1"><span class="val" id="ixAvailV">12%</span></div>
+        <button class="preset" id="ixPreset">Reset to base case</button>
+      </div>
 
-function money(v){ const neg=v<0; v=Math.abs(v); let o;
-  if(v>=1e9) o=(v/1e9).toFixed(2)+'bn'; else if(v>=1e8) o=(v/1e6).toFixed(0)+'m';
-  else if(v>=1e6) o=(v/1e6).toFixed(1)+'m'; else if(v>=1e3) o=(v/1e3).toFixed(0)+'k';
-  else o=Math.round(v).toString(); return (neg?'-£':'£')+o; }
-function m1(v){ return (v/1e6).toFixed(1); }
+      <div class="ix-stage"><canvas id="ixcv"></canvas></div>
+      <div class="ix-readout">
+        <div class="rocard"><div class="k">Daily crossings</div><div class="v" id="ixDir">—</div><div class="s" id="ixDirS">—</div></div>
+        <div class="rocard"><div class="k">On the deck</div><div class="v" id="ixMW">—</div><div class="s" id="ixMWs">—</div></div>
+        <div class="rocard"><div class="k" id="ixHrK">Toll captured /hr</div><div class="v" id="ixHr">—</div><div class="s">tolls &times; traffic</div></div>
+        <div class="rocard"><div class="k">Revenue p.a.</div><div class="v" id="ixYr">—</div><div class="s" id="ixYrS">to the owner</div></div>
+      </div>
 
-function buildRows(){
-  const re=document.getElementById('revRows'); re.innerHTML='';
-  STREAMS.forEach((s,i)=>{ const col=s.aero?'var(--aero)':'var(--comm)'; const tc=s.aero?'aero':'comm';
-    re.innerHTML+=`<div class="row"><span class="r-lbl">${s.name}</span><span class="r-tag ${tc}">${s.tag}</span><span class="bwrap"><span class="bfill" id="rb${i}" style="background:${col};width:50%"></span></span><span class="r-amt" id="ra${i}">£0</span></div>`; });
-  const ce=document.getElementById('costRows'); ce.innerHTML='';
-  COSTS.forEach((c,i)=>{ ce.innerHTML+=`<div class="row"><span class="r-lbl">${c.item}</span><span class="r-tag ${c.cls}">${c.tag}</span><span class="bwrap"><span class="bfill" id="cb${i}" style="background:var(--cost);width:50%"></span></span><span class="r-amt" id="ca${i}">£0</span></div>`; });
-}
-buildRows();
+      <div class="ix-facts" id="ixFacts"></div>
+      <p class="try" id="ixTry"></p>
+    </div>
 
-let simSpd=1;
-['b1','b2','b4'].forEach(id=>{ document.getElementById(id).onclick=()=>{ simSpd=parseInt(id.slice(1));
-  ['b1','b2','b4'].forEach(i=>document.getElementById(i).classList.toggle('on',i===id)); }; });
-const dTen=document.getElementById('dTen'), dRent=document.getElementById('dRent'), dTow=document.getElementById('dTow');
-function pulse(){ document.querySelectorAll('#brsim .kpi,#brsim .stock').forEach(e=>{ e.classList.remove('pulse'); void e.offsetWidth; e.classList.add('pulse'); }); }
-dTen.oninput=()=>{ document.getElementById('tenV').textContent=parseInt(dTen.value).toLocaleString(); pulse(); };
-dRent.oninput=()=>{ document.getElementById('rentV').textContent='£'+parseFloat(dRent.value).toFixed(2); pulse(); };
-dTow.oninput=()=>{ document.getElementById('towV').textContent=dTow.value+'%'; pulse(); };
-void 0;
+    <!-- 1 · what it is & how it works -->
+    <div class="sec" id="story">
+      <div class="sec-head"><span class="sec-no">01</span><h2>What it is &amp; how it works</h2></div>
+      <div id="s1body"></div>
+      <p class="body" id="s2intro"></p>
+    </div>
 
-// ---------- investment calculator (DCF / LBO) ----------
-function gv(id){ const v=parseFloat(document.getElementById(id).value); return isFinite(v)?v:0; }
-function irr(cf){ const f=r=>cf.reduce((s,c,i)=>s+c/Math.pow(1+r,i),0);
-  let lo=-0.95,hi=3,flo=f(lo),fhi=f(hi);
-  if(!isFinite(flo)||!isFinite(fhi)||flo*fhi>0) return NaN;
-  for(let k=0;k<140;k++){ const mid=(lo+hi)/2,fm=f(mid); if(flo*fm<=0){hi=mid;}else{lo=mid;flo=fm;} }
-  return (lo+hi)/2; }
-function computeModel(){
-  const rev0=baseRevYr, ebBase=rev0-baseCostYr;
-  const cost0=baseCostYr*(gv('iOpex')/100), eb0=rev0-cost0;
-  if(ebBase<=0 || eb0<=0 || rev0<=0 || ebBase/rev0<0.05) return null;
-  const gR=gv('iRevG')/100, gC=gv('iCostG')/100, capexP=gv('iCapex')/100, daP=gv('iDA')/100, tax=gv('iTax')/100;
-  const eMul=gv('iEntry'), xMul=gv('iExit'), N=Math.max(3,Math.min(25,Math.round(gv('iHold'))));
-  const lev=gv('iLev'), rd=gv('iRd')/100, amort=gv('iAmort')/100;
-  const entryEV=eMul*ebBase;
-  const debt0=Math.max(0,Math.min(lev*ebBase, entryEV*0.95));
-  const equity0=entryEV-debt0;
-  const rows=[], uCF=[-entryEV], eCF=[-equity0];
-  let debtBal=debt0; const amortAmt=amort*debt0;
-  for(let t=1;t<=N;t++){
-    const rev=rev0*Math.pow(1+gR,t), cost=cost0*Math.pow(1+gC,t), eb=rev-cost;
-    const capex=capexP*rev, da=daP*rev, ebit=eb-da;
-    const fcff=eb-tax*Math.max(0,ebit)-capex;
-    const interest=rd*debtBal, princ=Math.min(amortAmt,debtBal);
-    const ebt=ebit-interest, fcfe=eb-tax*Math.max(0,ebt)-capex-interest-princ;
-    debtBal=Math.max(0,debtBal-princ);
-    let uAdd=fcff, eAdd=fcfe;
-    if(t===N){ const exitEV=xMul*eb; uAdd+=exitEV; eAdd+=(exitEV-debtBal); }
-    uCF.push(uAdd); eCF.push(eAdd);
-    rows.push({t,rev,eb,capex,fcff,debt:debtBal,fcfe});
-  }
-  const exitEV=xMul*rows[N-1].eb, exitEq=exitEV-rows[N-1].debt;
-  const distrib=eCF.slice(1).reduce((a,b)=>a+b,0);
-  const moic=equity0>0?distrib/equity0:NaN;
-  return {eb0,entryEV,debt0,equity0,N,rows,uCF,eCF,uIRR:irr(uCF),lIRR:irr(eCF),exitEV,exitEq,moic,profit:distrib-equity0};
-}
-function pctTxt(x){ return isFinite(x)?(x*100).toFixed(1)+'%':'—'; }
-function renderModel(){
-  document.getElementById('cBaseRev').textContent=money(baseRevYr);
-  document.getElementById('cBaseEb').textContent=money(baseEbYr);
-  const m=computeModel();
-  const set=(id,t)=>{ const e=document.getElementById(id); if(e) e.textContent=t; };
-  if(!m){ ['oUIRR','oLIRR','oMOIC','oProfit'].forEach(id=>set(id,'—')); document.getElementById('calcSum').innerHTML='<span class="lbl">At this tenancy / rent the EBITDA is too thin to value on a multiple — add tenants or raise the rent.</span>'; return; }
-  set('oUIRR',pctTxt(m.uIRR)); set('oLIRR',pctTxt(m.lIRR));
-  set('oMOIC',isFinite(m.moic)?m.moic.toFixed(2)+'×':'—');
-  set('oProfit',money(m.profit));
-  const ltv=Math.round(m.debt0/m.entryEV*100);
-  document.getElementById('calcSum').innerHTML=
-    `<span><span class="lbl">Entry EV</span> <b>${money(m.entryEV)}</b></span>`+
-    `<span><span class="lbl">Debt</span> <b>${money(m.debt0)}</b> (${ltv}% LTV)</span>`+
-    `<span><span class="lbl">Equity in</span> <b>${money(m.equity0)}</b></span>`+
-    `<span><span class="lbl">Exit EV</span> <b>${money(m.exitEV)}</b></span>`+
-    `<span><span class="lbl">Exit equity</span> <b>${money(m.exitEq)}</b></span>`;
-  const maxAbs=Math.max(...m.eCF.map(Math.abs),1), step=m.N>12?2:1;
-  let ch='<div class="jaxis"></div>';
-  m.eCF.forEach((cf,i)=>{ const hh=Math.max(2,Math.abs(cf)/maxAbs*58);
-    const cls=cf>=0?(i===m.N?'pos exit':'pos'):'neg';
-    ch+=`<div class="jcol"><div class="jbar ${cls}" style="height:${hh}px" title="Year ${i}: ${money(cf)}"></div><span class="jlbl">${i%step===0?i:''}</span></div>`; });
-  document.getElementById('jchart').innerHTML=ch;
-  document.getElementById('ptHead').innerHTML='<tr><th>Year</th><th>Revenue</th><th>EBITDA</th><th>Capex</th><th>Unlev. FCF</th><th>Net debt</th><th>Equity FCF</th></tr>';
-  document.getElementById('ptBody').innerHTML=m.rows.map(r=>
-    `<tr><td>${r.t}</td><td>${m1(r.rev)}</td><td>${m1(r.eb)}</td><td>${m1(r.capex)}</td><td>${m1(r.fcff)}</td><td>${m1(r.debt)}</td><td>${m1(r.fcfe)}</td></tr>`).join('');
-}
-['iRevG','iOpex','iCostG','iCapex','iDA','iTax','iEntry','iExit','iHold','iLev','iRd','iAmort']
-  .forEach(id=>document.getElementById(id).addEventListener('input',renderModel));
+    <!-- 2 · how it earns -->
+    <div class="sec" id="earn">
+      <div class="sec-head"><span class="sec-no">02</span><h2>How it earns</h2></div>
+      <p class="body" id="s3intro"></p>
+      <div class="two">
+        <div class="mcard">
+          <div class="tag">Model A · traffic risk</div>
+          <h4>Real-toll concession</h4>
+          <p>The owner keeps the toll and takes the <b>traffic risk</b>: revenue is whatever crosses, times the toll. Upside is uncapped if traffic grows, but a soft economy or a new competing route bites directly. Tariffs are usually <b>inflation-linked</b> and the crossing is a near-monopoly, so demand is famously inelastic — which is exactly why investors pay the highest multiples for a critical toll bridge.</p>
+        </div>
+        <div class="mcard reg" id="mcardB">
+          <div class="tag" id="mbTag">—</div>
+          <h4 id="mbTitle">—</h4>
+          <p id="mbBody">—</p>
+        </div>
+      </div>
+    </div>
 
-// ---------- scene geometry ----------
-// ---------- scene geometry (side elevation, cable-stayed crossing) ----------
-const DECK_Y=176, WATER_Y=202, PORTAL_X=130;
-const PYL=[252,470], PYTOP=54;
-const LANE_Y=[DECK_Y-11, DECK_Y-4];   // far lane (←), near lane (→)
-const LANE_DIR=[-1,1];
+    <!-- 3 · costs & financing -->
+    <div class="sec" id="cost">
+      <div class="sec-head"><span class="sec-no">03</span><h2>What it costs, and how it's financed</h2></div>
+      <p class="body" id="s4intro1"></p>
 
-// ---------- entities ----------
-const moneys=[], cars=[];
-let T=0,cumEB=0,cTick=0,cumVeh=0,visAADT=70000,visHgv=0.12,baseRevYr=0,baseCostYr=0,baseEbYr=0,grT=0;
-let gFlash=[0,0];
-let boat={x:-60,y:WATER_Y+20,sp:0.28};
-function rnd(a,b){return a+Math.random()*(b-a);} function lerp(a,b,t){return a+(b-a)*t;}
-function num(v){ if(v>=1e6) return (v/1e6).toFixed(2)+'m'; if(v>=1e3) return (v/1e3).toFixed(0)+'k'; return Math.round(v).toString(); }
-function light(x,y,r,col,a){ ctx.save(); ctx.globalAlpha=a;
-  const g=ctx.createRadialGradient(x,y,0,x,y,r); g.addColorStop(0,col); g.addColorStop(1,'rgba(0,0,0,0)');
-  ctx.fillStyle=g; ctx.beginPath(); ctx.arc(x,y,r,0,Math.PI*2); ctx.fill(); ctx.restore(); }
+      <div class="wf-wrap">
+        <div class="wf-head"><span class="t">Revenue → operating costs → EBITDA</span><span class="m">Margin <b id="wfMargin">—</b></span></div>
+        <svg class="wf" id="ixWaterfall" viewBox="0 0 600 200" preserveAspectRatio="xMidYMid meet" role="img" aria-label="EBITDA bridge"></svg>
+        <p class="wf-note" id="wfNote"></p>
+      </div>
 
-function drawScene(){
-  // dusk sky
-  const sky=ctx.createLinearGradient(0,0,0,WATER_Y); sky.addColorStop(0,'#0e1b33'); sky.addColorStop(0.6,'#22324d'); sky.addColorStop(1,'#3c4d66');
-  ctx.fillStyle=sky; ctx.fillRect(0,0,W,WATER_Y);
-  for(let i=0;i<22;i++){ const sx=(i*151+9)%W, sy=(i*43+4)%70; ctx.globalAlpha=0.2+0.4*Math.sin(T*0.02+i); ctx.fillStyle='rgba(255,255,255,0.5)'; ctx.fillRect(sx,sy,1,1); ctx.globalAlpha=1; }
-  // far shoreline either side
-  ctx.fillStyle='rgba(24,34,30,0.7)';
-  ctx.beginPath(); ctx.moveTo(0,WATER_Y); ctx.lineTo(0,WATER_Y-26); for(let x=0;x<150;x+=24) ctx.lineTo(x,WATER_Y-26+8*Math.sin(x*0.05)); ctx.lineTo(150,WATER_Y); ctx.fill();
-  ctx.beginPath(); ctx.moveTo(W,WATER_Y); ctx.lineTo(W,WATER_Y-24); for(let x=W;x>W-160;x-=24) ctx.lineTo(x,WATER_Y-24+8*Math.sin(x*0.05)); ctx.lineTo(W-160,WATER_Y); ctx.fill();
-  // water
-  const wg=ctx.createLinearGradient(0,WATER_Y,0,H); wg.addColorStop(0,'#1b3046'); wg.addColorStop(1,'#0d1a27');
-  ctx.fillStyle=wg; ctx.fillRect(0,WATER_Y,W,H-WATER_Y);
-  // pylon reflections
-  PYL.forEach(px=>{ ctx.fillStyle='rgba(180,190,200,0.06)'; ctx.fillRect(px-3,WATER_Y,6,H-WATER_Y); });
-  // shimmer
-  ctx.strokeStyle='rgba(150,180,205,0.18)'; ctx.lineWidth=1;
-  for(let i=0;i<7;i++){ const yy=WATER_Y+10+i*14, off=(T*0.6+i*20)%40;
-    for(let x=-off;x<W;x+=40){ ctx.beginPath(); ctx.moveTo(x,yy); ctx.lineTo(x+18,yy); ctx.stroke(); } }
-}
-function drawBoat(){
-  const x=boat.x,y=boat.y;
-  ctx.save(); ctx.fillStyle='#2a3138'; ctx.beginPath(); ctx.moveTo(x-14,y); ctx.lineTo(x+14,y); ctx.lineTo(x+9,y+6); ctx.lineTo(x-9,y+6); ctx.closePath(); ctx.fill();
-  ctx.fillStyle='#3c4751'; ctx.fillRect(x-4,y-6,10,6); ctx.strokeStyle='#5a6772'; ctx.lineWidth=1; ctx.beginPath(); ctx.moveTo(x-8,y); ctx.lineTo(x-8,y-12); ctx.stroke();
-  ctx.fillStyle='rgba(150,180,205,0.2)'; ctx.fillRect(x-22,y+6,16,1.5);  // wake
-  ctx.restore();
-}
-function drawPylons(){
-  PYL.forEach(px=>{
-    const g=ctx.createLinearGradient(px-9,0,px+9,0); g.addColorStop(0,'#aab4be'); g.addColorStop(0.5,'#cfd6dd'); g.addColorStop(1,'#9aa4ae');
-    ctx.fillStyle=g; ctx.beginPath(); ctx.moveTo(px-5,PYTOP); ctx.lineTo(px+5,PYTOP); ctx.lineTo(px+9,WATER_Y+6); ctx.lineTo(px-9,WATER_Y+6); ctx.closePath(); ctx.fill();
-    ctx.fillStyle='#7d8893'; ctx.fillRect(px-12,DECK_Y-2,24,5);   // crossbeam at deck
-    ctx.fillStyle='rgba(230,90,70,0.9)'; ctx.beginPath(); ctx.arc(px,PYTOP-2,2,0,Math.PI*2); ctx.fill();  // aircraft light
-  });
-}
-function drawCables(){
-  ctx.strokeStyle='rgba(180,190,202,0.55)'; ctx.lineWidth=1;
-  PYL.forEach(px=>{ const ty=PYTOP+4;
-    for(let i=1;i<=6;i++){ const dx=i*26;
-      ctx.beginPath(); ctx.moveTo(px,ty); ctx.lineTo(px-dx,DECK_Y); ctx.stroke();
-      ctx.beginPath(); ctx.moveTo(px,ty); ctx.lineTo(px+dx,DECK_Y); ctx.stroke(); }
-  });
-}
-function drawDeck(){
-  ctx.fillStyle='rgba(0,0,0,0.25)'; ctx.fillRect(0,DECK_Y+9,W,4);          // under-deck shadow
-  const d=ctx.createLinearGradient(0,DECK_Y-2,0,DECK_Y+9); d.addColorStop(0,'#3a4048'); d.addColorStop(1,'#262b31');
-  ctx.fillStyle=d; ctx.fillRect(0,DECK_Y-2,W,11);
-  ctx.fillStyle='rgba(232,236,240,0.55)'; ctx.fillRect(0,DECK_Y-2,W,1.2);  // top edge
-  ctx.strokeStyle='rgba(190,196,202,0.4)'; ctx.lineWidth=1;                 // railing posts
-  for(let x=8;x<W;x+=20){ ctx.beginPath(); ctx.moveTo(x,DECK_Y-2); ctx.lineTo(x,DECK_Y-7); ctx.stroke(); }
-}
-function drawPortal(){
-  const topY=DECK_Y-26;
-  ctx.fillStyle='#aeb6c2'; ctx.fillRect(PORTAL_X-3,topY,6,DECK_Y-topY);     // post
-  ctx.fillStyle='#7d8694'; ctx.fillRect(PORTAL_X-22,topY,44,5);             // beam
-  for(let k=0;k<2;k++){ const y=LANE_Y[k], f=gFlash[k];
-    if(f>0.04) light(PORTAL_X,y,12,'rgba(95,170,235,'+(0.6*f)+')',1);
-    ctx.fillStyle=f>0.1?'#9cd0ff':'#5b6472'; ctx.fillRect(PORTAL_X-5,y-3,10,4); }
-  ctx.fillStyle='#0c6b4f'; ctx.beginPath(); ctx.roundRect(PORTAL_X-16,topY-13,32,12,3); ctx.fill();
-  ctx.fillStyle='#dff3ea'; ctx.font='700 8px Inter,sans-serif'; ctx.textAlign='center'; ctx.fillText('TOLL',PORTAL_X,topY-4);
-}
+      <p class="body" id="s4intro2"></p>
+      <div class="fin-wrap">
+        <div class="fin-col">
+          <div class="fin-h" id="finStackH">The capital stack</div>
+          <div class="fin-split-lbl"><span id="finSplitL">Who bears the cost</span><span id="finSplitR">allocation</span></div>
+          <div class="fin-split" id="finSplit"></div>
+          <ul class="fin-list" id="finList"></ul>
+          <p class="fin-note" id="finNote"></p>
+        </div>
+        <div class="fin-col">
+          <div class="fin-h">Build timeline · concept to opening</div>
+          <ol class="tl" id="finTimeline"></ol>
+        </div>
+      </div>
+    </div>
 
-function drawVehicle(v){
-  const fwd=v.dir>0; const x=v.x, y=v.y, w=v.w, h=v.h;
-  ctx.save();
-  if(v.type==='hgv'){
-    const cabW=7; const cx=fwd? x+w/2-cabW : x-w/2;
-    ctx.fillStyle='#caa24a'; ctx.beginPath(); ctx.roundRect(x-w/2,y-h/2,w,h,2); ctx.fill();
-    ctx.fillStyle=v.col; ctx.beginPath(); ctx.roundRect(cx,y-h/2-1,cabW,h+1,2); ctx.fill();
-  } else {
-    ctx.fillStyle=v.col; ctx.beginPath(); ctx.roundRect(x-w/2,y-h/2,w,h,2.5); ctx.fill();
-    ctx.fillStyle='rgba(225,240,235,0.45)'; ctx.beginPath(); ctx.roundRect(x-w/2+2.5,y-h/2+1,w-5,h-2.5,1.2); ctx.fill();
-  }
-  ctx.fillStyle='rgba(255,244,210,0.9)'; const hx=fwd?x+w/2-1:x-w/2; ctx.fillRect(hx,y-h/2+0.5,1.3,1.3);
-  ctx.restore();
-}
+    <!-- 4 · cash flows & returns -->
+    <div class="sec" id="returns">
+      <div class="sec-head"><span class="sec-no">04</span><h2>Cash flows &amp; returns</h2></div>
+      <p class="calc-note" id="calcNote"></p>
 
-function spawnVehicle(target){
-  if(cars.length>=target+2) return;
-  const lane=Math.floor(Math.random()*2), dir=LANE_DIR[lane], y=LANE_Y[lane];
-  const ent=dir>0?-20:W+20;
-  for(const c of cars){ if(c.lane===lane && Math.abs(c.x-ent)<40) return; }
-  const isH=Math.random()<visHgv;
-  const sp=(isH?rnd(1.0,1.3):rnd(1.6,2.2))*dir;
-  cars.push({lane,y,dir,x:ent,sp, type:isH?'hgv':'car', col:isH?C.comm:C.aero, w:isH?24:13, h:isH?8:7, tolled:false});
-}
+      <div class="calc-grid">
+        <div class="cgroup"><h4>Build &amp; operating</h4>
+          <div class="cfield"><label>Build / entry cost</label><span class="ig"><input id="iBuild" type="number" value="19600" step="100"><span class="u" id="uBuild">m</span></span></div>
+          <div class="cfield"><label>Public grant / contribution</label><span class="ig"><input id="iGrant" type="number" value="0" step="50"><span class="u" id="uGrant">m</span></span></div>
+          <div class="cfield"><label>Maintenance capex</label><span class="ig"><input id="iCapex" type="number" value="4" step="0.5"><span class="u">%</span></span></div>
+          <div class="cfield"><label>Revenue growth p.a.</label><span class="ig"><input id="iRevG" type="number" value="2" step="0.5"><span class="u">%</span></span></div>
+        </div>
+        <div class="cgroup"><h4>Revenue regime &amp; tax</h4>
+          <div class="cfield"><label>Revenue floor</label><span class="ig"><input id="iFloor" type="number" value="0" step="50"><span class="u" id="uFloor">m</span></span></div>
+          <div class="cfield"><label>Revenue cap</label><span class="ig"><input id="iCap" type="number" value="9000" step="50"><span class="u" id="uCap">m</span></span></div>
+          <div class="cfield"><label>Tax rate</label><span class="ig"><input id="iTax" type="number" value="22" step="1"><span class="u">%</span></span></div>
+          <div class="cfield"><label>Exit EV / EBITDA</label><span class="ig"><input id="iExit" type="number" value="18" step="0.5"><span class="u">×</span></span></div>
+        </div>
+        <div class="cgroup"><h4>Financing &amp; hold</h4>
+          <div class="cfield"><label>Leverage (Net&nbsp;debt&nbsp;/&nbsp;EBITDA)</label><span class="ig"><input id="iLev" type="number" value="6" step="0.5"><span class="u">×</span></span></div>
+          <div class="cfield"><label>Cost of debt</label><span class="ig"><input id="iRd" type="number" value="4" step="0.25"><span class="u">%</span></span></div>
+          <div class="cfield"><label>Debt amortisation p.a.</label><span class="ig"><input id="iAmort" type="number" value="2" step="1"><span class="u">%</span></span></div>
+          <div class="cfield"><label>Hold period</label><span class="ig"><input id="iHold" type="number" value="25" step="1" min="3" max="40"><span class="u">y</span></span></div>
+        </div>
+      </div>
 
-function update(dt){
-  const AADT=parseFloat(dTen.value), toll=parseFloat(dRent.value), hgvShare=parseFloat(dTow.value)/100;
-  visAADT=AADT; visHgv=hgvShare;
+      <div class="out-cards">
+        <div class="ocard unlev"><div class="k">Unlevered IRR</div><div class="v" id="oUIRR">—</div><div class="s">asset / project return</div></div>
+        <div class="ocard lev"><div class="k">Levered IRR</div><div class="v" id="oLIRR">—</div><div class="s">return to equity</div></div>
+        <div class="ocard"><div class="k">Equity multiple</div><div class="v" id="oMOIC">—</div><div class="s">MOIC over hold</div></div>
+        <div class="ocard"><div class="k">Payback</div><div class="v" id="oPB">—</div><div class="s">project, undiscounted</div></div>
+      </div>
 
-  // ---- vehicle flow: density scales with crossings; heavy share sets the mix ----
-  const target=Math.round(lerp(8,30,(AADT-20000)/130000));
-  if(Math.random()<0.6*simSpd*Math.min(1,target/8)) spawnVehicle(target);
-  for(let k=0;k<2;k++) gFlash[k]*=Math.pow(0.9,dt);
-  for(let i=cars.length-1;i>=0;i--){ const v=cars[i]; const px=v.x; v.x+=v.sp*dt*1.1;
-    // toll crossing
-    if(!v.tolled && ((v.dir>0 && px<PORTAL_X && v.x>=PORTAL_X)||(v.dir<0 && px>PORTAL_X && v.x<=PORTAL_X))){
-      v.tolled=true; gFlash[v.lane]=1;
-      if(moneys.length<46) moneys.push({x:PORTAL_X,y:v.y-9,label:v.type==='hgv'?'Heavy':'Car',col:v.col,life:1.0,vy:-0.7});
-    }
-    if(v.x<-40||v.x>W+40) cars.splice(i,1);
-  }
-  // ship drifting under the bridge
-  boat.x+=boat.sp*dt; if(boat.x>W+60){ boat.x=-60; boat.y=WATER_Y+rnd(12,34); boat.sp=rnd(0.2,0.4); }
-  // occasional operating-cost marker
-  grT-=dt; if(grT<=0){ grT=rnd(170,300)/simSpd; const ex=rnd(60,W-60); moneys.push({x:ex,y:DECK_Y-18,label:Math.random()<0.5?'Inspection':'Maintenance',col:C.cost,life:1.3,vy:-0.5}); }
-  for(let i=moneys.length-1;i>=0;i--){ const m=moneys[i]; m.y+=m.vy*dt; m.vy*=0.97; m.life-=dt*0.014; if(m.life<=0) moneys.splice(i,1); }
+      <div class="calc-sum" id="calcSum"></div>
 
-  // ---- finance: revenue = crossings × toll; light vs heavy (×2.5) + commercial ----
-  const lightVeh=AADT*(1-hgvShare), heavyVeh=AADT*hgvShare, txnsYr=AADT*DAYS;
-  const lightYr=lightVeh*DAYS*toll, heavyYr=heavyVeh*DAYS*toll*HGV_MULT, ancYr=txnsYr*0.05;
-  const revYr0=lightYr+heavyYr+ancYr;
-  const nR=[lightYr,heavyYr,ancYr].map(v=>v/HRS_PER_YR);
-  const nC=COSTS.map(c=> c.driver==='fixed'? c.base/HRS_PER_YR : c.driver==='txn'? txnsYr*c.rate/HRS_PER_YR : revYr0*c.rate/HRS_PER_YR);
-  rSmooth=rSmooth.map((v,i)=>lerp(v,nR[i],0.06));
-  cSmooth=cSmooth.map((v,i)=>lerp(v,nC[i],0.06));
+      <div class="jwrap">
+        <div class="jhead"><span class="t">Cash-flow profile — equity</span><span class="lg"><span style="color:var(--cost)">■</span> invested &nbsp; <span style="color:var(--accent)">■</span> returned</span></div>
+        <div class="jchart" id="jchart"><div class="jaxis"></div></div>
+      </div>
 
-  const totR=rSmooth.reduce((x,y)=>x+y,0), totC=cSmooth.reduce((x,y)=>x+y,0), totP=totR-totC;
-  const anTot=rSmooth[0], coTot=totR-anTot;   // till 1 = light vehicles, till 2 = heavy + roadside
-  const revYr=totR*HRS_PER_YR, ebYr=totP*HRS_PER_YR, EV=ebYr*EV_MULT;
-  baseRevYr=revYr; baseCostYr=totC*HRS_PER_YR; baseEbYr=ebYr;
-  cumEB+=totP*dt/60; cumVeh+=AADT*dt/60;
+      <details class="more">
+        <summary>Show the year-by-year schedule</summary>
+        <div class="jwrap tscroll" style="margin-top:.6rem">
+          <table class="ptable"><thead id="ptHead"></thead><tbody id="ptBody"></tbody></table>
+        </div>
+      </details>
+    </div>
 
-  document.getElementById('kRev').textContent=money(revYr);
-  document.getElementById('kRevHr').textContent=money(totR);
-  document.getElementById('kEb').textContent=money(ebYr);
-  document.getElementById('kEb').style.color=totP>=0?'var(--aero)':'var(--cost)';
-  document.getElementById('kMargin').textContent=Math.round(totP/totR*100)+'%';
-  document.getElementById('kYield').textContent='£'+(revYr/Math.max(1,txnsYr)).toFixed(2);
-  document.getElementById('kPaxYr').textContent=Math.round(AADT).toLocaleString();
-  document.getElementById('kThru').textContent=Math.round(hgvShare*100)+'%';
-  document.getElementById('sPax').textContent=num(cumVeh);
-  document.getElementById('sCap').textContent=AADT.toLocaleString();
-  document.getElementById('sBank').textContent=money(cumEB);
-  document.getElementById('sEV').textContent= ebYr>0 ? money(EV) : '—';
+    <!-- 5 · what drives the return -->
+    <div class="sec" id="drivers">
+      <div class="sec-head"><span class="sec-no">05</span><h2>What drives the return</h2></div>
+      <p class="body" id="s6intro"></p>
+      <ul class="breakers" id="breakers"></ul>
+    </div>
 
-  const aPct=Math.round(anTot/totR*100);
-  document.getElementById('splitTot').textContent=money(revYr);
-  document.getElementById('segAero').style.width=aPct+'%';
-  document.getElementById('segComm').style.width=(100-aPct)+'%';
-  document.getElementById('segAero').textContent='Light '+money(anTot*HRS_PER_YR)+' · '+aPct+'%';
-  document.getElementById('segComm').textContent='Heavy+ '+money(coTot*HRS_PER_YR)+' · '+(100-aPct)+'%';
-
-  document.getElementById('revSum').textContent=money(revYr)+' p.a.';
-  document.getElementById('costSum').textContent=money(totC*HRS_PER_YR)+' p.a.';
-  const maxR=Math.max(...rSmooth,1);
-  rSmooth.forEach((v,i)=>{ const b=document.getElementById('rb'+i),a2=document.getElementById('ra'+i);
-    if(b) b.style.width=Math.round(v/maxR*100)+'%'; if(a2) a2.textContent=money(v*HRS_PER_YR); });
-  const maxC=Math.max(...cSmooth,1);
-  cSmooth.forEach((v,i)=>{ const b=document.getElementById('cb'+i),a2=document.getElementById('ca'+i);
-    if(b) b.style.width=Math.round(v/maxC*100)+'%'; if(a2) a2.textContent=money(v*HRS_PER_YR); });
-
-  ebSample+=dt; if(ebSample>4){ ebSample=0; ebHist.push(ebYr); if(ebHist.length>90) ebHist.shift(); }
-}
-const ebHist=[]; let ebSample=0;
-
-function drawHUD(){
-  const x=10,y=10,w=216,h=58; ctx.save();
-  ctx.fillStyle='rgba(10,20,34,0.62)'; ctx.beginPath(); ctx.roundRect(x,y,w,h,8); ctx.fill();
-  ctx.strokeStyle='rgba(255,255,255,0.08)'; ctx.lineWidth=1; ctx.stroke();
-  light(x+13,y+13,5,'rgba(55,192,142,1)',0.7);
-  ctx.fillStyle=C.aero; ctx.beginPath(); ctx.arc(x+13,y+13,3,0,Math.PI*2); ctx.fill();
-  ctx.fillStyle='#cfe0ea'; ctx.font='700 9px Inter,sans-serif'; ctx.textAlign='left'; ctx.fillText('TOLL BRIDGE — LIVE',x+23,y+16);
-  ctx.fillStyle='rgba(170,190,205,0.85)'; ctx.font='9px Inter,sans-serif';
-  ctx.fillText((visAADT/1000).toFixed(0)+'k crossings/day  ·  '+Math.round(visHgv*100)+'% heavy',x+12,y+30);
-  if(ebHist.length>2){ const sx=x+12,sy=y+38,sh=14,sw=w-24;
-    const mn=Math.min(...ebHist,0),mx=Math.max(...ebHist,1),rng=Math.max(1,mx-mn);
-    ctx.beginPath(); ebHist.forEach((v,i)=>{ const px=sx+i/(ebHist.length-1)*sw, py=sy+sh-(v-mn)/rng*sh; i===0?ctx.moveTo(px,py):ctx.lineTo(px,py); });
-    ctx.strokeStyle=C.aero; ctx.lineWidth=1.5; ctx.stroke();
-    ctx.lineTo(sx+sw,sy+sh); ctx.lineTo(sx,sy+sh); ctx.closePath(); ctx.fillStyle='rgba(55,192,142,0.16)'; ctx.fill();
-    ctx.fillStyle='#9fe0c4'; ctx.font='700 9px Inter,sans-serif'; ctx.textAlign='right';
-    ctx.fillText('EBITDA '+money(ebHist[ebHist.length-1])+'/yr',x+w-12,y+34); }
-  ctx.restore();
-}
-
-function draw(){
-  ctx.clearRect(0,0,W,H); drawScene();
-  drawBoat();
-  drawPylons(); drawCables(); drawDeck();
-  cars.filter(v=>v.lane===0).forEach(drawVehicle);
-  cars.filter(v=>v.lane===1).forEach(drawVehicle);
-  drawPortal();
-  ctx.fillStyle='rgba(160,180,190,0.55)'; ctx.font='700 7px Inter,sans-serif'; ctx.textAlign='center'; ctx.fillText('TOLLED CROSSING — every vehicle is charged at the toll point',W/2,H-8);
-  moneys.forEach(m=>{ const a=Math.max(0,Math.min(1,m.life*0.8)); ctx.save(); ctx.globalAlpha=a;
-    ctx.font='700 9px Inter,sans-serif'; ctx.textAlign='left'; const cost=(m.col===C.cost); const tw=ctx.measureText((cost?'−£ ':'£ ')+m.label).width;
-    ctx.fillStyle='rgba(8,16,30,0.55)'; ctx.beginPath(); ctx.roundRect(m.x-tw/2-4,m.y-9,tw+8,13,6); ctx.fill();
-    ctx.fillStyle=m.col; ctx.fillText((cost?'−£ ':'£ ')+m.label,m.x-tw/2,m.y+1); ctx.restore(); });
-  drawHUD();
-  ctx.save(); const vg=ctx.createRadialGradient(W/2,H/2,H*0.4,W/2,H/2,H*0.95);
-  vg.addColorStop(0,'rgba(0,0,0,0)'); vg.addColorStop(1,'rgba(0,0,0,0.28)'); ctx.fillStyle=vg; ctx.fillRect(0,0,W,H); ctx.restore();
-}
-
-// ---- floating mini-simulation ----
-const stageEl=document.querySelector('#brsim .as-stage');
-const miniEl=document.getElementById('asMini');
-const cvm=document.getElementById('cvMini'), mctx=cvm.getContext('2d');
-const MW=440, MH=220, MDPR=Math.max(2,Math.min(3,window.devicePixelRatio||1));
-cvm.width=MW*MDPR; cvm.height=MH*MDPR; mctx.setTransform(MDPR,0,0,MDPR,0,0);
-let miniOn=false;
-if(miniEl){
-  miniEl.addEventListener('click',()=>{ (stageEl||miniEl).scrollIntoView({behavior:'smooth',block:'center'}); });
-  if('IntersectionObserver' in window && stageEl){
-    new IntersectionObserver(es=>{ es.forEach(e=>{ miniOn=!e.isIntersecting; miniEl.classList.toggle('show',miniOn); }); },
-      {threshold:0, rootMargin:'-72px 0px -10% 0px'}).observe(stageEl);
-  }
-}
-
-let lastTs=null;
-function loop(ts){
-  if(!lastTs) lastTs=ts; const dt=Math.min((ts-lastTs)/16.67,3)*simSpd; lastTs=ts; T+=dt;
-  update(dt); draw();
-  if(miniOn){ mctx.clearRect(0,0,MW,MH); mctx.drawImage(cv,0,0,MW,MH); }
-  if((cTick=(cTick+1)%12)===0) renderModel();
-  requestAnimationFrame(loop);
-}
-requestAnimationFrame(loop);
-})();
-</script>
+    <p class="ix-src" id="ixSrc"></p>
+    <p class="ix-src">See also the standalone <a href="bridge-sim.html">live toll-bridge simulation</a> — a generic estuary crossing with animated traffic and the same revenue → EBITDA → returns build.</p>
 
   </div>
 </section>
 
 <footer>
   <div class="wrap">
-    <div class="footer-text">© 2026 Infrastructure Investor | theinfrastructureinvestor.com</div>
+    <div class="footer-text">© 2026 Infrastructure Investor | theinfrastructureinvestor.com · <a href="community.html" style="color:var(--accent);text-decoration:none;font-weight:600">Community</a></div>
   </div>
 </footer>
 
+<script src="br-geo.js"></script>
+<script src="br-bridges.js" defer></script>
 <script src="site.js" defer></script>
 </body>
 </html>
