@@ -23,39 +23,42 @@
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,500;0,8..60,600;1,8..60,400&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="styles.css">
 <style>
-/* section rail */
-.ix-rail{position:sticky;top:0;z-index:80;background:rgba(255,255,255,0.92);backdrop-filter:blur(10px);border-bottom:1px solid var(--border)}
-.ix-rail .wrap{display:flex;gap:.1rem;overflow-x:auto;padding:.5rem 2rem;scrollbar-width:none}
-.ix-rail .wrap::-webkit-scrollbar{display:none}
-.ix-rail a{flex:0 0 auto;font-size:.72rem;font-weight:600;color:var(--muted);text-decoration:none;padding:.4rem .7rem;border-radius:8px;white-space:nowrap;transition:all .12s}
-.ix-rail a:hover{color:var(--accent)}
-.ix-rail a.on{color:var(--accent);background:var(--accent-soft)}
-@media(max-width:640px){.ix-rail .wrap{padding:.45rem 1.25rem}}
-
-/* asset switcher */
-.ix-switch{background:var(--surface);border-bottom:1px solid var(--border)}
-.ix-switch .wrap{display:flex;align-items:center;gap:.9rem;flex-wrap:wrap;padding:.85rem 2rem;max-width:880px}
-.ix-switch .lab{font-size:.64rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
-.ix-switch select{font-family:'Source Serif 4',Georgia,serif;font-size:1.02rem;font-weight:500;color:var(--text);background:#fff;border:1px solid var(--border-strong);border-radius:9px;padding:.5rem 2.1rem .5rem .8rem;cursor:pointer;letter-spacing:-.01em;
-  -webkit-appearance:none;appearance:none;background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'><path d='M2 4l4 4 4-4' stroke='%230c6b4f' stroke-width='1.6' fill='none' stroke-linecap='round'/></svg>");background-repeat:no-repeat;background-position:right .7rem center}
-.ix-switch select:focus{outline:none;border-color:var(--accent)}
-.ix-switch .cont{font-size:.72rem;color:var(--text2)}
-.ix-switch .cont b{color:var(--accent);font-weight:600}
-@media(max-width:640px){.ix-switch .wrap{padding:.7rem 1.25rem}}
+/* ---- sticky control bar : worked-example picker + section nav ---- */
+.ix-bar{position:sticky;top:0;z-index:80;background:rgba(255,255,255,0.93);backdrop-filter:blur(10px);border-bottom:1px solid var(--border)}
+.ix-bar .wrap{display:flex;align-items:center;gap:1.1rem;padding:.5rem 2rem;max-width:1000px}
+.ix-bar-pick{display:flex;align-items:center;gap:.5rem;flex:0 0 auto}
+.ix-bar-pick .lab{font-size:.58rem;font-weight:700;letter-spacing:.11em;text-transform:uppercase;color:var(--muted)}
+.ix-bar-pick select{font-family:'Source Serif 4',Georgia,serif;font-size:.92rem;font-weight:500;color:var(--text);background:#fff;border:1px solid var(--border-strong);border-radius:9px;padding:.44rem 1.9rem .44rem .7rem;cursor:pointer;letter-spacing:-.01em;max-width:280px;
+  -webkit-appearance:none;appearance:none;background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'><path d='M2 4l4 4 4-4' stroke='%230c6b4f' stroke-width='1.6' fill='none' stroke-linecap='round'/></svg>");background-repeat:no-repeat;background-position:right .6rem center}
+.ix-bar-pick select:focus{outline:none;border-color:var(--accent)}
+.ix-bar-nav{display:flex;gap:.1rem;overflow-x:auto;scrollbar-width:none;margin-left:auto}
+.ix-bar-nav::-webkit-scrollbar{display:none}
+.ix-bar-nav a{flex:0 0 auto;font-size:.72rem;font-weight:600;color:var(--muted);text-decoration:none;padding:.4rem .65rem;border-radius:8px;white-space:nowrap;transition:all .12s}
+.ix-bar-nav a:hover{color:var(--accent)}
+.ix-bar-nav a.on{color:var(--accent);background:var(--accent-soft)}
+@media(max-width:780px){.ix-bar .wrap{flex-wrap:wrap;gap:.5rem;padding:.5rem 1.25rem}.ix-bar-pick select{max-width:none}.ix-bar-nav{width:100%;margin-left:0}}
 
 #ix{max-width:880px}
-#ix .asset-tag{display:inline-flex;align-items:center;gap:.6rem;font-size:.72rem;font-weight:600;color:var(--text2);background:var(--surface);border:1px solid var(--border);border-radius:999px;padding:.42rem .5rem .42rem .85rem;margin:.1rem 0 .3rem}
-#ix .asset-tag .lab{color:var(--muted);text-transform:uppercase;letter-spacing:.06em;font-size:.62rem}
-#ix .asset-tag .nm{color:var(--text)}
-#ix .asset-tag .geo{color:var(--accent);background:var(--accent-soft);border-radius:999px;padding:.2rem .55rem;font-size:.66rem}
-#ix .sec{padding-top:.6rem;margin-bottom:1.5rem}
+
+/* ---- overview hero (the live asset) ---- */
+.ix-hero{margin:1.4rem 0 .4rem}
+#ix .ix-eyebrow{font-size:.64rem;font-weight:700;letter-spacing:.13em;text-transform:uppercase;color:var(--accent);margin-bottom:.4rem}
+#ix .ix-hero h2{font-family:'Source Serif 4',Georgia,serif;font-weight:500;font-size:2.05rem;line-height:1.04;letter-spacing:-.02em;margin:0;display:inline}
+#ix .ix-geochip{display:inline-block;font-size:.72rem;font-weight:600;color:var(--accent);background:var(--accent-soft);border-radius:999px;padding:.24rem .7rem;margin-left:.6rem;vertical-align:middle;white-space:nowrap}
+#ix .ix-lede{font-size:1.02rem;color:var(--text2);line-height:1.6;max-width:710px;margin:.7rem 0 1.05rem}
+#ix .ix-lede b{color:var(--text);font-weight:600}
+#ix .ix-hint{font-size:.74rem;color:var(--muted);margin:0 0 .55rem;display:flex;align-items:center;gap:.4rem}
+#ix .ix-hint::before{content:'';width:7px;height:7px;border-radius:50%;background:var(--accent);flex:0 0 auto}
+
+#ix .sec{padding-top:.6rem;margin-bottom:1.5rem;scroll-margin-top:64px}
+.ix-hero{scroll-margin-top:64px}
 #ix .sec-head{display:flex;align-items:baseline;gap:.7rem;margin:1.7rem 0 .7rem}
 #ix .sec-no{font-family:'Source Serif 4',Georgia,serif;font-size:1.05rem;font-weight:600;color:var(--accent)}
 #ix .sec-head h2{font-family:'Source Serif 4',Georgia,serif;font-weight:500;font-size:1.55rem;line-height:1.1;letter-spacing:-.015em}
 #ix p.body{font-size:.92rem;color:var(--text2);line-height:1.75;max-width:730px;margin-bottom:.8rem}
 #ix p.body b{color:var(--text);font-weight:600}
 
-#ix .ix-facts{display:grid;grid-template-columns:repeat(6,1fr);gap:.7rem;margin:1.2rem 0}
+#ix .ix-facts{display:grid;grid-template-columns:repeat(6,1fr);gap:.7rem;margin:1rem 0 .2rem}
 #ix .fact{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:.85rem .9rem}
 #ix .fact .n{font-family:'Source Serif 4',Georgia,serif;font-size:1.4rem;color:var(--accent);font-weight:500;line-height:1}
 #ix .fact .l{font-size:.6rem;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;margin-top:.4rem;font-weight:600}
@@ -183,6 +186,7 @@
   #ix .two,#ix .fin-wrap,#ix .breakers{grid-template-columns:1fr}
   #ix .calc-grid{grid-template-columns:1fr}
   #ix .out-cards{grid-template-columns:repeat(2,1fr)}
+  #ix .ix-hero h2{font-size:1.7rem}
 }
 </style>
 </head>
@@ -195,56 +199,48 @@
   </div>
 </nav>
 
-<nav class="ix-rail" aria-label="Sections">
-  <div class="wrap">
-    <a href="#s1" data-step="1">What it is</a>
-    <a href="#s2" data-step="2">How it works</a>
-    <a href="#s3" data-step="3">How it earns</a>
-    <a href="#s4" data-step="4">Costs &amp; financing</a>
-    <a href="#s5" data-step="5">Cash flows &amp; returns</a>
-    <a href="#s6" data-step="6">What drives returns</a>
-  </div>
-</nav>
-
 <section class="hero">
   <div class="wrap">
     <div class="breadcrumb"><a href="index.html">Home</a><span class="sep">/</span><a href="energy-utilities.html">Energy &amp; Utilities</a><span class="sep">/</span>Electricity interconnectors</div>
     <div class="hero-eyebrow">Energy &amp; Utilities</div>
     <h1>Electricity <em>interconnectors</em></h1>
-    <p class="hero-sub">A reference on the high-voltage links that join two power grids — how they work, how they turn a price or dispatch difference into revenue, what they cost to build and run, and how they are financed. Illustrated throughout with a real asset — switch the worked example to compare six business models from six continents.</p>
+    <p class="hero-sub">High-voltage links that join two power grids so electricity can flow to wherever it is most valuable — and the ways an owner turns that flow into an investment. Pick a real asset below and follow it through the map, the business model and a working returns model.</p>
   </div>
 </section>
 
-<div class="ix-switch">
+<div class="ix-bar">
   <div class="wrap">
-    <span class="lab">Worked example</span>
-    <select id="ixSelect" aria-label="Choose a worked example">
-      <option value="celtic">Celtic Interconnector · Ireland ⇄ France</option>
-      <option value="chpe">Champlain Hudson Power Express · Québec ⇄ New York</option>
-      <option value="marinus">Marinus Link · Tasmania ⇄ Victoria</option>
-      <option value="gccia">GCC Interconnection · Gulf grid</option>
-      <option value="garabi">Garabi · Brazil ⇄ Argentina</option>
-      <option value="cahora">Cahora Bassa · Mozambique → South Africa</option>
-    </select>
-    <span class="cont" id="ixCont"></span>
+    <div class="ix-bar-pick">
+      <span class="lab">Example</span>
+      <select id="ixSelect" aria-label="Choose a worked example">
+        <option value="celtic">Celtic Interconnector · Ireland ⇄ France</option>
+        <option value="chpe">Champlain Hudson · Québec ⇄ New York</option>
+        <option value="marinus">Marinus Link · Tasmania ⇄ Victoria</option>
+        <option value="gccia">GCC Interconnection · Gulf grid</option>
+        <option value="garabi">Garabi · Brazil ⇄ Argentina</option>
+        <option value="cahora">Cahora Bassa · Mozambique → South Africa</option>
+      </select>
+    </div>
+    <nav class="ix-bar-nav" aria-label="Sections">
+      <a href="#explore" data-step="1">Overview</a>
+      <a href="#story" data-step="2">How it works</a>
+      <a href="#earn" data-step="3">How it earns</a>
+      <a href="#cost" data-step="4">Costs &amp; financing</a>
+      <a href="#returns" data-step="5">Returns</a>
+      <a href="#drivers" data-step="6">What drives it</a>
+    </nav>
   </div>
 </div>
 
 <section class="tools-section" id="ix">
   <div class="wrap">
 
-    <!-- 1 -->
-    <div class="sec" id="s1">
-      <div class="sec-head"><span class="sec-no">01</span><h2>What it is — and why it exists</h2></div>
-      <div class="asset-tag"><span class="lab">In focus</span><span class="nm" id="ixAssetName">—</span><span class="geo" id="ixAssetGeo">—</span></div>
-      <div id="s1body"></div>
-      <div class="ix-facts" id="ixFacts"></div>
-    </div>
-
-    <!-- 2 -->
-    <div class="sec" id="s2">
-      <div class="sec-head"><span class="sec-no">02</span><h2>How it works</h2></div>
-      <p class="body" id="s2intro"></p>
+    <!-- OVERVIEW / live asset -->
+    <div class="ix-hero" id="explore">
+      <div class="ix-eyebrow">In focus · <span id="ixCont">—</span></div>
+      <div><h2 id="ixAssetName">—</h2><span class="ix-geochip" id="ixAssetGeo">—</span></div>
+      <p class="ix-lede" id="ixLede">—</p>
+      <p class="ix-hint">Drag the sliders to see how the link physically flows — and what it earns.</p>
 
       <div class="ix-ctrls">
         <div class="ctrl"><label>Capacity</label><input type="range" id="ixCap" min="350" max="1400" value="700" step="50"><span class="val" id="ixCapV">700 MW</span></div>
@@ -259,15 +255,24 @@
       <div class="ix-readout">
         <div class="rocard"><div class="k">Flow direction</div><div class="v" id="ixDir">—</div><div class="s" id="ixDirS">—</div></div>
         <div class="rocard"><div class="k">Power on the link</div><div class="v" id="ixMW">—</div><div class="s" id="ixMWs">—</div></div>
-        <div class="rocard"><div class="k" id="ixHrK">Value on the link</div><div class="v" id="ixHr">—</div><div class="s">price gap × flow</div></div>
+        <div class="rocard"><div class="k" id="ixHrK">Value on the link</div><div class="v" id="ixHr">—</div><div class="s">price &times; flow</div></div>
         <div class="rocard"><div class="k">Revenue p.a.</div><div class="v" id="ixYr">—</div><div class="s" id="ixYrS">to the owner</div></div>
       </div>
+
+      <div class="ix-facts" id="ixFacts"></div>
       <p class="try" id="ixTry"></p>
     </div>
 
-    <!-- 3 -->
-    <div class="sec" id="s3">
-      <div class="sec-head"><span class="sec-no">03</span><h2>How it earns</h2></div>
+    <!-- 1 · what it is & how it works -->
+    <div class="sec" id="story">
+      <div class="sec-head"><span class="sec-no">01</span><h2>What it is &amp; how it works</h2></div>
+      <div id="s1body"></div>
+      <p class="body" id="s2intro"></p>
+    </div>
+
+    <!-- 2 · how it earns -->
+    <div class="sec" id="earn">
+      <div class="sec-head"><span class="sec-no">02</span><h2>How it earns</h2></div>
       <p class="body" id="s3intro"></p>
       <div class="two">
         <div class="mcard">
@@ -283,9 +288,9 @@
       </div>
     </div>
 
-    <!-- 4 -->
-    <div class="sec" id="s4">
-      <div class="sec-head"><span class="sec-no">04</span><h2>What it costs, and how it's financed</h2></div>
+    <!-- 3 · costs & financing -->
+    <div class="sec" id="cost">
+      <div class="sec-head"><span class="sec-no">03</span><h2>What it costs, and how it's financed</h2></div>
       <p class="body" id="s4intro1"></p>
 
       <div class="wf-wrap">
@@ -310,9 +315,9 @@
       </div>
     </div>
 
-    <!-- 5 -->
-    <div class="sec" id="s5">
-      <div class="sec-head"><span class="sec-no">05</span><h2>Cash flows &amp; returns</h2></div>
+    <!-- 4 · cash flows & returns -->
+    <div class="sec" id="returns">
+      <div class="sec-head"><span class="sec-no">04</span><h2>Cash flows &amp; returns</h2></div>
       <p class="calc-note" id="calcNote"></p>
 
       <div class="calc-grid">
@@ -358,9 +363,9 @@
       </details>
     </div>
 
-    <!-- 6 -->
-    <div class="sec" id="s6">
-      <div class="sec-head"><span class="sec-no">06</span><h2>What drives the return</h2></div>
+    <!-- 5 · what drives the return -->
+    <div class="sec" id="drivers">
+      <div class="sec-head"><span class="sec-no">05</span><h2>What drives the return</h2></div>
       <p class="body" id="s6intro"></p>
       <ul class="breakers" id="breakers"></ul>
     </div>
