@@ -517,6 +517,7 @@
     if(ctx) setProj(GEO[A.geoKey].bb);
     // header
     set('ixAssetName',A.name); set('ixAssetGeo',A.geo); set('ixCont',A.continent);
+    set('ixBarName',A.name);
     html('ixLede',A.lede);
     // s1
     html('s1body',A.s1);
@@ -570,12 +571,20 @@
   ['iRevG','iTax','iExit','iHold','iLev','iRd','iAmort'].forEach(function(id){
     var e=document.getElementById(id); if(e) e.addEventListener('input',renderModel); });
 
+  // Bring the top of the map just under the sticky bar — but only if it isn't
+  // already comfortably in view (avoid a needless jump / overshoot).
+  function revealMap(){
+    var stage=document.querySelector('.ix-stage');
+    if(!stage || !stage.getBoundingClientRect || !window.scrollTo) return;
+    var bar=document.querySelector('.ix-bar');
+    var barH=(bar&&bar.getBoundingClientRect)?bar.getBoundingClientRect().height:0;
+    var vh=window.innerHeight||800, r=stage.getBoundingClientRect(), gap=barH+12;
+    if(r.top>=gap-2 && r.top<=vh*0.5) return;            // already well placed
+    var target=(window.pageYOffset||window.scrollY||0)+r.top-gap;
+    window.scrollTo({top:Math.max(0,target),behavior:'smooth'});
+  }
   var sel=document.getElementById('ixSelect');
-  if(sel) sel.addEventListener('change',function(){
-    render(sel.value);
-    var st=document.querySelector('.ix-stage');
-    if(st && st.scrollIntoView) st.scrollIntoView({behavior:'smooth',block:'center'});
-  });
+  if(sel) sel.addEventListener('change',function(){ render(sel.value); revealMap(); });
   render(ORDER.indexOf(sel&&sel.value)>=0?sel.value:'celtic');
 
   /* section rail scroll-spy */
