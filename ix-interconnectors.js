@@ -25,6 +25,7 @@
   /* ---------- 1 · CELTIC (Europe · merchant cap-and-floor / regulated) ---------- */
   celtic:{
     name:'Celtic Interconnector', geo:'Ireland ⇄ France', continent:'Europe', cur:'€', geoKey:'celtic',
+    lede:'Ireland\'s first direct link to the European mainland — 700&nbsp;MW of HVDC cable beneath the Celtic Sea, and the cleanest illustration of the merchant-versus-regulated question.',
     s1:'<p class="body">An <b>interconnector</b> is a high-voltage cable that joins two separate electricity grids so power can flow between them. Grids are otherwise islands: each balances its own supply and demand, and prices can differ sharply across a border at the same moment. A link lets electricity move to wherever it is scarcest — and therefore dearest.</p>'+
        '<p class="body">Three forces drive the build-out: <b>security of supply</b>, <b>integrating renewables</b> (exporting surplus wind instead of curtailing it, importing when it is calm), and <b>price convergence</b>. At 700&nbsp;MW the Celtic Interconnector can carry roughly the consumption of <b>450,000 homes</b>, and is Ireland\'s first direct link to the continental European grid — until now it was tethered only to Great Britain.</p>',
     facts:[['700 MW','Capacity','≈ 450,000 homes'],['575 km','Route length','~500 km on the seabed'],['±320 kV','HVDC','direct current'],['~€1.6 bn','Total cost','EirGrid &amp; RTÉ'],['€531 m','EU grant','CEF — largest ever'],['~2027','First power','building now']],
@@ -65,6 +66,7 @@
   /* ---------- 2 · CHAMPLAIN HUDSON (North America · contracted offtake) ---------- */
   chpe:{
     name:'Champlain Hudson Power Express', geo:'Québec ⇄ New York', continent:'North America', cur:'US$', geoKey:'chpe',
+    lede:'1,250&nbsp;MW of clean Québec hydropower, buried and submerged the whole way into New York City — with the price locked in by a 25-year state contract.',
     s1:'<p class="body">The same machine — a high-voltage link joining two grids — but here the business model is the opposite of merchant. <b>CHPE</b> is a 1,250&nbsp;MW HVDC line that carries cheap Québec hydropower 545&nbsp;km south, entirely buried or underwater down Lake Champlain and the Hudson River, into the heart of <b>New York City</b>. No overhead lines: the route hides in a rail corridor and a riverbed, which is what made it permittable.</p>'+
        '<p class="body">It plugs the highest-priced corner of the US grid (NYC, "Zone J") into one of the cheapest, cleanest sources on the continent. At full output it can meet roughly <b>20% of New York City\'s electricity</b> — about a million homes — and displace fossil generation in the city.</p>',
     facts:[['1,250 MW','Capacity','≈ 1m NYC homes'],['545 km','Route length','~309 km underwater'],['±320 kV','HVDC VSC','buried &amp; subsea'],['~US$6 bn','Total cost','Blackstone / TDI'],['25 yr','Tier-4 contract','NYSERDA offtake'],['2026','First power','now operating']],
@@ -105,6 +107,7 @@
   /* ---------- 3 · MARINUS LINK (Oceania · regulated) ---------- */
   marinus:{
     name:'Marinus Link', geo:'Tasmania ⇄ Victoria', continent:'Oceania', cur:'A$', geoKey:'marinus',
+    lede:'A 750&nbsp;MW HVDC spine across the Bass Strait, built to firm the mainland on Tasmania\'s hydro — and remunerated like a regulated utility, not a trader.',
     s1:'<p class="body"><b>Marinus Link</b> is a planned 255&nbsp;km subsea HVDC connection across the Bass Strait, joining Tasmania to the Victorian mainland and tripling the link between the two. Its first stage is a single 750&nbsp;MW cable; a second would take it to 1,500&nbsp;MW. The case is renewables, not arbitrage: it lets the mainland lean on Tasmania\'s hydro and pumped storage — the "<b>Battery of the Nation</b>" — while exporting Tasmanian and offshore wind north.</p>'+
        '<p class="body">Stage 1 alone can shift the output of roughly <b>750,000 homes</b> across the strait, and is the spine of a plan to firm a renewable-heavy National Electricity Market with dispatchable storage.</p>',
     facts:[['750 MW','Capacity (Stage 1)','≈ 750,000 homes'],['345 km','Route length','~255 km subsea'],['±320 kV','HVDC VSC','Bass Strait'],['~A$3.5 bn','Cost (Stage 1)','cable + converters'],['A$3.8 bn','CEFC loan','concessional'],['~2030','First power','building']],
@@ -145,6 +148,7 @@
   /* ---------- 4 · GCC INTERCONNECTION (Asia · reserve-sharing) ---------- */
   gccia:{
     name:'GCC Interconnection', geo:'Gulf grid', continent:'Asia', cur:'US$', geoKey:'gccia',
+    lede:'A 400&nbsp;kV backbone tying six Gulf states into one grid, where the payoff is the blackout that never happens — not the megawatt-hour traded.',
     s1:'<p class="body">Not every interconnector is a single cable. The <b>GCC Interconnection</b> is a 400&nbsp;kV backbone — about 913&nbsp;km of line plus a subsea cable to Bahrain — that ties together the national grids of <b>six Gulf states</b>: Saudi Arabia, Kuwait, Bahrain, Qatar, the UAE and Oman. Its purpose is not arbitrage at all. It is <b>reserve-sharing</b>: letting any member lean on the others\' spare capacity in an emergency, instead of each building its own costly standby plant.</p>'+
        '<p class="body">Because the Saudi grid runs at 60&nbsp;Hz and the others at 50&nbsp;Hz, the two are joined by a <b>back-to-back HVDC station at Al&nbsp;Fadhili</b>. In its first decade the grid is credited with averting more than <b>1,950 disturbances</b> across the region.</p>',
     facts:[['~2,000 MW','Exchange capacity','firm transfer'],['913 km','400 kV backbone','+ subsea to Bahrain'],['6','Member states','one shared grid'],['~US$1.5 bn','Phase-I cost','member equity'],['1,950+','Disturbances averted','in ~11 years'],['2009','Energised','Phase I']],
@@ -185,6 +189,7 @@
   /* ---------- 5 · GARABI (South America · back-to-back, contracted) ---------- */
   garabi:{
     name:'Garabi', geo:'Brazil ⇄ Argentina', continent:'South America', cur:'US$', geoKey:'garabi',
+    lede:'A 2,200&nbsp;MW back-to-back converter on the Brazil–Argentina border: a frequency firewall joining a 50&nbsp;Hz market to a 60&nbsp;Hz one, with no cable in between.',
     s1:'<p class="body">Argentina and Brazil run their grids at <b>different frequencies</b> — 50&nbsp;Hz and 60&nbsp;Hz — so they can never be wired together directly. <b>Garabi</b> solves this with a <b>back-to-back HVDC station</b> on the border at the Uruguay River: it converts incoming AC to DC and straight back to AC at the other frequency, in a single yard, with no long cable. It is a frequency firewall that lets controlled power cross between two otherwise-incompatible markets.</p>'+
        '<p class="body">At <b>2,200&nbsp;MW</b> across two 1,100&nbsp;MW phases, Garabi was for years the most powerful back-to-back link in the world — built to ship cheap Argentine power into Brazil.</p>',
     facts:[['2,200 MW','Capacity','2 × 1,100 MW'],['B2B','Back-to-back HVDC','50 ↔ 60 Hz'],['490 km','500 kV AC lines','either side'],['~US$0.7 bn','Total cost','CIEN / Endesa'],['2000–02','Commissioned','two phases'],['Taesa','Operator today','concession']],
@@ -225,6 +230,7 @@
   /* ---------- 6 · CAHORA BASSA (Africa · long-term PPA export) ---------- */
   cahora:{
     name:'Cahora Bassa HVDC', geo:'Mozambique → South Africa', continent:'Africa', cur:'US$', geoKey:'cahora',
+    lede:'One of the oldest and longest HVDC lines on Earth — 1,414&nbsp;km carrying Zambezi hydropower from Mozambique into South Africa under a decades-old export contract.',
     s1:'<p class="body">One of the oldest and longest HVDC links on earth, and a different species again: a <b>1,414&nbsp;km overhead line</b> that carries hydropower from the <b>Cahora Bassa dam</b> on the Zambezi, at Songo in northern Mozambique, all the way to the <b>Apollo</b> station near Johannesburg. Commissioned in 1979, it was the first HVDC scheme built with thyristor valves from the outset.</p>'+
        '<p class="body">At up to <b>1,920&nbsp;MW</b> it is a single-purpose export machine — Mozambican water turned into firm power sold across a border into South Africa. In 2024 it delivered <b>12.3&nbsp;TWh</b>, two-thirds of it to Eskom.</p>',
     facts:[['~1,920 MW','Capacity','≈ 2m homes'],['1,414 km','HVDC line','Songo → Apollo'],['±533 kV','HVDC bipole','overhead'],['1979','Commissioned','among the oldest'],['12.3 TWh','Delivered (2024)','66% to Eskom'],['~92.5%','Mozambique-owned','via HCB']],
@@ -510,8 +516,8 @@
     A=ASSETS[key]; CUR=A.cur;
     if(ctx) setProj(GEO[A.geoKey].bb);
     // header
-    set('ixAssetName',A.name); set('ixAssetGeo',A.geo);
-    html('ixCont','<b>'+A.continent+'</b>');
+    set('ixAssetName',A.name); set('ixAssetGeo',A.geo); set('ixCont',A.continent);
+    html('ixLede',A.lede);
     // s1
     html('s1body',A.s1);
     html('ixFacts',A.facts.map(function(f){ return '<div class="fact"><div class="n">'+f[0]+'</div><div class="l">'+f[1]+'</div><div class="d">'+f[2]+'</div></div>'; }).join(''));
@@ -565,11 +571,15 @@
     var e=document.getElementById(id); if(e) e.addEventListener('input',renderModel); });
 
   var sel=document.getElementById('ixSelect');
-  if(sel) sel.addEventListener('change',function(){ render(sel.value); });
+  if(sel) sel.addEventListener('change',function(){
+    render(sel.value);
+    var st=document.querySelector('.ix-stage');
+    if(st && st.scrollIntoView) st.scrollIntoView({behavior:'smooth',block:'center'});
+  });
   render(ORDER.indexOf(sel&&sel.value)>=0?sel.value:'celtic');
 
   /* section rail scroll-spy */
-  var links=[].slice.call(document.querySelectorAll('.ix-rail a'));
+  var links=[].slice.call(document.querySelectorAll('.ix-bar-nav a'));
   var secs=links.map(function(a){ return document.getElementById(a.getAttribute('href').slice(1)); });
   if('IntersectionObserver' in window){
     var io=new IntersectionObserver(function(es){ es.forEach(function(e){ if(e.isIntersecting){ var i=secs.indexOf(e.target);
