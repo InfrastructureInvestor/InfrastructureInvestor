@@ -25,7 +25,7 @@
 <style>
 /* ---- sticky control bar : worked-example picker + section nav ---- */
 .ix-bar{position:sticky;top:0;z-index:80;background:rgba(255,255,255,0.93);backdrop-filter:blur(10px);border-bottom:1px solid var(--border)}
-.ix-bar .wrap{display:flex;align-items:center;gap:1.1rem;padding:.5rem 2rem;max-width:1000px}
+.ix-bar .wrap{display:flex;align-items:center;gap:1.1rem;padding:.5rem 2rem;max-width:880px;margin:0 auto}
 .ix-bar-name{font-family:'Source Serif 4',Georgia,serif;font-size:.92rem;font-weight:600;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;flex:0 1 auto}
 .ix-bar-nav{display:flex;gap:.1rem;overflow-x:auto;scrollbar-width:none;margin-left:auto}
 .ix-bar-nav::-webkit-scrollbar{display:none}
@@ -34,7 +34,10 @@
 .ix-bar-nav a.on{color:var(--accent);background:var(--accent-soft)}
 @media(max-width:780px){.ix-bar .wrap{gap:.6rem;padding:.5rem 1.25rem}.ix-bar-name{max-width:55%}}
 
-#ix{max-width:880px}
+/* one consistent centred column — hero, sticky rail, body text and every figure
+   share the same width so the page reads as a single linear column */
+#ix{max-width:880px;margin:0 auto}
+.ixhero .wrap{max-width:880px}
 
 /* ---- overview hero (the live asset) ---- */
 .ix-hero{margin:1.4rem 0 .4rem}
@@ -47,7 +50,7 @@
 #ix .ix-eyebrow{font-size:.64rem;font-weight:700;letter-spacing:.13em;text-transform:uppercase;color:var(--accent);margin-bottom:0}
 #ix .ix-hero h2{font-family:'Source Serif 4',Georgia,serif;font-weight:500;font-size:2.05rem;line-height:1.04;letter-spacing:-.02em;margin:0;display:inline}
 #ix .ix-geochip{display:inline-block;font-size:.72rem;font-weight:600;color:var(--accent);background:var(--accent-soft);border-radius:999px;padding:.24rem .7rem;margin-left:.6rem;vertical-align:middle;white-space:nowrap}
-#ix .ix-lede{font-size:1.02rem;color:var(--text2);line-height:1.6;max-width:710px;margin:.7rem 0 1.05rem}
+#ix .ix-lede{font-size:1.02rem;color:var(--text2);line-height:1.6;margin:.7rem 0 1.05rem}
 #ix .ix-lede b{color:var(--text);font-weight:600}
 #ix .ix-hint{font-size:.74rem;color:var(--muted);margin:0 0 .55rem;display:flex;align-items:center;gap:.4rem}
 #ix .ix-hint::before{content:'';width:7px;height:7px;border-radius:50%;background:var(--accent);flex:0 0 auto}
@@ -57,7 +60,7 @@
 #ix .sec-head{display:flex;align-items:baseline;gap:.7rem;margin:1.7rem 0 .7rem}
 #ix .sec-no{font-family:'Source Serif 4',Georgia,serif;font-size:1.05rem;font-weight:600;color:var(--accent)}
 #ix .sec-head h2{font-family:'Source Serif 4',Georgia,serif;font-weight:500;font-size:1.55rem;line-height:1.1;letter-spacing:-.015em}
-#ix p.body{font-size:.92rem;color:var(--text2);line-height:1.75;max-width:730px;margin-bottom:.8rem}
+#ix p.body{font-size:.92rem;color:var(--text2);line-height:1.75;margin-bottom:.8rem}
 #ix p.body b{color:var(--text);font-weight:600}
 
 #ix .ix-facts{display:grid;grid-template-columns:repeat(6,1fr);gap:.7rem;margin:1rem 0 .2rem}
@@ -201,7 +204,7 @@
   </div>
 </nav>
 
-<section class="hero">
+<section class="hero ixhero">
   <div class="wrap">
     <div class="breadcrumb"><a href="index.html">Home</a><span class="sep">/</span><a href="energy-utilities.html">Energy &amp; Utilities</a><span class="sep">/</span>Electricity interconnectors</div>
     <div class="hero-eyebrow">Energy &amp; Utilities</div>
