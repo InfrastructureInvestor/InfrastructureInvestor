@@ -163,6 +163,67 @@
 }
 
 </style>
+<style>
+/* ===== Real-world example: Celtic Interconnector ===== */
+#celtic{padding-top:.5rem}
+#celtic .cel-eyebrow{font-size:.66rem;letter-spacing:.16em;text-transform:uppercase;font-weight:600;color:var(--accent);margin-bottom:.5rem}
+#celtic .cel-title{font-family:'Source Serif 4',Georgia,serif;font-weight:500;font-size:1.9rem;line-height:1.08;letter-spacing:-.015em;margin-bottom:.55rem}
+#celtic .cel-lead{font-size:.92rem;color:var(--text2);line-height:1.7;max-width:730px}
+#celtic .cel-lead b{color:var(--text);font-weight:600}
+#celtic .band-label{display:flex;align-items:center;gap:.6rem;margin:1.6rem 0 .7rem}
+#celtic .band-label .t{font-size:.66rem;letter-spacing:.08em;text-transform:uppercase;font-weight:600;color:var(--muted)}
+#celtic .band-label .ln{flex:1;height:1px;background:var(--border)}
+#celtic .band-label .hint{font-size:.68rem;color:var(--muted);font-weight:400}
+#celtic .cel-bridge{display:flex;gap:.8rem;align-items:flex-start;background:var(--accent-soft);border:1px solid #cfe6db;border-radius:12px;padding:.9rem 1.1rem;margin:1.15rem 0 .2rem;font-size:.82rem;color:var(--text2);line-height:1.6}
+#celtic .cel-bridge b{color:var(--text);font-weight:600}
+#celtic .cel-bridge .ic{flex-shrink:0;width:26px;height:26px;border-radius:7px;background:#fff;border:1px solid #cfe6db;display:flex;align-items:center;justify-content:center;font-size:.9rem}
+#celtic .cel-facts{display:grid;grid-template-columns:repeat(6,1fr);gap:.7rem;margin:1.3rem 0}
+#celtic .fact{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:.85rem .9rem}
+#celtic .fact .n{font-family:'Source Serif 4',Georgia,serif;font-size:1.4rem;color:var(--accent);font-weight:500;line-height:1}
+#celtic .fact .l{font-size:.6rem;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;margin-top:.4rem;font-weight:600}
+#celtic .fact .d{font-size:.68rem;color:var(--text2);margin-top:.2rem;line-height:1.4}
+#celtic .cel-ctrls{display:flex;gap:.65rem;align-items:center;flex-wrap:wrap;margin:.4rem 0 .7rem;background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:.7rem .9rem}
+#celtic .cel-ctrls .ctrl{display:flex;align-items:center;gap:.6rem}
+#celtic .cel-ctrls label{font-size:.7rem;color:var(--muted);letter-spacing:.04em;text-transform:uppercase;font-weight:600;white-space:nowrap}
+#celtic .cel-ctrls input[type=range]{width:220px;-webkit-appearance:none;appearance:none;height:4px;border-radius:3px;background:linear-gradient(90deg,#bc4733,#e7ebe9,#0c6b4f);outline:none}
+#celtic .cel-ctrls input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;appearance:none;width:16px;height:16px;border-radius:50%;background:#fff;cursor:pointer;border:2px solid var(--accent);box-shadow:0 1px 3px rgba(0,0,0,.25)}
+#celtic .cel-ctrls input[type=range]::-moz-range-thumb{width:16px;height:16px;border-radius:50%;background:#fff;cursor:pointer;border:2px solid var(--accent)}
+#celtic .cel-ctrls .val{font-size:.82rem;font-weight:600;color:var(--text);min-width:118px}
+#celtic .cel-ctrls .hint{font-size:.7rem;color:var(--muted);margin-left:auto}
+#celtic .cel-stage{position:relative;border-radius:14px;overflow:hidden;border:1px solid var(--border);box-shadow:0 12px 34px rgba(18,38,32,.08)}
+#celtic .cel-stage canvas{display:block;width:100%;aspect-ratio:720/360}
+#celtic .cel-readout{display:grid;grid-template-columns:repeat(4,1fr);gap:.7rem;margin-top:.7rem}
+#celtic .rocard{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:.8rem .9rem;position:relative;overflow:hidden}
+#celtic .rocard::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--accent)}
+#celtic .rocard .k{font-size:.6rem;letter-spacing:.05em;text-transform:uppercase;color:var(--muted);font-weight:600;margin-bottom:.3rem}
+#celtic .rocard .v{font-family:'Source Serif 4',Georgia,serif;font-size:1.25rem;font-weight:500;line-height:1.05;color:var(--text)}
+#celtic .rocard .s{font-size:.66rem;color:var(--text2);margin-top:.25rem;line-height:1.4}
+#celtic .cel-note{font-size:.74rem;color:var(--text2);line-height:1.6;margin-top:.7rem;padding:.75rem .9rem;background:var(--surface-2);border:1px solid var(--border);border-radius:10px}
+#celtic .cel-note b{color:var(--text);font-weight:600}
+#celtic .cel-grid{display:grid;grid-template-columns:1fr 1fr;gap:.9rem}
+#celtic .cel-card{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:1.05rem 1.2rem}
+#celtic .cel-card h4{font-size:.92rem;font-weight:600;color:var(--text);margin-bottom:.5rem;letter-spacing:-.01em;display:flex;align-items:center;gap:.5rem}
+#celtic .cel-card h4 .b{flex-shrink:0;width:24px;height:24px;border-radius:7px;background:var(--accent-soft);color:var(--accent);display:flex;align-items:center;justify-content:center;font-size:.85rem}
+#celtic .cel-card p{font-size:.82rem;color:var(--text2);line-height:1.65}
+#celtic .cel-card p b{color:var(--text);font-weight:600}
+#celtic .cel-compare{display:grid;grid-template-columns:1fr 1fr;gap:.9rem}
+#celtic .cmp{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:1.05rem 1.2rem}
+#celtic .cmp.power{background:linear-gradient(180deg,var(--accent-soft),var(--surface))}
+#celtic .cmp h5{font-size:.7rem;letter-spacing:.05em;text-transform:uppercase;color:var(--muted);font-weight:600;margin-bottom:.7rem}
+#celtic .cmp .t{font-family:'Source Serif 4',Georgia,serif;font-size:1.05rem;color:var(--text);margin-bottom:.7rem}
+#celtic .cmp dl{display:grid;grid-template-columns:auto 1fr;gap:.35rem .8rem;font-size:.78rem}
+#celtic .cmp dt{color:var(--muted)}
+#celtic .cmp dd{color:var(--text);font-weight:500;text-align:right}
+#celtic .cel-src{font-size:.7rem;color:var(--muted);line-height:1.8;margin-top:1rem}
+#celtic .cel-src a{color:var(--text2);text-decoration:none;border-bottom:1px solid var(--border-strong)}
+#celtic .cel-src a:hover{color:var(--accent)}
+@media(max-width:760px){
+  #celtic .cel-facts{grid-template-columns:repeat(3,1fr)}
+  #celtic .cel-readout{grid-template-columns:repeat(2,1fr)}
+  #celtic .cel-grid,#celtic .cel-compare{grid-template-columns:1fr}
+  #celtic .cel-ctrls input[type=range]{width:150px}
+}
+</style>
 </head>
 <body>
 
@@ -178,7 +239,7 @@
     <div class="breadcrumb"><a href="index.html">Home</a><span class="sep">/</span><a href="digital-infrastructure.html">Digital Infrastructure</a><span class="sep">/</span>Subsea cables</div>
     <div class="hero-eyebrow">Digital Infrastructure</div>
     <h1>Subsea <em>cables</em></h1>
-    <p class="hero-sub">An interactive model of how a submarine cable sells transcontinental capacity — and how fill (capacity sold), price per Gbps and design capacity convert into annual revenue, EBITDA and asset value for an investor.</p>
+    <p class="hero-sub">An interactive model of how a submarine cable sells transcontinental capacity — and how fill (capacity sold), price per Gbps and design capacity convert into annual revenue, EBITDA and asset value for an investor. Then a deep-dive on a real asset: the <a href="#celtic" style="color:var(--accent);font-weight:600;text-decoration:none">Celtic Interconnector</a>, the 700&nbsp;MW power cable linking Ireland and France.</p>
   </div>
 </section>
 
@@ -610,6 +671,239 @@ requestAnimationFrame(loop);
 
   </div>
 </section>
+
+<section class="tools-section" id="celtic">
+  <div class="wrap">
+
+    <div class="section-header">
+      <div class="section-label">Real-world example</div>
+      <div class="section-line"></div>
+    </div>
+
+    <div class="cel-head">
+      <div class="cel-eyebrow">Electricity interconnector · Ireland ⇄ France</div>
+      <h2 class="cel-title">The Celtic Interconnector</h2>
+      <p class="cel-lead">Not every subsea cable carries data. The <b>Celtic Interconnector</b> is a <b>700&nbsp;MW high-voltage direct-current (HVDC) power cable</b> being laid 575&nbsp;km under the Celtic Sea to join the Irish and French electricity grids. When it switches on around 2027 it will be Ireland's <b>first direct link to the continental European grid</b> — ending the country's status as an electrical "island" tethered only to Great Britain. It is one of the most strategically important pieces of infrastructure in Europe, and a near-perfect way to see how a subsea link actually earns its keep.</p>
+    </div>
+
+    <div class="cel-bridge">
+      <span class="ic">⚡</span>
+      <span>The interactive model at the top of this page is a <b>data cable</b> — it sells bandwidth. Celtic is its electrical cousin: a <b>power cable</b> that sells the ability to move <b>electricity</b> between two markets. Same physics — a scarce, hard-to-replicate point-to-point link under the sea with a fixed cost base — but a completely different product and revenue model. The map below shows how that one works.</span>
+    </div>
+
+    <div class="cel-facts">
+      <div class="fact"><div class="n">700 MW</div><div class="l">Capacity</div><div class="d">≈ 450,000 homes</div></div>
+      <div class="fact"><div class="n">575 km</div><div class="l">Route length</div><div class="d">~500 km on the seabed</div></div>
+      <div class="fact"><div class="n">±320 kV</div><div class="l">HVDC</div><div class="d">direct current</div></div>
+      <div class="fact"><div class="n">~€1.6 bn</div><div class="l">Total cost</div><div class="d">EirGrid &amp; RTÉ</div></div>
+      <div class="fact"><div class="n">€531 m</div><div class="l">EU grant</div><div class="d">CEF — largest ever</div></div>
+      <div class="fact"><div class="n">~2027</div><div class="l">First power</div><div class="d">building now</div></div>
+    </div>
+
+    <div class="band-label"><span class="t">Follow the power — and the money</span><span class="ln"></span><span class="hint">drag the price gap</span></div>
+    <p class="cel-lead" style="margin-bottom:.6rem">An interconnector is an arbitrage machine: electricity flows from the <b>cheaper</b> market to the <b>dearer</b> one, and the link captures the price difference. Drag the slider to set how much more expensive power is in Ireland than France right now, and watch which way the 700&nbsp;MW flows.</p>
+
+    <div class="cel-ctrls">
+      <div class="ctrl">
+        <label>Price gap · Ireland − France</label>
+        <input type="range" id="celSpread" min="-60" max="60" value="18" step="1">
+        <span class="val" id="celSpreadV">+€18 / MWh</span>
+      </div>
+      <span class="hint">€0 = no flow · positive = Ireland dearer</span>
+    </div>
+
+    <div class="cel-stage"><canvas id="celcv"></canvas></div>
+
+    <div class="cel-readout">
+      <div class="rocard"><div class="k">Flow direction</div><div class="v" id="celDir">France → Ireland</div><div class="s" id="celDirS">importing cheaper French power</div></div>
+      <div class="rocard"><div class="k">Power on the cable</div><div class="v" id="celMW">700 MW</div><div class="s">of 700 MW capacity</div></div>
+      <div class="rocard"><div class="k">Congestion value</div><div class="v" id="celHr">€12,600 / hr</div><div class="s">price gap × flow</div></div>
+      <div class="rocard"><div class="k">Indicative p.a.</div><div class="v" id="celYr">≈ €50m</div><div class="s">if sustained ~45% of the year</div></div>
+    </div>
+
+    <div class="cel-note"><b>Who actually keeps that money?</b> Because Celtic is owned by the regulated grid operators <b>EirGrid</b> and <b>RTÉ</b>, the congestion rent the cable earns is largely passed back to electricity consumers through lower network charges, while the operators recover their ~€1.6&nbsp;bn build through a <b>regulated return</b>. That is the opposite of Britain's "cap-and-floor" interconnectors (like those to France and the Netherlands), where a private owner keeps the arbitrage upside between an Ofgem-set floor and cap. Same cable, very different investment.</div>
+
+    <div class="band-label"><span class="t">How it works</span><span class="ln"></span></div>
+    <div class="cel-grid">
+      <div class="cel-card">
+        <h4><span class="b">⎓</span>Why direct current</h4>
+        <p>Over ~500&nbsp;km of sea, ordinary <b>alternating current</b> wastes itself charging and discharging the cable's own capacitance — it simply won't reach. So the link uses <b>HVDC</b> at ±320&nbsp;kV, which carries bulk power efficiently with low losses. <b>Converter stations</b> at <b>Ballyadam</b> (near Cork) and <b>La Martyre</b> (Brittany) turn each grid's AC into DC for the crossing, then back again at the far end.</p>
+      </div>
+      <div class="cel-card">
+        <h4><span class="b">🧭</span>The route &amp; the build</h4>
+        <p>575&nbsp;km from the <b>Knockraha</b> 400&nbsp;kV substation in East Cork to <b>La Martyre</b> in Finistère — about 500&nbsp;km of it buried in the seabed, the <b>world's longest XLPE interconnector cable</b>. The cable is supplied and laid by <b>Nexans</b> (made in Halden, Norway and Charleroi, Belgium); <b>Siemens Energy</b> builds the converter stations. The route threads past other cables, wrecks and fishing grounds.</p>
+      </div>
+      <div class="cel-card">
+        <h4><span class="b">🌍</span>Why it matters</h4>
+        <p>Ireland was an "<b>energy island</b>," connected only to Great Britain — which, post-Brexit, sits outside the EU's internal energy market. Celtic is its <b>first direct line to the continent</b>: security of supply if one source fails, a route to <b>export future Irish offshore wind</b>, and price convergence with the much larger European market. It is an EU <b>Project of Common Interest</b>.</p>
+      </div>
+      <div class="cel-card">
+        <h4><span class="b">£</span>Who pays, and how it earns</h4>
+        <p>Built by the transmission system operators <b>EirGrid</b> (Ireland) and <b>RTÉ</b> (France) for about <b>€1.6&nbsp;bn</b>, with <b>€530.7m</b> from the EU's Connecting Europe Facility — the largest CEF energy grant ever awarded. As <b>regulated assets</b>, the TSOs earn a set return on the investment; the day-to-day arbitrage value (the slider above) flows back to consumers rather than to a merchant owner.</p>
+      </div>
+    </div>
+
+    <div class="band-label"><span class="t">Two kinds of subsea cable</span><span class="ln"></span><span class="hint">the model vs the real asset</span></div>
+    <div class="cel-compare">
+      <div class="cmp">
+        <h5>The model above</h5>
+        <div class="t">Data cable</div>
+        <dl>
+          <dt>Product</dt><dd>Bandwidth (Tbps)</dd>
+          <dt>Customers</dt><dd>Carriers, hyperscalers</dd>
+          <dt>Contracts</dt><dd>15–25yr IRUs + leases</dd>
+          <dt>Revenue</dt><dd>Capacity × price</dd>
+          <dt>Owner</dt><dd>Merchant infra fund</dd>
+          <dt>Valued on</dt><dd>EV / EBITDA</dd>
+        </dl>
+      </div>
+      <div class="cmp power">
+        <h5>The Celtic Interconnector</h5>
+        <div class="t">Power interconnector</div>
+        <dl>
+          <dt>Product</dt><dd>Electricity transfer (MW)</dd>
+          <dt>Customers</dt><dd>Two power markets</dd>
+          <dt>"Contract"</dt><dd>Capacity auctions / regulated</dd>
+          <dt>Revenue</dt><dd>Congestion rent → consumers</dd>
+          <dt>Owner</dt><dd>Regulated TSOs (EirGrid/RTÉ)</dd>
+          <dt>Valued on</dt><dd>Regulated asset base</dd>
+        </dl>
+      </div>
+    </div>
+
+    <p class="cel-src">Figures from the project's developers and public sources, accurate to the latest available reporting: <a href="https://www.eirgrid.ie/celticinterconnector" target="_blank" rel="noopener">EirGrid</a>, <a href="https://www.rte-france.com/en/projects/celtic-interconnector-interconnection-between-france-ireland" target="_blank" rel="noopener">RTÉ</a>, <a href="https://www.nexans.com/success-stories/activities/success-stories/celtic-interconnector-project/" target="_blank" rel="noopener">Nexans</a>, the <a href="https://energy.ec.europa.eu/" target="_blank" rel="noopener">European Commission (CEF / PCI)</a> and the <a href="https://www.eib.org/en/projects/all/20180149" target="_blank" rel="noopener">European Investment Bank</a>. Dates and costs evolve as construction proceeds; the interactive figures are illustrative, not a forecast of any specific hour's trading.</p>
+
+  </div>
+</section>
+
+<script>
+(function(){
+  var cv=document.getElementById('celcv'); if(!cv) return; var ctx=cv.getContext('2d');
+  var W=720,H=360,DPR=Math.max(2,Math.min(3,window.devicePixelRatio||1));
+  cv.width=W*DPR; cv.height=H*DPR; ctx.setTransform(DPR,0,0,DPR,0,0);
+  var CAP=700, T=0;
+  var slider=document.getElementById('celSpread');
+
+  // cable endpoints (Irish converter -> French converter) and a sea control point
+  var IE={x:212,y:196}, FR={x:556,y:226}, CP={x:384,y:312};
+  function qpt(t){ var u=1-t; return { x:u*u*IE.x+2*u*t*CP.x+t*t*FR.x, y:u*u*IE.y+2*u*t*CP.y+t*t*FR.y }; }
+
+  function landIreland(){
+    ctx.beginPath();
+    ctx.moveTo(44,96);
+    ctx.bezierCurveTo(96,62,196,70,214,118);
+    ctx.bezierCurveTo(236,160,206,206,156,232);
+    ctx.bezierCurveTo(104,254,40,236,30,188);
+    ctx.bezierCurveTo(20,150,22,116,44,96);
+    ctx.closePath();
+  }
+  function landFrance(){
+    ctx.beginPath();
+    ctx.moveTo(720,54); ctx.lineTo(720,340); ctx.lineTo(548,316);
+    ctx.bezierCurveTo(516,306,500,266,540,250);
+    ctx.bezierCurveTo(584,236,604,214,648,210);
+    ctx.bezierCurveTo(624,150,664,86,720,54);
+    ctx.closePath();
+  }
+
+  function station(x,y,label,sub){
+    ctx.fillStyle='#15201d'; ctx.strokeStyle='#fff'; ctx.lineWidth=1.5;
+    ctx.beginPath(); ctx.roundRect(x-8,y-8,16,16,3); ctx.fill(); ctx.stroke();
+    ctx.strokeStyle='#9fe0c4'; ctx.lineWidth=1.4; // little AC/DC glyph
+    ctx.beginPath(); ctx.moveTo(x-4,y-3); ctx.lineTo(x-1,y-3); ctx.moveTo(x-4,y); ctx.lineTo(x-1,y);
+    ctx.moveTo(x+1,y-3); ctx.bezierCurveTo(x+5,y-3,x+5,y+3,x+1,y+3); ctx.stroke();
+    ctx.fillStyle='#15201d'; ctx.font='700 9px Inter,sans-serif'; ctx.textAlign='center'; ctx.fillText(label,x,y-13);
+    ctx.fillStyle='#4c5854'; ctx.font='8px Inter,sans-serif'; ctx.fillText(sub,x,y+20);
+  }
+
+  function priceBadge(x,y,dearer){
+    var txt=dearer?'DEARER ▲':'CHEAPER ▼', col=dearer?'#bc4733':'#0c6b4f';
+    ctx.font='700 8.5px Inter,sans-serif'; ctx.textAlign='center';
+    var w=ctx.measureText(txt).width+14;
+    ctx.fillStyle=dearer?'rgba(188,71,51,0.12)':'rgba(12,107,79,0.12)';
+    ctx.strokeStyle=col; ctx.lineWidth=1;
+    ctx.beginPath(); ctx.roundRect(x-w/2,y-9,w,16,8); ctx.fill(); ctx.stroke();
+    ctx.fillStyle=col; ctx.fillText(txt,x,y+2);
+  }
+
+  function frame(){
+    var spread=parseFloat(slider.value);            // Ireland - France, EUR/MWh
+    var absS=Math.abs(spread);
+    var flow=Math.round(CAP*Math.min(1,absS/15));    // saturates near full by ~15 EUR/MWh
+    var toIE=spread>=0;                               // Ireland dearer -> import to Ireland (FR->IE)
+    if(spread===0) flow=0;
+
+    // ---- canvas ----
+    ctx.clearRect(0,0,W,H);
+    var sea=ctx.createLinearGradient(0,0,0,H); sea.addColorStop(0,'#dcebf3'); sea.addColorStop(1,'#c4dbea');
+    ctx.fillStyle=sea; ctx.fillRect(0,0,W,H);
+    // gentle wave lines
+    ctx.strokeStyle='rgba(120,165,200,0.18)'; ctx.lineWidth=1;
+    for(var y=70;y<H;y+=26){ ctx.beginPath(); for(var x=0;x<=W;x+=20){ var yy=y+Math.sin(x*0.05+T*0.02+y)*1.4; x===0?ctx.moveTo(x,yy):ctx.lineTo(x,yy);} ctx.stroke(); }
+    ctx.fillStyle='rgba(70,110,150,0.45)'; ctx.font='italic 600 12px "Source Serif 4",Georgia,serif'; ctx.textAlign='center'; ctx.fillText('CELTIC SEA',384,96);
+
+    // land
+    landIreland(); ctx.fillStyle='#d3e7d8'; ctx.fill(); ctx.strokeStyle='rgba(12,107,79,0.35)'; ctx.lineWidth=1.2; ctx.stroke();
+    landFrance();  ctx.fillStyle='#d3e7d8'; ctx.fill(); ctx.stroke();
+    ctx.fillStyle='rgba(12,107,79,0.55)'; ctx.font='700 12px Inter,sans-serif'; ctx.textAlign='left'; ctx.fillText('IRELAND',58,150);
+    ctx.textAlign='right'; ctx.fillText('FRANCE',706,120);
+    ctx.fillStyle='#6a7570'; ctx.font='8px Inter,sans-serif';
+    ctx.textAlign='left'; ctx.fillText('Cork',176,210);
+    ctx.textAlign='right'; ctx.fillText('Brittany',620,250);
+
+    // cable casing + line
+    ctx.lineCap='round';
+    ctx.strokeStyle='rgba(20,32,29,0.18)'; ctx.lineWidth=8; drawCable(); ctx.stroke();
+    ctx.strokeStyle='#2b3a34'; ctx.lineWidth=3; drawCable(); ctx.stroke();
+    ctx.lineCap='butt';
+
+    // flow dots
+    if(flow>0){
+      var n=Math.max(3,Math.round(flow/700*22));
+      for(var k=0;k<n;k++){
+        var base=(T*0.012+k/n)%1; var t=toIE?(1-base):base;
+        var p=qpt(t);
+        var glow=0.5+0.5*Math.sin(T*0.1+k);
+        ctx.save(); ctx.globalAlpha=0.85;
+        var g=ctx.createRadialGradient(p.x,p.y,0,p.x,p.y,7); g.addColorStop(0,'rgba(12,107,79,0.9)'); g.addColorStop(1,'rgba(12,107,79,0)');
+        ctx.fillStyle=g; ctx.beginPath(); ctx.arc(p.x,p.y,7,0,Math.PI*2); ctx.fill();
+        ctx.fillStyle='#0c6b4f'; ctx.beginPath(); ctx.arc(p.x,p.y,2.1+glow*0.7,0,Math.PI*2); ctx.fill(); ctx.restore();
+      }
+      // direction arrow + MW at mid
+      var mid=qpt(0.5), ahead=qpt(toIE?0.42:0.58);
+      var ang=Math.atan2(mid.y-ahead.y,mid.x-ahead.x);
+      ctx.save(); ctx.translate(mid.x,mid.y-20); ctx.rotate(ang);
+      ctx.fillStyle='#0c6b4f'; ctx.beginPath(); ctx.moveTo(12,0); ctx.lineTo(-6,-6); ctx.lineTo(-6,6); ctx.closePath(); ctx.fill(); ctx.restore();
+      ctx.fillStyle='#15201d'; ctx.font='700 12px Inter,sans-serif'; ctx.textAlign='center'; ctx.fillText(flow+' MW',mid.x,mid.y-26);
+    } else {
+      var m0=qpt(0.5); ctx.fillStyle='#8a948f'; ctx.font='700 11px Inter,sans-serif'; ctx.textAlign='center'; ctx.fillText('no flow — prices level',m0.x,m0.y-22);
+    }
+
+    // converter stations + price badges
+    station(IE.x,IE.y,'Ballyadam','converter · Cork');
+    station(FR.x,FR.y,'La Martyre','converter · Brittany');
+    if(spread!==0){ priceBadge(IE.x,IE.y+34,toIE); priceBadge(FR.x,FR.y+34,!toIE); }
+
+    ctx.fillStyle='rgba(40,60,80,0.6)'; ctx.font='700 8px Inter,sans-serif'; ctx.textAlign='center';
+    ctx.fillText('HVDC LINK · ±320 kV · 700 MW · 575 km',384,H-10);
+
+    // ---- readout ----
+    var hourly=absS*flow;                              // EUR/h
+    var annual=hourly*8760*0.45;                       // illustrative
+    var sgn=spread>0?'+':(spread<0?'−':''); set('celSpreadV',sgn+'€'+Math.abs(spread)+' / MWh');
+    set('celDir', flow===0?'No flow':(toIE?'France → Ireland':'Ireland → France'));
+    set('celDirS', flow===0?'prices are level':(toIE?'importing cheaper French power':'exporting cheaper Irish power'));
+    set('celMW', flow+' MW');
+    set('celHr', flow===0?'€0 / hr':'€'+Math.round(hourly).toLocaleString()+' / hr');
+    set('celYr', flow===0?'€0':'≈ €'+(annual/1e6).toFixed(0)+'m');
+  }
+  function drawCable(){ ctx.beginPath(); ctx.moveTo(IE.x,IE.y); ctx.quadraticCurveTo(CP.x,CP.y,FR.x,FR.y); }
+  function set(id,t){ var e=document.getElementById(id); if(e) e.textContent=t; }
+
+  slider.addEventListener('input',frame);
+  (function loop(){ T+=1; frame(); requestAnimationFrame(loop); })();
+})();
+</script>
 
 <footer>
   <div class="wrap">
