@@ -211,7 +211,7 @@
 
   <div class="page-header">
     <h1>Infrastructure WACC Calculator</h1>
-    <p>Risk-adjusted discount rate builder for UK regulated utility assets. Every input moves the rate — riskier characteristics push it up, safer ones pull it down.</p>
+    <p>Risk-adjusted discount rate builder for regulated utility assets. Every input moves the rate — riskier characteristics push it up, safer ones pull it down.</p>
   </div>
 
   <div class="top-grid">
@@ -260,7 +260,7 @@
     </div>
     <div class="section-body" id="gilt-body">
       <div class="gilt-row">
-        <label>UK gilt yield<small>10-year nominal benchmark — current ~4.5%</small></label>
+        <label>Gilt yield<small>10-year nominal benchmark — current ~4.5%</small></label>
         <input type="range" min="2" max="8" step="0.1" value="4.5" id="gilt-range" oninput="updateGilt(this.value)" />
         <span class="slider-val" id="gilt-val">4.5%</span>
       </div>
@@ -467,7 +467,7 @@
             <td>Political and policy durability</td>
             <td><span class="w-low">−15</span> / <span class="w-mid">+15</span> / <span class="w-high">+45</span> bps</td>
             <td>60bps</td>
-            <td>Weighted moderately — UK infrastructure regulation has historically been stable and the statutory underpinning of most price controls provides meaningful insulation from political reversal. The range is narrower than regulatory maturity because even assets facing policy risk rarely lose their physical network value entirely.</td>
+            <td>Weighted moderately — infrastructure regulation has historically been stable and the statutory underpinning of most price controls provides meaningful insulation from political reversal. The range is narrower than regulatory maturity because even assets facing policy risk rarely lose their physical network value entirely.</td>
           </tr>
           <tr>
             <td>Counterparty and contract quality</td>
@@ -507,7 +507,7 @@
         </tbody>
       </table>
 
-      <div class="weight-note">These weights are calibrated for UK regulated infrastructure and should be reviewed against current Ofgem / Ofwat WACC determinations and recent comparable transaction evidence before use in a live investment process. The asset class baseline spreads embed the current gilt environment — if the gilt yield moves materially, revisit the baseline spreads accordingly.</div>
+      <div class="weight-note">These weights are calibrated for regulated infrastructure and should be reviewed against current Ofgem / Ofwat WACC determinations and recent comparable transaction evidence before use in a live investment process. The asset class baseline spreads embed the current gilt environment — if the gilt yield moves materially, revisit the baseline spreads accordingly.</div>
     </div>
   </div>
 
@@ -715,7 +715,7 @@ function recalc(){
   document.getElementById('l2-delta').textContent=(totalOptOffset>=0?'+':'')+(totalOptOffset/100).toFixed(2)+'%';
 
   var wfData=[
-    {label:'UK gilt (risk-free rate)',val:giltVal,color:'#5c6278'},
+    {label:'Gilt (risk-free rate)',val:giltVal,color:'#5c6278'},
     {label:'Asset class baseline spread',val:base.spread/100,color:'#f59e0b'},
     {label:'Risk taxonomy adjustments',val:riskTotal/100,color:riskTotal>0?'#ef4444':'#22c55e'},
     {label:'Option value and synergy offset',val:totalOptOffset/100,color:totalOptOffset<0?'#22c55e':totalOptOffset>0?'#ef4444':'#5c6278'},
@@ -756,7 +756,7 @@ function exportText(){
   out+='Recommended nominal WACC: '+rate+'%\n\n';
   out+='Rate build\n';
   out+='----------\n';
-  out+='  UK gilt (RFR):           '+giltVal.toFixed(1)+'%\n';
+  out+='  Gilt (RFR):           '+giltVal.toFixed(1)+'%\n';
   out+='  Asset class spread:      '+(document.getElementById('bd-spread').textContent)+'\n';
   out+='  Risk adjustments:        '+(document.getElementById('bd-risk').textContent)+'\n';
   out+='  Option / synergy offset: '+(document.getElementById('bd-opt').textContent)+'\n';
