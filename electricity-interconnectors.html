@@ -4,45 +4,45 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Electricity interconnectors — Infrastructure Investor</title>
-<meta name="description" content="How a subsea electricity interconnector works and how it is financed — a guided explainer built around a real asset, the 700 MW Celtic Interconnector linking Ireland and France.">
+<meta name="description" content="A reference on subsea electricity interconnectors — how they work, how they earn, what they cost and how they are financed — illustrated with a real asset, the 700 MW Celtic Interconnector between Ireland and France.">
 <script src="anim-guard.js"></script>
 <link rel="icon" type="image/svg+xml" href="favicon.svg">
 <link rel="canonical" href="https://theinfrastructureinvestor.com/electricity-interconnectors.html">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Infrastructure Reference">
 <meta property="og:title" content="Electricity interconnectors — Infrastructure Investor">
-<meta property="og:description" content="A guided explainer: how a subsea electricity interconnector works and how it is financed, built around the real Celtic Interconnector (Ireland–France, 700 MW).">
+<meta property="og:description" content="How a subsea electricity interconnector works and is financed, illustrated with the real Celtic Interconnector (Ireland–France, 700 MW).">
 <meta property="og:url" content="https://theinfrastructureinvestor.com/electricity-interconnectors.html">
 <meta property="og:image" content="https://theinfrastructureinvestor.com/og-image.svg">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Electricity interconnectors — Infrastructure Investor">
-<meta name="twitter:description" content="A guided explainer: how a subsea electricity interconnector works and how it is financed, built around the real Celtic Interconnector.">
+<meta name="twitter:description" content="How a subsea electricity interconnector works and is financed, illustrated with the real Celtic Interconnector.">
 <meta name="twitter:image" content="https://theinfrastructureinvestor.com/og-image.svg">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,500;0,8..60,600;1,8..60,400&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="styles.css">
 <style>
-/* progress spine */
-.ix-spine{position:sticky;top:0;z-index:80;background:rgba(255,255,255,0.92);backdrop-filter:blur(10px);border-bottom:1px solid var(--border)}
-.ix-spine .wrap{display:flex;gap:.2rem;overflow-x:auto;padding:.55rem 2rem;scrollbar-width:none}
-.ix-spine .wrap::-webkit-scrollbar{display:none}
-.ix-spine a{flex:0 0 auto;display:flex;align-items:center;gap:.45rem;font-size:.72rem;font-weight:600;color:var(--muted);text-decoration:none;padding:.4rem .7rem;border-radius:8px;white-space:nowrap;transition:all .12s}
-.ix-spine a .n{display:inline-flex;align-items:center;justify-content:center;width:18px;height:18px;border-radius:50%;border:1.5px solid var(--border-strong);font-size:.62rem;color:var(--muted)}
-.ix-spine a:hover{color:var(--accent)}
-.ix-spine a.on{color:var(--accent)}
-.ix-spine a.on .n{border-color:var(--accent);background:var(--accent);color:#fff}
-@media(max-width:640px){.ix-spine .wrap{padding:.5rem 1.25rem}.ix-spine a{padding:.4rem .5rem}.ix-spine a .lbl{display:none}}
+/* section rail */
+.ix-rail{position:sticky;top:0;z-index:80;background:rgba(255,255,255,0.92);backdrop-filter:blur(10px);border-bottom:1px solid var(--border)}
+.ix-rail .wrap{display:flex;gap:.1rem;overflow-x:auto;padding:.5rem 2rem;scrollbar-width:none}
+.ix-rail .wrap::-webkit-scrollbar{display:none}
+.ix-rail a{flex:0 0 auto;font-size:.72rem;font-weight:600;color:var(--muted);text-decoration:none;padding:.4rem .7rem;border-radius:8px;white-space:nowrap;transition:all .12s}
+.ix-rail a:hover{color:var(--accent)}
+.ix-rail a.on{color:var(--accent);background:var(--accent-soft)}
+@media(max-width:640px){.ix-rail .wrap{padding:.45rem 1.25rem}}
 
 #ix{max-width:880px}
-#ix .beat{padding-top:.6rem;margin-bottom:1.4rem}
-#ix .beat-head{display:flex;align-items:baseline;gap:.7rem;margin:1.6rem 0 .7rem}
-#ix .beat-no{font-family:'Source Serif 4',Georgia,serif;font-size:1.15rem;font-weight:600;color:var(--accent)}
-#ix .beat-head h2{font-family:'Source Serif 4',Georgia,serif;font-weight:500;font-size:1.6rem;line-height:1.1;letter-spacing:-.015em}
-#ix p.body{font-size:.92rem;color:var(--text2);line-height:1.75;max-width:720px;margin-bottom:.8rem}
+#ix .asset-tag{display:inline-flex;align-items:center;gap:.6rem;font-size:.72rem;font-weight:600;color:var(--text2);background:var(--surface);border:1px solid var(--border);border-radius:999px;padding:.42rem .5rem .42rem .85rem;margin:.1rem 0 .3rem}
+#ix .asset-tag .lab{color:var(--muted);text-transform:uppercase;letter-spacing:.06em;font-size:.62rem}
+#ix .asset-tag .nm{color:var(--text)}
+#ix .asset-tag .geo{color:var(--accent);background:var(--accent-soft);border-radius:999px;padding:.2rem .55rem;font-size:.66rem}
+#ix .sec{padding-top:.6rem;margin-bottom:1.5rem}
+#ix .sec-head{display:flex;align-items:baseline;gap:.7rem;margin:1.7rem 0 .7rem}
+#ix .sec-no{font-family:'Source Serif 4',Georgia,serif;font-size:1.05rem;font-weight:600;color:var(--accent)}
+#ix .sec-head h2{font-family:'Source Serif 4',Georgia,serif;font-weight:500;font-size:1.55rem;line-height:1.1;letter-spacing:-.015em}
+#ix p.body{font-size:.92rem;color:var(--text2);line-height:1.75;max-width:730px;margin-bottom:.8rem}
 #ix p.body b{color:var(--text);font-weight:600}
-#ix .ex-chip{display:inline-flex;align-items:center;gap:.5rem;font-size:.72rem;font-weight:600;color:var(--accent);background:var(--accent-soft);border:1px solid #cfe6db;border-radius:999px;padding:.4rem .85rem;margin:.2rem 0 .4rem}
-#ix .ex-chip .d{width:7px;height:7px;border-radius:50%;background:var(--accent)}
 
 #ix .ix-facts{display:grid;grid-template-columns:repeat(6,1fr);gap:.7rem;margin:1.2rem 0}
 #ix .fact{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:.85rem .9rem}
@@ -81,16 +81,13 @@
 #ix .mcard p{font-size:.81rem;color:var(--text2);line-height:1.6}
 #ix .mcard p b{color:var(--text);font-weight:600}
 
-#ix .ret{display:grid;grid-template-columns:repeat(5,1fr);gap:.6rem;margin:.2rem 0 .9rem}
-#ix .ret .rc{background:var(--surface);border:1px solid var(--border);border-radius:11px;padding:.75rem .8rem}
-#ix .ret .rc .k{font-size:.58rem;letter-spacing:.04em;text-transform:uppercase;color:var(--muted);font-weight:600;margin-bottom:.3rem}
-#ix .ret .rc .v{font-family:'Source Serif 4',Georgia,serif;font-size:1.15rem;font-weight:500;color:var(--text);line-height:1}
-#ix .ret .rc.hl{background:linear-gradient(180deg,var(--accent-soft),var(--surface))}
-#ix .ret .rc.hl .v{color:var(--accent)}
-#ix .breakers{list-style:none;margin:.2rem 0 0;padding:0;display:grid;grid-template-columns:1fr 1fr;gap:.5rem .9rem}
-#ix .breakers li{font-size:.81rem;color:var(--text2);line-height:1.55;padding-left:1rem;position:relative}
-#ix .breakers li::before{content:'';position:absolute;left:0;top:7px;width:6px;height:6px;border-radius:50%;background:var(--accent)}
-#ix .breakers b{color:var(--text);font-weight:600}
+/* EBITDA waterfall */
+#ix .wf-wrap{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:1.1rem 1.2rem;margin:.2rem 0 .9rem}
+#ix .wf-head{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:.6rem}
+#ix .wf-head .t{font-size:.66rem;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);font-weight:600}
+#ix .wf-head .m{font-size:.74rem;color:var(--text2)}#ix .wf-head .m b{color:var(--text);font-weight:600}
+#ix .wf{width:100%;height:200px}
+#ix .wf-note{font-size:.72rem;color:var(--muted);line-height:1.55;margin-top:.5rem}
 
 /* financing */
 #ix .fin-wrap{display:grid;grid-template-columns:1fr 1fr;gap:.9rem}
@@ -119,23 +116,51 @@
 #ix .tl .ev::before{content:'';position:absolute;left:-6px;top:4px;width:10px;height:10px;border-radius:50%;background:var(--accent);box-shadow:0 0 0 3px var(--accent-soft)}
 #ix .tl .ev b{color:var(--text);font-weight:600}
 
-/* capstone + quiz */
-#ix .capstone{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:1.3rem 1.4rem;margin-top:.4rem}
-#ix .capstone h4{font-size:.92rem;font-weight:600;color:var(--text);margin-bottom:.8rem}
-#ix .chain{list-style:none;margin:0;padding:0;display:flex;flex-wrap:wrap;gap:.4rem;align-items:center}
-#ix .chain li{font-size:.76rem;font-weight:600;color:var(--text2);background:var(--surface-2);border:1px solid var(--border);border-radius:8px;padding:.42rem .7rem}
-#ix .chain .sep{color:var(--accent);font-weight:700;padding:0 .1rem}
-#ix .quiz{margin-top:1.1rem}
-#ix .q{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:1.05rem 1.2rem;margin-bottom:.8rem}
-#ix .q .ql{font-size:.86rem;font-weight:600;color:var(--text);margin-bottom:.7rem}
-#ix .q .opts{display:flex;flex-direction:column;gap:.45rem}
-#ix .q .opt{text-align:left;font-family:inherit;font-size:.82rem;color:var(--text2);background:var(--surface-2);border:1px solid var(--border-strong);border-radius:9px;padding:.55rem .8rem;cursor:pointer;transition:all .12s}
-#ix .q .opt:hover{border-color:var(--accent)}
-#ix .q .opt.correct{background:var(--accent-soft);border-color:var(--accent);color:var(--accent);font-weight:600}
-#ix .q .opt.wrong{background:#fbecea;border-color:#bc4733;color:#bc4733}
-#ix .q .exp{font-size:.78rem;color:var(--text2);line-height:1.6;margin-top:.7rem;padding-top:.7rem;border-top:1px solid var(--border);display:none}
-#ix .q .exp.show{display:block}
-#ix .q .exp b{color:var(--text);font-weight:600}
+/* calculator */
+#ix .calc-note{font-size:.85rem;color:var(--text2);line-height:1.65;margin-bottom:.85rem}#ix .calc-note b{color:var(--text);font-weight:600}
+#ix .calc-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:.9rem;margin-bottom:.9rem}
+#ix .cgroup{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:.9rem 1rem}
+#ix .cgroup h4{font-size:.62rem;letter-spacing:.07em;text-transform:uppercase;color:var(--muted);font-weight:600;margin-bottom:.7rem}
+#ix .cfield{display:flex;align-items:center;justify-content:space-between;gap:.5rem;margin-bottom:.5rem}
+#ix .cfield:last-child{margin-bottom:0}
+#ix .cfield label{font-size:.74rem;color:var(--text);line-height:1.25}
+#ix .cfield .ig{display:flex;align-items:center;gap:.25rem;flex-shrink:0}
+#ix .cfield input{width:58px;font-family:inherit;font-size:.78rem;font-weight:600;text-align:right;color:var(--text);border:1px solid var(--border-strong);border-radius:7px;padding:.28rem .35rem;background:var(--surface-2);font-variant-numeric:tabular-nums}
+#ix .cfield input:focus{outline:none;border-color:var(--accent)}
+#ix .cfield .u{font-size:.7rem;color:var(--muted);width:26px;text-align:left}
+#ix .out-cards{display:grid;grid-template-columns:repeat(4,1fr);gap:.7rem;margin-bottom:.9rem}
+#ix .ocard{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:.85rem .95rem;position:relative;overflow:hidden}
+#ix .ocard::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--muted)}
+#ix .ocard.unlev::before{background:#0c6b4f}#ix .ocard.lev{background:linear-gradient(180deg,var(--accent-soft),var(--surface))}#ix .ocard.lev::before{background:var(--accent)}
+#ix .ocard .k{font-size:.63rem;letter-spacing:.05em;text-transform:uppercase;color:var(--muted);font-weight:600;margin-bottom:.3rem}
+#ix .ocard .v{font-family:'Source Serif 4',Georgia,serif;font-size:1.5rem;font-weight:500;line-height:1;letter-spacing:-.01em}
+#ix .ocard.lev .v{color:var(--accent)}
+#ix .ocard .s{font-size:.7rem;color:var(--text2);margin-top:.3rem}
+#ix .calc-sum{display:flex;flex-wrap:wrap;gap:.45rem 1.4rem;background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:.8rem 1rem;margin-bottom:.9rem;font-size:.74rem;color:var(--text2)}
+#ix .calc-sum span{white-space:nowrap}#ix .calc-sum b{color:var(--text);font-weight:600}#ix .calc-sum .lbl{color:var(--muted)}
+#ix .jwrap{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:.9rem 1rem;margin-bottom:.9rem}
+#ix .jhead{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:.9rem;gap:1rem}
+#ix .jhead .t{font-size:.63rem;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);font-weight:600}
+#ix .jhead .lg{font-size:.68rem;color:var(--text2)}
+#ix .jchart{display:flex;align-items:stretch;gap:2px;height:140px;position:relative;margin-bottom:18px}
+#ix .jaxis{position:absolute;left:0;right:0;top:50%;height:1px;background:var(--border-strong)}
+#ix .jcol{flex:1;position:relative;min-width:0}
+#ix .jbar{position:absolute;left:12%;right:12%;border-radius:3px;min-height:2px}
+#ix .jbar.pos{background:var(--accent);bottom:50%}#ix .jbar.neg{background:var(--cost);top:50%}#ix .jbar.exit{background:#0a5a42}
+#ix .jlbl{position:absolute;bottom:-16px;left:0;right:0;text-align:center;font-size:.58rem;color:var(--muted)}
+#ix .ptable{width:100%;border-collapse:collapse;font-size:.72rem;font-variant-numeric:tabular-nums}
+#ix .ptable th,#ix .ptable td{text-align:right;padding:.32rem .45rem;border-bottom:1px solid var(--border);white-space:nowrap}
+#ix .ptable th{color:var(--muted);font-weight:600;font-size:.61rem;letter-spacing:.03em;text-transform:uppercase}
+#ix .ptable td:first-child,#ix .ptable th:first-child{text-align:left;color:var(--text2)}
+#ix .ptable tr:last-child td{border-bottom:none}
+#ix .tscroll{overflow-x:auto}
+#ix details.more{margin-bottom:.9rem}
+#ix details.more summary{font-size:.74rem;font-weight:600;color:var(--accent);cursor:pointer;padding:.3rem 0}
+
+#ix .breakers{list-style:none;margin:.2rem 0 0;padding:0;display:grid;grid-template-columns:1fr 1fr;gap:.5rem .9rem}
+#ix .breakers li{font-size:.82rem;color:var(--text2);line-height:1.55;padding-left:1rem;position:relative}
+#ix .breakers li::before{content:'';position:absolute;left:0;top:7px;width:6px;height:6px;border-radius:50%;background:var(--accent)}
+#ix .breakers b{color:var(--text);font-weight:600}
 
 #ix .ix-src{font-size:.7rem;color:var(--muted);line-height:1.8;margin-top:1.4rem}
 #ix .ix-src a{color:var(--text2);text-decoration:none;border-bottom:1px solid var(--border-strong)}
@@ -146,8 +171,10 @@
 
 @media(max-width:760px){
   #ix .ix-facts{grid-template-columns:repeat(3,1fr)}
-  #ix .ix-readout,#ix .ret{grid-template-columns:repeat(2,1fr)}
-  #ix .two,#ix .fin-wrap,#ix .breakers,#ix .chain{grid-template-columns:1fr}
+  #ix .ix-readout{grid-template-columns:repeat(2,1fr)}
+  #ix .two,#ix .fin-wrap,#ix .breakers{grid-template-columns:1fr}
+  #ix .calc-grid{grid-template-columns:1fr}
+  #ix .out-cards{grid-template-columns:repeat(2,1fr)}
 }
 </style>
 </head>
@@ -160,14 +187,14 @@
   </div>
 </nav>
 
-<nav class="ix-spine" aria-label="Lesson progress">
+<nav class="ix-rail" aria-label="Sections">
   <div class="wrap">
-    <a href="#b1" data-step="1"><span class="n">1</span><span class="lbl">What it is</span></a>
-    <a href="#b2" data-step="2"><span class="n">2</span><span class="lbl">How it works</span></a>
-    <a href="#b3" data-step="3"><span class="n">3</span><span class="lbl">How it earns</span></a>
-    <a href="#b4" data-step="4"><span class="n">4</span><span class="lbl">What it costs</span></a>
-    <a href="#b5" data-step="5"><span class="n">5</span><span class="lbl">The returns</span></a>
-    <a href="#b6" data-step="6"><span class="n">6</span><span class="lbl">The real asset</span></a>
+    <a href="#s1" data-step="1">What it is</a>
+    <a href="#s2" data-step="2">How it works</a>
+    <a href="#s3" data-step="3">How it earns</a>
+    <a href="#s4" data-step="4">Costs &amp; financing</a>
+    <a href="#s5" data-step="5">Cash flows &amp; returns</a>
+    <a href="#s6" data-step="6">What drives returns</a>
   </div>
 </nav>
 
@@ -176,19 +203,19 @@
     <div class="breadcrumb"><a href="index.html">Home</a><span class="sep">/</span><a href="energy-utilities.html">Energy &amp; Utilities</a><span class="sep">/</span>Electricity interconnectors</div>
     <div class="hero-eyebrow">Energy &amp; Utilities</div>
     <h1>Electricity <em>interconnectors</em></h1>
-    <p class="hero-sub">A guided walk-through of one asset, end to end: how a high-voltage subsea power link physically works, how it turns a price difference into money, and how a €1.6&nbsp;billion build is financed — taught through a real asset, the <b>Celtic Interconnector</b> between Ireland and France. By the end you should be able to read its investment case yourself.</p>
+    <p class="hero-sub">A reference on the subsea high-voltage links that join two power grids — how they work, how they turn a price difference into revenue, what they cost to build and run, and how they are financed. Illustrated throughout with a real asset.</p>
   </div>
 </section>
 
 <section class="tools-section" id="ix">
   <div class="wrap">
 
-    <!-- BEAT 1 -->
-    <div class="beat" id="b1">
-      <div class="beat-head"><span class="beat-no">01</span><h2>What it is — and why it exists</h2></div>
-      <div class="ex-chip"><span class="d"></span>Worked example throughout: the Celtic Interconnector · Ireland ⇄ France · 700 MW</div>
-      <p class="body">An <b>interconnector</b> is a high-voltage cable that joins two separate electricity grids so power can flow between them. Grids are otherwise islands: each country balances its own supply and demand, and prices can differ sharply across a border at the same moment. A link lets electricity move to wherever it is scarcest — and therefore dearest.</p>
-      <p class="body">Three forces drive the build-out: <b>security of supply</b> (a back-up source if your own generation fails), <b>integrating renewables</b> (exporting surplus wind instead of switching it off, importing when it is calm), and <b>price convergence</b> (cheaper power for the importing market). The Celtic Interconnector is Ireland's <b>first direct link to the continental European grid</b> — until now it was tethered only to Great Britain, which sits outside the EU's internal energy market post-Brexit.</p>
+    <!-- 1 -->
+    <div class="sec" id="s1">
+      <div class="sec-head"><span class="sec-no">01</span><h2>What it is — and why it exists</h2></div>
+      <div class="asset-tag"><span class="lab">In focus</span><span class="nm">Celtic Interconnector</span><span class="geo">Ireland ⇄ France</span></div>
+      <p class="body">An <b>interconnector</b> is a high-voltage cable that joins two separate electricity grids so power can flow between them. Grids are otherwise islands: each balances its own supply and demand, and prices can differ sharply across a border at the same moment. A link lets electricity move to wherever it is scarcest — and therefore dearest.</p>
+      <p class="body">Three forces drive the build-out: <b>security of supply</b> (a back-up source if your own generation fails), <b>integrating renewables</b> (exporting surplus wind instead of curtailing it, importing when it is calm), and <b>price convergence</b> (cheaper power for the importing market). At 700&nbsp;MW the Celtic Interconnector can carry roughly the consumption of <b>450,000 homes</b>, and is Ireland's first direct link to the continental European grid — until now it was tethered only to Great Britain.</p>
       <div class="ix-facts">
         <div class="fact"><div class="n">700 MW</div><div class="l">Capacity</div><div class="d">≈ 450,000 homes</div></div>
         <div class="fact"><div class="n">575 km</div><div class="l">Route length</div><div class="d">~500 km on the seabed</div></div>
@@ -199,11 +226,10 @@
       </div>
     </div>
 
-    <!-- BEAT 2 -->
-    <div class="beat" id="b2">
-      <div class="beat-head"><span class="beat-no">02</span><h2>How it works, physically</h2></div>
-      <p class="body">Over a long sea crossing, ordinary <b>alternating current</b> (AC) won't reach — it wastes itself charging the cable's own capacitance. So interconnectors use <b>high-voltage direct current (HVDC)</b>, which carries bulk power efficiently with low losses. A <b>converter station</b> at each end turns its grid's AC into ±320&nbsp;kV DC for the crossing, then back to AC on arrival. Celtic's converters sit at <b>Knockraha</b> near Cork and <b>La Martyre</b> in Brittany, joined by ~500&nbsp;km of cable routed through the Celtic Sea, west of Britain.</p>
-      <p class="body">The single physical constraint that governs the economics: the link can carry at most its <b>rated capacity</b> — here 700&nbsp;MW — and only in one direction at a time. Power always flows from the <b>cheaper</b> market to the <b>dearer</b> one. The map below is live: set the price gap between the two markets and watch which way the power flows.</p>
+    <!-- 2 -->
+    <div class="sec" id="s2">
+      <div class="sec-head"><span class="sec-no">02</span><h2>How it works</h2></div>
+      <p class="body">Over a long sea crossing, ordinary <b>alternating current</b> won't reach — it wastes itself charging the cable's capacitance. So interconnectors use <b>high-voltage direct current (HVDC)</b>, with a <b>converter station</b> at each end turning grid AC into ±320&nbsp;kV DC for the crossing and back again. Celtic's converters sit at <b>Knockraha</b> near Cork and <b>La Martyre</b> in Brittany. The governing constraint: the link carries at most its <b>rated capacity</b>, one direction at a time, and power always flows from the <b>cheaper</b> market to the <b>dearer</b> one. Set the price gap and watch.</p>
 
       <div class="ix-ctrls">
         <div class="ctrl"><label>Capacity</label><input type="range" id="ixCap" min="350" max="1400" value="700" step="50"><span class="val" id="ixCapV">700 MW</span></div>
@@ -219,34 +245,41 @@
         <div class="rocard"><div class="k">Flow direction</div><div class="v" id="ixDir">France → Ireland</div><div class="s" id="ixDirS">importing cheaper French power</div></div>
         <div class="rocard"><div class="k">Power on the cable</div><div class="v" id="ixMW">700 MW</div><div class="s" id="ixMWs">at full capacity</div></div>
         <div class="rocard"><div class="k">Value captured</div><div class="v" id="ixHr">€12,600 / hr</div><div class="s">price gap × flow</div></div>
-        <div class="rocard"><div class="k">Congestion rent p.a.</div><div class="v" id="ixYr">≈ €58m</div><div class="s">if sustained ~55% of the year</div></div>
+        <div class="rocard"><div class="k">Revenue p.a.</div><div class="v" id="ixYr">≈ €105m</div><div class="s">within the cap-and-floor band</div></div>
       </div>
-      <p class="try"><b>Try this:</b> drag the price gap to <b>0</b> — the flow stops, because there is no profit in moving power between two markets at the same price. Now push it wide: the link pins at 700&nbsp;MW and the value captured climbs. A cable only earns when the two markets <i>disagree</i> on price.</p>
+      <p class="try"><b>Try this:</b> drag the price gap to <b>0</b> — the flow stops, because there is no profit in moving power between two markets at the same price. Push it wide and the link pins at full capacity. A cable only earns when the two markets <i>disagree</i> on price.</p>
     </div>
 
-    <!-- BEAT 3 -->
-    <div class="beat" id="b3">
-      <div class="beat-head"><span class="beat-no">03</span><h2>How it earns</h2></div>
-      <p class="body">An interconnector is an <b>arbitrage machine</b>. Its core revenue is <b>congestion rent</b>: the price gap between the two markets, multiplied by the power flowing, for every hour it flows. Mechanically, capacity on the link is auctioned to traders, who pay roughly that price difference for the right to ship power across — so the rent accrues to whoever owns the cable. The readout above is exactly this calculation: <b>gap × flow × hours</b>, scaled by how often a worthwhile gap actually exists and how reliably the link is available.</p>
-      <p class="body">The crucial question for an investor is <b>who keeps that rent</b> — and that depends on the regulatory model the link is built under.</p>
+    <!-- 3 -->
+    <div class="sec" id="s3">
+      <div class="sec-head"><span class="sec-no">03</span><h2>How it earns</h2></div>
+      <p class="body">An interconnector is an <b>arbitrage machine</b>. Its core revenue is <b>congestion rent</b>: the price gap between the two markets times the power flowing, every hour it flows. Mechanically, capacity is auctioned to traders who pay roughly that price difference to ship power across, so the rent accrues to the cable's owner. Over a year, what matters is the <b>average gap captured</b> and how reliably the link is available. The decisive question for an investor is <b>who keeps that rent</b> — set by the regulatory model.</p>
       <div class="two">
         <div class="mcard">
           <div class="tag">Model A · merchant</div>
           <h4>Cap-and-floor</h4>
-          <p>The owner keeps the congestion rent, but a regulator sets a <b>floor</b> (a minimum revenue that protects lenders if spreads collapse) and a <b>cap</b> (excess above which money is returned to consumers). Lower risk than pure merchant, with capped upside. This is how Great Britain's links to France, the Netherlands and Norway are financed — by private and quasi-private owners.</p>
+          <p>The owner keeps the congestion rent, but a regulator sets a <b>floor</b> (a minimum revenue that protects lenders if spreads collapse) and a <b>cap</b> (excess above which money returns to consumers). Lower risk than pure merchant, capped upside. This is how Great Britain's links to France, the Netherlands and Norway are financed — by private and quasi-private owners.</p>
         </div>
         <div class="mcard reg">
           <div class="tag">Model B · regulated</div>
           <h4>Regulated TSO asset</h4>
-          <p>The link is owned by the national grid operators and built into their <b>regulated asset base</b>. They earn a <b>fixed allowed return</b> on the capital invested; the congestion rent itself flows back to consumers through lower network charges. Lowest risk, lowest but very stable return. <b>This is the Celtic Interconnector</b> — owned by EirGrid and RTÉ.</p>
+          <p>The link sits in the national grid operators' <b>regulated asset base</b>; they earn a <b>fixed allowed return</b> on the capital, while the congestion rent flows back to consumers through lower charges. Lowest risk, lowest but very stable return. <b>This is the Celtic Interconnector</b> — owned by EirGrid and RTÉ.</p>
         </div>
       </div>
     </div>
 
-    <!-- BEAT 4 -->
-    <div class="beat" id="b4">
-      <div class="beat-head"><span class="beat-no">04</span><h2>What it costs, and how it's financed</h2></div>
-      <p class="body">Interconnectors are capital-heavy and front-loaded: years of converter stations, cable manufacture and marine installation before a single megawatt flows. Celtic's all-in cost is about <b>€1.62&nbsp;billion</b> — roughly €2.3m per MW of capacity. Because the revenue is regulated and predictable, it can carry a high share of <b>investment-grade debt</b>, topped up by an unusually large <b>EU grant</b> and the two operators' own balance sheets.</p>
+    <!-- 4 -->
+    <div class="sec" id="s4">
+      <div class="sec-head"><span class="sec-no">04</span><h2>What it costs, and how it's financed</h2></div>
+      <p class="body">Once built, an interconnector is cheap to run — there is no fuel, just the upkeep of two converter stations and a cable on the seabed. So the <b>operating margin is high</b>, and most of the revenue drops through to EBITDA. The waterfall below is live from the model above: revenue, less each operating cost, leaves EBITDA.</p>
+
+      <div class="wf-wrap">
+        <div class="wf-head"><span class="t">Revenue → operating costs → EBITDA</span><span class="m">Margin <b id="wfMargin">72%</b></span></div>
+        <svg class="wf" id="ixWaterfall" viewBox="0 0 600 200" preserveAspectRatio="xMidYMid meet" role="img" aria-label="EBITDA bridge"></svg>
+        <p class="wf-note">Operating cost is dominated by the standing upkeep of the converters and the cable — a fixed base that barely moves with how much power flows, which is why a busy link is so profitable and a lightly-used one still pays its bills.</p>
+      </div>
+
+      <p class="body">Building it is the expensive part: years of converter stations, cable manufacture and marine installation — about <b>€1.62&nbsp;billion</b>, or roughly €2.3m per MW — all spent before a megawatt flows. Because the revenue is regulated and predictable, it carries a high share of <b>investment-grade debt</b>, topped up by an unusually large <b>EU grant</b> and the operators' balance sheets.</p>
       <div class="fin-wrap">
         <div class="fin-col">
           <div class="fin-h">The capital stack · ~€1.62 bn</div>
@@ -264,89 +297,83 @@
             <li><span class="fl">RTÉ financing (France)</span><span class="fa">€404m</span></li>
             <li class="rest"><span class="fl">Balance from regulated asset bases</span><span class="fa">balance</span></li>
           </ul>
-          <p class="fin-note">The <b>€530.7m</b> CEF award — split 65/35 in line with the cost allocation — was the <b>largest grant the EU had ever made to an energy project</b>. Because the owners recover their outlay through regulated tariffs, the debt is long-dated and investment-grade rather than merchant project finance.</p>
+          <p class="fin-note">The <b>€530.7m</b> CEF award — split 65/35 in line with the cost allocation — was the <b>largest grant the EU had ever made to an energy project</b>, and lowers the capital the owners must recover.</p>
         </div>
         <div class="fin-col">
           <div class="fin-h">Build timeline · concept to power</div>
           <ol class="tl">
-            <li><span class="yr">2013–18</span><span class="ev"><b>Designated an EU Project of Common Interest</b> — unlocking fast-track permitting and EU funding eligibility.</span></li>
+            <li><span class="yr">2013–18</span><span class="ev"><b>EU Project of Common Interest</b> — fast-track permitting and funding eligibility.</span></li>
             <li><span class="yr">Oct 2019</span><span class="ev"><b>€530.7m CEF grant awarded</b> — the EU's largest-ever energy grant.</span></li>
-            <li><span class="yr">2020–21</span><span class="ev"><b>Regulatory approvals</b> from CRU (Ireland) and CRE (France); planning consent on both coasts.</span></li>
-            <li><span class="yr">Nov 2022</span><span class="ev"><b>Contracts &amp; financial close</b> — Nexans (cable) and Siemens Energy (converters) appointed; €800m debt closes.</span></li>
-            <li><span class="yr">2023–25</span><span class="ev"><b>Manufacture &amp; installation</b> — cable made in Norway and Belgium; converter stations and cable pull-ins on both coasts.</span></li>
-            <li><span class="yr">~2026–27</span><span class="ev"><b>Commissioning &amp; first power</b> — testing then commercial operation (RTÉ has indicated up to 2028).</span></li>
+            <li><span class="yr">2020–21</span><span class="ev"><b>Regulatory approvals</b> from CRU (Ireland) and CRE (France); planning consent.</span></li>
+            <li><span class="yr">Nov 2022</span><span class="ev"><b>Contracts &amp; financial close</b> — Nexans (cable), Siemens Energy (converters); €800m debt closes.</span></li>
+            <li><span class="yr">2023–25</span><span class="ev"><b>Manufacture &amp; installation</b> — cable made in Norway and Belgium; converters and cable pull-ins on both coasts.</span></li>
+            <li><span class="yr">~2026–27</span><span class="ev"><b>Commissioning &amp; first power</b> — testing then commercial operation.</span></li>
           </ol>
         </div>
       </div>
     </div>
 
-    <!-- BEAT 5 -->
-    <div class="beat" id="b5">
-      <div class="beat-head"><span class="beat-no">05</span><h2>What return it makes — and what makes or breaks it</h2></div>
-      <p class="body">Put the pieces together. The cards below are live from the model above: the gross <b>congestion rent</b>, less operating cost, gives a rough <b>EBITDA</b>; against the <b>capex</b> it implies an unlevered <b>cash yield</b>. Move the sliders and watch it move.</p>
-      <div class="ret">
-        <div class="rc"><div class="k">Congestion rent p.a.</div><div class="v" id="ixGross">€58m</div></div>
-        <div class="rc"><div class="k">Operating cost</div><div class="v" id="ixOpex">€32m</div></div>
-        <div class="rc hl"><div class="k">EBITDA</div><div class="v" id="ixEbitda">€26m</div></div>
-        <div class="rc"><div class="k">Build cost</div><div class="v" id="ixCapex">€1.6bn</div></div>
-        <div class="rc hl"><div class="k">Cash yield</div><div class="v" id="ixYield">1.6%</div></div>
+    <!-- 5 -->
+    <div class="sec" id="s5">
+      <div class="sec-head"><span class="sec-no">05</span><h2>Cash flows &amp; returns</h2></div>
+      <p class="calc-note">A working model of the investment case. Year-1 revenue <b id="cBaseRev">€105m</b> and EBITDA <b id="cBaseEb">€75m</b> flow from the live map above — change the <b>price gap</b>, capacity or availability and everything here moves. Set the deal terms below; the <b style="color:#0c6b4f">unlevered IRR</b> (asset return) and <b style="color:var(--accent)">levered IRR</b> (return to equity, after debt) recompute instantly.</p>
+
+      <div class="calc-grid">
+        <div class="cgroup"><h4>Build &amp; operating</h4>
+          <div class="cfield"><label>Build cost</label><span class="ig"><input id="iBuild" type="number" value="2.31" step="0.05"><span class="u">€m/MW</span></span></div>
+          <div class="cfield"><label>Capital grant</label><span class="ig"><input id="iGrant" type="number" value="531" step="10"><span class="u">€m</span></span></div>
+          <div class="cfield"><label>O&amp;M</label><span class="ig"><input id="iOM" type="number" value="22" step="1"><span class="u">€k/MW</span></span></div>
+          <div class="cfield"><label>Revenue growth p.a.</label><span class="ig"><input id="iRevG" type="number" value="1" step="0.5"><span class="u">%</span></span></div>
+        </div>
+        <div class="cgroup"><h4>Revenue regime &amp; tax</h4>
+          <div class="cfield"><label>Revenue floor</label><span class="ig"><input id="iFloor" type="number" value="70" step="5"><span class="u">€m</span></span></div>
+          <div class="cfield"><label>Revenue cap</label><span class="ig"><input id="iCap" type="number" value="180" step="5"><span class="u">€m</span></span></div>
+          <div class="cfield"><label>Tax rate</label><span class="ig"><input id="iTax" type="number" value="25" step="1"><span class="u">%</span></span></div>
+          <div class="cfield"><label>Exit EV / EBITDA</label><span class="ig"><input id="iExit" type="number" value="14" step="0.5"><span class="u">×</span></span></div>
+        </div>
+        <div class="cgroup"><h4>Financing &amp; hold</h4>
+          <div class="cfield"><label>Leverage (Net&nbsp;debt&nbsp;/&nbsp;EBITDA)</label><span class="ig"><input id="iLev" type="number" value="6" step="0.5"><span class="u">×</span></span></div>
+          <div class="cfield"><label>Cost of debt</label><span class="ig"><input id="iRd" type="number" value="5" step="0.25"><span class="u">%</span></span></div>
+          <div class="cfield"><label>Debt amortisation p.a.</label><span class="ig"><input id="iAmort" type="number" value="3" step="1"><span class="u">%</span></span></div>
+          <div class="cfield"><label>Hold period</label><span class="ig"><input id="iHold" type="number" value="15" step="1" min="3" max="40"><span class="u">y</span></span></div>
+        </div>
       </div>
-      <p class="body">Notice how <b>thin and volatile</b> the merchant yield is at a normal price gap — and how violently it swings when you widen the spread. That single fact explains the whole industry: pure congestion rent rarely justifies a billion-euro cable on its own, which is <b>why interconnectors are built under cap-and-floor or full regulation</b>. Celtic takes the regulated route, so its owners earn a steady allowed return regardless of where the cards above land, and consumers — not equity — take the spread risk and reward.</p>
+
+      <div class="out-cards">
+        <div class="ocard unlev"><div class="k">Unlevered IRR</div><div class="v" id="oUIRR">—</div><div class="s">asset / project return</div></div>
+        <div class="ocard lev"><div class="k">Levered IRR</div><div class="v" id="oLIRR">—</div><div class="s">return to equity</div></div>
+        <div class="ocard"><div class="k">Equity multiple</div><div class="v" id="oMOIC">—</div><div class="s">MOIC over hold</div></div>
+        <div class="ocard"><div class="k">Payback</div><div class="v" id="oPB">—</div><div class="s">project, undiscounted</div></div>
+      </div>
+
+      <div class="calc-sum" id="calcSum"></div>
+
+      <div class="jwrap">
+        <div class="jhead"><span class="t">Cash-flow profile — equity</span><span class="lg"><span style="color:var(--cost)">■</span> invested &nbsp; <span style="color:var(--accent)">■</span> returned</span></div>
+        <div class="jchart" id="jchart"><div class="jaxis"></div></div>
+      </div>
+
+      <details class="more">
+        <summary>Show the year-by-year schedule</summary>
+        <div class="jwrap tscroll" style="margin-top:.6rem">
+          <table class="ptable"><thead id="ptHead"></thead><tbody id="ptBody"></tbody></table>
+        </div>
+      </details>
+    </div>
+
+    <!-- 6 -->
+    <div class="sec" id="s6">
+      <div class="sec-head"><span class="sec-no">06</span><h2>What drives the return</h2></div>
+      <p class="body">Move the price gap in the model and watch how violently the merchant case swings — that single sensitivity explains the industry. Pure congestion rent rarely justifies a billion-euro cable on its own, which is why interconnectors are built under cap-and-floor or full regulation. Celtic takes the regulated route, so its owners earn a steady allowed return and consumers take the spread risk. The levers that decide any interconnector's outcome:</p>
       <ul class="breakers">
         <li><b>The price spread</b> — its average level and, even more, its volatility. Decarbonising, converging grids may narrow it over decades.</li>
-        <li><b>Availability</b> — a cable on the seabed that suffers a fault can be out for months, and an idle link earns nothing.</li>
+        <li><b>Availability</b> — a seabed fault can take a cable out for months, and an idle link earns nothing.</li>
         <li><b>The regime</b> — the width of the cap-and-floor band, or the size of the regulated allowed return, sets the floor and ceiling on outcomes.</li>
-        <li><b>Build &amp; route risk</b> — fixed, front-loaded capex; cost overruns or delays hit before any revenue arrives.</li>
+        <li><b>Build &amp; route risk</b> — fixed, front-loaded capex; overruns or delays bite before any revenue arrives.</li>
       </ul>
     </div>
 
-    <!-- BEAT 6 -->
-    <div class="beat" id="b6">
-      <div class="beat-head"><span class="beat-no">06</span><h2>The real asset, in full</h2></div>
-      <p class="body">You have now seen every layer of the Celtic Interconnector — the physical link, the flow, the rent, the regime, the financing and the return. Here is the whole asset in one line, then a short check to make it stick.</p>
-      <div class="capstone">
-        <h4>What you now understand</h4>
-        <ul class="chain">
-          <li>HVDC link, 700 MW</li><span class="sep">→</span>
-          <li>power flows cheap → dear</li><span class="sep">→</span>
-          <li>earns congestion rent</li><span class="sep">→</span>
-          <li>kept by regime (regulated vs cap-and-floor)</li><span class="sep">→</span>
-          <li>€1.62bn: grant + debt + RAB</li><span class="sep">→</span>
-          <li>steady allowed return</li>
-        </ul>
-        <div class="quiz" id="ixQuiz">
-          <div class="q" data-correct="1">
-            <div class="ql">1 · France is cheaper than Ireland this hour. Which way does power flow on Celtic?</div>
-            <div class="opts">
-              <button class="opt">Ireland → France</button>
-              <button class="opt">France → Ireland</button>
-              <button class="opt">It doesn't flow until prices are equal</button>
-            </div>
-            <div class="exp"><b>France → Ireland.</b> Power always flows from the cheaper market to the dearer one — here, importing cheap French power into Ireland.</div>
-          </div>
-          <div class="q" data-correct="2">
-            <div class="ql">2 · When is an interconnector's congestion rent highest?</div>
-            <div class="opts">
-              <button class="opt">When both grids are calm and prices are equal</button>
-              <button class="opt">When the gap between the two prices is wide and the link is available</button>
-              <button class="opt">When the cable is switched off for maintenance</button>
-            </div>
-            <div class="exp"><b>Wide gap, link available.</b> Rent is price gap × flow × hours: a big, persistent spread on an available cable maximises it. A zero gap or an outage earns nothing.</div>
-          </div>
-          <div class="q" data-correct="0">
-            <div class="ql">3 · Celtic is owned by regulated TSOs. Who mainly keeps the congestion rent?</div>
-            <div class="opts">
-              <button class="opt">Electricity consumers, via lower network charges</button>
-              <button class="opt">The traders who bought capacity</button>
-              <button class="opt">EirGrid and RTÉ shareholders, as merchant profit</button>
-            </div>
-            <div class="exp"><b>Consumers.</b> Under the regulated model the rent flows back through tariffs; the operators earn a fixed allowed return on the capital, not the merchant upside.</div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <p class="ix-src">Figures from the project's developers and public sources: <a href="https://www.eirgrid.ie/celticinterconnector" target="_blank" rel="noopener">EirGrid</a>, <a href="https://www.rte-france.com/en/projects/celtic-interconnector-interconnection-between-france-ireland" target="_blank" rel="noopener">RTÉ</a>, <a href="https://www.nexans.com/success-stories/activities/success-stories/celtic-interconnector-project/" target="_blank" rel="noopener">Nexans</a>, the <a href="https://energy.ec.europa.eu/" target="_blank" rel="noopener">European Commission (CEF / PCI)</a> and the <a href="https://www.eib.org/en/projects/all/20180149" target="_blank" rel="noopener">European Investment Bank</a>. The interactive figures are illustrative — congestion rent uses a stylised spread-to-flow relationship and an assumed in-merit utilisation; not a forecast of any specific hour's trading, and not investment advice.</p>
+    <p class="ix-src">Figures from the project's developers and public sources: <a href="https://www.eirgrid.ie/celticinterconnector" target="_blank" rel="noopener">EirGrid</a>, <a href="https://www.rte-france.com/en/projects/celtic-interconnector-interconnection-between-france-ireland" target="_blank" rel="noopener">RTÉ</a>, <a href="https://www.nexans.com/success-stories/activities/success-stories/celtic-interconnector-project/" target="_blank" rel="noopener">Nexans</a>, the <a href="https://energy.ec.europa.eu/" target="_blank" rel="noopener">European Commission (CEF / PCI)</a> and the <a href="https://www.eib.org/en/projects/all/20180149" target="_blank" rel="noopener">European Investment Bank</a>. The interactive figures are illustrative — revenue uses a stylised average-spread assumption and the returns model is a simplified DCF; not a forecast of any specific hour's trading, and not investment advice.</p>
 
   </div>
 </section>
@@ -359,20 +386,25 @@
 
 <script>
 (function(){
-  /* ---------------- interactive map + economics ---------------- */
+  var HRS=8760;
+  var baseRevYr=0, baseCostYr=0, baseEbYr=0, capexGrossG=0, netCapexG=0;
+
+  /* ---------------- interactive map ---------------- */
   var cv=document.getElementById('ixcv'); if(cv){
   var ctx=cv.getContext('2d');
   var W=720,H=520,DPR=Math.max(2,Math.min(3,window.devicePixelRatio||1));
   cv.width=W*DPR; cv.height=H*DPR; ctx.setTransform(DPR,0,0,DPR,0,0);
-  var T=0, UTIL=0.55, CAPEX_PER_MW=2.314e6, OPEX_PCT=0.02;
+  var T=0;
   var sCap=document.getElementById('ixCap'), sSpread=document.getElementById('ixSpread'), sAvail=document.getElementById('ixAvail');
+  var iBuild=document.getElementById('iBuild'), iGrant=document.getElementById('iGrant'), iOM=document.getElementById('iOM'),
+      iFloor=document.getElementById('iFloor'), iCap=document.getElementById('iCap');
 
   var IRELAND=[[-7.37,55.38],[-6.95,55.27],[-6.16,55.21],[-5.88,54.98],[-5.55,54.66],[-5.44,54.50],[-5.90,54.27],[-6.07,54.04],[-6.18,53.62],[-6.10,53.35],[-5.99,52.97],[-6.04,52.79],[-6.37,52.18],[-6.93,52.12],[-7.56,51.95],[-8.28,51.79],[-8.53,51.59],[-9.30,51.50],[-9.82,51.45],[-10.15,51.60],[-9.78,51.84],[-10.46,52.09],[-9.93,52.56],[-9.65,52.70],[-9.30,53.13],[-9.88,53.33],[-10.23,53.41],[-9.92,53.62],[-10.19,53.97],[-10.00,54.32],[-9.50,54.27],[-8.60,54.30],[-8.50,54.63],[-8.78,54.69],[-8.43,54.95],[-8.30,55.16],[-7.74,55.22]];
   var BRITAIN=[[-5.71,50.07],[-5.20,49.96],[-4.15,50.34],[-3.50,50.60],[-2.45,50.61],[-1.90,50.72],[-1.08,50.77],[-0.27,50.79],[0.27,50.74],[1.07,50.87],[1.41,51.15],[1.42,51.39],[0.70,51.45],[0.95,51.62],[1.28,51.92],[1.75,52.48],[1.74,52.93],[0.38,52.96],[0.34,53.60],[-0.09,53.63],[-0.08,54.11],[-0.78,54.55],[-1.29,54.97],[-1.60,55.45],[-2.00,55.90],[-3.60,55.90],[-4.90,55.00],[-4.85,54.63],[-3.60,54.90],[-3.36,54.10],[-3.06,53.42],[-4.20,53.30],[-4.75,52.90],[-4.10,52.50],[-5.30,51.74],[-4.30,51.60],[-3.20,51.38],[-3.00,51.20],[-4.00,51.18],[-4.66,50.60]];
   var FRANCE=[[-2.55,47.52],[-3.00,47.60],[-3.55,47.74],[-4.10,47.80],[-4.37,47.80],[-4.55,48.03],[-4.78,48.03],[-4.50,48.30],[-4.78,48.38],[-4.55,48.65],[-4.10,48.68],[-3.55,48.65],[-3.00,48.83],[-2.55,48.65],[-2.02,48.65],[-1.55,48.62],[-1.57,49.00],[-1.94,49.43],[-1.27,49.68],[-1.15,49.38],[-0.23,49.29],[0.22,49.43],[1.07,49.93],[1.58,50.72],[1.85,50.95],[2.60,50.95],[2.60,47.30],[-2.55,47.30]];
   var CORK=[-8.00,51.88], FINI=[-4.10,48.62];
-  var LNG0=-11.2,LNG1=2.6,LAT0=47.3,LAT1=55.95, COSL=Math.cos(51.7*Math.PI/180), MPAD=18;
-  var GW=(LNG1-LNG0)*COSL, GH=(LAT1-LAT0), MS=Math.min((W-2*MPAD)/GW,(H-2*MPAD)/GH);
+  var LNG0=-11.2,LNG1=2.6,LAT1=55.95, COSL=Math.cos(51.7*Math.PI/180), MPAD=18;
+  var GW=(LNG1-LNG0)*COSL, GH=(LAT1-47.3), MS=Math.min((W-2*MPAD)/GW,(H-2*MPAD)/GH);
   var OX=(W-GW*MS)/2, OY=(H-GH*MS)/2;
   function PX(l){ return OX+(l-LNG0)*COSL*MS; }
   function PY(l){ return OY+(LAT1-l)*MS; }
@@ -395,7 +427,7 @@
     ctx.beginPath(); ctx.roundRect(x-w/2,y-9,w,17,8.5); ctx.fill(); ctx.stroke();
     ctx.fillStyle=col; ctx.fillText(txt,x,y+2.5);
   }
-  function money(v){ if(v>=1e9) return '€'+(v/1e9).toFixed(2)+'bn'; if(v>=1e6) return '€'+(v/1e6).toFixed(0)+'m'; if(v>=1e3) return '€'+Math.round(v/1e3)+'k'; return '€'+Math.round(v); }
+  function money(v){ var n=v<0; v=Math.abs(v); var o; if(v>=1e9)o='€'+(v/1e9).toFixed(2)+'bn'; else if(v>=1e6)o='€'+(v/1e6).toFixed(0)+'m'; else if(v>=1e3)o='€'+Math.round(v/1e3)+'k'; else o='€'+Math.round(v); return (n?'−':'')+o; }
   function set(id,t){ var e=document.getElementById(id); if(e) e.textContent=t; }
 
   function frame(){
@@ -451,48 +483,140 @@
     ctx.fillStyle='rgba(40,60,80,0.55)'; ctx.font='700 8px Inter,sans-serif'; ctx.textAlign='center';
     ctx.fillText('HVDC · ±320 kV · '+cap+' MW · routed through the Celtic Sea, west of Britain',W/2,H-10);
 
-    // ---- economics ----
-    var hourly=absS*flow;                                   // EUR/h while flowing
-    var rent=hourly*8760*UTIL*avail;                        // illustrative annual congestion rent
-    var capex=cap*CAPEX_PER_MW, opex=OPEX_PCT*capex, ebitda=rent-opex, yld=ebitda/capex;
-    var sgn=spread>0?'+':(spread<0?'−':'');
-    set('ixCapV',cap+' MW'); set('ixSpreadV',sgn+'€'+Math.abs(spread)); set('ixAvailV',Math.round(avail*100)+'%');
+    // ---- annual economics feeding the costs + returns ----
+    var hourly=absS*flow;
+    var grossRev=absS*cap*HRS*avail;                         // EUR/yr (spread as avg effective EUR/MWh, full year)
+    var floor=(parseFloat(iFloor.value)||0)*1e6, capR=(parseFloat(iCap.value)||9e9)*1e6;
+    var revenue=Math.max(floor,Math.min(capR,grossRev));     // collared by the cap-and-floor band
+    var buildPerMW=(parseFloat(iBuild.value)||0)*1e6, grant=(parseFloat(iGrant.value)||0)*1e6;
+    capexGrossG=cap*buildPerMW; netCapexG=Math.max(0,capexGrossG-grant);
+    var omRate=(parseFloat(iOM.value)||0)*1e3;               // EUR/MW/yr
+    var c_om=omRate*cap, c_marine=0.36*c_om, c_ins=0.0035*capexGrossG, c_admin=3e6;
+    var opex=c_om+c_marine+c_ins+c_admin, ebitda=revenue-opex;
+    baseRevYr=revenue; baseCostYr=opex; baseEbYr=ebitda;
+
+    set('ixCapV',cap+' MW'); set('ixSpreadV',(spread>0?'+':(spread<0?'−':''))+'€'+Math.abs(spread)); set('ixAvailV',Math.round(avail*100)+'%');
     set('ixDir', flow===0?'No flow':(toIE?'France → Ireland':'Ireland → France'));
     set('ixDirS', flow===0?'prices are level':(toIE?'importing cheaper French power':'exporting cheaper Irish power'));
     set('ixMW', flow+' MW'); set('ixMWs', flow>=cap?'at full capacity':(flow===0?'idle':'part-loaded'));
     set('ixHr', flow===0?'€0 / hr':'€'+Math.round(hourly).toLocaleString()+' / hr');
-    set('ixYr', rent===0?'€0':'≈ '+money(rent));
-    set('ixGross', money(rent)); set('ixOpex', money(opex)); set('ixEbitda', ebitda>=0?money(ebitda):'−'+money(-ebitda));
-    set('ixCapex', money(capex)); set('ixYield', (yld*100).toFixed(1)+'%');
+    set('ixYr', revenue===0?'€0':'≈ '+money(revenue));
+
+    drawWaterfall(revenue, [['Converter & cable O&M',c_om],['Marine repair reserve',c_marine],['Insurance',c_ins],['Admin & overhead',c_admin]], ebitda);
+    set('wfMargin', revenue>0?Math.round(ebitda/revenue*100)+'%':'—');
   }
-  [sCap,sSpread,sAvail].forEach(function(s){ s.addEventListener('input',frame); });
+
+  /* ---------------- EBITDA waterfall (SVG) ---------------- */
+  function drawWaterfall(rev, costs, ebitda){
+    var el=document.getElementById('ixWaterfall'); if(!el) return;
+    var Wd=600,Hd=200, padB=34, padT=22, h=Hd-padB-padT, max=Math.max(rev,1);
+    var bars=costs.length+2, slot=Wd/bars, bw=Math.min(70,slot*0.62);
+    function bx(i){ return slot*i+(slot-bw)/2; }
+    function y(v){ return padT+h-(v/max)*h; }
+    var s='', run=rev, i=0;
+    function lbl(cx,topY,txt,val,col){ return '<text x="'+cx+'" y="'+(topY-6)+'" text-anchor="middle" font-family="Inter,sans-serif" font-size="11" font-weight="700" fill="'+col+'">'+val+'</text>'+
+      '<text x="'+cx+'" y="'+(Hd-padB+13)+'" text-anchor="middle" font-family="Inter,sans-serif" font-size="8.5" fill="#6a7570">'+txt+'</text>'; }
+    // revenue bar
+    s+='<rect x="'+bx(0).toFixed(1)+'" y="'+y(rev).toFixed(1)+'" width="'+bw+'" height="'+(h*rev/max).toFixed(1)+'" rx="3" fill="#0c6b4f" opacity="0.92"/>';
+    s+=lbl(bx(0)+bw/2, y(rev), 'Revenue', money(rev), '#15201d');
+    i=1;
+    costs.forEach(function(c){ var top=run, bot=run-c[1]; if(bot<0)bot=0;
+      var yTop=y(top), yBot=y(bot);
+      s+='<rect x="'+bx(i).toFixed(1)+'" y="'+yTop.toFixed(1)+'" width="'+bw+'" height="'+Math.max(2,(yBot-yTop)).toFixed(1)+'" rx="3" fill="#ef8166" opacity="0.9"/>';
+      // connector line from prev top
+      s+='<line x1="'+(bx(i-1)+bw).toFixed(1)+'" y1="'+yTop.toFixed(1)+'" x2="'+bx(i).toFixed(1)+'" y2="'+yTop.toFixed(1)+'" stroke="#c9d2da" stroke-width="1" stroke-dasharray="2 2"/>';
+      s+=lbl(bx(i)+bw/2, yTop, c[0], '−'+money(c[1]), '#bc4733');
+      run=bot; i++;
+    });
+    // EBITDA bar
+    s+='<line x1="'+(bx(i-1)+bw).toFixed(1)+'" y1="'+y(run).toFixed(1)+'" x2="'+bx(i).toFixed(1)+'" y2="'+y(run).toFixed(1)+'" stroke="#c9d2da" stroke-width="1" stroke-dasharray="2 2"/>';
+    s+='<rect x="'+bx(i).toFixed(1)+'" y="'+y(ebitda).toFixed(1)+'" width="'+bw+'" height="'+Math.max(2,h*Math.max(0,ebitda)/max).toFixed(1)+'" rx="3" fill="#0a5a42"/>';
+    s+=lbl(bx(i)+bw/2, y(Math.max(0,ebitda)), 'EBITDA', money(ebitda), '#0a5a42');
+    el.innerHTML=s;
+  }
+
+  [sCap,sSpread,sAvail].forEach(function(s){ s.addEventListener('input',function(){ frame(); renderModel(); }); });
+  [iBuild,iGrant,iOM,iFloor,iCap].forEach(function(s){ s.addEventListener('input',function(){ frame(); renderModel(); }); });
   var preset=document.getElementById('ixPreset');
-  if(preset) preset.addEventListener('click',function(){ sCap.value=700; sSpread.value=18; sAvail.value=95; frame(); });
+  if(preset) preset.addEventListener('click',function(){ sCap.value=700; sSpread.value=18; sAvail.value=95; frame(); renderModel(); });
   (function loop(){ T+=1; frame(); requestAnimationFrame(loop); })();
-  }
+  } /* end map */
 
-  /* ---------------- progress spine scroll-spy ---------------- */
-  var links=[].slice.call(document.querySelectorAll('.ix-spine a'));
-  var beats=links.map(function(a){ return document.getElementById(a.getAttribute('href').slice(1)); });
+  /* ---------------- DCF / LBO calculator ---------------- */
+  function gv(id){ var v=parseFloat(document.getElementById(id).value); return isFinite(v)?v:0; }
+  function money2(v){ var n=v<0; v=Math.abs(v); var o; if(v>=1e9)o='€'+(v/1e9).toFixed(2)+'bn'; else if(v>=1e6)o='€'+(v/1e6).toFixed(0)+'m'; else if(v>=1e3)o='€'+Math.round(v/1e3)+'k'; else o='€'+Math.round(v); return (n?'−':'')+o; }
+  function m1(v){ return (v/1e6).toFixed(1); }
+  function irr(cf){ var f=function(r){ return cf.reduce(function(s,c,i){ return s+c/Math.pow(1+r,i); },0); };
+    var lo=-0.95,hi=3,flo=f(lo),fhi=f(hi); if(!isFinite(flo)||!isFinite(fhi)||flo*fhi>0) return NaN;
+    for(var k=0;k<140;k++){ var mid=(lo+hi)/2,fm=f(mid); if(flo*fm<=0){hi=mid;}else{lo=mid;flo=fm;} } return (lo+hi)/2; }
+  function pctTxt(x){ return isFinite(x)?(x*100).toFixed(1)+'%':'—'; }
+
+  function computeModel(){
+    var rev0=baseRevYr, eb0=baseEbYr, invest=netCapexG;
+    if(eb0<=0 || rev0<=0 || invest<=0 || eb0/rev0<0.05) return null;
+    var gR=gv('iRevG')/100, capexP=0.04, daP=0.04, tax=gv('iTax')/100;
+    var xMul=gv('iExit'), N=Math.max(3,Math.min(40,Math.round(gv('iHold'))));
+    var lev=gv('iLev'), rd=gv('iRd')/100, amort=gv('iAmort')/100;
+    var debt0=Math.max(0,Math.min(lev*eb0, invest*0.9));      // funded against the net build cost
+    var equity0=invest-debt0;
+    var rows=[], uCF=[-invest], eCF=[-equity0];
+    var debtBal=debt0, amortAmt=amort*debt0, cum=-invest, payback=null;
+    for(var t=1;t<=N;t++){
+      var rev=rev0*Math.pow(1+gR,t-1), eb=eb0*Math.pow(1+gR,t-1);
+      var capex=capexP*rev, da=daP*rev, ebit=eb-da;
+      var fcff=eb-tax*Math.max(0,ebit)-capex;
+      var interest=rd*debtBal, princ=Math.min(amortAmt,debtBal);
+      var ebt=ebit-interest, fcfe=eb-tax*Math.max(0,ebt)-capex-interest-princ;
+      debtBal=Math.max(0,debtBal-princ);
+      var uAdd=fcff, eAdd=fcfe;
+      if(t===N){ var exitEV=xMul*eb; uAdd+=exitEV; eAdd+=(exitEV-debtBal); }
+      if(payback===null){ cum+=fcff; if(cum>=0) payback=t; }
+      uCF.push(uAdd); eCF.push(eAdd);
+      rows.push({t:t,rev:rev,eb:eb,capex:capex,fcff:fcff,debt:debtBal,fcfe:fcfe});
+    }
+    var exitEVf=xMul*rows[N-1].eb, exitEq=exitEVf-rows[N-1].debt;
+    var distrib=eCF.slice(1).reduce(function(a,b){return a+b;},0);
+    var moic=equity0>0?distrib/equity0:NaN;
+    return {eb0:eb0,invest:invest,debt0:debt0,equity0:equity0,N:N,rows:rows,uCF:uCF,eCF:eCF,uIRR:irr(uCF),lIRR:irr(eCF),exitEV:exitEVf,exitEq:exitEq,moic:moic,payback:payback};
+  }
+  function renderModel(){
+    set2('cBaseRev',money2(baseRevYr)); set2('cBaseEb',money2(baseEbYr));
+    var m=computeModel();
+    if(!m){ ['oUIRR','oLIRR','oMOIC','oPB'].forEach(function(id){ set2(id,'—'); });
+      var cs=document.getElementById('calcSum'); if(cs) cs.innerHTML='<span class="lbl">At this price gap the EBITDA is too thin to value — widen the spread, or note that a real link like Celtic relies on a regulated revenue floor.</span>'; return; }
+    set2('oUIRR',pctTxt(m.uIRR)); set2('oLIRR',pctTxt(m.lIRR));
+    set2('oMOIC',isFinite(m.moic)?m.moic.toFixed(2)+'×':'—');
+    set2('oPB',m.payback?m.payback+' yrs':'>'+m.N+' yrs');
+    var ltv=Math.round(m.debt0/m.invest*100);
+    var cs2=document.getElementById('calcSum'); if(cs2) cs2.innerHTML=
+      '<span><span class="lbl">Gross build cost</span> <b>'+money2(capexGrossG)+'</b></span>'+
+      '<span><span class="lbl">Net of grant</span> <b>'+money2(netCapexG)+'</b></span>'+
+      '<span><span class="lbl">Debt</span> <b>'+money2(m.debt0)+'</b> ('+ltv+'% gearing)</span>'+
+      '<span><span class="lbl">Equity in</span> <b>'+money2(m.equity0)+'</b></span>'+
+      '<span><span class="lbl">Exit EV</span> <b>'+money2(m.exitEV)+'</b></span>';
+    var maxAbs=Math.max.apply(null,m.eCF.map(Math.abs).concat([1])), step=m.N>14?3:(m.N>8?2:1);
+    var ch='<div class="jaxis"></div>';
+    m.eCF.forEach(function(cf,i){ var hh=Math.max(2,Math.abs(cf)/maxAbs*60);
+      var cls=cf>=0?(i===m.N?'pos exit':'pos'):'neg';
+      ch+='<div class="jcol"><div class="jbar '+cls+'" style="height:'+hh+'px" title="Year '+i+': '+money2(cf)+'"></div><span class="jlbl">'+(i%step===0?i:'')+'</span></div>'; });
+    var jc=document.getElementById('jchart'); if(jc) jc.innerHTML=ch;
+    var ph=document.getElementById('ptHead'); if(ph) ph.innerHTML='<tr><th>Year</th><th>Revenue</th><th>EBITDA</th><th>Capex</th><th>Unlev. FCF</th><th>Net debt</th><th>Equity FCF</th></tr>';
+    var pb=document.getElementById('ptBody'); if(pb) pb.innerHTML=m.rows.map(function(r){
+      return '<tr><td>'+r.t+'</td><td>'+m1(r.rev)+'</td><td>'+m1(r.eb)+'</td><td>'+m1(r.capex)+'</td><td>'+m1(r.fcff)+'</td><td>'+m1(r.debt)+'</td><td>'+m1(r.fcfe)+'</td></tr>'; }).join('');
+  }
+  function set2(id,t){ var e=document.getElementById(id); if(e) e.textContent=t; }
+  ['iRevG','iTax','iExit','iHold','iLev','iRd','iAmort'].forEach(function(id){
+    var e=document.getElementById(id); if(e) e.addEventListener('input',renderModel); });
+  renderModel();
+
+  /* ---------------- section rail scroll-spy ---------------- */
+  var links=[].slice.call(document.querySelectorAll('.ix-rail a'));
+  var secs=links.map(function(a){ return document.getElementById(a.getAttribute('href').slice(1)); });
   if('IntersectionObserver' in window){
-    var io=new IntersectionObserver(function(es){
-      es.forEach(function(e){ if(e.isIntersecting){ var i=beats.indexOf(e.target);
-        links.forEach(function(l,j){ l.classList.toggle('on', j===i); }); } });
-    },{rootMargin:'-45% 0px -50% 0px'});
-    beats.forEach(function(b){ if(b) io.observe(b); });
+    var io=new IntersectionObserver(function(es){ es.forEach(function(e){ if(e.isIntersecting){ var i=secs.indexOf(e.target);
+      links.forEach(function(l,j){ l.classList.toggle('on', j===i); }); } }); },{rootMargin:'-45% 0px -50% 0px'});
+    secs.forEach(function(b){ if(b) io.observe(b); });
   }
-
-  /* ---------------- check-your-understanding ---------------- */
-  [].slice.call(document.querySelectorAll('#ixQuiz .q')).forEach(function(q){
-    var correct=parseInt(q.getAttribute('data-correct'),10);
-    var opts=[].slice.call(q.querySelectorAll('.opt')), exp=q.querySelector('.exp'), done=false;
-    opts.forEach(function(opt,i){ opt.addEventListener('click',function(){
-      if(done) return; done=true;
-      opts[correct].classList.add('correct');
-      if(i!==correct) opt.classList.add('wrong');
-      exp.classList.add('show');
-    }); });
-  });
 })();
 </script>
 
