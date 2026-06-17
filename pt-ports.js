@@ -7,8 +7,9 @@
   var CUR='€';
   var A=null;
   var baseRevYr=0, baseCostYr=0, baseEbYr=0, capexGrossG=0, netCapexG=0;
-  var coins=[], ships=[], _anim=false;
+  var coins=[], transit=[], berthFill=[], schedT=0, _anim=false;
   function rnd(a,b){ return a+Math.random()*(b-a); }
+  function lerpA(a,b,f){ var d=((b-a+Math.PI)%(Math.PI*2))-Math.PI; return a+d*f; }
 
   /* ---------------- formatting ---------------- */
   function money(v){ var n=v<0; v=Math.abs(v); var o;
@@ -57,7 +58,7 @@
       premDef:8,premMin:2,premMax:25},
     opex:{labour:8,equip:90,concession:0,admin:130},
     calc:{build:9000,grant:0,capex:4,revG:2,floor:400,cap:1500,tax:25,exit:12,lev:5,rd:4,amort:2,hold:25},
-    map:{ labels:[['NORTH SEA',150,205,'sea'],['MAASVLAKTE 2',470,44,'land'],['ROTTERDAM',636,300,'land']],
+    map:{ labels:[['NORTH SEA',120,300,'sea'],['SEA WALL',150,108,'seafaint'],['MAASVLAKTE 2',470,44,'land'],['DEEP-WATER TERMINALS',636,220,'feat'],['ROTTERDAM',636,300,'land']],
       footer:'Landlord port authority · Maasvlakte 2 deep-water terminals · North Sea mouth' }
   },
 
@@ -92,7 +93,7 @@
       premDef:10,premMin:3,premMax:25},
     opex:{labour:14,equip:70,concession:0,admin:73},
     calc:{build:7000,grant:0,capex:5,revG:2,floor:300,cap:1200,tax:0,exit:12,lev:4,rd:4.5,amort:2,hold:25},
-    map:{ labels:[['PACIFIC',60,200,'sea'],['SAN PEDRO BAY',232,205,'sea'],['LOS ANGELES',636,110,'land'],['PIER 400',636,432,'land']],
+    map:{ labels:[['PACIFIC',56,300,'sea'],['FEDERAL BREAKWATER',116,54,'seafaint'],["ANGEL'S GATE",170,206,'seafaint'],['SAN PEDRO BAY',262,300,'sea'],['LOS ANGELES',636,110,'land'],['LONG BEACH',636,300,'feat'],['PIER 400',636,432,'land']],
       footer:'Municipal landlord port · San Pedro Bay · behind the federal breakwater' }
   },
 
@@ -127,7 +128,7 @@
       premDef:18,premMin:5,premMax:35},
     opex:{labour:35,equip:30,concession:0.05,admin:11},
     calc:{build:1700,grant:0,capex:6,revG:4,floor:120,cap:500,tax:30,exit:8,lev:4,rd:9,amort:4,hold:25},
-    map:{ labels:[['CARIBBEAN SEA',72,150,'sea'],['BAHÍA DE CARTAGENA',250,255,'sea'],['CARTAGENA',638,110,'land'],['CONTECAR',638,400,'land']],
+    map:{ labels:[['CARIBBEAN SEA',62,150,'sea'],['TIERRABOMBA',150,210,'feat'],['BOCACHICA',150,402,'seafaint'],['BAHÍA DE CARTAGENA',272,290,'sea'],['CARTAGENA',638,108,'land'],['CONTECAR',638,300,'land'],['SPRC',638,400,'feat']],
       footer:'Privatised terminal operator · Caribbean transshipment hub · sheltered bay' }
   },
 
@@ -162,7 +163,7 @@
       premDef:10,premMin:3,premMax:25},
     opex:{labour:10,equip:40,concession:0,admin:41},
     calc:{build:9700,grant:0,capex:4,revG:3,floor:250,cap:800,tax:30,exit:22,lev:7,rd:5,amort:1,hold:40},
-    map:{ labels:[['PORT PHILLIP BAY',150,210,'sea'],['YARRA R.',478,42,'seafaint'],['MELBOURNE',640,300,'land'],['WEBB DOCK',640,420,'land']],
+    map:{ labels:[['PORT PHILLIP BAY',150,300,'sea'],['YARRA RIVER',472,60,'seafaint'],['SWANSON DOCK',468,108,'feat'],['MELBOURNE',640,300,'land'],['WEBB DOCK',640,420,'land']],
       footer:'Privatised 50-year lease · Swanson & Webb docks · Port Phillip Bay' }
   },
 
@@ -197,7 +198,7 @@
       premDef:12,premMin:4,premMax:30},
     opex:{labour:55,equip:200,concession:0,admin:160},
     calc:{build:15000,grant:0,capex:5,revG:3,floor:800,cap:3500,tax:9,exit:11,lev:5,rd:5,amort:2,hold:25},
-    map:{ labels:[['ARABIAN GULF',72,200,'sea'],['JEBEL ALI',640,110,'land'],['JAFZA FREE ZONE',636,420,'land']],
+    map:{ labels:[['ARABIAN GULF',72,262,'sea'],['BREAKWATER',150,92,'seafaint'],['JEBEL ALI',640,110,'land'],['JAFZA FREE ZONE',636,300,'feat'],['TERMINAL 4',636,430,'feat']],
       footer:'World\'s largest man-made harbour · DP World · JAFZA free zone behind' }
   },
 
@@ -232,7 +233,7 @@
       premDef:8,premMin:2,premMax:20},
     opex:{labour:250,equip:2500,concession:0,admin:2100},
     calc:{build:130000,grant:0,capex:5,revG:3,floor:12000,cap:60000,tax:25,exit:9,lev:3,rd:4,amort:2,hold:25},
-    map:{ labels:[['EAST CHINA SEA',120,180,'sea'],['YANGSHAN',505,424,'land'],['DONGHAI BRIDGE',598,286,'seafaint'],['MAINLAND',705,180,'land']],
+    map:{ labels:[['HANGZHOU BAY',110,180,'sea'],['GREATER YANGSHAN',418,424,'land'],['LESSER YANGSHAN',214,348,'feat'],['DONGHAI BRIDGE',598,286,'seafaint'],['SHANGHAI',705,180,'feat'],['MAINLAND',705,360,'land']],
       footer:'State-owned automated mega-port · offshore Yangshan island · 32.5 km Donghai Bridge' }
   }
   };
@@ -250,6 +251,7 @@
   var BOXCOLS=['#b0392f','#246a86','#2f7d54','#c0902f','#7a8088','#3a4048','#9c5a2a','#4a6f8a'];
   function boxCol(i){ return BOXCOLS[((i%BOXCOLS.length)+BOXCOLS.length)%BOXCOLS.length]; }
   var LSTY={ land:['rgba(70,90,80,0.7)','700 12px Inter,sans-serif'],
+            feat:['rgba(70,92,82,0.66)','600 9px Inter,sans-serif'],
             sea:['rgba(70,110,150,0.5)','italic 600 12px "Source Serif 4",Georgia,serif'],
             seafaint:['rgba(70,110,150,0.34)','italic 600 10px "Source Serif 4",Georgia,serif'] };
 
@@ -370,30 +372,27 @@
     ctx.fillStyle='#aeb8c0'; rr(-wid/2+2,len/2-9,wid-4,6,1); ctx.fill();
     ctx.restore();
   }
-  /* ship-to-shore gantry crane at the quay (quayX), straddling berth, working a ship to its left */
+  /* ship-to-shore gantry crane: trolley picks a box at the ship, carries it to the
+     landside, drops it (into the yard), then returns empty — a clear directional move */
   function gantryCrane(qx,cy,reach,phase,speed){
     var legBack=qx+14, tipX=qx-reach;
     ctx.save();
-    // portal legs (waterside + landside rails)
     ctx.strokeStyle='#6b7680'; ctx.lineWidth=2.2;
     ctx.beginPath(); ctx.moveTo(qx-2,cy-9); ctx.lineTo(qx-2,cy+9); ctx.moveTo(legBack,cy-9); ctx.lineTo(legBack,cy+9); ctx.stroke();
-    // boom over the ship
     ctx.strokeStyle='#7d8893'; ctx.lineWidth=2.6;
     ctx.beginPath(); ctx.moveTo(legBack,cy-7); ctx.lineTo(tipX,cy-7); ctx.stroke();
     ctx.strokeStyle='rgba(255,255,255,0.3)'; ctx.lineWidth=0.8; ctx.beginPath(); ctx.moveTo(legBack,cy-8.4); ctx.lineTo(tipX,cy-8.4); ctx.stroke();
-    // trolley travels along the boom; container rides with it on the return
-    var u=0.5+0.5*Math.sin(T*speed+phase);          // 0 (ship side) .. 1 (yard side)
+    var ph=(T*speed+phase)%(Math.PI*2);
+    var u=(1-Math.cos(ph))/2;                         // 0 = ship side, 1 = landside, and back
     var tx=tipX+(legBack-tipX)*u;
-    // spreader cable
+    var carrying = ph<Math.PI;                         // box only on the ship→land leg
     ctx.strokeStyle='rgba(40,50,55,0.6)'; ctx.lineWidth=0.8;
-    ctx.beginPath(); ctx.moveTo(tx,cy-7); ctx.lineTo(tx,cy); ctx.stroke();
-    // a container hanging on part of the cycle
-    var lifting = (Math.sin(T*speed+phase)>0);
-    if(lifting){ ctx.fillStyle=boxCol((phase*7+ (cy|0))); rr(tx-3.2,cy-2,6.4,4,1); ctx.fill(); }
-    // trolley
+    ctx.beginPath(); ctx.moveTo(tx,cy-7); ctx.lineTo(tx,cy-(carrying?1.5:5)); ctx.stroke();
+    if(carrying){ ctx.fillStyle=boxCol((phase*7+(cy|0))|0); rr(tx-3.2,cy-2.4,6.4,4,1); ctx.fill();
+      ctx.fillStyle='rgba(255,255,255,0.25)'; rr(tx-3.2,cy-2.4,6.4,1.3,0.6); ctx.fill(); }
     ctx.fillStyle='#2b3338'; rr(tx-2.2,cy-8.6,4.4,3.2,1); ctx.fill();
     ctx.restore();
-    return {x:tx,y:cy,u:u};
+    return {drop:(ph>Math.PI-0.18 && ph<Math.PI+0.18), x:legBack+2, y:cy};
   }
   function tug(x,y,ang){
     ctx.save(); ctx.translate(x,y); ctx.rotate(ang);
@@ -418,6 +417,56 @@
       ctx.fillStyle = ((x/70)|0)%2 ? '#2f7d54' : '#b0392f';
       ctx.globalAlpha=blink?1:0.7; ctx.beginPath(); ctx.arc(x,y-22+((x/70|0)%2?44:0),3,0,Math.PI*2); ctx.fill(); ctx.globalAlpha=1; }
   }
+  /* inland waterways / dredged basins drawn as sea on top of the land (rivers, fingers) */
+  function drawWater(G){
+    (G.water||[]).forEach(function(p){
+      polyPath(p); var g=ctx.createLinearGradient(0,0,0,H); g.addColorStop(0,'#cfe5f0'); g.addColorStop(1,'#bcdcea');
+      ctx.fillStyle=g; ctx.fill();
+      polyPath(p); ctx.strokeStyle='rgba(96,128,150,0.35)'; ctx.lineWidth=1; ctx.stroke();
+    });
+  }
+
+  /* ---- ship traffic: visible arrivals, berthing and departures ---- */
+  function posOnPath(path,d){
+    var total=0,i; for(i=1;i<path.length;i++) total+=Math.hypot(path[i][0]-path[i-1][0],path[i][1]-path[i-1][1]);
+    var acc=0;
+    for(i=1;i<path.length;i++){ var a=path[i-1],b=path[i], L=Math.hypot(b[0]-a[0],b[1]-a[1])||1;
+      if(d<=acc+L || i===path.length-1){ var f=Math.max(0,Math.min(1,(d-acc)/L));
+        return {x:a[0]+(b[0]-a[0])*f, y:a[1]+(b[1]-a[1])*f, ang:Math.atan2(b[0]-a[0],-(b[1]-a[1])), seg:i, frac:f, total:total}; }
+      acc+=L; }
+    return {x:path[path.length-1][0],y:path[path.length-1][1],ang:0,seg:path.length-1,frac:1,total:total};
+  }
+  function berthPt(G,i){ return [G.quayX-18, G.berths[i]]; }
+  function spawnArr(G,i){ var b=berthPt(G,i), cy=G.channelY||300;
+    transit.push({kind:'arr',berth:i,d:0,speed:rnd(0.9,1.3),len:rnd(50,70),wid:21,seed:(i*5+3)|0,
+      path:[[-72,cy],[G.quayX-90,cy],[b[0],b[1]]],x:-72,y:cy,ang:Math.PI/2}); }
+  function spawnDep(G,i){ var b=berthPt(G,i), cy=G.channelY||300; berthFill[i]=false;
+    transit.push({kind:'dep',berth:i,d:0,speed:rnd(0.9,1.3),len:rnd(50,70),wid:21,seed:(i*5+3)|0,
+      path:[[b[0],b[1]],[G.quayX-90,cy],[-72,cy]],x:b[0],y:b[1],ang:0}); }
+  function hasArr(i){ return transit.some(function(t){return t.kind==='arr'&&t.berth===i;}); }
+  function hasDep(i){ return transit.some(function(t){return t.kind==='dep'&&t.berth===i;}); }
+  function pickFree(G){ var c=[]; for(var i=0;i<G.berths.length;i++) if(!berthFill[i]&&!hasArr(i)) c.push(i); return c.length?c[(Math.random()*c.length)|0]:-1; }
+  function pickOcc(G){ var c=[]; for(var i=0;i<G.berths.length;i++) if(berthFill[i]&&!hasDep(i)) c.push(i); return c.length?c[(Math.random()*c.length)|0]:-1; }
+  function updateTransit(){
+    transit.forEach(function(t){ t.d+=t.speed;
+      var r=posOnPath(t.path,t.d); t.x=r.x; t.y=r.y;
+      var head=r.ang, last=t.path.length-1;
+      if(t.kind==='arr' && r.seg===last) head=lerpA(r.ang,0,r.frac);     // swing into the berth (face north)
+      if(t.kind==='dep' && r.seg===1)   head=lerpA(0,r.ang,r.frac);      // pull out of the berth
+      t.ang=head;
+      if(t.d>=r.total){ if(t.kind==='arr') berthFill[t.berth]=true; t.done=true; }
+    });
+    transit=transit.filter(function(t){return !t.done;});
+  }
+  function drawTransit(G){
+    transit.forEach(function(t){
+      var a=Math.max(0,Math.min(1,(t.x+64)/36));                         // fade in/out at the sea edge
+      vessel(t.x,t.y,t.len,t.wid,t.ang,t.seed,a);
+      if(t.x>G.quayX-150 && t.x<G.quayX-10){                             // a tug nudging alongside
+        tug(t.x-16, t.y+13, t.kind==='arr'?0.25:Math.PI-0.25);
+      }
+    });
+  }
 
   /* ===================================================================
      FRAME
@@ -433,43 +482,41 @@
     drawBreakwaters(G);
     drawBridge(G);
     drawLand(G);
+    drawWater(G);
     drawChannelBuoys(G);
     drawYard(G,util);
     drawGateRoad(G,util);
     drawQuay(G);
 
-    // ---- berthed ships + cranes ----
-    var berths=G.berths||[], occ=Math.max(1,Math.min(berths.length,Math.round(util*berths.length+0.5)));
+    // ---- ship traffic: schedule arrivals / departures toward the throughput target ----
+    var berths=G.berths||[];
+    if(berthFill.length!==berths.length){ berthFill=berths.map(function(_,i){ return i<Math.max(1,Math.round(util*berths.length)); }); }
+    var target=Math.max(1,Math.min(berths.length,Math.round(util*berths.length)));
+    var occ=0; for(var bi=0;bi<berths.length;bi++) if(berthFill[bi]) occ++;
+    var effective=occ + transit.filter(function(t){return t.kind==='arr';}).length - transit.filter(function(t){return t.kind==='dep';}).length;
+    if(_anim){ schedT--;
+      if(schedT<=0){
+        if(effective<target){ var fi=pickFree(G); if(fi>=0){ spawnArr(G,fi); schedT=rnd(55,130); } else schedT=40; }
+        else if(effective>target){ var oi=pickOcc(G); if(oi>=0){ spawnDep(G,oi); schedT=rnd(55,130); } else schedT=40; }
+        else { if(occ>0 && Math.random()<0.6){ var ci2=pickOcc(G); if(ci2>=0) spawnDep(G,ci2); } schedT=rnd(120,260); }
+      }
+      updateTransit();
+    }
+
+    // berthed ships + working cranes
     var cranesPer=2+Math.round(util*2), cspeed=0.05*(0.6+util);
-    var shipLen=Math.min(70, (G.quayBot-G.quayTop)/Math.max(berths.length,1)-6);
-    var reach=Math.min(46, 24+util*10+18);
-    for(var bI=0;bI<occ;bI++){
-      var by=berths[bI];
-      vessel(G.quayX-18, by, shipLen, 22, 0, bI*4+2, 1);
+    var shipLen=Math.min(70,(G.quayBot-G.quayTop)/Math.max(berths.length,1)-6);
+    var reach=42;
+    for(var b2=0;b2<berths.length;b2++){ if(!berthFill[b2]) continue; var by=berths[b2];
+      vessel(G.quayX-18, by, shipLen, 22, 0, b2*4+2, 1);
       for(var ci=0;ci<cranesPer;ci++){
         var cy=by-shipLen*0.34 + (cranesPer>1? ci/(cranesPer-1)*shipLen*0.68 : 0);
-        var cr=gantryCrane(G.quayX, cy, reach, bI*1.7+ci*2.1, cspeed);
-        if(_anim && cr.u>0.93 && Math.random()<0.10*(0.5+util)) spawnCoin(G.quayX+8, cy-6);
+        var cr=gantryCrane(G.quayX, cy, reach, b2*1.7+ci*2.1, cspeed);
+        if(_anim && cr.drop && Math.random()<0.5) spawnCoin(cr.x+4, cr.y-6);
       }
     }
-
-    // ---- moving traffic in the channel: arriving/departing ships with tugs ----
-    if(_anim){
-      if(ships.length<1 && Math.random()<0.012){
-        var dir=Math.random()<0.55?1:-1; // 1 = arriving (into port), -1 = departing
-        ships.push({p:dir>0?0:1, dir:dir, y:(G.channelY||300)+rnd(-30,30), sp:rnd(0.0016,0.003), len:rnd(48,72)});
-      }
-      ships.forEach(function(s){ s.p+=s.sp*s.dir; });
-      ships=ships.filter(function(s){ return s.p>-0.05 && s.p<1.05; });
-    }
-    ships.forEach(function(s){
-      var x0=-50, x1=G.quayX-120, x=x0+(x1-x0)*s.p;
-      var a=Math.min(1, Math.min(s.p,1-s.p)*5)*0.95;
-      vessel(x, s.y, s.len, 20, s.dir>0?Math.PI/2:-Math.PI/2, 9, a);
-      // a tug nudging alongside when close in
-      if(s.p>0.45 && s.p<0.95){ tug(x-(s.dir>0?22:-22), s.y+14, s.dir>0?0.2:Math.PI-0.2); }
-    });
-
+    // arrivals / departures sailing the channel, with tugs
+    drawTransit(G);
     drawCoins();
 
     // labels last, with a backing plate over the busy terminal
@@ -612,7 +659,7 @@
       iFloor=document.getElementById('iFloor'), iCap=document.getElementById('iCap');
 
   function render(key){
-    A=ASSETS[key]; CUR=A.cur; coins=[]; ships=[];
+    A=ASSETS[key]; CUR=A.cur; coins=[]; transit=[]; berthFill=[];
     set('ixAssetName',A.name); set('ixAssetGeo',A.geo); set('ixCont',A.continent);
     set('ixBarName',A.name);
     html('ixLede',A.lede);
