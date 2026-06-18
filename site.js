@@ -5,6 +5,34 @@
   var classes = INDEX.filter(function (e) { return e.g === 'Asset class'; });
   var here = (location.pathname.split('/').pop() || 'index.html');
 
+  /* ---------------- Previous / Next pager ---------------- */
+  (function () {
+    /* a linear tour through the reference library: asset-class pages + their
+       sub-sectors, in INDEX order (skip Home/Compare/Community and the tools) */
+    var SEQ = INDEX.filter(function (e) { return e.g !== 'Page' && e.g !== 'Tool'; });
+    var idx = -1;
+    for (var k = 0; k < SEQ.length; k++) { if (SEQ[k].u === here) { idx = k; break; } }
+    var footer = document.querySelector('footer');
+    if (idx < 0 || !footer) return;          /* not a tour page -> no pager */
+    var prev = idx > 0 ? SEQ[idx - 1] : null;
+    var next = idx < SEQ.length - 1 ? SEQ[idx + 1] : null;
+    function esc(s) { return s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;'); }
+    function card(e, dir) {
+      if (!e) return '<span class="pager-link empty" aria-hidden="true"></span>';
+      var label = dir === 'prev' ? 'Previous' : 'Next';
+      var arrow = '<span class="pager-arrow">' + (dir === 'prev' ? '←' : '→') + '</span>';
+      return '<a class="pager-link ' + dir + '" href="' + e.u + '">'
+        + '<span class="pager-eyebrow">' + (dir === 'prev' ? arrow + label : label + arrow) + '</span>'
+        + '<span class="pager-name">' + esc(e.t) + '</span>'
+        + '<span class="pager-group">' + esc(e.g === 'Asset class' ? 'Asset class' : e.g) + '</span></a>';
+    }
+    var pager = document.createElement('nav');
+    pager.className = 'pager' + (document.getElementById('ix') ? ' narrow' : '');
+    pager.setAttribute('aria-label', 'Previous and next page');
+    pager.innerHTML = card(prev, 'prev') + card(next, 'next');
+    footer.parentNode.insertBefore(pager, footer);
+  })();
+
   /* ---------------- Top navigation ---------------- */
   var wrap = document.querySelector('nav .wrap');
   if (wrap) {
