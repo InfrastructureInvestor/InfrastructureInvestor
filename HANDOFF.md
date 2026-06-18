@@ -161,6 +161,22 @@ Europe, North America, South America, Australia/Oceania, Middle East, China — 
 assets flagged illustrative), and headless-validated returns.
 
 - **Electricity interconnectors** — `electricity-interconnectors.html` + `ix-interconnectors.js` + `ix-geo.js`. The prototype. (Celtic, Champlain-Hudson, Marinus, GCC, Garabi, Cahora Bassa.)
+- **Electricity transmission** — `electricity-transmission.html` + `tx-grid.js` + `tx-geo.js`. National Grid ET
+  (UK RAB), ITC (US FERC formula rates), ISA CTEEP (Brazil ANEEL availability/RAP concession), TransGrid
+  (Australia, privatised AER revenue-cap), National Grid SA (Saudi state), State Grid (China state UHV).
+  **New side-elevation grid-landscape animation** (not geographic): generation cluster (spinning turbines,
+  solar, cooling-tower steam, coal/gas stacks, hydro dam — mix varies per network from `tx-geo.js`) →
+  step-up substation → a corridor of lattice **pylons** carrying catenary HV conductors with animated
+  **current pulses** (plus a distinct orange **HVDC** bipole where the network runs DC) → step-down
+  substation → a lit **demand city** skyline. The **value-flow** here is the regulated **building block**:
+  green coins = *return on RAB*, amber = *depreciation & cost recovery*, at the live split, rising from the
+  substations/pylons (the assets) — teaching that revenue is earned on the **asset base, decoupled from the
+  power flowing**. Per-network signatures: pylon count, headline **voltage** (e.g. ±1100 kV UHV for China),
+  HVDC on/off, generation mix, city. Sliders are **RAB × allowed return (WACC) × performance** (incentive);
+  revenue = WACC·RAB + depreciation + opex allowance + incentive. Returns calibrated headlessly to the
+  regulated band (UK ~6% asset return; US/ITC higher on its allowed ROE; Brazil where ~10% debt ≈ asset
+  return so leverage barely helps; TransGrid muted by its 2015 privatisation premium). Old single-asset sim
+  kept and linked as `et-sim.html`.
 - **Bridges** — `bridges.html` + `br-bridges.js` + `br-geo.js`. Øresund, Confederation, Rio–Niterói, Sydney Harbour, King Fahd Causeway, HZMB. (`bridge-sim.html` standalone sim kept.)
 - **Ports** — `ports.html` + `pt-ports.js` + `pt-geo.js`. Rotterdam, Los Angeles, Cartagena, Melbourne, Jebel Ali, Shanghai/Yangshan. (`ports-sim.html` kept.)
 - **Airports** — `airports.html` + `ap-airports.js` + `ap-geo.js`. Heathrow (RAB single-till), Atlanta
