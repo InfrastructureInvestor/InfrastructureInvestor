@@ -310,9 +310,16 @@ Run `git fetch origin main` then `git log --oneline origin/main..<branch>` to se
   renderer and the `ASSETS` content change. Calibration lesson: net entry must be a *fair multiple of
   EBITDA* or MOIC explodes — set contributions/grant so net capex ≈ a sensible EV, and keep EM holds
   short (~15y).
-- **Transport** sub-sectors still on the old sim/tool pattern: `roads.html` (toll/availability —
-  geographic map + value-flow), `rolling-stock.html` (ROSCO leasing — contracted), `ev-charging.html`
-  (utilisation × margin growth). Each has a `*-sim.html` to keep and link.
+- **Transport is DONE** ✅ — `roads.html` (`rd-geo.js`/`rd-roads.js`, toll-vs-availability engine: traffic
+  × toll with a revenue floor = availability payment), `rolling-stock.html` (`rs-geo.js`/`rs-fleet.js`,
+  contracted leasing annuity: fleet × lease rate × availability), `ev-charging.html`
+  (`ev-geo.js`/`ev-charge.js`, the utilisation flywheel: fixed cost per charger, so low utilisation =
+  loss). Bespoke top-down scenes (motorway+toll gantry / depot+running-line+shed / charging forecourt),
+  shared overlay + DCF, old `*-sim.html` linked. With Energy & Utilities, **all of those two asset
+  classes' sub-sectors are now full reference pages.** Next candidates: remaining sub-sectors in
+  **digital-infrastructure, social-infrastructure, energy-transition, environmental-waste** still on the
+  old sim/tool pattern — same playbook (geographic → Natural Earth; regulated/contracted → economics
+  overlay engine; merchant/utilisation → the connections/ESCO/utilisation variants).
 - **If a segment is geographic, use the Natural Earth recipe above**; if it's a regulated/contracted
   network, **reuse the daytime economics-forward RAB engine + overlay** (copy `wt-water.js` or
   `ed-dist.js` and swap the scene). Keep one PR per segment; the repo auto-merges within minutes.
