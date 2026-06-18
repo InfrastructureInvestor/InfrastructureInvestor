@@ -4,164 +4,189 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Mobile towers — Infrastructure Investor</title>
+<meta name="description" content="A reference on mobile towers (towercos) — how a tower company leases space to mobile operators and turns the tenancy ratio into a colocation annuity — illustrated with six real operators from six regions: Cellnex, American Tower, Highline do Brasil, Amplitel, TASC Towers and China Tower.">
 <script src="anim-guard.js"></script>
-<meta name="description" content="An interactive economic model of a mobile tower portfolio — watch antennas light up as operators colocate, see the anchor lease and colocation revenue split,…">
 <link rel="icon" type="image/svg+xml" href="favicon.svg">
 <link rel="canonical" href="https://theinfrastructureinvestor.com/mobile-towers.html">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Infrastructure Reference">
 <meta property="og:title" content="Mobile towers — Infrastructure Investor">
-<meta property="og:description" content="An interactive economic model of a mobile tower portfolio — watch antennas light up as operators colocate, see the anchor lease and colocation revenue split,…">
+<meta property="og:description" content="How a tower company leases space to mobile operators and turns the tenancy ratio into a colocation annuity, illustrated with six real operators from six regions.">
 <meta property="og:url" content="https://theinfrastructureinvestor.com/mobile-towers.html">
 <meta property="og:image" content="https://theinfrastructureinvestor.com/og-image.svg">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Mobile towers — Infrastructure Investor">
-<meta name="twitter:description" content="An interactive economic model of a mobile tower portfolio — watch antennas light up as operators colocate, see the anchor lease and colocation revenue split,…">
+<meta name="twitter:description" content="How a tower company leases space to mobile operators and turns the tenancy ratio into a colocation annuity, illustrated with six real operators from six regions.">
 <meta name="twitter:image" content="https://theinfrastructureinvestor.com/og-image.svg">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,500;0,8..60,600;1,8..60,400&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="styles.css">
 <style>
+/* ---- sticky control bar : worked-example picker + section nav ---- */
+.ix-bar{position:sticky;top:0;z-index:80;background:rgba(255,255,255,0.93);backdrop-filter:blur(10px);border-bottom:1px solid var(--border)}
+.ix-bar .wrap{display:flex;align-items:center;gap:1.1rem;padding:.5rem 2rem;max-width:880px;margin:0 auto}
+.ix-bar-name{font-family:'Source Serif 4',Georgia,serif;font-size:.92rem;font-weight:600;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;flex:0 1 auto}
+.ix-bar-nav{display:flex;gap:.1rem;overflow-x:auto;scrollbar-width:none;margin-left:auto}
+.ix-bar-nav::-webkit-scrollbar{display:none}
+.ix-bar-nav a{flex:0 0 auto;font-size:.72rem;font-weight:600;color:var(--muted);text-decoration:none;padding:.4rem .65rem;border-radius:8px;white-space:nowrap;transition:all .12s}
+.ix-bar-nav a:hover{color:var(--accent)}
+.ix-bar-nav a.on{color:var(--accent);background:var(--accent-soft)}
+@media(max-width:780px){.ix-bar .wrap{gap:.6rem;padding:.5rem 1.25rem}.ix-bar-name{max-width:55%}}
 
-#twrsim{
-  --bg:#f5f7f6; --surface:#ffffff; --surface-2:#fbfcfc;
-  --border:#e7ebe9; --border-strong:#d8dedb; --text:#15201d; --text2:#4c5854; --muted:#8a948f;
-  --accent:#0c6b4f; --accent-soft:#e7f1ec;
-  --aero:#0c6b4f; --comm:#b07d24; --cost:#bc4733;
-  --stock:#2f5fb0; --stock-soft:#eaf0fa;
-}
-*{box-sizing:border-box;margin:0;padding:0}
-#twrsim{font-family:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;color:var(--text);width:100%;max-width:980px;margin:0 auto;font-variant-numeric:tabular-nums}
-#twrsim .as-head{margin-bottom:1.1rem}
-#twrsim .as-eyebrow{font-size:.66rem;letter-spacing:.16em;text-transform:uppercase;font-weight:600;color:var(--accent);margin-bottom:.5rem}
-#twrsim h2{font-family:'Source Serif 4',Georgia,serif;font-weight:500;font-size:1.7rem;line-height:1.1;letter-spacing:-.015em;margin-bottom:.4rem}
-#twrsim .as-sub{font-size:.86rem;color:var(--text2);line-height:1.6;max-width:660px}
-#twrsim .as-ctrls{display:flex;gap:.65rem;align-items:center;flex-wrap:wrap;margin:1.1rem 0 .7rem;background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:.7rem .9rem}
-#twrsim .ctrl{display:flex;align-items:center;gap:.55rem}
-#twrsim .ctrl label{font-size:.7rem;color:var(--muted);letter-spacing:.04em;text-transform:uppercase;font-weight:600;white-space:nowrap}
-#twrsim .ctrl input[type=range]{width:90px;-webkit-appearance:none;appearance:none;height:4px;border-radius:3px;background:var(--border-strong);outline:none}
-#twrsim .ctrl input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;appearance:none;width:14px;height:14px;border-radius:50%;background:var(--accent);cursor:pointer;border:2px solid #fff;box-shadow:0 1px 3px rgba(0,0,0,.2)}
-#twrsim .ctrl input[type=range]::-moz-range-thumb{width:14px;height:14px;border-radius:50%;background:var(--accent);cursor:pointer;border:2px solid #fff}
-#twrsim .ctrl .val{font-size:.8rem;font-weight:600;min-width:14px;color:var(--text)}
-#twrsim .as-divider{width:1px;height:24px;background:var(--border);margin:0 .15rem}
-#twrsim .spd{display:flex;gap:.25rem;margin-left:auto}
-#twrsim .spd button{font-family:inherit;font-size:.72rem;font-weight:600;padding:.32rem .6rem;border-radius:7px;border:1px solid var(--border-strong);background:var(--surface-2);color:var(--text2);cursor:pointer;transition:all .12s}
-#twrsim .spd button:hover{border-color:var(--accent)}
-#twrsim .spd button.on{background:var(--accent);color:#fff;border-color:var(--accent)}
-#twrsim .as-stage{position:relative;border-radius:14px;overflow:hidden;border:1px solid var(--border);box-shadow:0 12px 34px rgba(18,38,32,.10)}
-#twrsim canvas{display:block;width:100%;aspect-ratio:720/360}
-#twrsim .as-mini{position:fixed;right:20px;bottom:20px;width:clamp(300px,34vw,440px);aspect-ratio:720/360;border-radius:12px;overflow:hidden;border:1px solid rgba(255,255,255,.16);box-shadow:0 16px 40px rgba(8,16,30,.45);opacity:0;transform:translateY(12px) scale(.97);pointer-events:none;transition:opacity .28s ease,transform .28s ease;z-index:70;cursor:pointer}
-#twrsim .as-mini.show{opacity:1;transform:none;pointer-events:auto}
-#twrsim .as-mini:hover{border-color:rgba(55,192,142,.55)}
-#twrsim .as-mini canvas{display:block;width:100%;height:100%;aspect-ratio:auto}
-#twrsim .as-mini-tag{position:absolute;left:9px;top:8px;font-size:.6rem;font-weight:700;letter-spacing:.1em;color:#cfe0ea;background:rgba(10,20,34,.62);padding:3px 8px;border-radius:6px;display:flex;align-items:center;gap:5px}
-#twrsim .as-mini-tag::before{content:'';width:6px;height:6px;border-radius:50%;background:#37c08e;box-shadow:0 0 6px #37c08e}
-@media(max-width:560px){ #twrsim .as-mini{width:min(66vw,260px);right:10px;bottom:10px} }
-#twrsim .as-legend{display:flex;gap:1.1rem;flex-wrap:wrap;margin:.7rem 0 .2rem}
-#twrsim .leg{display:flex;align-items:center;gap:.4rem;font-size:.72rem;color:var(--text2)}
-#twrsim .leg .dot{width:9px;height:9px;border-radius:50%;flex-shrink:0}
-#twrsim .leg b{font-weight:600;color:var(--text)}
-#twrsim .band-label{display:flex;align-items:center;gap:.6rem;margin:1.1rem 0 .55rem}
-#twrsim .band-label .t{font-size:.66rem;letter-spacing:.08em;text-transform:uppercase;font-weight:600;color:var(--muted)}
-#twrsim .band-label .ln{flex:1;height:1px;background:var(--border)}
-#twrsim .band-label .hint{font-size:.68rem;color:var(--muted);font-weight:400;text-transform:none;letter-spacing:0}
-#twrsim .as-kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:.7rem}
-#twrsim .kpi,#twrsim .stock{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:.85rem .95rem;position:relative;overflow:hidden}
-#twrsim .kpi::before,#twrsim .stock::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px}
-#twrsim .kpi.k-eb::before{background:var(--aero)}
-#twrsim .kpi.k-rev::before{background:var(--comm)}
-#twrsim .kpi.k-yield::before{background:var(--aero)}
-#twrsim .kpi.k-pax::before{background:#3a7bd0}
-#twrsim .stock::before{background:var(--stock)}
-#twrsim .kpi .k,#twrsim .stock .k{font-size:.65rem;letter-spacing:.05em;text-transform:uppercase;color:var(--muted);font-weight:600;margin-bottom:.3rem}
-#twrsim .kpi .v,#twrsim .stock .v{font-family:'Source Serif 4',Georgia,serif;font-size:1.55rem;font-weight:500;line-height:1;letter-spacing:-.01em}
-#twrsim .stock .v{color:var(--stock)}
-#twrsim .kpi .s,#twrsim .stock .s{font-size:.7rem;color:var(--text2);margin-top:.35rem}
-#twrsim .kpi .s b,#twrsim .stock .s b{font-weight:600;color:var(--text)}
-#twrsim .as-stocks{display:grid;grid-template-columns:repeat(3,1fr);gap:.7rem}
-#twrsim .stock{background:linear-gradient(180deg,var(--stock-soft),var(--surface))}
-@keyframes kpulse{0%{box-shadow:0 0 0 0 rgba(47,95,176,0)}28%{box-shadow:0 0 0 3px rgba(47,95,176,.22)}100%{box-shadow:0 0 0 0 rgba(47,95,176,0)}}
-#twrsim .pulse{animation:kpulse .75s ease}
-#twrsim .as-split{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:.95rem 1.05rem;margin-top:.9rem}
-#twrsim .split-head{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:.6rem}
-#twrsim .split-head .t{font-size:.66rem;letter-spacing:.05em;text-transform:uppercase;color:var(--muted);font-weight:600}
-#twrsim .split-head .tot{font-size:.74rem;color:var(--text2)}
-#twrsim .split-head .tot b{font-weight:600;color:var(--text)}
-#twrsim .split-bar{display:flex;height:26px;border-radius:7px;overflow:hidden;background:var(--border)}
-#twrsim .split-seg{height:100%;display:flex;align-items:center;padding:0 .55rem;color:#fff;font-size:.72rem;font-weight:600;white-space:nowrap;transition:width .5s ease;min-width:0;overflow:hidden}
-#twrsim .seg-aero{background:var(--aero)} #twrsim .seg-comm{background:var(--comm)}
-#twrsim .split-foot{margin-top:.55rem;font-size:.72rem;color:var(--text2);line-height:1.5}
-#twrsim .split-foot b{color:var(--text);font-weight:600}
-#twrsim .as-panels{display:grid;grid-template-columns:1fr 1fr;gap:.9rem;margin-top:.9rem}
-#twrsim .panel{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:1rem 1.1rem}
-#twrsim .ptitle{font-size:.66rem;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);margin-bottom:.8rem;display:flex;justify-content:space-between;align-items:baseline}
-#twrsim .ptitle .pt-sum{color:var(--text);font-weight:600;font-size:.74rem;text-transform:none;letter-spacing:0}
-#twrsim .row{display:flex;align-items:center;gap:.5rem;margin-bottom:.5rem}
-#twrsim .row:last-child{margin-bottom:0}
-#twrsim .r-lbl{width:128px;font-size:.74rem;color:var(--text);flex-shrink:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-#twrsim .r-tag{width:54px;flex-shrink:0;font-size:.57rem;font-weight:600;letter-spacing:.03em;text-transform:uppercase}
-#twrsim .r-tag.aero{color:var(--aero)} #twrsim .r-tag.comm{color:var(--comm)}
-#twrsim .r-tag.fix{color:var(--muted)} #twrsim .r-tag.var{color:var(--cost)} #twrsim .r-tag.semi{color:#a06a2a}
-#twrsim .bwrap{flex:1;height:7px;background:var(--border);border-radius:4px;overflow:hidden}
-#twrsim .bfill{height:100%;border-radius:4px;transition:width .45s ease}
-#twrsim .r-amt{width:54px;text-align:right;font-size:.74rem;font-weight:600;color:var(--text);flex-shrink:0}
-#twrsim .as-foot{font-size:.68rem;color:var(--muted);line-height:1.6;margin-top:.9rem}
-#twrsim .as-foot b{color:var(--text2);font-weight:600}
-#twrsim .calc-note{font-size:.8rem;color:var(--text2);line-height:1.6;margin-bottom:.85rem}
-#twrsim .calc-note b{color:var(--text);font-weight:600}
-#twrsim .calc-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:.9rem;margin-bottom:.9rem}
-#twrsim .cgroup{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:.9rem 1rem}
-#twrsim .cgroup h4{font-size:.62rem;letter-spacing:.07em;text-transform:uppercase;color:var(--muted);font-weight:600;margin-bottom:.7rem}
-#twrsim .cfield{display:flex;align-items:center;justify-content:space-between;gap:.5rem;margin-bottom:.5rem}
-#twrsim .cfield:last-child{margin-bottom:0}
-#twrsim .cfield label{font-size:.74rem;color:var(--text);line-height:1.25}
-#twrsim .cfield .ig{display:flex;align-items:center;gap:.25rem;flex-shrink:0}
-#twrsim .cfield input{width:56px;font-family:inherit;font-size:.78rem;font-weight:600;text-align:right;color:var(--text);border:1px solid var(--border-strong);border-radius:7px;padding:.28rem .35rem;background:var(--surface-2);font-variant-numeric:tabular-nums}
-#twrsim .cfield input:focus{outline:none;border-color:var(--accent)}
-#twrsim .cfield .u{font-size:.7rem;color:var(--muted);width:12px;text-align:left}
-#twrsim .out-cards{display:grid;grid-template-columns:repeat(4,1fr);gap:.7rem;margin-bottom:.9rem}
-#twrsim .ocard{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:.85rem .95rem;position:relative;overflow:hidden}
-#twrsim .ocard::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--muted)}
-#twrsim .ocard.unlev::before{background:var(--aero)}
-#twrsim .ocard.lev{background:linear-gradient(180deg,var(--accent-soft),var(--surface))}
-#twrsim .ocard.lev::before{background:var(--accent)}
-#twrsim .ocard .k{font-size:.63rem;letter-spacing:.05em;text-transform:uppercase;color:var(--muted);font-weight:600;margin-bottom:.3rem}
-#twrsim .ocard .v{font-family:'Source Serif 4',Georgia,serif;font-size:1.5rem;font-weight:500;line-height:1;letter-spacing:-.01em}
-#twrsim .ocard.lev .v{color:var(--accent)}
-#twrsim .ocard .s{font-size:.7rem;color:var(--text2);margin-top:.3rem}
-#twrsim .calc-sum{display:flex;flex-wrap:wrap;gap:.45rem 1.4rem;background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:.8rem 1rem;margin-bottom:.9rem;font-size:.74rem;color:var(--text2)}
-#twrsim .calc-sum span{white-space:nowrap}
-#twrsim .calc-sum b{color:var(--text);font-weight:600}
-#twrsim .calc-sum .lbl{color:var(--muted)}
-#twrsim .jwrap{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:.9rem 1rem;margin-bottom:.9rem}
-#twrsim .jhead{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:.9rem;gap:1rem}
-#twrsim .jhead .t{font-size:.63rem;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);font-weight:600}
-#twrsim .jhead .lg{font-size:.68rem;color:var(--text2)}
-#twrsim .jchart{display:flex;align-items:stretch;gap:3px;height:132px;position:relative;margin-bottom:18px}
-#twrsim .jaxis{position:absolute;left:0;right:0;top:50%;height:1px;background:var(--border-strong)}
-#twrsim .jcol{flex:1;position:relative;min-width:0}
-#twrsim .jbar{position:absolute;left:16%;right:16%;border-radius:3px;min-height:2px}
-#twrsim .jbar.pos{background:var(--accent);bottom:50%}
-#twrsim .jbar.neg{background:var(--cost);top:50%}
-#twrsim .jbar.exit{background:#0a5a42}
-#twrsim .jlbl{position:absolute;bottom:-16px;left:0;right:0;text-align:center;font-size:.6rem;color:var(--muted)}
-#twrsim .ptable{width:100%;border-collapse:collapse;font-size:.72rem;font-variant-numeric:tabular-nums}
-#twrsim .ptable th,#twrsim .ptable td{text-align:right;padding:.32rem .45rem;border-bottom:1px solid var(--border);white-space:nowrap}
-#twrsim .ptable th{color:var(--muted);font-weight:600;font-size:.61rem;letter-spacing:.03em;text-transform:uppercase}
-#twrsim .ptable td:first-child,#twrsim .ptable th:first-child{text-align:left;color:var(--text2)}
-#twrsim .ptable tr:last-child td{border-bottom:none}
-#twrsim .tscroll{overflow-x:auto}
-@media(max-width:720px){
-  #twrsim .as-kpis{grid-template-columns:repeat(2,1fr)}
-  #twrsim .as-stocks{grid-template-columns:1fr}
-  #twrsim .as-panels{grid-template-columns:1fr}
-  #twrsim .spd{margin-left:0}
-  #twrsim .r-lbl{width:110px}
-  #twrsim .calc-grid{grid-template-columns:1fr}
-  #twrsim .out-cards{grid-template-columns:repeat(2,1fr)}
-}
+#ix{max-width:880px;margin:0 auto}
+.brhero .wrap{max-width:880px}
 
+.ix-hero{margin:1.4rem 0 .4rem}
+#ix .ix-hero-top{display:flex;align-items:center;justify-content:space-between;gap:1rem;flex-wrap:wrap;margin-bottom:.5rem}
+#ix .ix-pick{display:flex;align-items:center;gap:.5rem;flex:0 0 auto}
+#ix .ix-pick .lab{font-size:.58rem;font-weight:700;letter-spacing:.11em;text-transform:uppercase;color:var(--muted)}
+#ix .ix-pick select{font-family:'Source Serif 4',Georgia,serif;font-size:.92rem;font-weight:500;color:var(--text);background:#fff;border:1px solid var(--border-strong);border-radius:9px;padding:.42rem 1.9rem .42rem .7rem;cursor:pointer;letter-spacing:-.01em;max-width:360px;
+  -webkit-appearance:none;appearance:none;background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'><path d='M2 4l4 4 4-4' stroke='%230c6b4f' stroke-width='1.6' fill='none' stroke-linecap='round'/></svg>");background-repeat:no-repeat;background-position:right .6rem center}
+#ix .ix-pick select:focus{outline:none;border-color:var(--accent)}
+#ix .ix-eyebrow{font-size:.64rem;font-weight:700;letter-spacing:.13em;text-transform:uppercase;color:var(--accent);margin-bottom:0}
+#ix .ix-hero h2{font-family:'Source Serif 4',Georgia,serif;font-weight:500;font-size:2.05rem;line-height:1.04;letter-spacing:-.02em;margin:0;display:inline}
+#ix .ix-geochip{display:inline-block;font-size:.72rem;font-weight:600;color:var(--accent);background:var(--accent-soft);border-radius:999px;padding:.24rem .7rem;margin-left:.6rem;vertical-align:middle;white-space:nowrap}
+#ix .ix-lede{font-size:1.02rem;color:var(--text2);line-height:1.6;margin:.7rem 0 1.05rem}
+#ix .ix-lede b{color:var(--text);font-weight:600}
+#ix .ix-hint{font-size:.74rem;color:var(--muted);margin:0 0 .55rem;display:flex;align-items:center;gap:.4rem}
+#ix .ix-hint::before{content:'';width:7px;height:7px;border-radius:50%;background:var(--accent);flex:0 0 auto}
+
+#ix .sec{padding-top:.6rem;margin-bottom:1.5rem;scroll-margin-top:64px}
+.ix-hero{scroll-margin-top:64px}
+#ix .sec-head{display:flex;align-items:baseline;gap:.7rem;margin:1.7rem 0 .7rem}
+#ix .sec-no{font-family:'Source Serif 4',Georgia,serif;font-size:1.05rem;font-weight:600;color:var(--accent)}
+#ix .sec-head h2{font-family:'Source Serif 4',Georgia,serif;font-weight:500;font-size:1.55rem;line-height:1.1;letter-spacing:-.015em}
+#ix p.body{font-size:.92rem;color:var(--text2);line-height:1.75;margin-bottom:.8rem}
+#ix p.body b{color:var(--text);font-weight:600}
+
+#ix .ix-facts{display:grid;grid-template-columns:repeat(6,1fr);gap:.7rem;margin:1rem 0 .2rem}
+#ix .fact{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:.85rem .9rem}
+#ix .fact .n{font-family:'Source Serif 4',Georgia,serif;font-size:1.4rem;color:var(--accent);font-weight:500;line-height:1}
+#ix .fact .l{font-size:.6rem;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;margin-top:.4rem;font-weight:600}
+#ix .fact .d{font-size:.68rem;color:var(--text2);margin-top:.2rem;line-height:1.4}
+
+#ix .ix-ctrls{display:flex;gap:.65rem;align-items:center;flex-wrap:wrap;margin:.4rem 0 .7rem;background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:.7rem .9rem}
+#ix .ix-ctrls .ctrl{display:flex;align-items:center;gap:.55rem}
+#ix .ix-ctrls label{font-size:.7rem;color:var(--muted);letter-spacing:.04em;text-transform:uppercase;font-weight:600;white-space:nowrap}
+#ix .ix-ctrls input[type=range]{-webkit-appearance:none;appearance:none;height:4px;border-radius:3px;background:var(--border-strong);outline:none}
+#ix .ix-ctrls #ixCap{width:120px}#ix .ix-ctrls #ixAvail{width:90px}
+#ix .ix-ctrls #ixSpread{width:110px;background:var(--border-strong)}
+#ix .ix-ctrls input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;appearance:none;width:16px;height:16px;border-radius:50%;background:#fff;cursor:pointer;border:2px solid var(--accent);box-shadow:0 1px 3px rgba(0,0,0,.25)}
+#ix .ix-ctrls input[type=range]::-moz-range-thumb{width:16px;height:16px;border-radius:50%;background:#fff;cursor:pointer;border:2px solid var(--accent)}
+#ix .ix-ctrls .val{font-size:.8rem;font-weight:600;color:var(--text);min-width:30px}
+#ix .ix-ctrls .as-divider{width:1px;height:24px;background:var(--border)}
+#ix .preset{margin-left:auto;font-family:inherit;font-size:.72rem;font-weight:600;color:#fff;background:var(--accent);border:none;border-radius:8px;padding:.5rem .85rem;cursor:pointer;transition:background .12s}
+#ix .preset:hover{background:#0a5a42}
+#ix .ix-stage{position:relative;border-radius:14px;overflow:hidden;border:1px solid var(--border);box-shadow:0 12px 34px rgba(18,38,32,.08)}
+#ix .ix-stage canvas{display:block;width:100%;aspect-ratio:720/520}
+#ix .ix-readout{display:grid;grid-template-columns:repeat(4,1fr);gap:.7rem;margin-top:.7rem}
+#ix .rocard{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:.8rem .9rem;position:relative;overflow:hidden}
+#ix .rocard::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--accent)}
+#ix .rocard .k{font-size:.6rem;letter-spacing:.05em;text-transform:uppercase;color:var(--muted);font-weight:600;margin-bottom:.3rem}
+#ix .rocard .v{font-family:'Source Serif 4',Georgia,serif;font-size:1.25rem;font-weight:500;line-height:1.05;color:var(--text)}
+#ix .rocard .s{font-size:.66rem;color:var(--text2);margin-top:.25rem;line-height:1.4}
+#ix .try{font-size:.78rem;color:var(--text2);line-height:1.6;margin-top:.7rem;padding:.7rem .9rem;background:var(--accent-soft);border-left:3px solid var(--accent);border-radius:8px}
+#ix .try b{color:var(--text);font-weight:600}
+
+#ix .two{display:grid;grid-template-columns:1fr 1fr;gap:.9rem;margin-top:.4rem}
+#ix .mcard{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:1.05rem 1.2rem}
+#ix .mcard.reg{background:linear-gradient(180deg,var(--accent-soft),var(--surface))}
+#ix .mcard h4{font-size:.95rem;font-weight:600;color:var(--text);margin-bottom:.15rem;letter-spacing:-.01em}
+#ix .mcard .tag{font-size:.64rem;letter-spacing:.05em;text-transform:uppercase;color:var(--muted);font-weight:600;margin-bottom:.6rem}
+#ix .mcard p{font-size:.81rem;color:var(--text2);line-height:1.6}
+#ix .mcard p b{color:var(--text);font-weight:600}
+
+#ix .wf-wrap{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:1.1rem 1.2rem;margin:.2rem 0 .9rem}
+#ix .wf-head{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:.6rem}
+#ix .wf-head .t{font-size:.66rem;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);font-weight:600}
+#ix .wf-head .m{font-size:.74rem;color:var(--text2)}#ix .wf-head .m b{color:var(--text);font-weight:600}
+#ix .wf{width:100%;height:200px}
+#ix .wf-note{font-size:.72rem;color:var(--muted);line-height:1.55;margin-top:.5rem}
+
+#ix .fin-wrap{display:grid;grid-template-columns:1fr 1fr;gap:.9rem}
+#ix .fin-col{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:1.1rem 1.25rem}
+#ix .fin-h{font-size:.66rem;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);font-weight:600;margin-bottom:.95rem}
+#ix .fin-split-lbl{display:flex;justify-content:space-between;font-size:.66rem;color:var(--muted);text-transform:uppercase;letter-spacing:.04em;font-weight:600;margin-bottom:.4rem}
+#ix .fin-split{display:flex;height:30px;border-radius:7px;overflow:hidden;margin-bottom:1.15rem}
+#ix .fin-split .seg{display:flex;align-items:center;padding:0 .65rem;color:#fff;font-size:.72rem;font-weight:600;white-space:nowrap;overflow:hidden}
+#ix .fin-split .s1{background:var(--accent)}#ix .fin-split .s2{background:#2f5fb0}
+#ix .fin-list{list-style:none;margin:0;padding:0}
+#ix .fin-list li{display:flex;justify-content:space-between;gap:1rem;font-size:.8rem;padding:.42rem 0;border-bottom:1px solid var(--border)}
+#ix .fin-list li:last-child{border-bottom:none}
+#ix .fin-list .fl{color:var(--text2)}
+#ix .fin-list .fa{color:var(--text);font-weight:600;font-variant-numeric:tabular-nums;white-space:nowrap}
+#ix .fin-list li.sub .fl{color:var(--muted);padding-left:.7rem;font-size:.76rem}
+#ix .fin-list li.sub .fa{color:var(--text2);font-weight:500}
+#ix .fin-list li.rest .fa{color:var(--muted);font-weight:500;font-style:italic}
+#ix .fin-note{font-size:.74rem;color:var(--text2);line-height:1.6;margin-top:.95rem}
+#ix .fin-note b{color:var(--text);font-weight:600}
+#ix .tl{list-style:none;margin:0;padding:0}
+#ix .tl li{display:grid;grid-template-columns:74px 1fr;gap:.9rem;padding-bottom:1.05rem}
+#ix .tl li:last-child{padding-bottom:0}
+#ix .tl .yr{font-size:.72rem;font-weight:700;color:var(--accent);text-align:right;padding-top:1px;font-variant-numeric:tabular-nums}
+#ix .tl .ev{font-size:.8rem;color:var(--text2);line-height:1.55;border-left:2px solid var(--border-strong);padding-left:1rem;padding-bottom:.2rem;position:relative}
+#ix .tl li:last-child .ev{border-left-color:transparent}
+#ix .tl .ev::before{content:'';position:absolute;left:-6px;top:4px;width:10px;height:10px;border-radius:50%;background:var(--accent);box-shadow:0 0 0 3px var(--accent-soft)}
+#ix .tl .ev b{color:var(--text);font-weight:600}
+
+#ix .calc-note{font-size:.85rem;color:var(--text2);line-height:1.65;margin-bottom:.85rem}#ix .calc-note b{color:var(--text);font-weight:600}
+#ix .calc-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:.9rem;margin-bottom:.9rem}
+#ix .cgroup{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:.9rem 1rem}
+#ix .cgroup h4{font-size:.62rem;letter-spacing:.07em;text-transform:uppercase;color:var(--muted);font-weight:600;margin-bottom:.7rem}
+#ix .cfield{display:flex;align-items:center;justify-content:space-between;gap:.5rem;margin-bottom:.5rem}
+#ix .cfield:last-child{margin-bottom:0}
+#ix .cfield label{font-size:.74rem;color:var(--text);line-height:1.25}
+#ix .cfield .ig{display:flex;align-items:center;gap:.25rem;flex-shrink:0}
+#ix .cfield input{width:62px;font-family:inherit;font-size:.78rem;font-weight:600;text-align:right;color:var(--text);border:1px solid var(--border-strong);border-radius:7px;padding:.28rem .35rem;background:var(--surface-2);font-variant-numeric:tabular-nums}
+#ix .cfield input:focus{outline:none;border-color:var(--accent)}
+#ix .cfield .u{font-size:.7rem;color:var(--muted);width:34px;text-align:left}
+#ix .out-cards{display:grid;grid-template-columns:repeat(4,1fr);gap:.7rem;margin-bottom:.9rem}
+#ix .ocard{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:.85rem .95rem;position:relative;overflow:hidden}
+#ix .ocard::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--muted)}
+#ix .ocard.unlev::before{background:#0c6b4f}#ix .ocard.lev{background:linear-gradient(180deg,var(--accent-soft),var(--surface))}#ix .ocard.lev::before{background:var(--accent)}
+#ix .ocard .k{font-size:.63rem;letter-spacing:.05em;text-transform:uppercase;color:var(--muted);font-weight:600;margin-bottom:.3rem}
+#ix .ocard .v{font-family:'Source Serif 4',Georgia,serif;font-size:1.5rem;font-weight:500;line-height:1;letter-spacing:-.01em}
+#ix .ocard.lev .v{color:var(--accent)}
+#ix .ocard .s{font-size:.7rem;color:var(--text2);margin-top:.3rem}
+#ix .calc-sum{display:flex;flex-wrap:wrap;gap:.45rem 1.4rem;background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:.8rem 1rem;margin-bottom:.9rem;font-size:.74rem;color:var(--text2)}
+#ix .calc-sum span{white-space:nowrap}#ix .calc-sum b{color:var(--text);font-weight:600}#ix .calc-sum .lbl{color:var(--muted)}
+#ix .jwrap{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:.9rem 1rem;margin-bottom:.9rem}
+#ix .jhead{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:.9rem;gap:1rem}
+#ix .jhead .t{font-size:.63rem;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);font-weight:600}
+#ix .jhead .lg{font-size:.68rem;color:var(--text2)}
+#ix .jchart{display:flex;align-items:stretch;gap:2px;height:140px;position:relative;margin-bottom:18px}
+#ix .jaxis{position:absolute;left:0;right:0;top:50%;height:1px;background:var(--border-strong)}
+#ix .jcol{flex:1;position:relative;min-width:0}
+#ix .jbar{position:absolute;left:12%;right:12%;border-radius:3px;min-height:2px}
+#ix .jbar.pos{background:var(--accent);bottom:50%}#ix .jbar.neg{background:var(--cost);top:50%}#ix .jbar.exit{background:#0a5a42}
+#ix .jlbl{position:absolute;bottom:-16px;left:0;right:0;text-align:center;font-size:.58rem;color:var(--muted)}
+#ix .ptable{width:100%;border-collapse:collapse;font-size:.72rem;font-variant-numeric:tabular-nums}
+#ix .ptable th,#ix .ptable td{text-align:right;padding:.32rem .45rem;border-bottom:1px solid var(--border);white-space:nowrap}
+#ix .ptable th{color:var(--muted);font-weight:600;font-size:.61rem;letter-spacing:.03em;text-transform:uppercase}
+#ix .ptable td:first-child,#ix .ptable th:first-child{text-align:left;color:var(--text2)}
+#ix .ptable tr:last-child td{border-bottom:none}
+#ix .tscroll{overflow-x:auto}
+#ix details.more{margin-bottom:.9rem}
+#ix details.more summary{font-size:.74rem;font-weight:600;color:var(--accent);cursor:pointer;padding:.3rem 0}
+
+#ix .breakers{list-style:none;margin:.2rem 0 0;padding:0;display:grid;grid-template-columns:1fr 1fr;gap:.5rem .9rem}
+#ix .breakers li{font-size:.82rem;color:var(--text2);line-height:1.55;padding-left:1rem;position:relative}
+#ix .breakers li::before{content:'';position:absolute;left:0;top:7px;width:6px;height:6px;border-radius:50%;background:var(--accent)}
+#ix .breakers b{color:var(--text);font-weight:600}
+
+#ix .ix-src{font-size:.7rem;color:var(--muted);line-height:1.8;margin-top:1.4rem}
+#ix .ix-src a{color:var(--text2);text-decoration:none;border-bottom:1px solid var(--border-strong)}
+#ix .ix-src a:hover{color:var(--accent)}
+
+@media(max-width:760px){
+  #ix .ix-facts{grid-template-columns:repeat(3,1fr)}
+  #ix .ix-readout{grid-template-columns:repeat(2,1fr)}
+  #ix .two,#ix .fin-wrap,#ix .breakers{grid-template-columns:1fr}
+  #ix .calc-grid{grid-template-columns:1fr}
+  #ix .out-cards{grid-template-columns:repeat(2,1fr)}
+  #ix .ix-hero h2{font-size:1.7rem}
+}
 </style>
 </head>
 <body>
@@ -173,429 +198,194 @@
   </div>
 </nav>
 
-<section class="hero">
+<section class="hero brhero">
   <div class="wrap">
-    <div class="breadcrumb"><a href="index.html">Home</a><span class="sep">/</span><a href="digital-infrastructure.html">Digital Infrastructure</a><span class="sep">/</span>Mobile towers</div>
-    <div class="hero-eyebrow">Digital Infrastructure</div>
+    <div class="breadcrumb"><a href="index.html">Home</a><span class="sep">/</span><a href="digital-infrastructure.html">Digital infrastructure</a><span class="sep">/</span>Mobile towers</div>
+    <div class="hero-eyebrow">Digital infrastructure</div>
     <h1>Mobile <em>towers</em></h1>
-    <p class="hero-sub">An interactive economic model of a mobile tower portfolio — watch antennas light up as operators colocate, see the anchor lease and colocation revenue split, and run the investment case live.</p>
+    <p class="hero-sub">The masts that carry the mobile network — owned not by the carriers but by independent <b>tower companies</b> that lease space on each tower to multiple operators. The engine is the <b>tenancy ratio</b>: per-tower cost is fixed, so every added tenant drops to EBITDA at close to 100% incremental margin. Long, indexed leases, near-zero churn — a prized, high-multiple annuity. Pick a real towerco below and follow it through the scene, the model and a working returns model.</p>
   </div>
 </section>
 
-<section class="tools-section">
+<div class="ix-bar">
   <div class="wrap">
-
-    <div class="section-header">
-      <div class="section-label">Interactive model</div>
-      <div class="section-line"></div>
-    </div>
-
-<div id="twrsim">
-
-  <div class="as-head">
-    <div class="as-eyebrow">Digital Infrastructure · Mobile towers</div>
-    <h2>What flows through a tower portfolio — and how it pays</h2>
-    <p class="as-sub">A tower company owns the steel, the ground lease and the power, and rents antenna space to mobile operators. The first tenant — usually the carrier that sold the towers, on a long master lease — covers the costs; <b>every extra tenant on the same tower is almost pure profit</b>. So the whole investment case turns on the <b>tenancy ratio</b> (tenants per tower), the rent per tenant, and the size of the portfolio.</p>
+    <span class="ix-bar-name" id="ixBarName">—</span>
+    <nav class="ix-bar-nav" aria-label="Sections">
+      <a href="#explore" data-step="1">Overview</a>
+      <a href="#story" data-step="2">How it works</a>
+      <a href="#earn" data-step="3">How it earns</a>
+      <a href="#cost" data-step="4">Costs &amp; financing</a>
+      <a href="#returns" data-step="5">Returns</a>
+      <a href="#drivers" data-step="6">What drives it</a>
+    </nav>
   </div>
-
-  <div class="as-ctrls">
-    <div class="ctrl"><label>Tenancy ratio</label><input type="range" id="dTen" min="1" max="3" value="1.8" step="0.1"><span class="val" id="tenV">1.8</span></div>
-    <div class="as-divider"></div>
-    <div class="ctrl"><label>Rent £/tenant/mo</label><input type="range" id="dRent" min="400" max="1800" value="900" step="50"><span class="val" id="rentV">£900</span></div>
-    <div class="as-divider"></div>
-    <div class="ctrl"><label>Towers</label><input type="range" id="dTow" min="1000" max="15000" value="5000" step="500"><span class="val" id="towV">5,000</span></div>
-    <div class="spd">
-      <button class="on" id="b1">1×</button><button id="b2">2×</button><button id="b4">4×</button>
-    </div>
-  </div>
-
-  <div class="as-stage"><canvas id="cv"></canvas></div>
-
-  <div class="as-mini" id="asMini" title="Back to the simulation">
-    <canvas id="cvMini"></canvas><span class="as-mini-tag">LIVE</span>
-  </div>
-
-  <div class="as-legend">
-    <span class="leg"><span class="dot" style="background:var(--aero)"></span><b>Anchor tenant</b>&nbsp;first operator (master lease)</span>
-    <span class="leg"><span class="dot" style="background:var(--comm)"></span><b>Colocation tenant</b>&nbsp;each extra ≈ pure margin</span>
-    <span class="leg"><span class="dot" style="background:#5aa0e6"></span><b>Signal</b>&nbsp;coverage from active antennas</span>
-    <span class="leg"><span class="dot" style="background:var(--cost)"></span><b>Operating cost</b>&nbsp;mostly per-tower &amp; fixed</span>
-  </div>
-
-  <div class="band-label"><span class="t">Flows — annualised from current assumptions</span><span class="ln"></span><span class="hint">per year</span></div>
-  <div class="as-kpis">
-    <div class="kpi k-rev"><div class="k">Revenue p.a.</div><div class="v" id="kRev">£0</div><div class="s"><b id="kRevHr">£0</b> / hr</div></div>
-    <div class="kpi k-eb"><div class="k">EBITDA p.a.</div><div class="v" id="kEb">£0</div><div class="s"><b id="kMargin">0%</b> margin</div></div>
-    <div class="kpi k-yield"><div class="k">Revenue / tenant·mo</div><div class="v" id="kYield">£0</div><div class="s">blended rent</div></div>
-    <div class="kpi k-pax"><div class="k">Tenancies</div><div class="v" id="kPaxYr">0</div><div class="s"><b id="kThru">1.8×</b> per tower</div></div>
-  </div>
-
-  <div class="band-label"><span class="t">Stocks — what the flows accumulate into</span><span class="ln"></span><span class="hint">live</span></div>
-  <div class="as-stocks">
-    <div class="stock"><div class="k">Tenants hosted now</div><div class="v" id="sPax">0</div><div class="s">across <b id="sCap">5,000</b> towers</div></div>
-    <div class="stock"><div class="k">EBITDA banked · session</div><div class="v" id="sBank">£0</div><div class="s">accumulating in real time</div></div>
-    <div class="stock"><div class="k">Implied enterprise value</div><div class="v" id="sEV">£0</div><div class="s">at <b>22×</b> EBITDA</div></div>
-  </div>
-
-  <div class="as-split">
-    <div class="split-head">
-      <span class="t">Where revenue comes from</span>
-      <span class="tot">Total <b id="splitTot">£0</b> p.a.</span>
-    </div>
-    <div class="split-bar">
-      <div class="split-seg seg-aero" id="segAero">Anchor lease</div>
-      <div class="split-seg seg-comm" id="segComm">Colocation</div>
-    </div>
-    <div class="split-foot"><b>Why investors love towers:</b> the anchor master lease is a 10–15 year inflation-linked annuity from a creditworthy carrier that underwrites the asset. The magic is the <b>tenancy ratio</b>: a second or third operator's antennas bolt onto the same steel with almost no extra cost, so their rent flows ~95% to EBITDA. Lease-up — not the build — is the value driver, which is why towers trade at the highest multiples in infrastructure.</div>
-  </div>
-
-  <div class="as-panels">
-    <div class="panel"><div class="ptitle">Revenue streams<span class="pt-sum" id="revSum">£0 p.a.</span></div><div id="revRows"></div></div>
-    <div class="panel"><div class="ptitle">Operating costs<span class="pt-sum" id="costSum">£0 p.a.</span></div><div id="costRows"></div></div>
-  </div>
-
-  <div class="band-label"><span class="t">Investment case — should you buy it?</span><span class="ln"></span><span class="hint">DCF returns</span></div>
-  <p class="calc-note">Year-1 financials flow live from the simulation above: revenue <b id="cBaseRev">£0</b> and EBITDA <b id="cBaseEb">£0</b> p.a. Set your deal terms below — the <b style="color:var(--aero)">unlevered IRR</b> (asset return) and <b style="color:var(--accent)">levered IRR</b> (return to equity, after debt) recompute instantly.</p>
-
-  <div class="calc-grid">
-    <div class="cgroup"><h4>Operating</h4>
-      <div class="cfield"><label>Revenue growth p.a.</label><span class="ig"><input id="iRevG" type="number" value="4" step="0.5"><span class="u">%</span></span></div>
-      <div class="cfield"><label>OpEx vs base</label><span class="ig"><input id="iOpex" type="number" value="100" step="1"><span class="u">%</span></span></div>
-      <div class="cfield"><label>Cost inflation p.a.</label><span class="ig"><input id="iCostG" type="number" value="3" step="0.5"><span class="u">%</span></span></div>
-      <div class="cfield"><label>Maintenance capex</label><span class="ig"><input id="iCapex" type="number" value="4" step="1"><span class="u">%</span></span></div>
-      <div class="cfield"><label>Depreciation</label><span class="ig"><input id="iDA" type="number" value="4" step="1"><span class="u">%</span></span></div>
-      <div class="cfield"><label>Tax rate</label><span class="ig"><input id="iTax" type="number" value="25" step="1"><span class="u">%</span></span></div>
-    </div>
-    <div class="cgroup"><h4>Valuation &amp; hold</h4>
-      <div class="cfield"><label>Entry EV / EBITDA</label><span class="ig"><input id="iEntry" type="number" value="22" step="0.5"><span class="u">×</span></span></div>
-      <div class="cfield"><label>Exit EV / EBITDA</label><span class="ig"><input id="iExit" type="number" value="20" step="0.5"><span class="u">×</span></span></div>
-      <div class="cfield"><label>Hold period</label><span class="ig"><input id="iHold" type="number" value="10" step="1" min="3" max="25"><span class="u">y</span></span></div>
-    </div>
-    <div class="cgroup"><h4>Financing</h4>
-      <div class="cfield"><label>Leverage (Net&nbsp;debt&nbsp;/&nbsp;EBITDA)</label><span class="ig"><input id="iLev" type="number" value="7" step="0.5"><span class="u">×</span></span></div>
-      <div class="cfield"><label>Cost of debt</label><span class="ig"><input id="iRd" type="number" value="5.5" step="0.25"><span class="u">%</span></span></div>
-      <div class="cfield"><label>Debt amortisation p.a.</label><span class="ig"><input id="iAmort" type="number" value="0" step="1"><span class="u">%</span></span></div>
-    </div>
-  </div>
-
-  <div class="out-cards">
-    <div class="ocard unlev"><div class="k">Unlevered IRR</div><div class="v" id="oUIRR">—</div><div class="s">asset / project return</div></div>
-    <div class="ocard lev"><div class="k">Levered IRR</div><div class="v" id="oLIRR">—</div><div class="s">return to equity</div></div>
-    <div class="ocard"><div class="k">Equity multiple</div><div class="v" id="oMOIC">—</div><div class="s">MOIC over hold</div></div>
-    <div class="ocard"><div class="k">Equity gain</div><div class="v" id="oProfit">—</div><div class="s">exit equity − invested</div></div>
-  </div>
-
-  <div class="calc-sum" id="calcSum"></div>
-
-  <div class="jwrap">
-    <div class="jhead"><span class="t">Equity cash-flow profile</span><span class="lg" id="jLeg">£m · <span style="color:var(--cost)">■</span> invested &nbsp; <span style="color:var(--accent)">■</span> returned</span></div>
-    <div class="jchart" id="jchart"><div class="jaxis"></div></div>
-  </div>
-
-  <div class="jwrap tscroll">
-    <div class="jhead"><span class="t">Projection — £m per year</span></div>
-    <table class="ptable"><thead id="ptHead"></thead><tbody id="ptBody"></tbody></table>
-  </div>
-
-  <p class="as-foot"><b>Illustrative model.</b> Represents a portfolio of macro towers leased to mobile operators. Revenue = towers × tenancy ratio × rent per tenant, split into the anchor master lease and incremental colocation. Operating costs (ground rent, power, business rates, field operations) are almost entirely per-tower and fixed against tenancy, with only minor per-tenant servicing — so each extra tenant is overwhelmingly incremental margin and the tenancy ratio drives the result. EBITDA = revenue − operating costs; excludes upfront build/acquisition capex. The investment case is a simplified DCF. For illustration only — not investment advice, and not any specific asset.</p>
-
 </div>
 
-<script>
-(function(){
-const cv=document.getElementById('cv'); const ctx=cv.getContext('2d');
-const W=720,H=360; const DPR=Math.max(2,Math.min(3,window.devicePixelRatio||1));
-cv.width=W*DPR; cv.height=H*DPR; ctx.setTransform(DPR,0,0,DPR,0,0);
+<section class="tools-section" id="ix">
+  <div class="wrap">
 
-const HRS_PER_YR=8760, EV_MULT=22;
-const C={aero:'#37c08e', comm:'#e6b35a', sig:'#5aa0e6', cost:'#ef8166'};
+    <!-- OVERVIEW / live asset -->
+    <div class="ix-hero" id="explore">
+      <div class="ix-hero-top">
+        <div class="ix-eyebrow">In focus · <span id="ixCont">—</span></div>
+        <div class="ix-pick">
+          <span class="lab">Example</span>
+          <select id="ixSelect" aria-label="Choose a worked example">
+            <option value="cellnex">Cellnex · Europe</option>
+            <option value="amt">American Tower · USA</option>
+            <option value="highline">Highline do Brasil · Brazil</option>
+            <option value="amplitel">Amplitel · Australia</option>
+            <option value="tasc">TASC Towers · MENA</option>
+            <option value="chinatower">China Tower · China</option>
+          </select>
+        </div>
+      </div>
+      <div><h2 id="ixAssetName">—</h2><span class="ix-geochip" id="ixAssetGeo">—</span></div>
+      <p class="ix-lede" id="ixLede">—</p>
+      <p class="ix-hint">Drag the sliders to see what earns the money — the number of towers, the rent on each tenancy, and the tenancy ratio (tenants per tower), where each added tenant is almost pure margin.</p>
 
-// Two tills: anchor master lease (first tenant) vs colocation (incremental tenants)
-const STREAMS=[
-  {name:'Anchor master lease',tag:'Anchor',aero:true, base:1},
-  {name:'Colocation leases',  tag:'Coloc', aero:false,base:0.8},
-  {name:'Amendments & equip.',tag:'Coloc', aero:false,base:0.2},
-];
-const COLO_SUM=STREAMS.filter(s=>!s.aero).reduce((a,s)=>a+s.base,0);
-// cost lines: driver = 'tower' (per tower, fixed vs tenancy), 'tenant' (per tenant), 'fixed'
-const COSTS=[
-  {item:'Ground rent / lease',driver:'tower',rate:2800,tag:'Ground',cls:'fix'},
-  {item:'Power & maintenance',driver:'tower',rate:2200,tag:'Tower', cls:'fix'},
-  {item:'Business rates',     driver:'tower',rate:1400,tag:'Fixed', cls:'fix'},
-  {item:'Field operations',   driver:'tower',rate:800, tag:'Tower', cls:'fix'},
-  {item:'Tenant servicing',   driver:'tenant',rate:250,tag:'Var',   cls:'var'},
-  {item:'Admin & insurance',  driver:'fixed',base:3500000,tag:'Fixed',cls:'fix'},
-];
-let rSmooth=STREAMS.map(()=>1), cSmooth=COSTS.map(()=>200);
+      <div class="ix-ctrls">
+        <div class="ctrl"><label>Towers</label><input type="range" id="ixCap" min="40" max="140" value="110" step="2"><span class="val" id="ixCapV">110k</span></div>
+        <div class="as-divider"></div>
+        <div class="ctrl"><label id="ixDriverLab">Rent / tenancy</label><input type="range" id="ixSpread" min="12000" max="34000" value="22000" step="500"><span class="val" id="ixSpreadV">—</span></div>
+        <div class="as-divider"></div>
+        <div class="ctrl"><label id="ixAvailLab">Tenancy ratio</label><input type="range" id="ixAvail" min="1.0" max="2.6" value="1.8" step="0.05"><span class="val" id="ixAvailV">—</span></div>
+        <button class="preset" id="ixPreset">Reset to base case</button>
+      </div>
 
-function money(v){ const neg=v<0; v=Math.abs(v); let o;
-  if(v>=1e9) o=(v/1e9).toFixed(2)+'bn'; else if(v>=1e8) o=(v/1e6).toFixed(0)+'m';
-  else if(v>=1e6) o=(v/1e6).toFixed(1)+'m'; else if(v>=1e3) o=(v/1e3).toFixed(0)+'k';
-  else o=Math.round(v).toString(); return (neg?'-£':'£')+o; }
-function m1(v){ return (v/1e6).toFixed(1); }
+      <div class="ix-stage"><canvas id="ixcv"></canvas></div>
+      <div class="ix-readout">
+        <div class="rocard"><div class="k">Towers</div><div class="v" id="ixDir">—</div><div class="s" id="ixDirS">—</div></div>
+        <div class="rocard"><div class="k">Tenancies</div><div class="v" id="ixMW">—</div><div class="s" id="ixMWs">—</div></div>
+        <div class="rocard"><div class="k" id="ixHrK">Lease revenue</div><div class="v" id="ixHr">—</div><div class="s">recurring revenue p.a.</div></div>
+        <div class="rocard"><div class="k">EBITDA p.a.</div><div class="v" id="ixYr">—</div><div class="s" id="ixYrS">—</div></div>
+      </div>
 
-function buildRows(){
-  const re=document.getElementById('revRows'); re.innerHTML='';
-  STREAMS.forEach((s,i)=>{ const col=s.aero?'var(--aero)':'var(--comm)'; const tc=s.aero?'aero':'comm';
-    re.innerHTML+=`<div class="row"><span class="r-lbl">${s.name}</span><span class="r-tag ${tc}">${s.tag}</span><span class="bwrap"><span class="bfill" id="rb${i}" style="background:${col};width:50%"></span></span><span class="r-amt" id="ra${i}">£0</span></div>`; });
-  const ce=document.getElementById('costRows'); ce.innerHTML='';
-  COSTS.forEach((c,i)=>{ ce.innerHTML+=`<div class="row"><span class="r-lbl">${c.item}</span><span class="r-tag ${c.cls}">${c.tag}</span><span class="bwrap"><span class="bfill" id="cb${i}" style="background:var(--cost);width:50%"></span></span><span class="r-amt" id="ca${i}">£0</span></div>`; });
-}
-buildRows();
+      <div class="ix-facts" id="ixFacts"></div>
+      <p class="try" id="ixTry"></p>
+    </div>
 
-let simSpd=1;
-['b1','b2','b4'].forEach(id=>{ document.getElementById(id).onclick=()=>{ simSpd=parseInt(id.slice(1));
-  ['b1','b2','b4'].forEach(i=>document.getElementById(i).classList.toggle('on',i===id)); }; });
-const dTen=document.getElementById('dTen'), dRent=document.getElementById('dRent'), dTow=document.getElementById('dTow');
-function pulse(){ document.querySelectorAll('#twrsim .kpi,#twrsim .stock').forEach(e=>{ e.classList.remove('pulse'); void e.offsetWidth; e.classList.add('pulse'); }); }
-dTen.oninput=()=>{ document.getElementById('tenV').textContent=parseFloat(dTen.value).toFixed(1); pulse(); };
-dRent.oninput=()=>{ document.getElementById('rentV').textContent='£'+dRent.value; pulse(); };
-dTow.oninput=()=>{ document.getElementById('towV').textContent=parseInt(dTow.value).toLocaleString(); pulse(); };
+    <!-- 1 · what it is & how it works -->
+    <div class="sec" id="story">
+      <div class="sec-head"><span class="sec-no">01</span><h2>What it is &amp; how it works</h2></div>
+      <div id="s1body"></div>
+      <p class="body" id="s2intro"></p>
+    </div>
 
-// ---------- investment calculator (DCF / LBO) ----------
-function gv(id){ const v=parseFloat(document.getElementById(id).value); return isFinite(v)?v:0; }
-function irr(cf){ const f=r=>cf.reduce((s,c,i)=>s+c/Math.pow(1+r,i),0);
-  let lo=-0.95,hi=3,flo=f(lo),fhi=f(hi);
-  if(!isFinite(flo)||!isFinite(fhi)||flo*fhi>0) return NaN;
-  for(let k=0;k<140;k++){ const mid=(lo+hi)/2,fm=f(mid); if(flo*fm<=0){hi=mid;}else{lo=mid;flo=fm;} }
-  return (lo+hi)/2; }
-function computeModel(){
-  const rev0=baseRevYr, ebBase=rev0-baseCostYr;
-  const cost0=baseCostYr*(gv('iOpex')/100), eb0=rev0-cost0;
-  if(ebBase<=0 || eb0<=0 || rev0<=0 || ebBase/rev0<0.05) return null;
-  const gR=gv('iRevG')/100, gC=gv('iCostG')/100, capexP=gv('iCapex')/100, daP=gv('iDA')/100, tax=gv('iTax')/100;
-  const eMul=gv('iEntry'), xMul=gv('iExit'), N=Math.max(3,Math.min(25,Math.round(gv('iHold'))));
-  const lev=gv('iLev'), rd=gv('iRd')/100, amort=gv('iAmort')/100;
-  const entryEV=eMul*ebBase;
-  const debt0=Math.max(0,Math.min(lev*ebBase, entryEV*0.95));
-  const equity0=entryEV-debt0;
-  const rows=[], uCF=[-entryEV], eCF=[-equity0];
-  let debtBal=debt0; const amortAmt=amort*debt0;
-  for(let t=1;t<=N;t++){
-    const rev=rev0*Math.pow(1+gR,t), cost=cost0*Math.pow(1+gC,t), eb=rev-cost;
-    const capex=capexP*rev, da=daP*rev, ebit=eb-da;
-    const fcff=eb-tax*Math.max(0,ebit)-capex;
-    const interest=rd*debtBal, princ=Math.min(amortAmt,debtBal);
-    const ebt=ebit-interest, fcfe=eb-tax*Math.max(0,ebt)-capex-interest-princ;
-    debtBal=Math.max(0,debtBal-princ);
-    let uAdd=fcff, eAdd=fcfe;
-    if(t===N){ const exitEV=xMul*eb; uAdd+=exitEV; eAdd+=(exitEV-debtBal); }
-    uCF.push(uAdd); eCF.push(eAdd);
-    rows.push({t,rev,eb,capex,fcff,debt:debtBal,fcfe});
-  }
-  const exitEV=xMul*rows[N-1].eb, exitEq=exitEV-rows[N-1].debt;
-  const distrib=eCF.slice(1).reduce((a,b)=>a+b,0);
-  const moic=equity0>0?distrib/equity0:NaN;
-  return {eb0,entryEV,debt0,equity0,N,rows,uCF,eCF,uIRR:irr(uCF),lIRR:irr(eCF),exitEV,exitEq,moic,profit:distrib-equity0};
-}
-function pctTxt(x){ return isFinite(x)?(x*100).toFixed(1)+'%':'—'; }
-function renderModel(){
-  document.getElementById('cBaseRev').textContent=money(baseRevYr);
-  document.getElementById('cBaseEb').textContent=money(baseEbYr);
-  const m=computeModel();
-  const set=(id,t)=>{ const e=document.getElementById(id); if(e) e.textContent=t; };
-  if(!m){ ['oUIRR','oLIRR','oMOIC','oProfit'].forEach(id=>set(id,'—')); document.getElementById('calcSum').innerHTML='<span class="lbl">At this tenancy / rent the EBITDA is too thin to value on a multiple — add tenants or raise the rent.</span>'; return; }
-  set('oUIRR',pctTxt(m.uIRR)); set('oLIRR',pctTxt(m.lIRR));
-  set('oMOIC',isFinite(m.moic)?m.moic.toFixed(2)+'×':'—');
-  set('oProfit',money(m.profit));
-  const ltv=Math.round(m.debt0/m.entryEV*100);
-  document.getElementById('calcSum').innerHTML=
-    `<span><span class="lbl">Entry EV</span> <b>${money(m.entryEV)}</b></span>`+
-    `<span><span class="lbl">Debt</span> <b>${money(m.debt0)}</b> (${ltv}% LTV)</span>`+
-    `<span><span class="lbl">Equity in</span> <b>${money(m.equity0)}</b></span>`+
-    `<span><span class="lbl">Exit EV</span> <b>${money(m.exitEV)}</b></span>`+
-    `<span><span class="lbl">Exit equity</span> <b>${money(m.exitEq)}</b></span>`;
-  const maxAbs=Math.max(...m.eCF.map(Math.abs),1), step=m.N>12?2:1;
-  let ch='<div class="jaxis"></div>';
-  m.eCF.forEach((cf,i)=>{ const hh=Math.max(2,Math.abs(cf)/maxAbs*58);
-    const cls=cf>=0?(i===m.N?'pos exit':'pos'):'neg';
-    ch+=`<div class="jcol"><div class="jbar ${cls}" style="height:${hh}px" title="Year ${i}: ${money(cf)}"></div><span class="jlbl">${i%step===0?i:''}</span></div>`; });
-  document.getElementById('jchart').innerHTML=ch;
-  document.getElementById('ptHead').innerHTML='<tr><th>Year</th><th>Revenue</th><th>EBITDA</th><th>Capex</th><th>Unlev. FCF</th><th>Net debt</th><th>Equity FCF</th></tr>';
-  document.getElementById('ptBody').innerHTML=m.rows.map(r=>
-    `<tr><td>${r.t}</td><td>${m1(r.rev)}</td><td>${m1(r.eb)}</td><td>${m1(r.capex)}</td><td>${m1(r.fcff)}</td><td>${m1(r.debt)}</td><td>${m1(r.fcfe)}</td></tr>`).join('');
-}
-['iRevG','iOpex','iCostG','iCapex','iDA','iTax','iEntry','iExit','iHold','iLev','iRd','iAmort']
-  .forEach(id=>document.getElementById(id).addEventListener('input',renderModel));
+    <!-- 2 · how it earns -->
+    <div class="sec" id="earn">
+      <div class="sec-head"><span class="sec-no">02</span><h2>How it earns</h2></div>
+      <p class="body" id="s3intro"></p>
+      <div class="two">
+        <div class="mcard">
+          <div class="tag">Model A · the colocation flywheel</div>
+          <h4>The tenancy ratio turns a tower into an annuity</h4>
+          <p>A tower company owns the passive infrastructure — the <b>mast, the platform, the power and the ground lease</b> — and leases space on each tower to the mobile operators as tenants. The magic is the <b>tenancy ratio</b>: the number of tenants per tower. Because the cost of running a tower (ground lease, power, maintenance) is largely <b style="color:#0c6b4f">fixed per tower</b>, the first tenant covers the site and <b>every additional tenant drops to EBITDA at close to 100% incremental margin</b>. So revenue is simply <b>towers × tenancy ratio × rent</b>, and the value engine is lifting the ratio — <b>lease-up</b> (adding tenants to existing towers) is the high-margin growth, while <b>build-to-suit</b> (new towers against anchor commitments) extends the base. Leases run for years, are <b>indexed to inflation</b>, and churn is near zero because moving a network off a mast is painful. Long, indexed, sticky, high-margin — which is why towercos are a prized annuity and trade at very high EBITDA multiples.</p>
+        </div>
+        <div class="mcard reg" id="mcardB">
+          <div class="tag" id="mbTag">—</div>
+          <h4 id="mbTitle">—</h4>
+          <p id="mbBody">—</p>
+        </div>
+      </div>
+    </div>
 
-// ---------- scene geometry ----------
-const GROUND=300, NT=7, MAST_X=[]; for(let i=0;i<NT;i++) MAST_X.push(104+i*86);
-const TOP=120, TIERS=[TOP+6,TOP+22,TOP+38];   // three antenna heights (anchor=top)
+    <!-- 3 · costs & financing -->
+    <div class="sec" id="cost">
+      <div class="sec-head"><span class="sec-no">03</span><h2>What it costs, and how it's financed</h2></div>
+      <p class="body" id="s4intro1"></p>
 
-// ---------- entities ----------
-const moneys=[];
-let T=0,cumEB=0,cTick=0,visTen=1.8,visConShare=0.55,baseRevYr=0,baseCostYr=0,baseEbYr=0,anT=0,coT=0,grT=0;
-let mastT=new Array(NT).fill(1);
-function rnd(a,b){return a+Math.random()*(b-a);} function lerp(a,b,t){return a+(b-a)*t;}
-function light(x,y,r,col,a){ ctx.save(); ctx.globalAlpha=a;
-  const g=ctx.createRadialGradient(x,y,0,x,y,r); g.addColorStop(0,col); g.addColorStop(1,'rgba(0,0,0,0)');
-  ctx.fillStyle=g; ctx.beginPath(); ctx.arc(x,y,r,0,Math.PI*2); ctx.fill(); ctx.restore(); }
+      <div class="wf-wrap">
+        <div class="wf-head"><span class="t">Revenue → operating costs → EBITDA</span><span class="m">Margin <b id="wfMargin">—</b></span></div>
+        <svg class="wf" id="ixWaterfall" viewBox="0 0 600 200" preserveAspectRatio="xMidYMid meet" role="img" aria-label="EBITDA bridge"></svg>
+        <p class="wf-note" id="wfNote"></p>
+      </div>
 
-function drawScene(){
-  const sky=ctx.createLinearGradient(0,0,0,GROUND); sky.addColorStop(0,'#101a30'); sky.addColorStop(0.6,'#22304a'); sky.addColorStop(1,'#46546a');
-  ctx.fillStyle=sky; ctx.fillRect(0,0,W,GROUND);
-  for(let i=0;i<24;i++){ const sx=(i*139+11)%W, sy=(i*47+5)%70; ctx.globalAlpha=0.25+0.4*Math.sin(T*0.02+i); ctx.fillStyle='rgba(255,255,255,0.4)'; ctx.fillRect(sx,sy,1,1); ctx.globalAlpha=1; }
-  // distant skyline silhouette
-  ctx.fillStyle='rgba(20,28,40,0.6)'; for(let x=0;x<W;x+=26){ const hh=10+((x*37)%40); ctx.fillRect(x,GROUND-hh,22,hh); }
-  // ground
-  const g=ctx.createLinearGradient(0,GROUND,0,H); g.addColorStop(0,'#2a3326'); g.addColorStop(1,'#1b2118');
-  ctx.fillStyle=g; ctx.fillRect(0,GROUND,W,H-GROUND);
-}
+      <p class="body" id="s4intro2"></p>
+      <div class="fin-wrap">
+        <div class="fin-col">
+          <div class="fin-h" id="finStackH">The capital, net of contributions</div>
+          <div class="fin-split-lbl"><span id="finSplitL">How the base is built</span><span id="finSplitR">allocation</span></div>
+          <div class="fin-split" id="finSplit"></div>
+          <ul class="fin-list" id="finList"></ul>
+          <p class="fin-note" id="finNote"></p>
+        </div>
+        <div class="fin-col">
+          <div class="fin-h">History &amp; framework · key milestones</div>
+          <ol class="tl" id="finTimeline"></ol>
+        </div>
+      </div>
+    </div>
 
-function drawSignal(x,y,phase){
-  for(let k=0;k<3;k++){ const u=((T*0.03+phase+k/3)%1); const r=4+u*22;
-    ctx.strokeStyle='rgba(95,170,235,'+(0.5*(1-u))+')'; ctx.lineWidth=1.4;
-    ctx.beginPath(); ctx.arc(x,y,r,-Math.PI*0.85,-Math.PI*0.15); ctx.stroke(); }
-}
-function drawMast(i){
-  const x=MAST_X[i], tn=mastT[i];
-  // lattice tower (tapered)
-  ctx.strokeStyle='#7a8694'; ctx.lineWidth=1.6;
-  ctx.beginPath(); ctx.moveTo(x-11,GROUND); ctx.lineTo(x-3,TOP); ctx.moveTo(x+11,GROUND); ctx.lineTo(x+3,TOP); ctx.stroke();
-  ctx.strokeStyle='rgba(122,134,148,0.6)'; ctx.lineWidth=0.8;
-  for(let yy=TOP;yy<GROUND;yy+=14){ const t0=(yy-TOP)/(GROUND-TOP), lw=lerp(3,11,t0), lw2=lerp(3,11,(yy+14-TOP)/(GROUND-TOP));
-    ctx.beginPath(); ctx.moveTo(x-lw,yy); ctx.lineTo(x+lw2,yy+14); ctx.moveTo(x+lw,yy); ctx.lineTo(x-lw2,yy+14); ctx.stroke(); }
-  ctx.strokeStyle='#9aa6b4'; ctx.lineWidth=1.4; ctx.beginPath(); ctx.moveTo(x,TOP); ctx.lineTo(x,TOP-10); ctx.stroke();  // mast tip
-  // antenna tiers (lit = tenants on this mast); tier 0 = anchor (green), others colo (amber)
-  for(let t=0;t<3;t++){ const ty=TIERS[t], lit=t<tn, col=t===0?'#37c08e':'#e6b35a';
-    ctx.fillStyle=lit?col:'rgba(110,120,135,0.4)';
-    ctx.fillRect(x-12,ty-2,5,7); ctx.fillRect(x+7,ty-2,5,7);   // panel antennas either side
-    ctx.fillRect(x-2,ty-1,4,5);
-    if(lit){ light(x,ty,9,col==='#37c08e'?'rgba(55,192,142,0.5)':'rgba(230,179,90,0.5)',0.5); } }
-  // signal from the active antennas
-  if(tn>0) drawSignal(x,TIERS[0], i*0.2);
-}
+    <!-- 4 · cash flows & returns -->
+    <div class="sec" id="returns">
+      <div class="sec-head"><span class="sec-no">04</span><h2>Cash flows &amp; returns</h2></div>
+      <p class="calc-note" id="calcNote"></p>
 
-function update(dt){
-  const tenancy=parseFloat(dTen.value), rent=parseFloat(dRent.value), towers=parseFloat(dTow.value);
-  const tenants=towers*tenancy;
-  visTen=tenancy;
-  // distribute the average tenancy across the visible masts (max 3 each)
-  let total=Math.min(3*NT,Math.round(tenancy*NT)); mastT=new Array(NT).fill(0); let idx=0;
-  while(total>0 && idx<3*NT){ const m=idx%NT; if(mastT[m]<3){ mastT[m]++; total--; } idx++; }
+      <div class="calc-grid">
+        <div class="cgroup"><h4>Build &amp; contributions</h4>
+          <div class="cfield"><label>Cost per tower (portfolio)</label><span class="ig"><input id="iBuild" type="number" value="68970" step="100"><span class="u" id="uBuild">m</span></span></div>
+          <div class="cfield"><label>Anchor contribution</label><span class="ig"><input id="iGrant" type="number" value="1500" step="50"><span class="u" id="uGrant">m</span></span></div>
+          <div class="cfield"><label>Maintenance capex</label><span class="ig"><input id="iCapex" type="number" value="6" step="0.5"><span class="u">%</span></span></div>
+          <div class="cfield"><label>Organic growth p.a.</label><span class="ig"><input id="iRevG" type="number" value="5" step="0.5"><span class="u">%</span></span></div>
+        </div>
+        <div class="cgroup"><h4>Revenue regime &amp; tax</h4>
+          <div class="cfield"><label>Revenue floor</label><span class="ig"><input id="iFloor" type="number" value="1500" step="50"><span class="u" id="uFloor">m</span></span></div>
+          <div class="cfield"><label>Revenue cap</label><span class="ig"><input id="iCap" type="number" value="8300" step="100"><span class="u" id="uCap">m</span></span></div>
+          <div class="cfield"><label>Tax rate</label><span class="ig"><input id="iTax" type="number" value="25" step="1"><span class="u">%</span></span></div>
+          <div class="cfield"><label>Exit EV / EBITDA</label><span class="ig"><input id="iExit" type="number" value="21" step="0.5"><span class="u">×</span></span></div>
+        </div>
+        <div class="cgroup"><h4>Financing &amp; hold</h4>
+          <div class="cfield"><label>Leverage (Net&nbsp;debt&nbsp;/&nbsp;EBITDA)</label><span class="ig"><input id="iLev" type="number" value="6" step="0.5"><span class="u">×</span></span></div>
+          <div class="cfield"><label>Cost of debt</label><span class="ig"><input id="iRd" type="number" value="4.5" step="0.25"><span class="u">%</span></span></div>
+          <div class="cfield"><label>Debt amortisation p.a.</label><span class="ig"><input id="iAmort" type="number" value="2" step="1"><span class="u">%</span></span></div>
+          <div class="cfield"><label>Hold period</label><span class="ig"><input id="iHold" type="number" value="20" step="1" min="3" max="40"><span class="u">y</span></span></div>
+        </div>
+      </div>
 
-  // cash & cost markers
-  anT-=dt; if(anT<=0){ anT=rnd(70,130)/simSpd; const mx=MAST_X[Math.floor(Math.random()*NT)]; moneys.push({x:mx,y:TIERS[0]-12,label:'Anchor',col:C.aero,life:1.5,vy:-0.85}); }
-  coT-=dt; if(coT<=0 && tenancy>1.05){ coT=rnd(60,120)/simSpd; const mx=MAST_X[Math.floor(Math.random()*NT)]; moneys.push({x:mx,y:TIERS[1]-10,label:'Colocation',col:C.comm,life:1.4,vy:-0.9}); }
-  grT-=dt; if(grT<=0){ grT=rnd(120,210)/simSpd; const mx=MAST_X[Math.floor(Math.random()*NT)]; moneys.push({x:mx,y:GROUND-4,label:Math.random()<0.5?'Ground rent':'Power',col:C.cost,life:1.3,vy:-0.6}); }
-  for(let i=moneys.length-1;i>=0;i--){ const m=moneys[i]; m.y+=m.vy*dt; m.vy*=0.97; m.life-=dt*0.013; if(m.life<=0) moneys.splice(i,1); }
+      <div class="out-cards">
+        <div class="ocard unlev"><div class="k">Unlevered IRR</div><div class="v" id="oUIRR">—</div><div class="s">asset / project return</div></div>
+        <div class="ocard lev"><div class="k">Levered IRR</div><div class="v" id="oLIRR">—</div><div class="s">return to equity</div></div>
+        <div class="ocard"><div class="k">Equity multiple</div><div class="v" id="oMOIC">—</div><div class="s">MOIC over hold</div></div>
+        <div class="ocard"><div class="k">Payback</div><div class="v" id="oPB">—</div><div class="s">project, undiscounted</div></div>
+      </div>
 
-  // ---- finance: revenue = towers × tenancy × rent; anchor (1st tenant) vs colocation (extra tenants) ----
-  const anchorHr=towers*1*rent*12/HRS_PER_YR;
-  const coloHr=towers*Math.max(0,tenancy-1)*rent*12/HRS_PER_YR;
-  const nR=STREAMS.map(s=> s.aero ? anchorHr : coloHr*s.base/COLO_SUM);
-  const nC=COSTS.map(c=> c.driver==='tower'? towers*c.rate/HRS_PER_YR : c.driver==='tenant'? tenants*c.rate/HRS_PER_YR : c.base/HRS_PER_YR);
-  rSmooth=rSmooth.map((v,i)=>lerp(v,nR[i],0.06));
-  cSmooth=cSmooth.map((v,i)=>lerp(v,nC[i],0.06));
+      <div class="calc-sum" id="calcSum"></div>
 
-  const totR=rSmooth.reduce((x,y)=>x+y,0), totC=cSmooth.reduce((x,y)=>x+y,0), totP=totR-totC;
-  const anTot=rSmooth.reduce((s,v,i)=>s+(STREAMS[i].aero?v:0),0), coTot=totR-anTot;
-  visConShare=anTot/Math.max(1,totR);
-  const revYr=totR*HRS_PER_YR, ebYr=totP*HRS_PER_YR, EV=ebYr*EV_MULT;
-  baseRevYr=revYr; baseCostYr=totC*HRS_PER_YR; baseEbYr=ebYr;
-  cumEB+=totP*dt/60;
+      <div class="jwrap">
+        <div class="jhead"><span class="t">Cash-flow profile — equity</span><span class="lg"><span style="color:var(--cost)">■</span> invested &nbsp; <span style="color:var(--accent)">■</span> returned</span></div>
+        <div class="jchart" id="jchart"><div class="jaxis"></div></div>
+      </div>
 
-  document.getElementById('kRev').textContent=money(revYr);
-  document.getElementById('kRevHr').textContent=money(totR);
-  document.getElementById('kEb').textContent=money(ebYr);
-  document.getElementById('kEb').style.color=totP>=0?'var(--aero)':'var(--cost)';
-  document.getElementById('kMargin').textContent=Math.round(totP/totR*100)+'%';
-  document.getElementById('kYield').textContent='£'+Math.round(revYr/Math.max(1,tenants)/12);
-  document.getElementById('kPaxYr').textContent=(tenants/1000).toFixed(1)+'k';
-  document.getElementById('kThru').textContent=tenancy.toFixed(1)+'×';
-  document.getElementById('sPax').textContent=(tenants/1000).toFixed(1)+'k';
-  document.getElementById('sCap').textContent=towers.toLocaleString();
-  document.getElementById('sBank').textContent=money(cumEB);
-  document.getElementById('sEV').textContent= ebYr>0 ? money(EV) : '—';
+      <details class="more">
+        <summary>Show the year-by-year schedule</summary>
+        <div class="jwrap tscroll" style="margin-top:.6rem">
+          <table class="ptable"><thead id="ptHead"></thead><tbody id="ptBody"></tbody></table>
+        </div>
+      </details>
+    </div>
 
-  const aPct=Math.round(anTot/totR*100);
-  document.getElementById('splitTot').textContent=money(revYr);
-  document.getElementById('segAero').style.width=aPct+'%';
-  document.getElementById('segComm').style.width=(100-aPct)+'%';
-  document.getElementById('segAero').textContent='Anchor '+money(anTot*HRS_PER_YR)+' · '+aPct+'%';
-  document.getElementById('segComm').textContent='Coloc '+money(coTot*HRS_PER_YR)+' · '+(100-aPct)+'%';
+    <!-- 5 · what drives the return -->
+    <div class="sec" id="drivers">
+      <div class="sec-head"><span class="sec-no">05</span><h2>What drives the return</h2></div>
+      <p class="body" id="s6intro"></p>
+      <ul class="breakers" id="breakers"></ul>
+    </div>
 
-  document.getElementById('revSum').textContent=money(revYr)+' p.a.';
-  document.getElementById('costSum').textContent=money(totC*HRS_PER_YR)+' p.a.';
-  const maxR=Math.max(...rSmooth,1);
-  rSmooth.forEach((v,i)=>{ const b=document.getElementById('rb'+i),a2=document.getElementById('ra'+i);
-    if(b) b.style.width=Math.round(v/maxR*100)+'%'; if(a2) a2.textContent=money(v*HRS_PER_YR); });
-  const maxC=Math.max(...cSmooth,1);
-  cSmooth.forEach((v,i)=>{ const b=document.getElementById('cb'+i),a2=document.getElementById('ca'+i);
-    if(b) b.style.width=Math.round(v/maxC*100)+'%'; if(a2) a2.textContent=money(v*HRS_PER_YR); });
-
-  ebSample+=dt; if(ebSample>4){ ebSample=0; ebHist.push(ebYr); if(ebHist.length>90) ebHist.shift(); }
-}
-const ebHist=[]; let ebSample=0;
-
-function drawHUD(){
-  const x=10,y=10,w=216,h=58; ctx.save();
-  ctx.fillStyle='rgba(10,20,34,0.62)'; ctx.beginPath(); ctx.roundRect(x,y,w,h,8); ctx.fill();
-  ctx.strokeStyle='rgba(255,255,255,0.08)'; ctx.lineWidth=1; ctx.stroke();
-  light(x+13,y+13,5,'rgba(55,192,142,1)',0.7);
-  ctx.fillStyle=C.aero; ctx.beginPath(); ctx.arc(x+13,y+13,3,0,Math.PI*2); ctx.fill();
-  ctx.fillStyle='#cfe0ea'; ctx.font='700 9px Inter,sans-serif'; ctx.textAlign='left'; ctx.fillText('TOWER PORTFOLIO — LIVE',x+23,y+16);
-  ctx.fillStyle='rgba(170,190,205,0.85)'; ctx.font='9px Inter,sans-serif';
-  ctx.fillText((parseFloat(dTow.value)*visTen/1000).toFixed(1)+'k tenants  ·  '+visTen.toFixed(1)+'× per tower',x+12,y+30);
-  if(ebHist.length>2){ const sx=x+12,sy=y+38,sh=14,sw=w-24;
-    const mn=Math.min(...ebHist,0),mx=Math.max(...ebHist,1),rng=Math.max(1,mx-mn);
-    ctx.beginPath(); ebHist.forEach((v,i)=>{ const px=sx+i/(ebHist.length-1)*sw, py=sy+sh-(v-mn)/rng*sh; i===0?ctx.moveTo(px,py):ctx.lineTo(px,py); });
-    ctx.strokeStyle=C.aero; ctx.lineWidth=1.5; ctx.stroke();
-    ctx.lineTo(sx+sw,sy+sh); ctx.lineTo(sx,sy+sh); ctx.closePath(); ctx.fillStyle='rgba(55,192,142,0.16)'; ctx.fill();
-    ctx.fillStyle='#9fe0c4'; ctx.font='700 9px Inter,sans-serif'; ctx.textAlign='right';
-    ctx.fillText('EBITDA '+money(ebHist[ebHist.length-1])+'/yr',x+w-12,y+34); }
-  ctx.restore();
-}
-
-function draw(){
-  ctx.clearRect(0,0,W,H); drawScene();
-  for(let i=0;i<NT;i++) drawMast(i);
-  ctx.fillStyle='rgba(150,170,190,0.6)'; ctx.font='700 7px Inter,sans-serif'; ctx.textAlign='center'; ctx.fillText('TOWER PORTFOLIO — antennas light up as operators colocate',W/2,GROUND+20);
-  moneys.forEach(m=>{ const a=Math.max(0,Math.min(1,m.life*0.8)); ctx.save(); ctx.globalAlpha=a;
-    ctx.font='700 9px Inter,sans-serif'; ctx.textAlign='left'; const cost=(m.col===C.cost); const tw=ctx.measureText((cost?'−£ ':'£ ')+m.label).width;
-    ctx.fillStyle='rgba(8,16,30,0.55)'; ctx.beginPath(); ctx.roundRect(m.x-tw/2-4,m.y-9,tw+8,13,6); ctx.fill();
-    ctx.fillStyle=m.col; ctx.fillText((cost?'−£ ':'£ ')+m.label,m.x-tw/2,m.y+1); ctx.restore(); });
-  drawHUD();
-  ctx.save(); const vg=ctx.createRadialGradient(W/2,H/2,H*0.4,W/2,H/2,H*0.95);
-  vg.addColorStop(0,'rgba(0,0,0,0)'); vg.addColorStop(1,'rgba(0,0,0,0.28)'); ctx.fillStyle=vg; ctx.fillRect(0,0,W,H); ctx.restore();
-}
-
-// ---- floating mini-simulation ----
-const stageEl=document.querySelector('#twrsim .as-stage');
-const miniEl=document.getElementById('asMini');
-const cvm=document.getElementById('cvMini'), mctx=cvm.getContext('2d');
-const MW=440, MH=220, MDPR=Math.max(2,Math.min(3,window.devicePixelRatio||1));
-cvm.width=MW*MDPR; cvm.height=MH*MDPR; mctx.setTransform(MDPR,0,0,MDPR,0,0);
-let miniOn=false;
-if(miniEl){
-  miniEl.addEventListener('click',()=>{ (stageEl||miniEl).scrollIntoView({behavior:'smooth',block:'center'}); });
-  if('IntersectionObserver' in window && stageEl){
-    new IntersectionObserver(es=>{ es.forEach(e=>{ miniOn=!e.isIntersecting; miniEl.classList.toggle('show',miniOn); }); },
-      {threshold:0, rootMargin:'-72px 0px -10% 0px'}).observe(stageEl);
-  }
-}
-
-let lastTs=null;
-function loop(ts){
-  if(!lastTs) lastTs=ts; const dt=Math.min((ts-lastTs)/16.67,3)*simSpd; lastTs=ts; T+=dt;
-  update(dt); draw();
-  if(miniOn){ mctx.clearRect(0,0,MW,MH); mctx.drawImage(cv,0,0,MW,MH); }
-  if((cTick=(cTick+1)%12)===0) renderModel();
-  requestAnimationFrame(loop);
-}
-requestAnimationFrame(loop);
-})();
-</script>
+    <p class="ix-src" id="ixSrc"></p>
+    <p class="ix-src">See also the <a href="towers-sim.html">tower lease-up simulator</a> — colocation and the tenancy ratio in motion — and the <a href="cashflow-model.html">Cash-flow &amp; DCF model</a>.</p>
 
   </div>
 </section>
 
 <footer>
   <div class="wrap">
-    <div class="footer-text">© 2026 Infrastructure Investor | theinfrastructureinvestor.com</div>
+    <div class="footer-text">© 2026 Infrastructure Investor | theinfrastructureinvestor.com · <a href="community.html" style="color:var(--accent);text-decoration:none;font-weight:600">Community</a></div>
   </div>
 </footer>
 
+<script src="tw-geo.js"></script>
+<script src="tw-towers.js" defer></script>
 <script src="site.js" defer></script>
 </body>
 </html>
