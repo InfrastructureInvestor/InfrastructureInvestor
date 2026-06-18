@@ -164,7 +164,8 @@ assets flagged illustrative), and headless-validated returns.
 - **Electricity transmission** — `electricity-transmission.html` + `tx-grid.js` + `tx-geo.js`. National Grid ET
   (UK RAB), ITC (US FERC formula rates), ISA CTEEP (Brazil ANEEL availability/RAP concession), TransGrid
   (Australia, privatised AER revenue-cap), National Grid SA (Saudi state), State Grid (China state UHV).
-  **New side-elevation grid-landscape animation** (not geographic): generation cluster (spinning turbines,
+  **Cinematic dusk grid-landscape animation** (not geographic): a twilight scene — generation cluster
+  (spinning turbine,
   solar, cooling-tower steam, coal/gas stacks, hydro dam — mix varies per network from `tx-geo.js`) →
   step-up substation → a corridor of lattice **pylons** carrying catenary HV conductors with animated
   **current pulses** (plus a distinct orange **HVDC** bipole where the network runs DC) → step-down
