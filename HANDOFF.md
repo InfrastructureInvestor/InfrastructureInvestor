@@ -315,11 +315,16 @@ Run `git fetch origin main` then `git log --oneline origin/main..<branch>` to se
   contracted leasing annuity: fleet × lease rate × availability), `ev-charging.html`
   (`ev-geo.js`/`ev-charge.js`, the utilisation flywheel: fixed cost per charger, so low utilisation =
   loss). Bespoke top-down scenes (motorway+toll gantry / depot+running-line+shed / charging forecourt),
-  shared overlay + DCF, old `*-sim.html` linked. With Energy & Utilities, **all of those two asset
-  classes' sub-sectors are now full reference pages.** Next candidates: remaining sub-sectors in
-  **digital-infrastructure, social-infrastructure, energy-transition, environmental-waste** still on the
-  old sim/tool pattern — same playbook (geographic → Natural Earth; regulated/contracted → economics
-  overlay engine; merchant/utilisation → the connections/ESCO/utilisation variants).
+- **Digital infrastructure is DONE** ✅ — `fibre-networks.html` (`fb-geo.js`/`fb-fibre.js`, the penetration
+  flywheel: pass homes at fixed cost, earn on take-up × ARPU), `mobile-towers.html`
+  (`tw-geo.js`/`tw-towers.js`, the colocation/tenancy-ratio annuity: fixed per-tower opex, so added
+  tenants are ~100% margin; calibrated to towercos' ~18–24× multiples), `subsea-cables.html`
+  (`sc-geo.js`/`sc-cables.js`, capacity-fill with a contracted/IRU floor; an ocean + landing-stations +
+  cable scene). Data centres were already a Guide. Bespoke scenes, shared overlay + DCF, old `*-sim.html`
+  linked. **Energy & Utilities, Transport and Digital infrastructure are now all complete.** Next
+  candidates: remaining sub-sectors in **social-infrastructure, energy-transition, environmental-waste**
+  still on the old sim/tool pattern — same playbook (geographic → Natural Earth; regulated/contracted →
+  economics-overlay engine; merchant/utilisation → the connections/ESCO/utilisation/penetration variants).
 - **If a segment is geographic, use the Natural Earth recipe above**; if it's a regulated/contracted
   network, **reuse the daytime economics-forward RAB engine + overlay** (copy `wt-water.js` or
   `ed-dist.js` and swap the scene). Keep one PR per segment; the repo auto-merges within minutes.
