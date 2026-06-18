@@ -2,15 +2,17 @@
 
 A status summary for whoever picks this up next. Last updated: 2026-06-18.
 
-> **Latest session (read first):** completed a full sweep of the **Energy & Utilities
-> regulated networks** plus a new **Cash-flow & DCF tool** and a site-wide **economics
-> overlay** convention. Merged to `main`: airports, cash-flow tool (`cashflow-model.html`),
-> electricity transmission, electricity distribution, water & wastewater, and the
-> ports/airports economics-overlay retrofit. **STILL OPEN / NOT YET MERGED:** **gas
-> transmission (PR #67)** and **gas distribution (PR #68)** — their `gt-*.js` / `gd-*.js`
-> and reference HTML live on branches `claude/gas-transmission` / `claude/gas-distribution`,
-> **not on `main`** — merge those before rebuilding them. See "Open PRs" and "Animation
-> recipes → daytime economics-forward" below.
+> **Latest session (read first):** **Energy & Utilities is now COMPLETE** — all nine
+> sub-sectors are full reference pages. This session finished the last three
+> (**non-RAB** models, on a new **connections / ESCO engine** but the same daytime
+> economics-forward overlay): **last-mile electricity** (`lme-*.js`, connections/adoption
+> annuity), **last-mile water** (`lmw-*.js`, NAV connections annuity) and **heat networks**
+> (`hn-*.js`, district heating + cooling ESCO — a *heat-spread* engine, not a connections
+> one). Delivered on branch `claude/airport-animation-46ykuy` → **PR #71**. Gas transmission
+> (#67) and gas distribution (#68) merged earlier this session. Earlier sweep (all merged):
+> airports, cash-flow tool (`cashflow-model.html`), electricity transmission/distribution,
+> water & wastewater, gas transmission/distribution, ports/airports economics-overlay
+> retrofit. **Next: Transport** (roads, rolling-stock, ev-charging) — see "Suggested next steps".
 
 ## What this site is
 
@@ -298,12 +300,16 @@ Run `git fetch origin main` then `git log --oneline origin/main..<branch>` to se
 
 ## Suggested next steps
 
-- **Finish Energy & Utilities** (the only sub-sectors left on the old sim/tool pattern):
-  `last-mile-electricity.html`, `last-mile-water.html`, `heat-networks.html`. These are NOT big-RAB
-  networks — pick the right model & animation per asset: last-mile = a **connections/adoption** play
-  (new connections × connection fee + a small regulated/contracted base); heat networks = an **energy
-  centre → heat mains → buildings** scene with a concession/ESCO model (heat sold per MWh + standing
-  charge, long contracts). Reuse the **economics overlay** but adapt the engine (they aren't pure RAB).
+- **Energy & Utilities is DONE** ✅ — last-mile electricity (`lme-geo.js`/`lme-grid.js`), last-mile
+  water (`lmw-geo.js`/`lmw-water.js`) and heat networks (`hn-geo.js`/`hn-heat.js`) are full reference
+  pages (PR #71). These are the **non-RAB** template variants: copy `lme-grid.js` for a
+  **connections/adoption annuity** (live connections × regulated charge, developer contributions
+  offset the build) or `hn-heat.js` for a **heat-spread ESCO** (thermal sold × tariff − source cost,
+  revenue floor = take-or-pay/standing). Both reuse the shared economics overlay (`drawLedger`/
+  `drawCoins`/`drawDemand`) and the model-agnostic DCF; only the `frame()` economics block, the scene
+  renderer and the `ASSETS` content change. Calibration lesson: net entry must be a *fair multiple of
+  EBITDA* or MOIC explodes — set contributions/grant so net capex ≈ a sensible EV, and keep EM holds
+  short (~15y).
 - **Transport** sub-sectors still on the old sim/tool pattern: `roads.html` (toll/availability —
   geographic map + value-flow), `rolling-stock.html` (ROSCO leasing — contracted), `ev-charging.html`
   (utilisation × margin growth). Each has a `*-sim.html` to keep and link.
