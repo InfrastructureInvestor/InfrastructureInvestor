@@ -161,6 +161,16 @@ Europe, North America, South America, Australia/Oceania, Middle East, China — 
 assets flagged illustrative), and headless-validated returns.
 
 - **Electricity interconnectors** — `electricity-interconnectors.html` + `ix-interconnectors.js` + `ix-geo.js`. The prototype. (Celtic, Champlain-Hudson, Marinus, GCC, Garabi, Cahora Bassa.)
+- **Gas transmission** — `gas-transmission.html` + `gt-gas.js` + `gt-geo.js`. Snam (Italy listed RAB TSO),
+  Williams/Transco (US FERC contracted capacity), TGS (Argentina privatised EM, Vaca Muerta), APA Group
+  (Australia listed, contracted/light-handed), Aramco Gas Pipelines (Saudi state network, usage rights leased
+  to an EIG-led consortium on a 20-yr take-or-pay), PipeChina (China state national network). **Top-down
+  pipeline animation** (daytime, economics-forward): sea-side entries (LNG terminal / interconnector / gas
+  field) → trunk pipeline with rotating **compressor stations** → offtakes (power, industry, city gate,
+  storage); gold gas-flow pulses. Same economics overlay (LIVE ECONOMICS ledger, +cash/−cash orbs, GAS
+  THROUGHPUT sparkline). Economics = the regulated/contracted RAB building block (RAB × allowed return ×
+  performance); calibrated headlessly (margins 55–85%; Snam core, US/EM/APA higher, Aramco a leveraged
+  contracted toll). Old sim kept as `ngt-sim.html` ("See also"). Replaced the old gas-transmission sim page.
 - **Electricity distribution** — `electricity-distribution.html` + `ed-dist.js` + `ed-geo.js`. UK Power Networks
   (UK RIIO-ED2 RAB), Con Edison (US IOU, state PUC rate base + ROE), Enel São Paulo (Brazil ANEEL price-cap
   concession), Ausgrid (Australia privatised lease, AER, very high rooftop solar), DEWA (Dubai state/listed,
