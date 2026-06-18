@@ -401,15 +401,39 @@
     ctx.fillStyle='#e8ebee'; rr(-1,-2,4,4,1); ctx.fill();
     ctx.restore();
   }
-  function spawnCoin(x,y){ if(coins.length<46) coins.push({x:x+rnd(-5,5),y:y-2,vy:-0.55-Math.random()*0.45,life:1}); }
+  /* economic money-flow: +cash in (green revenue), −cash out (red opex) */
+  function spawnCoin(x,y,kind,dir){ if(coins.length<48) coins.push({x:x+rnd(-5,5),y:y, vy:(dir>0?(0.35+Math.random()*0.3):-(0.55+Math.random()*0.45)), life:1, kind:(kind||'rev'), dir:(dir>0?1:-1)}); }
+  function coinCol(k){ return k==='cost'?'#bc4733':'#0c8a57'; }
   function drawCoins(){
     for(var i=coins.length-1;i>=0;i--){ var c=coins[i];
-      if(_anim){ c.y+=c.vy; c.vy*=0.985; c.life-=0.02; }
+      if(_anim){ c.y+=c.vy; if(c.dir>0) c.vy+=0.016; else c.vy*=0.99; c.life-=0.02; }
       if(c.life<=0){ coins.splice(i,1); continue; }
-      ctx.save(); ctx.globalAlpha=Math.max(0,Math.min(1,c.life));
-      var g=ctx.createRadialGradient(c.x-1,c.y-1,0,c.x,c.y,4); g.addColorStop(0,'#fbe9a0'); g.addColorStop(1,'#d6a528');
-      ctx.fillStyle=g; ctx.beginPath(); ctx.arc(c.x,c.y,3.1,0,Math.PI*2); ctx.fill();
-      ctx.strokeStyle='rgba(140,92,22,0.55)'; ctx.lineWidth=0.7; ctx.stroke(); ctx.restore(); }
+      var a=Math.max(0,Math.min(1,c.life)), col=coinCol(c.kind);
+      ctx.save(); ctx.globalAlpha=a;
+      ctx.fillStyle='rgba(20,30,25,0.18)'; ctx.beginPath(); ctx.arc(c.x+0.6,c.y+0.8,3.3,0,Math.PI*2); ctx.fill();
+      var g=ctx.createRadialGradient(c.x-1,c.y-1.2,0,c.x,c.y,3.6); g.addColorStop(0,'#ffffff'); g.addColorStop(0.35,col); g.addColorStop(1,col);
+      ctx.fillStyle=g; ctx.beginPath(); ctx.arc(c.x,c.y,3.2,0,Math.PI*2); ctx.fill();
+      ctx.strokeStyle='rgba(255,255,255,0.95)'; ctx.lineWidth=0.9; ctx.beginPath();
+      ctx.moveTo(c.x-1.5,c.y); ctx.lineTo(c.x+1.5,c.y); if(c.dir<0){ ctx.moveTo(c.x,c.y-1.5); ctx.lineTo(c.x,c.y+1.5); } ctx.stroke();
+      ctx.restore(); }
+  }
+  /* live P&L ledger (the revenue, opex and EBITDA the figures imply) */
+  function drawLedger(rev,eb,opex){
+    var px=16,py=14,pw=222,ph=84, m=rev>0?eb/rev:0, oR=rev>0?opex/rev:0;
+    ctx.save();
+    ctx.fillStyle='rgba(255,255,255,0.9)'; ctx.strokeStyle='rgba(120,140,130,0.35)'; ctx.lineWidth=1; rr(px,py,pw,ph,11); ctx.fill(); ctx.stroke();
+    ctx.textAlign='left'; ctx.fillStyle='rgba(90,102,96,0.95)'; ctx.font='700 8px Inter,sans-serif'; ctx.fillText('LIVE ECONOMICS · PER YEAR',px+13,py+15);
+    function dot(x,c){ ctx.fillStyle=c; ctx.beginPath(); ctx.arc(x,py+27,2.6,0,Math.PI*2); ctx.fill(); }
+    dot(px+15,'#0c8a57'); dot(px+106,'#bc4733');
+    ctx.fillStyle='rgba(70,82,76,0.85)'; ctx.font='600 7.5px Inter,sans-serif';
+    ctx.fillText('+ revenue in',px+21,py+30); ctx.fillText('− operating cost',px+112,py+30);
+    var bx=px+13, bw=pw-26, rows=[['Revenue','+'+money(rev),'#0c6b4f',1],['Operating cost','−'+money(opex),'#bc4733',Math.max(0.02,oR)],['EBITDA',money(eb)+'  ·  '+Math.round(m*100)+'%','#0a5a42',Math.max(0.02,m)]];
+    var ry=py+42;
+    rows.forEach(function(r){ ctx.fillStyle='rgba(60,72,66,0.95)'; ctx.font='600 9px Inter,sans-serif'; ctx.textAlign='left'; ctx.fillText(r[0],bx,ry+7);
+      ctx.fillStyle=r[2]; ctx.font='700 9px Inter,sans-serif'; ctx.textAlign='right'; ctx.fillText(r[1],px+pw-13,ry+7);
+      ctx.fillStyle='rgba(20,30,25,0.07)'; rr(bx,ry+11,bw,3,1.5); ctx.fill(); ctx.fillStyle=r[2]; rr(bx,ry+11,bw*Math.min(1,r[3]),3,1.5); ctx.fill();
+      ry+=20; });
+    ctx.restore();
   }
   function drawChannelBuoys(G){
     var y=G.channelY||300;
@@ -512,11 +536,14 @@
       for(var ci=0;ci<cranesPer;ci++){
         var cy=by-shipLen*0.34 + (cranesPer>1? ci/(cranesPer-1)*shipLen*0.68 : 0);
         var cr=gantryCrane(G.quayX, cy, reach, b2*1.7+ci*2.1, cspeed);
-        if(_anim && cr.drop && Math.random()<0.5) spawnCoin(cr.x+4, cr.y-6);
+        if(_anim && cr.drop && Math.random()<0.5) spawnCoin(cr.x+4, cr.y-6,'rev',-1);
       }
     }
     // arrivals / departures sailing the channel, with tugs
     drawTransit(G);
+    // −cash out: operating cost drains from the yard, at a rate set by last frame's margin
+    if(_anim && baseRevYr>0){ var outRate=Math.max(0.05,Math.min(0.6, baseCostYr/baseRevYr));
+      if(Math.random()<outRate && G.yard){ spawnCoin(G.yard.x+rnd(10,G.yard.w-10), G.yard.y+rnd(10,G.yard.h-10),'cost',1); } }
     drawCoins();
 
     // labels last, with a backing plate over the busy terminal
@@ -551,6 +578,7 @@
     var c_labour=O.labour*cap, c_equip=O.equip*1e6, c_conc=(O.concession||0)*revenue, c_admin=O.admin*1e6;
     var opex=c_labour+c_equip+c_conc+c_admin, ebitda=revenue-opex;
     baseRevYr=revenue; baseCostYr=opex; baseEbYr=ebitda;
+    drawLedger(revenue, ebitda, opex);
 
     set('ixCapV',fmtTEU(cap)); set('ixSpreadV',fmtTariff(tariff)); set('ixAvailV',Math.round(prem*100)+'%');
     set('ixDir',fmtTEU(cap)); set('ixDirS',Math.round(prem*100)+'% reefer / special');
