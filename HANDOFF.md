@@ -2,6 +2,16 @@
 
 A status summary for whoever picks this up next. Last updated: 2026-06-18.
 
+> **Latest session (read first):** completed a full sweep of the **Energy & Utilities
+> regulated networks** plus a new **Cash-flow & DCF tool** and a site-wide **economics
+> overlay** convention. Merged to `main`: airports, cash-flow tool (`cashflow-model.html`),
+> electricity transmission, electricity distribution, water & wastewater, and the
+> ports/airports economics-overlay retrofit. **STILL OPEN / NOT YET MERGED:** **gas
+> transmission (PR #67)** and **gas distribution (PR #68)** — their `gt-*.js` / `gd-*.js`
+> and reference HTML live on branches `claude/gas-transmission` / `claude/gas-distribution`,
+> **not on `main`** — merge those before rebuilding them. See "Open PRs" and "Animation
+> recipes → daytime economics-forward" below.
+
 ## What this site is
 
 A static reference site for **global infrastructure investing** (it began
@@ -116,7 +126,7 @@ s6, breakers[…], src, econ{…}, opex{…}, calc{…}, map{labels,footer}`. Pl
   MOICs/IRRs. Make `floor`/`cap` not bind at base case. Make each region's IRR tell
   a story (core/landlord low; EM/operator higher; "bought at a full price" deals low).
 
-### Animation recipes (two styles in use)
+### Animation recipes (styles in use)
 - **Geographic map** (interconnectors, bridges, ports): animated sea background +
   `land` polygons on top + a route/quay + moving units (vehicles/vessels) + a
   toll/value point + coins, with shadows/gradients/vignette and a compass+caption.
@@ -128,8 +138,31 @@ s6, breakers[…], src, econ{…}, opex{…}, calc{…}, map{labels,footer}`. Pl
   the **value-flow diagram** the user asked for: `$` tokens flagged by source —
   green **"$ data"** flowing IN (revenue), red **"$ power"/"$ cooling"** flowing OUT
   (cost) — at rates that scale with the live economics. See `dc-centres.js`
-  (`drawFlows`, `flag`, `VF` paths). **This `$`-in/out value-flow is a candidate to
-  retrofit onto the ports & bridges maps for consistency.**
+  (`drawFlows`, `flag`, `VF` paths).
+- **Daytime economics-forward network scene** *(the current default — used for electricity
+  transmission & distribution, gas transmission & distribution, water; the **economics overlay**
+  was also retrofitted to ports & airports).* A bright, **legible** top-down (or side-elevation)
+  scene of the asset, where the **economics are drawn on the canvas, not just the physical flow.**
+  Two reusable pieces are shared **verbatim** across `tx-grid.js` / `ed-dist.js` / `gd-dist.js` /
+  `gt-gas.js` / `wt-water.js` — copy them and only swap the scene-drawing + readout labels:
+  - **RAB building-block engine.** Three sliders = **asset base (RAB, £bn) × allowed return
+    (WACC %) × performance/incentive (%)**. `revenue = wacc·RAB + depRate·RAB + opexAllow + perf·RAB`;
+    `EBITDA = revenue − opex`; the DCF uses the RAB as the entry/build cost. **Set maintenance capex
+    HIGH (≈35–48% of revenue)** — regulated networks are capital-hungry, so the unlevered IRR lands
+    near the allowed return instead of being absurdly high. Exit ≈ entry multiple (RAB ≈ EV); use a
+    **lower** exit to express terminal-value / decline risk (e.g. gas distribution). Tune per the
+    Node harness; margins: transmission ~70%+, distribution/gas ~45–65%, water ~42–59%.
+  - **Economics overlay** (`drawLedger` + `drawCoins` + `drawDemand`): a top-left **LIVE ECONOMICS**
+    P&L ledger (Revenue + / Operating cost − / EBITDA + margin, with proportional bars); glowing
+    **+cash** orbs (green = return on RAB, amber = depreciation) rising from the assets vs **−cash**
+    orbs (red = opex) draining, each with a +/− glyph; and a top-right **demand sparkline**
+    (NETWORK LOAD / GAS THROUGHPUT / WATER DEMAND). Keep the ledger top-left clear of scene elements.
+  - **Lessons from user feedback (important):** (1) keep it **daytime and legible** — a cinematic
+    *dusk* version was explicitly rejected as too dark; only go dark if a day/night cycle itself
+    carries information. (2) **Represent the project economics** (where +ve cash is made and −ve cash
+    is spent), not merely the energy/physical flow. (3) Each region must be a genuinely **different
+    ownership/regulatory model** (RAB / US cost-of-service / EM concession / privatised lease /
+    state / listed), and the returns ladder must tell that story.
 
 ### Real map geometry — use Natural Earth, don't hand-author (learned on rail)
 
@@ -171,11 +204,14 @@ assets flagged illustrative), and headless-validated returns.
   (LIVE ECONOMICS ledger, +cash/−cash orbs, WATER DEMAND + leakage). RAB building block; calibrated to
   water's low, capital-heavy returns (UK/Sydney core ~5%, US/EM/state higher) and lower margins (42–59%,
   opex-heavy). Replaced the old water sim page; links the cash-flow model.
-- **Gas transmission / Gas distribution** — `gas-transmission.html`/`gt-*.js` (Snam, Williams/Transco, TGS,
-  APA, Aramco Gas Pipelines, PipeChina) and `gas-distribution.html`/`gd-*.js` (Cadent, SoCalGas, Comgás,
-  Australian Gas Networks, Town Gas Egypt, ENN). Top-down pipeline / town-gas animations, same RAB engine +
-  economics overlay; gas distribution carries a lower exit multiple for terminal-value/decline risk. Old
-  sims kept (`ngt-sim.html`, `gd-sim.html`).
+- **Gas transmission / Gas distribution** — ⚠️ **OPEN PRs #67 / #68 — NOT yet on `main`.** Files live on
+  branches `claude/gas-transmission` (`gt-geo.js`,`gt-gas.js`,`gas-transmission.html`) and
+  `claude/gas-distribution` (`gd-geo.js`,`gd-dist.js`,`gas-distribution.html`). Merge those first (don't
+  rebuild). Gas T: Snam, Williams/Transco, TGS, APA, Aramco Gas Pipelines, PipeChina — top-down pipeline
+  scene (entries → trunk + compressor stations → offtakes). Gas D: Cadent, SoCalGas, Comgás, Australian Gas
+  Networks, Town Gas Egypt, ENN — top-down town gas (city gate → mains → governors → boilers; green mains =
+  hydrogen-ready). Same RAB engine + economics overlay; gas D uses a lower exit multiple for
+  terminal-value/decline risk. Old sims kept (`ngt-sim.html`, `gd-sim.html`).
 - **Electricity distribution** — `electricity-distribution.html` + `ed-dist.js` + `ed-geo.js`. UK Power Networks
   (UK RIIO-ED2 RAB), Con Edison (US IOU, state PUC rate base + ROE), Enel São Paulo (Brazil ANEEL price-cap
   concession), Ausgrid (Australia privatised lease, AER, very high rooftop solar), DEWA (Dubai state/listed,
@@ -251,13 +287,29 @@ assets flagged illustrative), and headless-validated returns.
 5. **`compare.html`** base-case table predates the new reference pages — refresh its
    rows from the bridges/ports/data-centres models when convenient.
 
+## Open PRs (this session) — check before building
+
+Run `git fetch origin main` then `git log --oneline origin/main..<branch>` to see what's stranded.
+- **Merged to `main`:** electricity transmission (#63), ports/airports economics overlay (#64),
+  Cash-flow & DCF tool (#65), electricity distribution (#66), water & wastewater (#69), airports.
+- **OPEN / not yet merged:** **gas transmission #67** (`claude/gas-transmission`),
+  **gas distribution #68** (`claude/gas-distribution`). Merge these (or re-open PRs if auto-merge
+  stranded them) before doing anything gas-related.
+
 ## Suggested next steps
 
-- Other transport sub-sectors still on the old sim/tool pattern and ripe for conversion:
-  `roads.html`, `rolling-stock.html`, `ev-charging.html` (each has a `*-sim.html`).
-- **If the segment is geographic, use the Natural Earth recipe above** for the map —
-  reuse `rl-rail.js`'s `drawSea`/`drawLand` and the bridge map renderer wholesale.
-- Keep rolling the template across remaining sub-sectors with real "in focus" assets.
+- **Finish Energy & Utilities** (the only sub-sectors left on the old sim/tool pattern):
+  `last-mile-electricity.html`, `last-mile-water.html`, `heat-networks.html`. These are NOT big-RAB
+  networks — pick the right model & animation per asset: last-mile = a **connections/adoption** play
+  (new connections × connection fee + a small regulated/contracted base); heat networks = an **energy
+  centre → heat mains → buildings** scene with a concession/ESCO model (heat sold per MWh + standing
+  charge, long contracts). Reuse the **economics overlay** but adapt the engine (they aren't pure RAB).
+- **Transport** sub-sectors still on the old sim/tool pattern: `roads.html` (toll/availability —
+  geographic map + value-flow), `rolling-stock.html` (ROSCO leasing — contracted), `ev-charging.html`
+  (utilisation × margin growth). Each has a `*-sim.html` to keep and link.
+- **If a segment is geographic, use the Natural Earth recipe above**; if it's a regulated/contracted
+  network, **reuse the daytime economics-forward RAB engine + overlay** (copy `wt-water.js` or
+  `ed-dist.js` and swap the scene). Keep one PR per segment; the repo auto-merges within minutes.
 
 ## Map of key files
 
@@ -267,7 +319,11 @@ assets flagged illustrative), and headless-validated returns.
 - `<sub-sector>.html` — sub-sector pages; `*-sim.html` — standalone sims.
 - **Reference pages (the template):** `electricity-interconnectors.html`/`ix-*.js`,
   `bridges.html`/`br-*.js`, `ports.html`/`pt-*.js`, `airports.html`/`ap-*.js`,
-  `data-centres.html`/`dc-*.js`, `rail-infrastructure.html`/`rl-rail.js`/`rail-geo.js`.
+  `data-centres.html`/`dc-*.js`, `rail-infrastructure.html`/`rl-rail.js`/`rail-geo.js`,
+  and the **regulated-network family** (daytime economics-forward RAB engine + overlay):
+  `electricity-transmission.html`/`tx-*.js`, `electricity-distribution.html`/`ed-*.js`,
+  `water-wastewater.html`/`wt-*.js`, plus (in open PRs #67/#68) `gas-transmission.html`/`gt-*.js`
+  and `gas-distribution.html`/`gd-*.js`.
 - **Cross-sector tools:** `cashflow-model.html`/`cf-model.js` — generic asset-aware **cash-flow & DCF
   template** (8 asset presets, every major revenue/cost line on a slider, a full projection grid with
   line items down and years across — sticky first column — plus unlevered/levered IRR, NPV, MOIC,
