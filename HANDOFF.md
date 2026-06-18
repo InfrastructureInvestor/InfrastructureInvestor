@@ -321,9 +321,19 @@ Run `git fetch origin main` then `git log --oneline origin/main..<branch>` to se
   tenants are ~100% margin; calibrated to towercos' ~18–24× multiples), `subsea-cables.html`
   (`sc-geo.js`/`sc-cables.js`, capacity-fill with a contracted/IRU floor; an ocean + landing-stations +
   cable scene). Data centres were already a Guide. Bespoke scenes, shared overlay + DCF, old `*-sim.html`
-  linked. **Energy & Utilities, Transport and Digital infrastructure are now all complete.** Next
-  candidates: remaining sub-sectors in **social-infrastructure, energy-transition, environmental-waste**
-  still on the old sim/tool pattern — same playbook (geographic → Natural Earth; regulated/contracted →
+  linked. **Energy & Utilities, Transport and Digital infrastructure are now all complete.**
+- **Energy transition is DONE** ✅ — all 7 sub-sectors: `onshore-wind.html` (`ow-*`) and `offshore-wind.html`
+  (`of-*`) and `solar.html` (`so-*`) and `nuclear.html` (`nu-*`) use the **generation engine**
+  (capacity × 8760 × capacity-factor × price, with a CfD/PPA/RAB contracted floor — the merchant-vs-
+  contracted story; copy `hn-heat.js`); `hydrogen.html` (`hy-*`) is the **spread engine** (H2 output ×
+  price − power cost; power ≈ 65% of opex, subsidy-dependent, tips to a loss at a low H2 price);
+  `battery-storage.html` (`bt-*`) and `pumped-hydro.html` (`ph-*`) use the **storage engine** (MW ×
+  revenue-per-MW × capture, with a tolling/capacity floor — merchant batteries higher-return/riskier,
+  pumped hydro long-life/contracted/steadier). Bespoke scenes per asset (turbines / PV+sun / reactor
+  domes+steam / electrolyser+H2 tanks / battery compound / reservoirs+penstock). Old `*-sim.html` linked.
+  **Four asset classes now complete.** Next candidates: remaining sub-sectors in
+  **social-infrastructure, environmental-waste** (and any stragglers) still on the old sim/tool pattern —
+  same playbook (geographic → Natural Earth; regulated/contracted →
   economics-overlay engine; merchant/utilisation → the connections/ESCO/utilisation/penetration variants).
 - **If a segment is geographic, use the Natural Earth recipe above**; if it's a regulated/contracted
   network, **reuse the daytime economics-forward RAB engine + overlay** (copy `wt-water.js` or
