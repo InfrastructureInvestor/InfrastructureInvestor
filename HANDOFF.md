@@ -1,6 +1,6 @@
 # Handoff — Infrastructure Reference (theinfrastructureinvestor.com)
 
-A status summary for whoever picks this up next. Last updated: 2026-06-17.
+A status summary for whoever picks this up next. Last updated: 2026-06-18.
 
 ## What this site is
 
@@ -131,6 +131,28 @@ s6, breakers[…], src, econ{…}, opex{…}, calc{…}, map{labels,footer}`. Pl
   (`drawFlows`, `flag`, `VF` paths). **This `$`-in/out value-flow is a candidate to
   retrofit onto the ports & bridges maps for consistency.**
 
+### Real map geometry — use Natural Earth, don't hand-author (learned on rail)
+
+For any geographic map, **do not draw country/region outlines by hand** — they look blocky
+and the user will (rightly) reject them. The interconnector and rail maps use **real
+Natural Earth coastlines**. Repeatable recipe (the env has outbound network):
+
+1. `curl` the GeoJSON from the `nvkelso/natural-earth-vector` repo, e.g.
+   `…/geojson/ne_50m_admin_0_countries.geojson` (countries) and
+   `…/ne_50m_admin_1_states_provinces.geojson` (states/provinces, for sub-national like Florida).
+   50m is the sweet spot; 110m is too coarse, 10m is heavy.
+2. In Python: match the feature by **`ADMIN`/`NAME`** (NOT `SOVEREIGNT` — that pulls in
+   overseas territories; matching UK on SOVEREIGNT returned **South Georgia**). Pick the
+   largest-area feature among matches. Take outer rings; keep the big landmass(es); for
+   multi-island countries window-filter by lng/lat (e.g. Japan → Honshū/Shikoku/Kyushu).
+3. Simplify each ring with **Douglas–Peucker** to a point budget (~60–340 pts/landmass),
+   round coords to 3 dp. Emit `var GEO={ key:{bb, home:[name], polys:[[name,ring],…]} }`.
+4. **Framing:** for a small country show the whole thing; for a large one (China, Saudi)
+   set `bb` to the relevant region — the rest of the polygon just runs off the canvas edge.
+5. Renderer (`rl-rail.js`): `drawSea()` fills the canvas, `drawLand()` draws the polys
+   (host country = `home` shaded green) — copied straight from `br-bridges.js`.
+   Throwaway extract/gen scripts lived in `/tmp` (`gen.py`); rebuild from this recipe if gone.
+
 ## Segments completed (all merged unless noted)
 
 Each is the 3-file template with a **6-example regional library** (one per region —
@@ -142,6 +164,15 @@ assets flagged illustrative), and headless-validated returns.
 - **Bridges** — `bridges.html` + `br-bridges.js` + `br-geo.js`. Øresund, Confederation, Rio–Niterói, Sydney Harbour, King Fahd Causeway, HZMB. (`bridge-sim.html` standalone sim kept.)
 - **Ports** — `ports.html` + `pt-ports.js` + `pt-geo.js`. Rotterdam, Los Angeles, Cartagena, Melbourne, Jebel Ali, Shanghai/Yangshan. (`ports-sim.html` kept.)
 - **Data centres** — `data-centres.html` + `dc-centres.js` + `dc-geo.js`. Equinix, Northern Virginia, Ascenty, AirTrunk, Khazna, GDS. Includes the **value-flow `$` diagram**. (`data-centre-sim.html` kept.)
+- **High-speed rail** — `rail-infrastructure.html` + `rl-rail.js` + `rail-geo.js`. HS2,
+  TGV (Paris–Lyon–Marseille), Tōkaidō Shinkansen, Brightline, Haramain, Beijing–Shanghai.
+  Map is the bridge-style **land-on-sea geographic map** but each corridor sits inside the
+  **real outline of its country** (animated sea, host country shaded green, the rail line +
+  moving trains + station stops + a `FARES` gantry). Sliders are riders/day × avg fare ×
+  premium-class share; `econ.fixed`/`anc` carry the network-fee / ancillary lines. Outlines
+  are **real Natural Earth 50m** coastlines (see the recipe below) — *don't* hand-author map
+  polygons again. Converted from the old single-asset sim, which is kept as the standalone
+  `rail-sim.html` and linked "See also". **PR #59** (auto-merges).
 - **Layout/animation passes:** centred the reference pages on one linear 880px
   column (interconnectors + all the above); cinematic upgrade of the bridge/port maps.
 - **Globalisation:** removed UK scope/positioning across the site (homepage now
@@ -169,6 +200,10 @@ assets flagged illustrative), and headless-validated returns.
   different models (regulated single-till vs dual-till, privatised concession,
   sovereign hub, etc.), an apron/terminal animation (arrivals/departures, value-flow
   of aero vs retail income), and a calibrated returns ladder.
+- Other transport sub-sectors still on the old sim/tool pattern and ripe for conversion:
+  `roads.html`, `rolling-stock.html`, `ev-charging.html` (each has a `*-sim.html`).
+- **If the segment is geographic, use the Natural Earth recipe above** for the map —
+  reuse `rl-rail.js`'s `drawSea`/`drawLand` and the bridge map renderer wholesale.
 - Keep rolling the template across remaining sub-sectors with real "in focus" assets.
 
 ## Map of key files
@@ -178,5 +213,6 @@ assets flagged illustrative), and headless-validated returns.
 - `<asset-class>.html` — 6 category pages (energy-utilities, transport, digital-infrastructure, social-infrastructure, energy-transition, environmental-waste).
 - `<sub-sector>.html` — sub-sector pages; `*-sim.html` — standalone sims.
 - **Reference pages (the template):** `electricity-interconnectors.html`/`ix-*.js`,
-  `bridges.html`/`br-*.js`, `ports.html`/`pt-*.js`, `data-centres.html`/`dc-*.js`.
+  `bridges.html`/`br-*.js`, `ports.html`/`pt-*.js`, `data-centres.html`/`dc-*.js`,
+  `rail-infrastructure.html`/`rl-rail.js`/`rail-geo.js`.
 - `compare.html`, `community.html`, `404.html`, `robots.txt`, `favicon.svg`, `og-image.svg`, `sitemap.xml`.
