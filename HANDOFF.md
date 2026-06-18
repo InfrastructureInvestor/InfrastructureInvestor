@@ -163,6 +163,20 @@ assets flagged illustrative), and headless-validated returns.
 - **Electricity interconnectors** — `electricity-interconnectors.html` + `ix-interconnectors.js` + `ix-geo.js`. The prototype. (Celtic, Champlain-Hudson, Marinus, GCC, Garabi, Cahora Bassa.)
 - **Bridges** — `bridges.html` + `br-bridges.js` + `br-geo.js`. Øresund, Confederation, Rio–Niterói, Sydney Harbour, King Fahd Causeway, HZMB. (`bridge-sim.html` standalone sim kept.)
 - **Ports** — `ports.html` + `pt-ports.js` + `pt-geo.js`. Rotterdam, Los Angeles, Cartagena, Melbourne, Jebel Ali, Shanghai/Yangshan. (`ports-sim.html` kept.)
+- **Airports** — `airports.html` + `ap-airports.js` + `ap-geo.js`. Heathrow (RAB single-till), Atlanta
+  (city-owned residual), Lima (Fraport EM concession), Sydney (privatised, light-handed, infra-fund),
+  Dubai/DXB (state hub), Beijing Capital (listed state). **New top-down airfield animation** built for
+  this segment: per-airport **characteristic runway configuration** (Heathrow 2 parallels, Atlanta 5,
+  Sydney 2+cross, Beijing 3 …) drawn from `ap-geo.js`; a full **aircraft lifecycle scheduler** (approach →
+  land → taxi → stand turnaround with jet bridge + service + progress ring → pushback → take-off, tied to
+  the passenger slider via stand occupancy); ambient traffic on the inactive runways; landside forecourt,
+  access-road cars/buses, multi-storey car park and rail link. The **value-flow `$` retrofit** is realised
+  here as a **two-till** flow — <b>green</b> aeronautical coins from the stands/runway, <b>gold</b>
+  commercial coins from the terminal/car park, at frequencies that track the live aero/commercial revenue
+  mix, with an on-canvas legend showing the split %. The three sliders are passengers × **aero charge/pax**
+  × **commercial/pax** (slider 3 is a £/pax value, not a %); revenue = pax·(aero+comm)+anc. Converted from
+  the old single-asset sim, kept as `airport-sim.html` ("See also"). Returns ladder calibrated headlessly
+  (Sydney lowest ~6.5% = "bought at a full price"; Beijing/Lima highest as listed-state / EM concession).
 - **Data centres** — `data-centres.html` + `dc-centres.js` + `dc-geo.js`. Equinix, Northern Virginia, Ascenty, AirTrunk, Khazna, GDS. Includes the **value-flow `$` diagram**. (`data-centre-sim.html` kept.)
 - **High-speed rail** — `rail-infrastructure.html` + `rl-rail.js` + `rail-geo.js`. HS2,
   TGV (Paris–Lyon–Marseille), Tōkaidō Shinkansen, Brightline, Haramain, Beijing–Shanghai.
@@ -195,11 +209,6 @@ assets flagged illustrative), and headless-validated returns.
 
 ## Suggested next steps
 
-- **Airports** is the obvious next segment to template (transport category, has
-  `airports.html` + likely a `*-sim.html`). Same pattern: 6 real airports by region,
-  different models (regulated single-till vs dual-till, privatised concession,
-  sovereign hub, etc.), an apron/terminal animation (arrivals/departures, value-flow
-  of aero vs retail income), and a calibrated returns ladder.
 - Other transport sub-sectors still on the old sim/tool pattern and ripe for conversion:
   `roads.html`, `rolling-stock.html`, `ev-charging.html` (each has a `*-sim.html`).
 - **If the segment is geographic, use the Natural Earth recipe above** for the map —
@@ -213,6 +222,6 @@ assets flagged illustrative), and headless-validated returns.
 - `<asset-class>.html` — 6 category pages (energy-utilities, transport, digital-infrastructure, social-infrastructure, energy-transition, environmental-waste).
 - `<sub-sector>.html` — sub-sector pages; `*-sim.html` — standalone sims.
 - **Reference pages (the template):** `electricity-interconnectors.html`/`ix-*.js`,
-  `bridges.html`/`br-*.js`, `ports.html`/`pt-*.js`, `data-centres.html`/`dc-*.js`,
-  `rail-infrastructure.html`/`rl-rail.js`/`rail-geo.js`.
+  `bridges.html`/`br-*.js`, `ports.html`/`pt-*.js`, `airports.html`/`ap-*.js`,
+  `data-centres.html`/`dc-*.js`, `rail-infrastructure.html`/`rl-rail.js`/`rail-geo.js`.
 - `compare.html`, `community.html`, `404.html`, `robots.txt`, `favicon.svg`, `og-image.svg`, `sitemap.xml`.
