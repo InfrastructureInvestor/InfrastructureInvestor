@@ -241,4 +241,9 @@ assets flagged illustrative), and headless-validated returns.
 - **Reference pages (the template):** `electricity-interconnectors.html`/`ix-*.js`,
   `bridges.html`/`br-*.js`, `ports.html`/`pt-*.js`, `airports.html`/`ap-*.js`,
   `data-centres.html`/`dc-*.js`, `rail-infrastructure.html`/`rl-rail.js`/`rail-geo.js`.
+- **Cross-sector tools:** `cashflow-model.html`/`cf-model.js` — generic asset-aware **cash-flow & DCF
+  template** (8 asset presets, every major revenue/cost line on a slider, a full projection grid with
+  line items down and years across — sticky first column — plus unlevered/levered IRR, NPV, MOIC,
+  payback). Also `wacc-calculator.html`, `macro_dashboard.html`, `riio_ed2_calculator.html`, etc.
+  (linked from the homepage "Cross-Sector Tools" grid + `site.js` INDEX, group `Tool`).
 - `compare.html`, `community.html`, `404.html`, `robots.txt`, `favicon.svg`, `og-image.svg`, `sitemap.xml`.
