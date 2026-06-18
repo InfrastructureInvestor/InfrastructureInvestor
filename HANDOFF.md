@@ -161,6 +161,21 @@ Europe, North America, South America, Australia/Oceania, Middle East, China — 
 assets flagged illustrative), and headless-validated returns.
 
 - **Electricity interconnectors** — `electricity-interconnectors.html` + `ix-interconnectors.js` + `ix-geo.js`. The prototype. (Celtic, Champlain-Hudson, Marinus, GCC, Garabi, Cahora Bassa.)
+- **Water & wastewater** — `water-wastewater.html` + `wt-water.js` + `wt-geo.js`. United Utilities (UK Ofwat
+  PR24 RAB), American Water (US IOU rate base + ROE, municipal roll-up), Sabesp (Brazil privatised 2024,
+  universalisation), Sydney Water (Australia state-owned corp, IPART), National Water (Saudi state,
+  desalination-fed), Beijing Enterprises Water (China listed BOT/concession). **Water-cycle animation**
+  (top-down, daytime, economics-forward): source (reservoir / river / sea+desalination per `wt-geo.js`) →
+  water treatment (rotating clarifier tanks) → blue clean main → town → brown sewer → wastewater treatment
+  → teal treated discharge to river/sea; leakage droplets escape the clean main. Same economics overlay
+  (LIVE ECONOMICS ledger, +cash/−cash orbs, WATER DEMAND + leakage). RAB building block; calibrated to
+  water's low, capital-heavy returns (UK/Sydney core ~5%, US/EM/state higher) and lower margins (42–59%,
+  opex-heavy). Replaced the old water sim page; links the cash-flow model.
+- **Gas transmission / Gas distribution** — `gas-transmission.html`/`gt-*.js` (Snam, Williams/Transco, TGS,
+  APA, Aramco Gas Pipelines, PipeChina) and `gas-distribution.html`/`gd-*.js` (Cadent, SoCalGas, Comgás,
+  Australian Gas Networks, Town Gas Egypt, ENN). Top-down pipeline / town-gas animations, same RAB engine +
+  economics overlay; gas distribution carries a lower exit multiple for terminal-value/decline risk. Old
+  sims kept (`ngt-sim.html`, `gd-sim.html`).
 - **Electricity distribution** — `electricity-distribution.html` + `ed-dist.js` + `ed-geo.js`. UK Power Networks
   (UK RIIO-ED2 RAB), Con Edison (US IOU, state PUC rate base + ROE), Enel São Paulo (Brazil ANEEL price-cap
   concession), Ausgrid (Australia privatised lease, AER, very high rooftop solar), DEWA (Dubai state/listed,
