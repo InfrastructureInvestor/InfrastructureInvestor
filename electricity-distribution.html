@@ -4,23 +4,190 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Electricity distribution — Infrastructure Investor</title>
-<meta name="description" content="Analysis tools for Electricity distribution are available below. Detailed sector reference for this part of Energy &amp; Utilities is in development.">
+<meta name="description" content="A reference on electricity distribution — how a regulated local network earns on its asset base, what it costs and how it is financed — illustrated with real networks from six regions: UK Power Networks, Con Edison, Enel (Brazil), Ausgrid, DEWA and China Southern Power Grid.">
+<script src="anim-guard.js"></script>
 <link rel="icon" type="image/svg+xml" href="favicon.svg">
 <link rel="canonical" href="https://theinfrastructureinvestor.com/electricity-distribution.html">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Infrastructure Reference">
 <meta property="og:title" content="Electricity distribution — Infrastructure Investor">
-<meta property="og:description" content="Analysis tools for Electricity distribution are available below. Detailed sector reference for this part of Energy &amp; Utilities is in development.">
+<meta property="og:description" content="How a regulated distribution network earns on its asset base and is financed, illustrated with real networks from six regions.">
 <meta property="og:url" content="https://theinfrastructureinvestor.com/electricity-distribution.html">
 <meta property="og:image" content="https://theinfrastructureinvestor.com/og-image.svg">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Electricity distribution — Infrastructure Investor">
-<meta name="twitter:description" content="Analysis tools for Electricity distribution are available below. Detailed sector reference for this part of Energy &amp; Utilities is in development.">
+<meta name="twitter:description" content="How a regulated distribution network earns on its asset base and is financed, illustrated with real networks from six regions.">
 <meta name="twitter:image" content="https://theinfrastructureinvestor.com/og-image.svg">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,500;0,8..60,600;1,8..60,400&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="styles.css">
+<style>
+/* ---- sticky control bar : worked-example picker + section nav ---- */
+.ix-bar{position:sticky;top:0;z-index:80;background:rgba(255,255,255,0.93);backdrop-filter:blur(10px);border-bottom:1px solid var(--border)}
+.ix-bar .wrap{display:flex;align-items:center;gap:1.1rem;padding:.5rem 2rem;max-width:880px;margin:0 auto}
+.ix-bar-name{font-family:'Source Serif 4',Georgia,serif;font-size:.92rem;font-weight:600;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;flex:0 1 auto}
+.ix-bar-nav{display:flex;gap:.1rem;overflow-x:auto;scrollbar-width:none;margin-left:auto}
+.ix-bar-nav::-webkit-scrollbar{display:none}
+.ix-bar-nav a{flex:0 0 auto;font-size:.72rem;font-weight:600;color:var(--muted);text-decoration:none;padding:.4rem .65rem;border-radius:8px;white-space:nowrap;transition:all .12s}
+.ix-bar-nav a:hover{color:var(--accent)}
+.ix-bar-nav a.on{color:var(--accent);background:var(--accent-soft)}
+@media(max-width:780px){.ix-bar .wrap{gap:.6rem;padding:.5rem 1.25rem}.ix-bar-name{max-width:55%}}
+
+#ix{max-width:880px;margin:0 auto}
+.brhero .wrap{max-width:880px}
+
+.ix-hero{margin:1.4rem 0 .4rem}
+#ix .ix-hero-top{display:flex;align-items:center;justify-content:space-between;gap:1rem;flex-wrap:wrap;margin-bottom:.5rem}
+#ix .ix-pick{display:flex;align-items:center;gap:.5rem;flex:0 0 auto}
+#ix .ix-pick .lab{font-size:.58rem;font-weight:700;letter-spacing:.11em;text-transform:uppercase;color:var(--muted)}
+#ix .ix-pick select{font-family:'Source Serif 4',Georgia,serif;font-size:.92rem;font-weight:500;color:var(--text);background:#fff;border:1px solid var(--border-strong);border-radius:9px;padding:.42rem 1.9rem .42rem .7rem;cursor:pointer;letter-spacing:-.01em;max-width:360px;
+  -webkit-appearance:none;appearance:none;background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'><path d='M2 4l4 4 4-4' stroke='%230c6b4f' stroke-width='1.6' fill='none' stroke-linecap='round'/></svg>");background-repeat:no-repeat;background-position:right .6rem center}
+#ix .ix-pick select:focus{outline:none;border-color:var(--accent)}
+#ix .ix-eyebrow{font-size:.64rem;font-weight:700;letter-spacing:.13em;text-transform:uppercase;color:var(--accent);margin-bottom:0}
+#ix .ix-hero h2{font-family:'Source Serif 4',Georgia,serif;font-weight:500;font-size:2.05rem;line-height:1.04;letter-spacing:-.02em;margin:0;display:inline}
+#ix .ix-geochip{display:inline-block;font-size:.72rem;font-weight:600;color:var(--accent);background:var(--accent-soft);border-radius:999px;padding:.24rem .7rem;margin-left:.6rem;vertical-align:middle;white-space:nowrap}
+#ix .ix-lede{font-size:1.02rem;color:var(--text2);line-height:1.6;margin:.7rem 0 1.05rem}
+#ix .ix-lede b{color:var(--text);font-weight:600}
+#ix .ix-hint{font-size:.74rem;color:var(--muted);margin:0 0 .55rem;display:flex;align-items:center;gap:.4rem}
+#ix .ix-hint::before{content:'';width:7px;height:7px;border-radius:50%;background:var(--accent);flex:0 0 auto}
+
+#ix .sec{padding-top:.6rem;margin-bottom:1.5rem;scroll-margin-top:64px}
+.ix-hero{scroll-margin-top:64px}
+#ix .sec-head{display:flex;align-items:baseline;gap:.7rem;margin:1.7rem 0 .7rem}
+#ix .sec-no{font-family:'Source Serif 4',Georgia,serif;font-size:1.05rem;font-weight:600;color:var(--accent)}
+#ix .sec-head h2{font-family:'Source Serif 4',Georgia,serif;font-weight:500;font-size:1.55rem;line-height:1.1;letter-spacing:-.015em}
+#ix p.body{font-size:.92rem;color:var(--text2);line-height:1.75;margin-bottom:.8rem}
+#ix p.body b{color:var(--text);font-weight:600}
+
+#ix .ix-facts{display:grid;grid-template-columns:repeat(6,1fr);gap:.7rem;margin:1rem 0 .2rem}
+#ix .fact{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:.85rem .9rem}
+#ix .fact .n{font-family:'Source Serif 4',Georgia,serif;font-size:1.4rem;color:var(--accent);font-weight:500;line-height:1}
+#ix .fact .l{font-size:.6rem;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;margin-top:.4rem;font-weight:600}
+#ix .fact .d{font-size:.68rem;color:var(--text2);margin-top:.2rem;line-height:1.4}
+
+#ix .ix-ctrls{display:flex;gap:.65rem;align-items:center;flex-wrap:wrap;margin:.4rem 0 .7rem;background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:.7rem .9rem}
+#ix .ix-ctrls .ctrl{display:flex;align-items:center;gap:.55rem}
+#ix .ix-ctrls label{font-size:.7rem;color:var(--muted);letter-spacing:.04em;text-transform:uppercase;font-weight:600;white-space:nowrap}
+#ix .ix-ctrls input[type=range]{-webkit-appearance:none;appearance:none;height:4px;border-radius:3px;background:var(--border-strong);outline:none}
+#ix .ix-ctrls #ixCap{width:120px}#ix .ix-ctrls #ixAvail{width:90px}
+#ix .ix-ctrls #ixSpread{width:110px;background:var(--border-strong)}
+#ix .ix-ctrls input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;appearance:none;width:16px;height:16px;border-radius:50%;background:#fff;cursor:pointer;border:2px solid var(--accent);box-shadow:0 1px 3px rgba(0,0,0,.25)}
+#ix .ix-ctrls input[type=range]::-moz-range-thumb{width:16px;height:16px;border-radius:50%;background:#fff;cursor:pointer;border:2px solid var(--accent)}
+#ix .ix-ctrls .val{font-size:.8rem;font-weight:600;color:var(--text);min-width:30px}
+#ix .ix-ctrls .as-divider{width:1px;height:24px;background:var(--border)}
+#ix .preset{margin-left:auto;font-family:inherit;font-size:.72rem;font-weight:600;color:#fff;background:var(--accent);border:none;border-radius:8px;padding:.5rem .85rem;cursor:pointer;transition:background .12s}
+#ix .preset:hover{background:#0a5a42}
+#ix .ix-stage{position:relative;border-radius:14px;overflow:hidden;border:1px solid var(--border);box-shadow:0 12px 34px rgba(18,38,32,.08)}
+#ix .ix-stage canvas{display:block;width:100%;aspect-ratio:720/520}
+#ix .ix-readout{display:grid;grid-template-columns:repeat(4,1fr);gap:.7rem;margin-top:.7rem}
+#ix .rocard{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:.8rem .9rem;position:relative;overflow:hidden}
+#ix .rocard::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--accent)}
+#ix .rocard .k{font-size:.6rem;letter-spacing:.05em;text-transform:uppercase;color:var(--muted);font-weight:600;margin-bottom:.3rem}
+#ix .rocard .v{font-family:'Source Serif 4',Georgia,serif;font-size:1.25rem;font-weight:500;line-height:1.05;color:var(--text)}
+#ix .rocard .s{font-size:.66rem;color:var(--text2);margin-top:.25rem;line-height:1.4}
+#ix .try{font-size:.78rem;color:var(--text2);line-height:1.6;margin-top:.7rem;padding:.7rem .9rem;background:var(--accent-soft);border-left:3px solid var(--accent);border-radius:8px}
+#ix .try b{color:var(--text);font-weight:600}
+
+#ix .two{display:grid;grid-template-columns:1fr 1fr;gap:.9rem;margin-top:.4rem}
+#ix .mcard{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:1.05rem 1.2rem}
+#ix .mcard.reg{background:linear-gradient(180deg,var(--accent-soft),var(--surface))}
+#ix .mcard h4{font-size:.95rem;font-weight:600;color:var(--text);margin-bottom:.15rem;letter-spacing:-.01em}
+#ix .mcard .tag{font-size:.64rem;letter-spacing:.05em;text-transform:uppercase;color:var(--muted);font-weight:600;margin-bottom:.6rem}
+#ix .mcard p{font-size:.81rem;color:var(--text2);line-height:1.6}
+#ix .mcard p b{color:var(--text);font-weight:600}
+
+#ix .wf-wrap{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:1.1rem 1.2rem;margin:.2rem 0 .9rem}
+#ix .wf-head{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:.6rem}
+#ix .wf-head .t{font-size:.66rem;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);font-weight:600}
+#ix .wf-head .m{font-size:.74rem;color:var(--text2)}#ix .wf-head .m b{color:var(--text);font-weight:600}
+#ix .wf{width:100%;height:200px}
+#ix .wf-note{font-size:.72rem;color:var(--muted);line-height:1.55;margin-top:.5rem}
+
+#ix .fin-wrap{display:grid;grid-template-columns:1fr 1fr;gap:.9rem}
+#ix .fin-col{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:1.1rem 1.25rem}
+#ix .fin-h{font-size:.66rem;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);font-weight:600;margin-bottom:.95rem}
+#ix .fin-split-lbl{display:flex;justify-content:space-between;font-size:.66rem;color:var(--muted);text-transform:uppercase;letter-spacing:.04em;font-weight:600;margin-bottom:.4rem}
+#ix .fin-split{display:flex;height:30px;border-radius:7px;overflow:hidden;margin-bottom:1.15rem}
+#ix .fin-split .seg{display:flex;align-items:center;padding:0 .65rem;color:#fff;font-size:.72rem;font-weight:600;white-space:nowrap;overflow:hidden}
+#ix .fin-split .s1{background:var(--accent)}#ix .fin-split .s2{background:#2f5fb0}
+#ix .fin-list{list-style:none;margin:0;padding:0}
+#ix .fin-list li{display:flex;justify-content:space-between;gap:1rem;font-size:.8rem;padding:.42rem 0;border-bottom:1px solid var(--border)}
+#ix .fin-list li:last-child{border-bottom:none}
+#ix .fin-list .fl{color:var(--text2)}
+#ix .fin-list .fa{color:var(--text);font-weight:600;font-variant-numeric:tabular-nums;white-space:nowrap}
+#ix .fin-list li.sub .fl{color:var(--muted);padding-left:.7rem;font-size:.76rem}
+#ix .fin-list li.sub .fa{color:var(--text2);font-weight:500}
+#ix .fin-list li.rest .fa{color:var(--muted);font-weight:500;font-style:italic}
+#ix .fin-note{font-size:.74rem;color:var(--text2);line-height:1.6;margin-top:.95rem}
+#ix .fin-note b{color:var(--text);font-weight:600}
+#ix .tl{list-style:none;margin:0;padding:0}
+#ix .tl li{display:grid;grid-template-columns:74px 1fr;gap:.9rem;padding-bottom:1.05rem}
+#ix .tl li:last-child{padding-bottom:0}
+#ix .tl .yr{font-size:.72rem;font-weight:700;color:var(--accent);text-align:right;padding-top:1px;font-variant-numeric:tabular-nums}
+#ix .tl .ev{font-size:.8rem;color:var(--text2);line-height:1.55;border-left:2px solid var(--border-strong);padding-left:1rem;padding-bottom:.2rem;position:relative}
+#ix .tl li:last-child .ev{border-left-color:transparent}
+#ix .tl .ev::before{content:'';position:absolute;left:-6px;top:4px;width:10px;height:10px;border-radius:50%;background:var(--accent);box-shadow:0 0 0 3px var(--accent-soft)}
+#ix .tl .ev b{color:var(--text);font-weight:600}
+
+#ix .calc-note{font-size:.85rem;color:var(--text2);line-height:1.65;margin-bottom:.85rem}#ix .calc-note b{color:var(--text);font-weight:600}
+#ix .calc-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:.9rem;margin-bottom:.9rem}
+#ix .cgroup{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:.9rem 1rem}
+#ix .cgroup h4{font-size:.62rem;letter-spacing:.07em;text-transform:uppercase;color:var(--muted);font-weight:600;margin-bottom:.7rem}
+#ix .cfield{display:flex;align-items:center;justify-content:space-between;gap:.5rem;margin-bottom:.5rem}
+#ix .cfield:last-child{margin-bottom:0}
+#ix .cfield label{font-size:.74rem;color:var(--text);line-height:1.25}
+#ix .cfield .ig{display:flex;align-items:center;gap:.25rem;flex-shrink:0}
+#ix .cfield input{width:62px;font-family:inherit;font-size:.78rem;font-weight:600;text-align:right;color:var(--text);border:1px solid var(--border-strong);border-radius:7px;padding:.28rem .35rem;background:var(--surface-2);font-variant-numeric:tabular-nums}
+#ix .cfield input:focus{outline:none;border-color:var(--accent)}
+#ix .cfield .u{font-size:.7rem;color:var(--muted);width:34px;text-align:left}
+#ix .out-cards{display:grid;grid-template-columns:repeat(4,1fr);gap:.7rem;margin-bottom:.9rem}
+#ix .ocard{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:.85rem .95rem;position:relative;overflow:hidden}
+#ix .ocard::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--muted)}
+#ix .ocard.unlev::before{background:#0c6b4f}#ix .ocard.lev{background:linear-gradient(180deg,var(--accent-soft),var(--surface))}#ix .ocard.lev::before{background:var(--accent)}
+#ix .ocard .k{font-size:.63rem;letter-spacing:.05em;text-transform:uppercase;color:var(--muted);font-weight:600;margin-bottom:.3rem}
+#ix .ocard .v{font-family:'Source Serif 4',Georgia,serif;font-size:1.5rem;font-weight:500;line-height:1;letter-spacing:-.01em}
+#ix .ocard.lev .v{color:var(--accent)}
+#ix .ocard .s{font-size:.7rem;color:var(--text2);margin-top:.3rem}
+#ix .calc-sum{display:flex;flex-wrap:wrap;gap:.45rem 1.4rem;background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:.8rem 1rem;margin-bottom:.9rem;font-size:.74rem;color:var(--text2)}
+#ix .calc-sum span{white-space:nowrap}#ix .calc-sum b{color:var(--text);font-weight:600}#ix .calc-sum .lbl{color:var(--muted)}
+#ix .jwrap{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:.9rem 1rem;margin-bottom:.9rem}
+#ix .jhead{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:.9rem;gap:1rem}
+#ix .jhead .t{font-size:.63rem;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);font-weight:600}
+#ix .jhead .lg{font-size:.68rem;color:var(--text2)}
+#ix .jchart{display:flex;align-items:stretch;gap:2px;height:140px;position:relative;margin-bottom:18px}
+#ix .jaxis{position:absolute;left:0;right:0;top:50%;height:1px;background:var(--border-strong)}
+#ix .jcol{flex:1;position:relative;min-width:0}
+#ix .jbar{position:absolute;left:12%;right:12%;border-radius:3px;min-height:2px}
+#ix .jbar.pos{background:var(--accent);bottom:50%}#ix .jbar.neg{background:var(--cost);top:50%}#ix .jbar.exit{background:#0a5a42}
+#ix .jlbl{position:absolute;bottom:-16px;left:0;right:0;text-align:center;font-size:.58rem;color:var(--muted)}
+#ix .ptable{width:100%;border-collapse:collapse;font-size:.72rem;font-variant-numeric:tabular-nums}
+#ix .ptable th,#ix .ptable td{text-align:right;padding:.32rem .45rem;border-bottom:1px solid var(--border);white-space:nowrap}
+#ix .ptable th{color:var(--muted);font-weight:600;font-size:.61rem;letter-spacing:.03em;text-transform:uppercase}
+#ix .ptable td:first-child,#ix .ptable th:first-child{text-align:left;color:var(--text2)}
+#ix .ptable tr:last-child td{border-bottom:none}
+#ix .tscroll{overflow-x:auto}
+#ix details.more{margin-bottom:.9rem}
+#ix details.more summary{font-size:.74rem;font-weight:600;color:var(--accent);cursor:pointer;padding:.3rem 0}
+
+#ix .breakers{list-style:none;margin:.2rem 0 0;padding:0;display:grid;grid-template-columns:1fr 1fr;gap:.5rem .9rem}
+#ix .breakers li{font-size:.82rem;color:var(--text2);line-height:1.55;padding-left:1rem;position:relative}
+#ix .breakers li::before{content:'';position:absolute;left:0;top:7px;width:6px;height:6px;border-radius:50%;background:var(--accent)}
+#ix .breakers b{color:var(--text);font-weight:600}
+
+#ix .ix-src{font-size:.7rem;color:var(--muted);line-height:1.8;margin-top:1.4rem}
+#ix .ix-src a{color:var(--text2);text-decoration:none;border-bottom:1px solid var(--border-strong)}
+#ix .ix-src a:hover{color:var(--accent)}
+
+@media(max-width:760px){
+  #ix .ix-facts{grid-template-columns:repeat(3,1fr)}
+  #ix .ix-readout{grid-template-columns:repeat(2,1fr)}
+  #ix .two,#ix .fin-wrap,#ix .breakers{grid-template-columns:1fr}
+  #ix .calc-grid{grid-template-columns:1fr}
+  #ix .out-cards{grid-template-columns:repeat(2,1fr)}
+  #ix .ix-hero h2{font-size:1.7rem}
+}
+</style>
 </head>
 <body>
 
@@ -31,53 +198,194 @@
   </div>
 </nav>
 
-<section class="hero">
+<section class="hero brhero">
   <div class="wrap">
     <div class="breadcrumb"><a href="index.html">Home</a><span class="sep">/</span><a href="energy-utilities.html">Energy &amp; Utilities</a><span class="sep">/</span>Electricity distribution</div>
     <div class="hero-eyebrow">Energy &amp; Utilities</div>
     <h1>Electricity <em>distribution</em></h1>
-    <p class="hero-sub">Analysis tools for Electricity distribution are available below. Detailed sector reference for this part of Energy &amp; Utilities is in development.</p>
+    <p class="hero-sub">The last mile of the power system — the local network that takes power from the grid and delivers it, street by street, to every home and business. A regulated monopoly that earns a <b>return on its asset base</b>, decoupled from how much power flows. Pick a real network below and follow it through the town, the regulatory model and a working returns model.</p>
   </div>
 </section>
 
-<section class="tools-section">
+<div class="ix-bar">
+  <div class="wrap">
+    <span class="ix-bar-name" id="ixBarName">—</span>
+    <nav class="ix-bar-nav" aria-label="Sections">
+      <a href="#explore" data-step="1">Overview</a>
+      <a href="#story" data-step="2">How it works</a>
+      <a href="#earn" data-step="3">How it earns</a>
+      <a href="#cost" data-step="4">Costs &amp; financing</a>
+      <a href="#returns" data-step="5">Returns</a>
+      <a href="#drivers" data-step="6">What drives it</a>
+    </nav>
+  </div>
+</div>
+
+<section class="tools-section" id="ix">
   <div class="wrap">
 
-    <div class="section-header">
-      <div class="section-label">Tools</div>
-      <div class="section-line"></div>
+    <!-- OVERVIEW / live asset -->
+    <div class="ix-hero" id="explore">
+      <div class="ix-hero-top">
+        <div class="ix-eyebrow">In focus · <span id="ixCont">—</span></div>
+        <div class="ix-pick">
+          <span class="lab">Example</span>
+          <select id="ixSelect" aria-label="Choose a worked example">
+            <option value="ukpn">UK Power Networks · United Kingdom</option>
+            <option value="coned">Con Edison · New York, USA</option>
+            <option value="enelbr">Enel Distribución · São Paulo, Brazil</option>
+            <option value="ausgrid">Ausgrid · Sydney, Australia</option>
+            <option value="dewa">DEWA · Dubai, UAE</option>
+            <option value="csg">China Southern Power Grid · China</option>
+          </select>
+        </div>
+      </div>
+      <div><h2 id="ixAssetName">—</h2><span class="ix-geochip" id="ixAssetGeo">—</span></div>
+      <p class="ix-lede" id="ixLede">—</p>
+      <p class="ix-hint">Drag the sliders to see what earns the regulated revenue — the asset base and the allowed return, not the power flow.</p>
+
+      <div class="ix-ctrls">
+        <div class="ctrl"><label>RAB</label><input type="range" id="ixCap" min="3" max="16" value="8.5" step="0.5"><span class="val" id="ixCapV">£8.5bn</span></div>
+        <div class="as-divider"></div>
+        <div class="ctrl"><label id="ixDriverLab">Allowed return</label><input type="range" id="ixSpread" min="3" max="9" value="5.5" step="0.25"><span class="val" id="ixSpreadV">—</span></div>
+        <div class="as-divider"></div>
+        <div class="ctrl"><label id="ixAvailLab">Performance</label><input type="range" id="ixAvail" min="-1" max="2" value="0.4" step="0.1"><span class="val" id="ixAvailV">—</span></div>
+        <button class="preset" id="ixPreset">Reset to base case</button>
+      </div>
+
+      <div class="ix-stage"><canvas id="ixcv"></canvas></div>
+      <div class="ix-readout">
+        <div class="rocard"><div class="k">Regulated asset base</div><div class="v" id="ixDir">—</div><div class="s" id="ixDirS">—</div></div>
+        <div class="rocard"><div class="k">Customers served</div><div class="v" id="ixMW">—</div><div class="s" id="ixMWs">—</div></div>
+        <div class="rocard"><div class="k" id="ixHrK">Return on RAB</div><div class="v" id="ixHr">—</div><div class="s">allowed return × RAB</div></div>
+        <div class="rocard"><div class="k">Allowed revenue p.a.</div><div class="v" id="ixYr">—</div><div class="s" id="ixYrS">return + depreciation + opex</div></div>
+      </div>
+
+      <div class="ix-facts" id="ixFacts"></div>
+      <p class="try" id="ixTry"></p>
     </div>
 
-    <div class="tools-grid">
-
-      <a class="tool-card" href="riio_ed2_calculator.html">
-        <div class="card-top"><div class="card-icon">⚡</div><div class="card-status">Live</div></div>
-        <div class="card-title">RIIO-ED2 Revenue Calculator</div>
-        <div class="card-sub">Build a DNO's allowed revenue from the RIIO-ED2 building blocks, with editable Final Determination inputs and a live waterfall.</div>
-        <div class="card-arrow">Open tool →</div>
-      </a>
-
+    <!-- 1 · what it is & how it works -->
+    <div class="sec" id="story">
+      <div class="sec-head"><span class="sec-no">01</span><h2>What it is &amp; how it works</h2></div>
+      <div id="s1body"></div>
+      <p class="body" id="s2intro"></p>
     </div>
 
-    <div class="section-header">
-      <div class="section-label">Reference</div>
-      <div class="section-line"></div>
+    <!-- 2 · how it earns -->
+    <div class="sec" id="earn">
+      <div class="sec-head"><span class="sec-no">02</span><h2>How it earns</h2></div>
+      <p class="body" id="s3intro"></p>
+      <div class="two">
+        <div class="mcard">
+          <div class="tag">Model A · the regulated building block</div>
+          <h4>Return on a Regulated Asset Base</h4>
+          <p>A distribution network is a <b>local natural monopoly</b>, so it doesn't charge a market price — a regulator sets its <b>allowed revenue</b> (recovered through use-of-system charges). The building blocks are the same the world over: a <b style="color:#0c6b4f">return on the asset base</b> (the RAB or rate base) at an allowed cost of capital; recovery of <b style="color:#c0902f">depreciation</b>; an <b>opex allowance</b>; and <b>incentives</b> for reliability, connections and efficiency. The revenue is <b>decoupled from how much power flows</b> — and the RAB is inflation-protected and <b>grows with every pound of capex</b> as the network electrifies (EVs, heat pumps, rooftop solar).</p>
+        </div>
+        <div class="mcard reg" id="mcardB">
+          <div class="tag" id="mbTag">—</div>
+          <h4 id="mbTitle">—</h4>
+          <p id="mbBody">—</p>
+        </div>
+      </div>
     </div>
 
-    <div class="placeholder">
-      <span class="ph-label">In development</span>
-      <p>This sub-sector page is a placeholder. Reference notes, key players, regulatory context and analysis for Electricity distribution will be published here.</p>
+    <!-- 3 · costs & financing -->
+    <div class="sec" id="cost">
+      <div class="sec-head"><span class="sec-no">03</span><h2>What it costs, and how it's financed</h2></div>
+      <p class="body" id="s4intro1"></p>
+
+      <div class="wf-wrap">
+        <div class="wf-head"><span class="t">Allowed revenue → operating costs → EBITDA</span><span class="m">Margin <b id="wfMargin">—</b></span></div>
+        <svg class="wf" id="ixWaterfall" viewBox="0 0 600 200" preserveAspectRatio="xMidYMid meet" role="img" aria-label="EBITDA bridge"></svg>
+        <p class="wf-note" id="wfNote"></p>
+      </div>
+
+      <p class="body" id="s4intro2"></p>
+      <div class="fin-wrap">
+        <div class="fin-col">
+          <div class="fin-h" id="finStackH">The capital stack</div>
+          <div class="fin-split-lbl"><span id="finSplitL">Who bears the cost</span><span id="finSplitR">allocation</span></div>
+          <div class="fin-split" id="finSplit"></div>
+          <ul class="fin-list" id="finList"></ul>
+          <p class="fin-note" id="finNote"></p>
+        </div>
+        <div class="fin-col">
+          <div class="fin-h">History &amp; regulation · key milestones</div>
+          <ol class="tl" id="finTimeline"></ol>
+        </div>
+      </div>
     </div>
+
+    <!-- 4 · cash flows & returns -->
+    <div class="sec" id="returns">
+      <div class="sec-head"><span class="sec-no">04</span><h2>Cash flows &amp; returns</h2></div>
+      <p class="calc-note" id="calcNote"></p>
+
+      <div class="calc-grid">
+        <div class="cgroup"><h4>Build &amp; operating</h4>
+          <div class="cfield"><label>RAB / entry cost</label><span class="ig"><input id="iBuild" type="number" value="8500" step="100"><span class="u" id="uBuild">m</span></span></div>
+          <div class="cfield"><label>Public grant / contribution</label><span class="ig"><input id="iGrant" type="number" value="0" step="50"><span class="u" id="uGrant">m</span></span></div>
+          <div class="cfield"><label>Maintenance capex</label><span class="ig"><input id="iCapex" type="number" value="40" step="0.5"><span class="u">%</span></span></div>
+          <div class="cfield"><label>RAB growth p.a.</label><span class="ig"><input id="iRevG" type="number" value="5" step="0.5"><span class="u">%</span></span></div>
+        </div>
+        <div class="cgroup"><h4>Revenue regime &amp; tax</h4>
+          <div class="cfield"><label>Revenue floor</label><span class="ig"><input id="iFloor" type="number" value="1100" step="50"><span class="u" id="uFloor">m</span></span></div>
+          <div class="cfield"><label>Revenue cap</label><span class="ig"><input id="iCap" type="number" value="2200" step="50"><span class="u" id="uCap">m</span></span></div>
+          <div class="cfield"><label>Tax rate</label><span class="ig"><input id="iTax" type="number" value="25" step="1"><span class="u">%</span></span></div>
+          <div class="cfield"><label>Exit EV / EBITDA</label><span class="ig"><input id="iExit" type="number" value="10" step="0.5"><span class="u">×</span></span></div>
+        </div>
+        <div class="cgroup"><h4>Financing &amp; hold</h4>
+          <div class="cfield"><label>Leverage (Net&nbsp;debt&nbsp;/&nbsp;EBITDA)</label><span class="ig"><input id="iLev" type="number" value="6" step="0.5"><span class="u">×</span></span></div>
+          <div class="cfield"><label>Cost of debt</label><span class="ig"><input id="iRd" type="number" value="5" step="0.25"><span class="u">%</span></span></div>
+          <div class="cfield"><label>Debt amortisation p.a.</label><span class="ig"><input id="iAmort" type="number" value="1" step="1"><span class="u">%</span></span></div>
+          <div class="cfield"><label>Hold period</label><span class="ig"><input id="iHold" type="number" value="25" step="1" min="3" max="40"><span class="u">y</span></span></div>
+        </div>
+      </div>
+
+      <div class="out-cards">
+        <div class="ocard unlev"><div class="k">Unlevered IRR</div><div class="v" id="oUIRR">—</div><div class="s">asset / project return</div></div>
+        <div class="ocard lev"><div class="k">Levered IRR</div><div class="v" id="oLIRR">—</div><div class="s">return to equity</div></div>
+        <div class="ocard"><div class="k">Equity multiple</div><div class="v" id="oMOIC">—</div><div class="s">MOIC over hold</div></div>
+        <div class="ocard"><div class="k">Payback</div><div class="v" id="oPB">—</div><div class="s">project, undiscounted</div></div>
+      </div>
+
+      <div class="calc-sum" id="calcSum"></div>
+
+      <div class="jwrap">
+        <div class="jhead"><span class="t">Cash-flow profile — equity</span><span class="lg"><span style="color:var(--cost)">■</span> invested &nbsp; <span style="color:var(--accent)">■</span> returned</span></div>
+        <div class="jchart" id="jchart"><div class="jaxis"></div></div>
+      </div>
+
+      <details class="more">
+        <summary>Show the year-by-year schedule</summary>
+        <div class="jwrap tscroll" style="margin-top:.6rem">
+          <table class="ptable"><thead id="ptHead"></thead><tbody id="ptBody"></tbody></table>
+        </div>
+      </details>
+    </div>
+
+    <!-- 5 · what drives the return -->
+    <div class="sec" id="drivers">
+      <div class="sec-head"><span class="sec-no">05</span><h2>What drives the return</h2></div>
+      <p class="body" id="s6intro"></p>
+      <ul class="breakers" id="breakers"></ul>
+    </div>
+
+    <p class="ix-src" id="ixSrc"></p>
+    <p class="ix-src">See also the <a href="riio_ed2_calculator.html">RIIO-ED2 Revenue Calculator</a> — build a DNO's allowed revenue from the regulatory building blocks — and the <a href="cashflow-model.html">Cash-flow &amp; DCF model</a>.</p>
 
   </div>
 </section>
 
 <footer>
   <div class="wrap">
-    <div class="footer-text">© 2026 Infrastructure Investor | theinfrastructureinvestor.com</div>
+    <div class="footer-text">© 2026 Infrastructure Investor | theinfrastructureinvestor.com · <a href="community.html" style="color:var(--accent);text-decoration:none;font-weight:600">Community</a></div>
   </div>
 </footer>
 
+<script src="ed-geo.js"></script>
+<script src="ed-dist.js" defer></script>
 <script src="site.js" defer></script>
 </body>
 </html>
