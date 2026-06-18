@@ -161,6 +161,18 @@ Europe, North America, South America, Australia/Oceania, Middle East, China — 
 assets flagged illustrative), and headless-validated returns.
 
 - **Electricity interconnectors** — `electricity-interconnectors.html` + `ix-interconnectors.js` + `ix-geo.js`. The prototype. (Celtic, Champlain-Hudson, Marinus, GCC, Garabi, Cahora Bassa.)
+- **Electricity distribution** — `electricity-distribution.html` + `ed-dist.js` + `ed-geo.js`. UK Power Networks
+  (UK RIIO-ED2 RAB), Con Edison (US IOU, state PUC rate base + ROE), Enel São Paulo (Brazil ANEEL price-cap
+  concession), Ausgrid (Australia privatised lease, AER, very high rooftop solar), DEWA (Dubai state/listed,
+  smart grid), China Southern Power Grid (China state, EV-heavy). **Top-down town-network animation**
+  (daytime, economics-forward — same style as the latest transmission/airports): primary substation →
+  MV feeders (dashed=underground, solid+poles=overhead per `ed-geo.js`) → distribution transformers → customer
+  clusters (homes with rooftop **solar**, commercial, industry, an **EV** hub). Power flows out (cyan) and
+  rooftop-solar exports back (amber, bidirectional). Carries the shared economics overlay: **LIVE ECONOMICS**
+  P&L ledger + green/amber **+cash** (return on RAB / depreciation) vs red **−cash** (opex) orbs + a NETWORK
+  LOAD sparkline. Economics = the RAB building block (RAB × allowed return × performance), same as transmission
+  but with distribution-appropriate (lower) margins; calibrated headlessly. Links the RIIO-ED2 calculator + the
+  cash-flow model as "See also". Replaced the old stub page.
 - **Electricity transmission** — `electricity-transmission.html` + `tx-grid.js` + `tx-geo.js`. National Grid ET
   (UK RAB), ITC (US FERC formula rates), ISA CTEEP (Brazil ANEEL availability/RAP concession), TransGrid
   (Australia, privatised AER revenue-cap), National Grid SA (Saudi state), State Grid (China state UHV).
