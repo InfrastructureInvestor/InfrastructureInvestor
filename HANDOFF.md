@@ -164,15 +164,18 @@ assets flagged illustrative), and headless-validated returns.
 - **Electricity transmission** — `electricity-transmission.html` + `tx-grid.js` + `tx-geo.js`. National Grid ET
   (UK RAB), ITC (US FERC formula rates), ISA CTEEP (Brazil ANEEL availability/RAP concession), TransGrid
   (Australia, privatised AER revenue-cap), National Grid SA (Saudi state), State Grid (China state UHV).
-  **Cinematic dusk grid-landscape animation** (not geographic): a twilight scene — generation cluster
-  (spinning turbine,
+  **Daytime, economics-forward grid-landscape animation** (not geographic): a bright, legible scene —
+  generation cluster (spinning turbine,
   solar, cooling-tower steam, coal/gas stacks, hydro dam — mix varies per network from `tx-geo.js`) →
   step-up substation → a corridor of lattice **pylons** carrying catenary HV conductors with animated
   **current pulses** (plus a distinct orange **HVDC** bipole where the network runs DC) → step-down
-  substation → a lit **demand city** skyline. The **value-flow** here is the regulated **building block**:
-  green coins = *return on RAB*, amber = *depreciation & cost recovery*, at the live split, rising from the
-  substations/pylons (the assets) — teaching that revenue is earned on the **asset base, decoupled from the
-  power flowing**. Per-network signatures: pylon count, headline **voltage** (e.g. ±1100 kV UHV for China),
+  substation → a lit **demand city** skyline (window brightness + flow density track live demand). The
+  animation is **economics-forward**: a money-flow of **+cash made** (green orbs = *return on RAB*, amber =
+  *depreciation & cost recovery*) rising from the asset base, vs **−cash spent** (red orbs = *opex*) draining
+  at the cost points, at rates set by the live margin; an on-canvas **LIVE ECONOMICS** P&L ledger
+  (Revenue / Operating cost / EBITDA with proportional bars) and a **SYSTEM DEMAND** sparkline. (An earlier
+  cinematic *dusk* version was rejected as too dark — the rule learned: keep it legible, and only go dark if
+  the day/night cycle itself carries information.) Per-network signatures: pylon count, headline **voltage** (e.g. ±1100 kV UHV for China),
   HVDC on/off, generation mix, city. Sliders are **RAB × allowed return (WACC) × performance** (incentive);
   revenue = WACC·RAB + depreciation + opex allowance + incentive. Returns calibrated headlessly to the
   regulated band (UK ~6% asset return; US/ITC higher on its allowed ROE; Brazil where ~10% debt ≈ asset
