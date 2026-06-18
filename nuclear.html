@@ -4,164 +4,189 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Nuclear — Infrastructure Investor</title>
+<meta name="description" content="A reference on nuclear power — how a firm-baseload generator earns a contracted price (CfD, RAB, regulated or long PPA) on near-constant output, financing an enormous capex — illustrated with six real projects from six regions: Hinkley Point C, Vogtle 3 & 4, Angra, Barakah, China's nuclear fleet and a small modular reactor.">
 <script src="anim-guard.js"></script>
-<meta name="description" content="An interactive model of how a nuclear plant generates baseload power and converts it into annual revenue, EBITDA and asset value — and how availability,…">
 <link rel="icon" type="image/svg+xml" href="favicon.svg">
 <link rel="canonical" href="https://theinfrastructureinvestor.com/nuclear.html">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Infrastructure Reference">
 <meta property="og:title" content="Nuclear — Infrastructure Investor">
-<meta property="og:description" content="An interactive model of how a nuclear plant generates baseload power and converts it into annual revenue, EBITDA and asset value — and how availability,…">
+<meta property="og:description" content="How a nuclear plant earns a contracted price on firm baseload output, financing an enormous capex, illustrated with six real projects from six regions.">
 <meta property="og:url" content="https://theinfrastructureinvestor.com/nuclear.html">
 <meta property="og:image" content="https://theinfrastructureinvestor.com/og-image.svg">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Nuclear — Infrastructure Investor">
-<meta name="twitter:description" content="An interactive model of how a nuclear plant generates baseload power and converts it into annual revenue, EBITDA and asset value — and how availability,…">
+<meta name="twitter:description" content="How a nuclear plant earns a contracted price on firm baseload output, financing an enormous capex, illustrated with six real projects from six regions.">
 <meta name="twitter:image" content="https://theinfrastructureinvestor.com/og-image.svg">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,500;0,8..60,600;1,8..60,400&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="styles.css">
 <style>
+/* ---- sticky control bar : worked-example picker + section nav ---- */
+.ix-bar{position:sticky;top:0;z-index:80;background:rgba(255,255,255,0.93);backdrop-filter:blur(10px);border-bottom:1px solid var(--border)}
+.ix-bar .wrap{display:flex;align-items:center;gap:1.1rem;padding:.5rem 2rem;max-width:880px;margin:0 auto}
+.ix-bar-name{font-family:'Source Serif 4',Georgia,serif;font-size:.92rem;font-weight:600;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;flex:0 1 auto}
+.ix-bar-nav{display:flex;gap:.1rem;overflow-x:auto;scrollbar-width:none;margin-left:auto}
+.ix-bar-nav::-webkit-scrollbar{display:none}
+.ix-bar-nav a{flex:0 0 auto;font-size:.72rem;font-weight:600;color:var(--muted);text-decoration:none;padding:.4rem .65rem;border-radius:8px;white-space:nowrap;transition:all .12s}
+.ix-bar-nav a:hover{color:var(--accent)}
+.ix-bar-nav a.on{color:var(--accent);background:var(--accent-soft)}
+@media(max-width:780px){.ix-bar .wrap{gap:.6rem;padding:.5rem 1.25rem}.ix-bar-name{max-width:55%}}
 
-#nucsim{
-  --bg:#f5f7f6; --surface:#ffffff; --surface-2:#fbfcfc;
-  --border:#e7ebe9; --border-strong:#d8dedb; --text:#15201d; --text2:#4c5854; --muted:#8a948f;
-  --accent:#0c6b4f; --accent-soft:#e7f1ec;
-  --aero:#0c6b4f; --comm:#b07d24; --cost:#bc4733;
-  --stock:#2f5fb0; --stock-soft:#eaf0fa;
-}
-*{box-sizing:border-box;margin:0;padding:0}
-#nucsim{font-family:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;color:var(--text);width:100%;max-width:980px;margin:0 auto;font-variant-numeric:tabular-nums}
-#nucsim .as-head{margin-bottom:1.1rem}
-#nucsim .as-eyebrow{font-size:.66rem;letter-spacing:.16em;text-transform:uppercase;font-weight:600;color:var(--accent);margin-bottom:.5rem}
-#nucsim h2{font-family:'Source Serif 4',Georgia,serif;font-weight:500;font-size:1.7rem;line-height:1.1;letter-spacing:-.015em;margin-bottom:.4rem}
-#nucsim .as-sub{font-size:.86rem;color:var(--text2);line-height:1.6;max-width:660px}
-#nucsim .as-ctrls{display:flex;gap:.65rem;align-items:center;flex-wrap:wrap;margin:1.1rem 0 .7rem;background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:.7rem .9rem}
-#nucsim .ctrl{display:flex;align-items:center;gap:.55rem}
-#nucsim .ctrl label{font-size:.7rem;color:var(--muted);letter-spacing:.04em;text-transform:uppercase;font-weight:600;white-space:nowrap}
-#nucsim .ctrl input[type=range]{width:96px;-webkit-appearance:none;appearance:none;height:4px;border-radius:3px;background:var(--border-strong);outline:none}
-#nucsim .ctrl input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;appearance:none;width:14px;height:14px;border-radius:50%;background:var(--accent);cursor:pointer;border:2px solid #fff;box-shadow:0 1px 3px rgba(0,0,0,.2)}
-#nucsim .ctrl input[type=range]::-moz-range-thumb{width:14px;height:14px;border-radius:50%;background:var(--accent);cursor:pointer;border:2px solid #fff}
-#nucsim .ctrl .val{font-size:.8rem;font-weight:600;min-width:14px;color:var(--text)}
-#nucsim .as-divider{width:1px;height:24px;background:var(--border);margin:0 .15rem}
-#nucsim .spd{display:flex;gap:.25rem;margin-left:auto}
-#nucsim .spd button{font-family:inherit;font-size:.72rem;font-weight:600;padding:.32rem .6rem;border-radius:7px;border:1px solid var(--border-strong);background:var(--surface-2);color:var(--text2);cursor:pointer;transition:all .12s}
-#nucsim .spd button:hover{border-color:var(--accent)}
-#nucsim .spd button.on{background:var(--accent);color:#fff;border-color:var(--accent)}
-#nucsim .as-stage{position:relative;border-radius:14px;overflow:hidden;border:1px solid var(--border);box-shadow:0 12px 34px rgba(18,38,32,.10)}
-#nucsim canvas{display:block;width:100%;aspect-ratio:720/360}
-#nucsim .as-mini{position:fixed;right:20px;bottom:20px;width:clamp(300px,34vw,440px);aspect-ratio:720/360;border-radius:12px;overflow:hidden;border:1px solid rgba(255,255,255,.16);box-shadow:0 16px 40px rgba(8,16,30,.45);opacity:0;transform:translateY(12px) scale(.97);pointer-events:none;transition:opacity .28s ease,transform .28s ease;z-index:70;cursor:pointer}
-#nucsim .as-mini.show{opacity:1;transform:none;pointer-events:auto}
-#nucsim .as-mini:hover{border-color:rgba(55,192,142,.55)}
-#nucsim .as-mini canvas{display:block;width:100%;height:100%;aspect-ratio:auto}
-#nucsim .as-mini-tag{position:absolute;left:9px;top:8px;font-size:.6rem;font-weight:700;letter-spacing:.1em;color:#cfe0ea;background:rgba(10,20,34,.62);padding:3px 8px;border-radius:6px;display:flex;align-items:center;gap:5px}
-#nucsim .as-mini-tag::before{content:'';width:6px;height:6px;border-radius:50%;background:#37c08e;box-shadow:0 0 6px #37c08e}
-@media(max-width:560px){ #nucsim .as-mini{width:min(66vw,260px);right:10px;bottom:10px} }
-#nucsim .as-legend{display:flex;gap:1.1rem;flex-wrap:wrap;margin:.7rem 0 .2rem}
-#nucsim .leg{display:flex;align-items:center;gap:.4rem;font-size:.72rem;color:var(--text2)}
-#nucsim .leg .dot{width:9px;height:9px;border-radius:50%;flex-shrink:0}
-#nucsim .leg b{font-weight:600;color:var(--text)}
-#nucsim .band-label{display:flex;align-items:center;gap:.6rem;margin:1.1rem 0 .55rem}
-#nucsim .band-label .t{font-size:.66rem;letter-spacing:.08em;text-transform:uppercase;font-weight:600;color:var(--muted)}
-#nucsim .band-label .ln{flex:1;height:1px;background:var(--border)}
-#nucsim .band-label .hint{font-size:.68rem;color:var(--muted);font-weight:400;text-transform:none;letter-spacing:0}
-#nucsim .as-kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:.7rem}
-#nucsim .kpi,#nucsim .stock{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:.85rem .95rem;position:relative;overflow:hidden}
-#nucsim .kpi::before,#nucsim .stock::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px}
-#nucsim .kpi.k-eb::before{background:var(--aero)}
-#nucsim .kpi.k-rev::before{background:var(--comm)}
-#nucsim .kpi.k-yield::before{background:var(--aero)}
-#nucsim .kpi.k-pax::before{background:#3a7bd0}
-#nucsim .stock::before{background:var(--stock)}
-#nucsim .kpi .k,#nucsim .stock .k{font-size:.65rem;letter-spacing:.05em;text-transform:uppercase;color:var(--muted);font-weight:600;margin-bottom:.3rem}
-#nucsim .kpi .v,#nucsim .stock .v{font-family:'Source Serif 4',Georgia,serif;font-size:1.55rem;font-weight:500;line-height:1;letter-spacing:-.01em}
-#nucsim .stock .v{color:var(--stock)}
-#nucsim .kpi .s,#nucsim .stock .s{font-size:.7rem;color:var(--text2);margin-top:.35rem}
-#nucsim .kpi .s b,#nucsim .stock .s b{font-weight:600;color:var(--text)}
-#nucsim .as-stocks{display:grid;grid-template-columns:repeat(3,1fr);gap:.7rem}
-#nucsim .stock{background:linear-gradient(180deg,var(--stock-soft),var(--surface))}
-@keyframes kpulse{0%{box-shadow:0 0 0 0 rgba(47,95,176,0)}28%{box-shadow:0 0 0 3px rgba(47,95,176,.22)}100%{box-shadow:0 0 0 0 rgba(47,95,176,0)}}
-#nucsim .pulse{animation:kpulse .75s ease}
-#nucsim .as-split{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:.95rem 1.05rem;margin-top:.9rem}
-#nucsim .split-head{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:.6rem}
-#nucsim .split-head .t{font-size:.66rem;letter-spacing:.05em;text-transform:uppercase;color:var(--muted);font-weight:600}
-#nucsim .split-head .tot{font-size:.74rem;color:var(--text2)}
-#nucsim .split-head .tot b{font-weight:600;color:var(--text)}
-#nucsim .split-bar{display:flex;height:26px;border-radius:7px;overflow:hidden;background:var(--border)}
-#nucsim .split-seg{height:100%;display:flex;align-items:center;padding:0 .55rem;color:#fff;font-size:.72rem;font-weight:600;white-space:nowrap;transition:width .5s ease;min-width:0;overflow:hidden}
-#nucsim .seg-aero{background:var(--aero)} #nucsim .seg-comm{background:var(--comm)}
-#nucsim .split-foot{margin-top:.55rem;font-size:.72rem;color:var(--text2);line-height:1.5}
-#nucsim .split-foot b{color:var(--text);font-weight:600}
-#nucsim .as-panels{display:grid;grid-template-columns:1fr 1fr;gap:.9rem;margin-top:.9rem}
-#nucsim .panel{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:1rem 1.1rem}
-#nucsim .ptitle{font-size:.66rem;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);margin-bottom:.8rem;display:flex;justify-content:space-between;align-items:baseline}
-#nucsim .ptitle .pt-sum{color:var(--text);font-weight:600;font-size:.74rem;text-transform:none;letter-spacing:0}
-#nucsim .row{display:flex;align-items:center;gap:.5rem;margin-bottom:.5rem}
-#nucsim .row:last-child{margin-bottom:0}
-#nucsim .r-lbl{width:128px;font-size:.74rem;color:var(--text);flex-shrink:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-#nucsim .r-tag{width:54px;flex-shrink:0;font-size:.57rem;font-weight:600;letter-spacing:.03em;text-transform:uppercase}
-#nucsim .r-tag.aero{color:var(--aero)} #nucsim .r-tag.comm{color:var(--comm)}
-#nucsim .r-tag.fix{color:var(--muted)} #nucsim .r-tag.var{color:var(--cost)} #nucsim .r-tag.semi{color:#a06a2a}
-#nucsim .bwrap{flex:1;height:7px;background:var(--border);border-radius:4px;overflow:hidden}
-#nucsim .bfill{height:100%;border-radius:4px;transition:width .45s ease}
-#nucsim .r-amt{width:54px;text-align:right;font-size:.74rem;font-weight:600;color:var(--text);flex-shrink:0}
-#nucsim .as-foot{font-size:.68rem;color:var(--muted);line-height:1.6;margin-top:.9rem}
-#nucsim .as-foot b{color:var(--text2);font-weight:600}
-#nucsim .calc-note{font-size:.8rem;color:var(--text2);line-height:1.6;margin-bottom:.85rem}
-#nucsim .calc-note b{color:var(--text);font-weight:600}
-#nucsim .calc-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:.9rem;margin-bottom:.9rem}
-#nucsim .cgroup{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:.9rem 1rem}
-#nucsim .cgroup h4{font-size:.62rem;letter-spacing:.07em;text-transform:uppercase;color:var(--muted);font-weight:600;margin-bottom:.7rem}
-#nucsim .cfield{display:flex;align-items:center;justify-content:space-between;gap:.5rem;margin-bottom:.5rem}
-#nucsim .cfield:last-child{margin-bottom:0}
-#nucsim .cfield label{font-size:.74rem;color:var(--text);line-height:1.25}
-#nucsim .cfield .ig{display:flex;align-items:center;gap:.25rem;flex-shrink:0}
-#nucsim .cfield input{width:56px;font-family:inherit;font-size:.78rem;font-weight:600;text-align:right;color:var(--text);border:1px solid var(--border-strong);border-radius:7px;padding:.28rem .35rem;background:var(--surface-2);font-variant-numeric:tabular-nums}
-#nucsim .cfield input:focus{outline:none;border-color:var(--accent)}
-#nucsim .cfield .u{font-size:.7rem;color:var(--muted);width:12px;text-align:left}
-#nucsim .out-cards{display:grid;grid-template-columns:repeat(4,1fr);gap:.7rem;margin-bottom:.9rem}
-#nucsim .ocard{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:.85rem .95rem;position:relative;overflow:hidden}
-#nucsim .ocard::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--muted)}
-#nucsim .ocard.unlev::before{background:var(--aero)}
-#nucsim .ocard.lev{background:linear-gradient(180deg,var(--accent-soft),var(--surface))}
-#nucsim .ocard.lev::before{background:var(--accent)}
-#nucsim .ocard .k{font-size:.63rem;letter-spacing:.05em;text-transform:uppercase;color:var(--muted);font-weight:600;margin-bottom:.3rem}
-#nucsim .ocard .v{font-family:'Source Serif 4',Georgia,serif;font-size:1.5rem;font-weight:500;line-height:1;letter-spacing:-.01em}
-#nucsim .ocard.lev .v{color:var(--accent)}
-#nucsim .ocard .s{font-size:.7rem;color:var(--text2);margin-top:.3rem}
-#nucsim .calc-sum{display:flex;flex-wrap:wrap;gap:.45rem 1.4rem;background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:.8rem 1rem;margin-bottom:.9rem;font-size:.74rem;color:var(--text2)}
-#nucsim .calc-sum span{white-space:nowrap}
-#nucsim .calc-sum b{color:var(--text);font-weight:600}
-#nucsim .calc-sum .lbl{color:var(--muted)}
-#nucsim .jwrap{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:.9rem 1rem;margin-bottom:.9rem}
-#nucsim .jhead{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:.9rem;gap:1rem}
-#nucsim .jhead .t{font-size:.63rem;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);font-weight:600}
-#nucsim .jhead .lg{font-size:.68rem;color:var(--text2)}
-#nucsim .jchart{display:flex;align-items:stretch;gap:3px;height:132px;position:relative;margin-bottom:18px}
-#nucsim .jaxis{position:absolute;left:0;right:0;top:50%;height:1px;background:var(--border-strong)}
-#nucsim .jcol{flex:1;position:relative;min-width:0}
-#nucsim .jbar{position:absolute;left:16%;right:16%;border-radius:3px;min-height:2px}
-#nucsim .jbar.pos{background:var(--accent);bottom:50%}
-#nucsim .jbar.neg{background:var(--cost);top:50%}
-#nucsim .jbar.exit{background:#0a5a42}
-#nucsim .jlbl{position:absolute;bottom:-16px;left:0;right:0;text-align:center;font-size:.6rem;color:var(--muted)}
-#nucsim .ptable{width:100%;border-collapse:collapse;font-size:.72rem;font-variant-numeric:tabular-nums}
-#nucsim .ptable th,#nucsim .ptable td{text-align:right;padding:.32rem .45rem;border-bottom:1px solid var(--border);white-space:nowrap}
-#nucsim .ptable th{color:var(--muted);font-weight:600;font-size:.61rem;letter-spacing:.03em;text-transform:uppercase}
-#nucsim .ptable td:first-child,#nucsim .ptable th:first-child{text-align:left;color:var(--text2)}
-#nucsim .ptable tr:last-child td{border-bottom:none}
-#nucsim .tscroll{overflow-x:auto}
-@media(max-width:720px){
-  #nucsim .as-kpis{grid-template-columns:repeat(2,1fr)}
-  #nucsim .as-stocks{grid-template-columns:1fr}
-  #nucsim .as-panels{grid-template-columns:1fr}
-  #nucsim .spd{margin-left:0}
-  #nucsim .r-lbl{width:110px}
-  #nucsim .calc-grid{grid-template-columns:1fr}
-  #nucsim .out-cards{grid-template-columns:repeat(2,1fr)}
-}
+#ix{max-width:880px;margin:0 auto}
+.brhero .wrap{max-width:880px}
 
+.ix-hero{margin:1.4rem 0 .4rem}
+#ix .ix-hero-top{display:flex;align-items:center;justify-content:space-between;gap:1rem;flex-wrap:wrap;margin-bottom:.5rem}
+#ix .ix-pick{display:flex;align-items:center;gap:.5rem;flex:0 0 auto}
+#ix .ix-pick .lab{font-size:.58rem;font-weight:700;letter-spacing:.11em;text-transform:uppercase;color:var(--muted)}
+#ix .ix-pick select{font-family:'Source Serif 4',Georgia,serif;font-size:.92rem;font-weight:500;color:var(--text);background:#fff;border:1px solid var(--border-strong);border-radius:9px;padding:.42rem 1.9rem .42rem .7rem;cursor:pointer;letter-spacing:-.01em;max-width:360px;
+  -webkit-appearance:none;appearance:none;background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'><path d='M2 4l4 4 4-4' stroke='%230c6b4f' stroke-width='1.6' fill='none' stroke-linecap='round'/></svg>");background-repeat:no-repeat;background-position:right .6rem center}
+#ix .ix-pick select:focus{outline:none;border-color:var(--accent)}
+#ix .ix-eyebrow{font-size:.64rem;font-weight:700;letter-spacing:.13em;text-transform:uppercase;color:var(--accent);margin-bottom:0}
+#ix .ix-hero h2{font-family:'Source Serif 4',Georgia,serif;font-weight:500;font-size:2.05rem;line-height:1.04;letter-spacing:-.02em;margin:0;display:inline}
+#ix .ix-geochip{display:inline-block;font-size:.72rem;font-weight:600;color:var(--accent);background:var(--accent-soft);border-radius:999px;padding:.24rem .7rem;margin-left:.6rem;vertical-align:middle;white-space:nowrap}
+#ix .ix-lede{font-size:1.02rem;color:var(--text2);line-height:1.6;margin:.7rem 0 1.05rem}
+#ix .ix-lede b{color:var(--text);font-weight:600}
+#ix .ix-hint{font-size:.74rem;color:var(--muted);margin:0 0 .55rem;display:flex;align-items:center;gap:.4rem}
+#ix .ix-hint::before{content:'';width:7px;height:7px;border-radius:50%;background:var(--accent);flex:0 0 auto}
+
+#ix .sec{padding-top:.6rem;margin-bottom:1.5rem;scroll-margin-top:64px}
+.ix-hero{scroll-margin-top:64px}
+#ix .sec-head{display:flex;align-items:baseline;gap:.7rem;margin:1.7rem 0 .7rem}
+#ix .sec-no{font-family:'Source Serif 4',Georgia,serif;font-size:1.05rem;font-weight:600;color:var(--accent)}
+#ix .sec-head h2{font-family:'Source Serif 4',Georgia,serif;font-weight:500;font-size:1.55rem;line-height:1.1;letter-spacing:-.015em}
+#ix p.body{font-size:.92rem;color:var(--text2);line-height:1.75;margin-bottom:.8rem}
+#ix p.body b{color:var(--text);font-weight:600}
+
+#ix .ix-facts{display:grid;grid-template-columns:repeat(6,1fr);gap:.7rem;margin:1rem 0 .2rem}
+#ix .fact{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:.85rem .9rem}
+#ix .fact .n{font-family:'Source Serif 4',Georgia,serif;font-size:1.4rem;color:var(--accent);font-weight:500;line-height:1}
+#ix .fact .l{font-size:.6rem;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;margin-top:.4rem;font-weight:600}
+#ix .fact .d{font-size:.68rem;color:var(--text2);margin-top:.2rem;line-height:1.4}
+
+#ix .ix-ctrls{display:flex;gap:.65rem;align-items:center;flex-wrap:wrap;margin:.4rem 0 .7rem;background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:.7rem .9rem}
+#ix .ix-ctrls .ctrl{display:flex;align-items:center;gap:.55rem}
+#ix .ix-ctrls label{font-size:.7rem;color:var(--muted);letter-spacing:.04em;text-transform:uppercase;font-weight:600;white-space:nowrap}
+#ix .ix-ctrls input[type=range]{-webkit-appearance:none;appearance:none;height:4px;border-radius:3px;background:var(--border-strong);outline:none}
+#ix .ix-ctrls #ixCap{width:120px}#ix .ix-ctrls #ixAvail{width:90px}
+#ix .ix-ctrls #ixSpread{width:110px;background:var(--border-strong)}
+#ix .ix-ctrls input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;appearance:none;width:16px;height:16px;border-radius:50%;background:#fff;cursor:pointer;border:2px solid var(--accent);box-shadow:0 1px 3px rgba(0,0,0,.25)}
+#ix .ix-ctrls input[type=range]::-moz-range-thumb{width:16px;height:16px;border-radius:50%;background:#fff;cursor:pointer;border:2px solid var(--accent)}
+#ix .ix-ctrls .val{font-size:.8rem;font-weight:600;color:var(--text);min-width:30px}
+#ix .ix-ctrls .as-divider{width:1px;height:24px;background:var(--border)}
+#ix .preset{margin-left:auto;font-family:inherit;font-size:.72rem;font-weight:600;color:#fff;background:var(--accent);border:none;border-radius:8px;padding:.5rem .85rem;cursor:pointer;transition:background .12s}
+#ix .preset:hover{background:#0a5a42}
+#ix .ix-stage{position:relative;border-radius:14px;overflow:hidden;border:1px solid var(--border);box-shadow:0 12px 34px rgba(18,38,32,.08)}
+#ix .ix-stage canvas{display:block;width:100%;aspect-ratio:720/520}
+#ix .ix-readout{display:grid;grid-template-columns:repeat(4,1fr);gap:.7rem;margin-top:.7rem}
+#ix .rocard{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:.8rem .9rem;position:relative;overflow:hidden}
+#ix .rocard::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--accent)}
+#ix .rocard .k{font-size:.6rem;letter-spacing:.05em;text-transform:uppercase;color:var(--muted);font-weight:600;margin-bottom:.3rem}
+#ix .rocard .v{font-family:'Source Serif 4',Georgia,serif;font-size:1.25rem;font-weight:500;line-height:1.05;color:var(--text)}
+#ix .rocard .s{font-size:.66rem;color:var(--text2);margin-top:.25rem;line-height:1.4}
+#ix .try{font-size:.78rem;color:var(--text2);line-height:1.6;margin-top:.7rem;padding:.7rem .9rem;background:var(--accent-soft);border-left:3px solid var(--accent);border-radius:8px}
+#ix .try b{color:var(--text);font-weight:600}
+
+#ix .two{display:grid;grid-template-columns:1fr 1fr;gap:.9rem;margin-top:.4rem}
+#ix .mcard{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:1.05rem 1.2rem}
+#ix .mcard.reg{background:linear-gradient(180deg,var(--accent-soft),var(--surface))}
+#ix .mcard h4{font-size:.95rem;font-weight:600;color:var(--text);margin-bottom:.15rem;letter-spacing:-.01em}
+#ix .mcard .tag{font-size:.64rem;letter-spacing:.05em;text-transform:uppercase;color:var(--muted);font-weight:600;margin-bottom:.6rem}
+#ix .mcard p{font-size:.81rem;color:var(--text2);line-height:1.6}
+#ix .mcard p b{color:var(--text);font-weight:600}
+
+#ix .wf-wrap{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:1.1rem 1.2rem;margin:.2rem 0 .9rem}
+#ix .wf-head{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:.6rem}
+#ix .wf-head .t{font-size:.66rem;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);font-weight:600}
+#ix .wf-head .m{font-size:.74rem;color:var(--text2)}#ix .wf-head .m b{color:var(--text);font-weight:600}
+#ix .wf{width:100%;height:200px}
+#ix .wf-note{font-size:.72rem;color:var(--muted);line-height:1.55;margin-top:.5rem}
+
+#ix .fin-wrap{display:grid;grid-template-columns:1fr 1fr;gap:.9rem}
+#ix .fin-col{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:1.1rem 1.25rem}
+#ix .fin-h{font-size:.66rem;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);font-weight:600;margin-bottom:.95rem}
+#ix .fin-split-lbl{display:flex;justify-content:space-between;font-size:.66rem;color:var(--muted);text-transform:uppercase;letter-spacing:.04em;font-weight:600;margin-bottom:.4rem}
+#ix .fin-split{display:flex;height:30px;border-radius:7px;overflow:hidden;margin-bottom:1.15rem}
+#ix .fin-split .seg{display:flex;align-items:center;padding:0 .65rem;color:#fff;font-size:.72rem;font-weight:600;white-space:nowrap;overflow:hidden}
+#ix .fin-split .s1{background:var(--accent)}#ix .fin-split .s2{background:#2f5fb0}
+#ix .fin-list{list-style:none;margin:0;padding:0}
+#ix .fin-list li{display:flex;justify-content:space-between;gap:1rem;font-size:.8rem;padding:.42rem 0;border-bottom:1px solid var(--border)}
+#ix .fin-list li:last-child{border-bottom:none}
+#ix .fin-list .fl{color:var(--text2)}
+#ix .fin-list .fa{color:var(--text);font-weight:600;font-variant-numeric:tabular-nums;white-space:nowrap}
+#ix .fin-list li.sub .fl{color:var(--muted);padding-left:.7rem;font-size:.76rem}
+#ix .fin-list li.sub .fa{color:var(--text2);font-weight:500}
+#ix .fin-list li.rest .fa{color:var(--muted);font-weight:500;font-style:italic}
+#ix .fin-note{font-size:.74rem;color:var(--text2);line-height:1.6;margin-top:.95rem}
+#ix .fin-note b{color:var(--text);font-weight:600}
+#ix .tl{list-style:none;margin:0;padding:0}
+#ix .tl li{display:grid;grid-template-columns:74px 1fr;gap:.9rem;padding-bottom:1.05rem}
+#ix .tl li:last-child{padding-bottom:0}
+#ix .tl .yr{font-size:.72rem;font-weight:700;color:var(--accent);text-align:right;padding-top:1px;font-variant-numeric:tabular-nums}
+#ix .tl .ev{font-size:.8rem;color:var(--text2);line-height:1.55;border-left:2px solid var(--border-strong);padding-left:1rem;padding-bottom:.2rem;position:relative}
+#ix .tl li:last-child .ev{border-left-color:transparent}
+#ix .tl .ev::before{content:'';position:absolute;left:-6px;top:4px;width:10px;height:10px;border-radius:50%;background:var(--accent);box-shadow:0 0 0 3px var(--accent-soft)}
+#ix .tl .ev b{color:var(--text);font-weight:600}
+
+#ix .calc-note{font-size:.85rem;color:var(--text2);line-height:1.65;margin-bottom:.85rem}#ix .calc-note b{color:var(--text);font-weight:600}
+#ix .calc-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:.9rem;margin-bottom:.9rem}
+#ix .cgroup{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:.9rem 1rem}
+#ix .cgroup h4{font-size:.62rem;letter-spacing:.07em;text-transform:uppercase;color:var(--muted);font-weight:600;margin-bottom:.7rem}
+#ix .cfield{display:flex;align-items:center;justify-content:space-between;gap:.5rem;margin-bottom:.5rem}
+#ix .cfield:last-child{margin-bottom:0}
+#ix .cfield label{font-size:.74rem;color:var(--text);line-height:1.25}
+#ix .cfield .ig{display:flex;align-items:center;gap:.25rem;flex-shrink:0}
+#ix .cfield input{width:62px;font-family:inherit;font-size:.78rem;font-weight:600;text-align:right;color:var(--text);border:1px solid var(--border-strong);border-radius:7px;padding:.28rem .35rem;background:var(--surface-2);font-variant-numeric:tabular-nums}
+#ix .cfield input:focus{outline:none;border-color:var(--accent)}
+#ix .cfield .u{font-size:.7rem;color:var(--muted);width:34px;text-align:left}
+#ix .out-cards{display:grid;grid-template-columns:repeat(4,1fr);gap:.7rem;margin-bottom:.9rem}
+#ix .ocard{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:.85rem .95rem;position:relative;overflow:hidden}
+#ix .ocard::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--muted)}
+#ix .ocard.unlev::before{background:#0c6b4f}#ix .ocard.lev{background:linear-gradient(180deg,var(--accent-soft),var(--surface))}#ix .ocard.lev::before{background:var(--accent)}
+#ix .ocard .k{font-size:.63rem;letter-spacing:.05em;text-transform:uppercase;color:var(--muted);font-weight:600;margin-bottom:.3rem}
+#ix .ocard .v{font-family:'Source Serif 4',Georgia,serif;font-size:1.5rem;font-weight:500;line-height:1;letter-spacing:-.01em}
+#ix .ocard.lev .v{color:var(--accent)}
+#ix .ocard .s{font-size:.7rem;color:var(--text2);margin-top:.3rem}
+#ix .calc-sum{display:flex;flex-wrap:wrap;gap:.45rem 1.4rem;background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:.8rem 1rem;margin-bottom:.9rem;font-size:.74rem;color:var(--text2)}
+#ix .calc-sum span{white-space:nowrap}#ix .calc-sum b{color:var(--text);font-weight:600}#ix .calc-sum .lbl{color:var(--muted)}
+#ix .jwrap{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:.9rem 1rem;margin-bottom:.9rem}
+#ix .jhead{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:.9rem;gap:1rem}
+#ix .jhead .t{font-size:.63rem;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);font-weight:600}
+#ix .jhead .lg{font-size:.68rem;color:var(--text2)}
+#ix .jchart{display:flex;align-items:stretch;gap:2px;height:140px;position:relative;margin-bottom:18px}
+#ix .jaxis{position:absolute;left:0;right:0;top:50%;height:1px;background:var(--border-strong)}
+#ix .jcol{flex:1;position:relative;min-width:0}
+#ix .jbar{position:absolute;left:12%;right:12%;border-radius:3px;min-height:2px}
+#ix .jbar.pos{background:var(--accent);bottom:50%}#ix .jbar.neg{background:var(--cost);top:50%}#ix .jbar.exit{background:#0a5a42}
+#ix .jlbl{position:absolute;bottom:-16px;left:0;right:0;text-align:center;font-size:.58rem;color:var(--muted)}
+#ix .ptable{width:100%;border-collapse:collapse;font-size:.72rem;font-variant-numeric:tabular-nums}
+#ix .ptable th,#ix .ptable td{text-align:right;padding:.32rem .45rem;border-bottom:1px solid var(--border);white-space:nowrap}
+#ix .ptable th{color:var(--muted);font-weight:600;font-size:.61rem;letter-spacing:.03em;text-transform:uppercase}
+#ix .ptable td:first-child,#ix .ptable th:first-child{text-align:left;color:var(--text2)}
+#ix .ptable tr:last-child td{border-bottom:none}
+#ix .tscroll{overflow-x:auto}
+#ix details.more{margin-bottom:.9rem}
+#ix details.more summary{font-size:.74rem;font-weight:600;color:var(--accent);cursor:pointer;padding:.3rem 0}
+
+#ix .breakers{list-style:none;margin:.2rem 0 0;padding:0;display:grid;grid-template-columns:1fr 1fr;gap:.5rem .9rem}
+#ix .breakers li{font-size:.82rem;color:var(--text2);line-height:1.55;padding-left:1rem;position:relative}
+#ix .breakers li::before{content:'';position:absolute;left:0;top:7px;width:6px;height:6px;border-radius:50%;background:var(--accent)}
+#ix .breakers b{color:var(--text);font-weight:600}
+
+#ix .ix-src{font-size:.7rem;color:var(--muted);line-height:1.8;margin-top:1.4rem}
+#ix .ix-src a{color:var(--text2);text-decoration:none;border-bottom:1px solid var(--border-strong)}
+#ix .ix-src a:hover{color:var(--accent)}
+
+@media(max-width:760px){
+  #ix .ix-facts{grid-template-columns:repeat(3,1fr)}
+  #ix .ix-readout{grid-template-columns:repeat(2,1fr)}
+  #ix .two,#ix .fin-wrap,#ix .breakers{grid-template-columns:1fr}
+  #ix .calc-grid{grid-template-columns:1fr}
+  #ix .out-cards{grid-template-columns:repeat(2,1fr)}
+  #ix .ix-hero h2{font-size:1.7rem}
+}
 </style>
 </head>
 <body>
@@ -173,514 +198,194 @@
   </div>
 </nav>
 
-<section class="hero">
+<section class="hero brhero">
   <div class="wrap">
-    <div class="breadcrumb"><a href="index.html">Home</a><span class="sep">/</span><a href="energy-transition.html">Energy Transition</a><span class="sep">/</span>Nuclear</div>
-    <div class="hero-eyebrow">Energy Transition</div>
+    <div class="breadcrumb"><a href="index.html">Home</a><span class="sep">/</span><a href="energy-transition.html">Energy transition</a><span class="sep">/</span>Nuclear</div>
+    <div class="hero-eyebrow">Energy transition</div>
     <h1><em>Nuclear</em></h1>
-    <p class="hero-sub">An interactive model of how a nuclear plant generates baseload power and converts it into annual revenue, EBITDA and asset value — and how availability, power prices and the contracted (CfD/RAB) share drive the investment case.</p>
+    <p class="hero-sub">Firm, low-carbon baseload — the most capital-intensive infrastructure there is. An enormous up-front capex and a long build, then decades of near-constant output at a very high capacity factor, sold under a long contract (a <b>CfD, a RAB, a regulated tariff or a long PPA</b>) that removes price risk and makes the capex financeable. The risk is construction cost overruns. Pick a real project below and follow it through the technology, the model and a working returns model.</p>
   </div>
 </section>
 
-<section class="tools-section">
+<div class="ix-bar">
   <div class="wrap">
-
-    <div class="section-header">
-      <div class="section-label">Interactive model</div>
-      <div class="section-line"></div>
-    </div>
-
-<div id="nucsim">
-
-  <div class="as-head">
-    <div class="as-eyebrow">Energy Transition · Nuclear</div>
-    <h2>What flows through a nuclear plant — and how it pays</h2>
-    <p class="as-sub">A reactor heats water to drive steam turbines, generating round-the-clock baseload power that runs through the switchyard onto the grid. Output rides <b style="color:var(--aero)">availability</b> (very high and steady, bar refuelling outages), and revenue splits between price-stabilised <b style="color:var(--aero)">contracted</b> income (a CfD or RAB) and volatile <b style="color:var(--comm)">merchant</b> sales. Huge capex and a decommissioning obligation make availability and the contracted price the dials that matter.</p>
+    <span class="ix-bar-name" id="ixBarName">—</span>
+    <nav class="ix-bar-nav" aria-label="Sections">
+      <a href="#explore" data-step="1">Overview</a>
+      <a href="#story" data-step="2">How it works</a>
+      <a href="#earn" data-step="3">How it earns</a>
+      <a href="#cost" data-step="4">Costs &amp; financing</a>
+      <a href="#returns" data-step="5">Returns</a>
+      <a href="#drivers" data-step="6">What drives it</a>
+    </nav>
   </div>
-
-  <div class="as-ctrls">
-    <div class="ctrl"><label>Availability</label><input type="range" id="dLF" min="55" max="95" value="90" step="1"><span class="val" id="lfV">90%</span></div>
-    <div class="as-divider"></div>
-    <div class="ctrl"><label>Power price</label><input type="range" id="dPrice" min="30" max="200" value="75" step="5"><span class="val" id="priceV">£75</span></div>
-    <div class="as-divider"></div>
-    <div class="ctrl"><label>Contracted</label><input type="range" id="dCon" min="0" max="100" value="90" step="5"><span class="val" id="conV">90%</span></div>
-    <div class="spd">
-      <button class="on" id="b1">1×</button><button id="b2">2×</button><button id="b4">4×</button>
-    </div>
-  </div>
-
-  <div class="as-stage"><canvas id="cv"></canvas></div>
-
-  <div class="as-mini" id="asMini" title="Back to the simulation">
-    <canvas id="cvMini"></canvas><span class="as-mini-tag">LIVE</span>
-  </div>
-
-  <div class="as-legend">
-    <span class="leg"><span class="dot" style="background:#7fd0ff"></span><b>Generation</b>&nbsp;power flowing to shore</span>
-    <span class="leg"><span class="dot" style="background:var(--aero)"></span><b>Contracted £</b>&nbsp;CfD / PPA (stable)</span>
-    <span class="leg"><span class="dot" style="background:var(--comm)"></span><b>Merchant £</b>&nbsp;wholesale (volatile)</span>
-    <span class="leg"><span class="dot" style="background:var(--cost)"></span><b>Operating cost</b></span>
-  </div>
-
-  <div class="band-label"><span class="t">Flows — annualised from current assumptions</span><span class="ln"></span><span class="hint">per year</span></div>
-  <div class="as-kpis">
-    <div class="kpi k-rev"><div class="k">Revenue p.a.</div><div class="v" id="kRev">£0</div><div class="s"><b id="kRevHr">£0</b> / hr</div></div>
-    <div class="kpi k-eb"><div class="k">EBITDA p.a.</div><div class="v" id="kEb">£0</div><div class="s"><b id="kMargin">0%</b> margin</div></div>
-    <div class="kpi k-yield"><div class="k">Revenue / MWh</div><div class="v" id="kYield">£0</div><div class="s">blended capture price</div></div>
-    <div class="kpi k-pax"><div class="k">Generation p.a.</div><div class="v" id="kPaxYr">0</div><div class="s"><b id="kThru">0%</b> availability</div></div>
-  </div>
-
-  <div class="band-label"><span class="t">Stocks — what the flows accumulate into</span><span class="ln"></span><span class="hint">live</span></div>
-  <div class="as-stocks">
-    <div class="stock"><div class="k">Output now</div><div class="v" id="sPax">0</div><div class="s">live, of <b id="sCap">1,600</b> MW capacity</div></div>
-    <div class="stock"><div class="k">EBITDA banked · session</div><div class="v" id="sBank">£0</div><div class="s">accumulating in real time</div></div>
-    <div class="stock"><div class="k">Implied enterprise value</div><div class="v" id="sEV">£0</div><div class="s">at <b>14×</b> EBITDA</div></div>
-  </div>
-
-  <div class="as-split">
-    <div class="split-head">
-      <span class="t">The two tills — contracted vs merchant</span>
-      <span class="tot">Total <b id="splitTot">£0</b> p.a.</span>
-    </div>
-    <div class="split-bar">
-      <div class="split-seg seg-aero" id="segAero">Contracted</div>
-      <div class="split-seg seg-comm" id="segComm">Merchant</div>
-    </div>
-    <div class="split-foot"><b>Why investors watch the split:</b> contracted revenue (a CfD or corporate PPA) is price-stabilised and low risk; merchant revenue rides volatile wholesale power prices — more upside but more risk. The contracted share is the core risk/return dial, and generation depends entirely on the wind.</div>
-  </div>
-
-  <div class="as-panels">
-    <div class="panel"><div class="ptitle">Revenue streams<span class="pt-sum" id="revSum">£0 p.a.</span></div><div id="revRows"></div></div>
-    <div class="panel"><div class="ptitle">Operating costs<span class="pt-sum" id="costSum">£0 p.a.</span></div><div id="costRows"></div></div>
-  </div>
-
-  <div class="band-label"><span class="t">Investment case — should you buy it?</span><span class="ln"></span><span class="hint">DCF returns</span></div>
-  <p class="calc-note">Year-1 financials flow live from the simulation above: revenue <b id="cBaseRev">£0</b> and EBITDA <b id="cBaseEb">£0</b> p.a. Set your deal terms below — the <b style="color:var(--aero)">unlevered IRR</b> (asset return) and <b style="color:var(--accent)">levered IRR</b> (return to equity, after debt) recompute instantly.</p>
-
-  <div class="calc-grid">
-    <div class="cgroup"><h4>Operating</h4>
-      <div class="cfield"><label>Revenue growth p.a.</label><span class="ig"><input id="iRevG" type="number" value="2" step="0.5"><span class="u">%</span></span></div>
-      <div class="cfield"><label>OpEx vs base</label><span class="ig"><input id="iOpex" type="number" value="100" step="1"><span class="u">%</span></span></div>
-      <div class="cfield"><label>Cost inflation p.a.</label><span class="ig"><input id="iCostG" type="number" value="2.5" step="0.5"><span class="u">%</span></span></div>
-      <div class="cfield"><label>Maintenance capex</label><span class="ig"><input id="iCapex" type="number" value="6" step="1"><span class="u">%</span></span></div>
-      <div class="cfield"><label>Depreciation</label><span class="ig"><input id="iDA" type="number" value="3" step="1"><span class="u">%</span></span></div>
-      <div class="cfield"><label>Tax rate</label><span class="ig"><input id="iTax" type="number" value="25" step="1"><span class="u">%</span></span></div>
-    </div>
-    <div class="cgroup"><h4>Valuation &amp; hold</h4>
-      <div class="cfield"><label>Entry EV / EBITDA</label><span class="ig"><input id="iEntry" type="number" value="14" step="0.5"><span class="u">×</span></span></div>
-      <div class="cfield"><label>Exit EV / EBITDA</label><span class="ig"><input id="iExit" type="number" value="13" step="0.5"><span class="u">×</span></span></div>
-      <div class="cfield"><label>Hold period</label><span class="ig"><input id="iHold" type="number" value="15" step="1" min="3" max="25"><span class="u">y</span></span></div>
-    </div>
-    <div class="cgroup"><h4>Financing</h4>
-      <div class="cfield"><label>Leverage (Net&nbsp;debt&nbsp;/&nbsp;EBITDA)</label><span class="ig"><input id="iLev" type="number" value="6" step="0.5"><span class="u">×</span></span></div>
-      <div class="cfield"><label>Cost of debt</label><span class="ig"><input id="iRd" type="number" value="5" step="0.25"><span class="u">%</span></span></div>
-      <div class="cfield"><label>Debt amortisation p.a.</label><span class="ig"><input id="iAmort" type="number" value="3" step="1"><span class="u">%</span></span></div>
-    </div>
-  </div>
-
-  <div class="out-cards">
-    <div class="ocard unlev"><div class="k">Unlevered IRR</div><div class="v" id="oUIRR">—</div><div class="s">asset / project return</div></div>
-    <div class="ocard lev"><div class="k">Levered IRR</div><div class="v" id="oLIRR">—</div><div class="s">return to equity</div></div>
-    <div class="ocard"><div class="k">Equity multiple</div><div class="v" id="oMOIC">—</div><div class="s">MOIC over hold</div></div>
-    <div class="ocard"><div class="k">Equity gain</div><div class="v" id="oProfit">—</div><div class="s">exit equity − invested</div></div>
-  </div>
-
-  <div class="calc-sum" id="calcSum"></div>
-
-  <div class="jwrap">
-    <div class="jhead"><span class="t">Equity cash-flow profile</span><span class="lg" id="jLeg">£m · <span style="color:var(--cost)">■</span> invested &nbsp; <span style="color:var(--accent)">■</span> returned</span></div>
-    <div class="jchart" id="jchart"><div class="jaxis"></div></div>
-  </div>
-
-  <div class="jwrap tscroll">
-    <div class="jhead"><span class="t">Projection — £m per year</span></div>
-    <table class="ptable"><thead id="ptHead"></thead><tbody id="ptBody"></tbody></table>
-  </div>
-
-  <p class="as-foot"><b>Illustrative model.</b> Represents a ~1.6 GW nuclear unit (e.g. a single EPR) operating 24×365. Revenue = generation × price, with a contracted share sold at an indexed CfD/RAB strike (~£90/MWh) and the balance sold merchant at the wholesale power price. Opex includes fuel, a large operations workforce, major outages and a decommissioning provision — much of it fixed, so margins compress when availability falls. EBITDA = revenue − operating costs. The investment case is a simplified DCF: unlevered IRR discounts free cash flow to the firm (EBITDA − cash tax − capex) plus an exit on the EV/EBITDA multiple; levered IRR is the equity cash flow after debt drawn at entry, interest and amortisation. Nuclear is extremely capital-intensive with a 60-year life; returns are typically low but stable. Excludes construction, transaction costs and refinancing. For illustration only — not investment advice, and not any specific asset.</p>
-
 </div>
 
-<script>
-(function(){
-const cv=document.getElementById('cv'); const ctx=cv.getContext('2d');
-const W=720,H=360; const DPR=Math.max(2,Math.min(3,window.devicePixelRatio||1));
-cv.width=W*DPR; cv.height=H*DPR; ctx.setTransform(DPR,0,0,DPR,0,0);
+<section class="tools-section" id="ix">
+  <div class="wrap">
 
-const HRS_PER_YR=8760, EV_MULT=14, CAP_MW=1600, STRIKE=90;
-const GEN0=CAP_MW*0.90;                       // base generation rate (MWh/hr) at 45% load factor
-const C={aero:'#37c08e', comm:'#e6b35a', gen:'#7fd0ff', cost:'#ef8166'};
+    <!-- OVERVIEW / live asset -->
+    <div class="ix-hero" id="explore">
+      <div class="ix-hero-top">
+        <div class="ix-eyebrow">In focus · <span id="ixCont">—</span></div>
+        <div class="ix-pick">
+          <span class="lab">Example</span>
+          <select id="ixSelect" aria-label="Choose a worked example">
+            <option value="hinkley">Hinkley Point C · United Kingdom</option>
+            <option value="vogtle">Vogtle 3 &amp; 4 · USA</option>
+            <option value="angra">Angra (Eletronuclear) · Brazil</option>
+            <option value="barakah">Barakah · UAE</option>
+            <option value="cgn">CGN nuclear fleet · China</option>
+            <option value="smr">Small modular reactor · Global</option>
+          </select>
+        </div>
+      </div>
+      <div><h2 id="ixAssetName">—</h2><span class="ix-geochip" id="ixAssetGeo">—</span></div>
+      <p class="ix-lede" id="ixLede">—</p>
+      <p class="ix-hint">Drag the sliders to see what earns the money — the plant's capacity, the contracted price on every MWh, and the very high, steady capacity factor, against an enormous capex.</p>
 
-// Two tills: contracted (CfD/PPA, price-stabilised) vs merchant (wholesale, volatile)
-const STREAMS=[
-  {name:'CfD difference',     tag:'Contract',aero:true, base:3500},
-  {name:'Corporate PPA',      tag:'Contract',aero:true, base:1500},
-  {name:'Wholesale power',    tag:'Merchant',aero:false,base:2600},
-  {name:'Capacity market',    tag:'Merchant',aero:false,base:500},
-  {name:'Balancing & ancillary',tag:'Merchant',aero:false,base:400},
-  {name:'Green certificates', tag:'Merchant',aero:false,base:300},
-];
-const COSTS=[
-  {item:'Fuel (uranium)',     tag:'Var', cls:'var', base:8640},
-  {item:'Operations & staff', tag:'Semi',cls:'semi',base:18000},
-  {item:'Decommissioning prov.',tag:'Fixed',cls:'fix',base:9000},
-  {item:'Major outages',      tag:'Semi',cls:'semi',base:8000},
-  {item:'Regulation & security',tag:'Fixed',cls:'fix',base:5000},
-  {item:'Insurance & liability',tag:'Fixed',cls:'fix',base:4000},
-  {item:'Business rates & admin',tag:'Fixed',cls:'fix',base:3500},
-];
-let rSmooth=STREAMS.map(s=>s.base), cSmooth=COSTS.map(c=>c.base);
-const CON_SUM=STREAMS.filter(s=>s.aero).reduce((a,s)=>a+s.base,0);
-const MER_SUM=STREAMS.filter(s=>!s.aero).reduce((a,s)=>a+s.base,0);
+      <div class="ix-ctrls">
+        <div class="ctrl"><label>Capacity</label><input type="range" id="ixCap" min="1600" max="3400" value="3200" step="50"><span class="val" id="ixCapV">—</span></div>
+        <div class="as-divider"></div>
+        <div class="ctrl"><label id="ixDriverLab">Price / strike</label><input type="range" id="ixSpread" min="70" max="180" value="128" step="1"><span class="val" id="ixSpreadV">—</span></div>
+        <div class="as-divider"></div>
+        <div class="ctrl"><label id="ixAvailLab">Capacity factor</label><input type="range" id="ixAvail" min="75" max="93" value="90" step="1"><span class="val" id="ixAvailV">—</span></div>
+        <button class="preset" id="ixPreset">Reset to base case</button>
+      </div>
 
-function money(v){ const neg=v<0; v=Math.abs(v); let o;
-  if(v>=1e9) o=(v/1e9).toFixed(2)+'bn'; else if(v>=1e8) o=(v/1e6).toFixed(0)+'m';
-  else if(v>=1e6) o=(v/1e6).toFixed(1)+'m'; else if(v>=1e3) o=(v/1e3).toFixed(0)+'k';
-  else o=Math.round(v).toString(); return (neg?'-£':'£')+o; }
-function m1(v){ return (v/1e6).toFixed(1); }
+      <div class="ix-stage"><canvas id="ixcv"></canvas></div>
+      <div class="ix-readout">
+        <div class="rocard"><div class="k">Capacity</div><div class="v" id="ixDir">—</div><div class="s" id="ixDirS">—</div></div>
+        <div class="rocard"><div class="k">Generation</div><div class="v" id="ixMW">—</div><div class="s" id="ixMWs">—</div></div>
+        <div class="rocard"><div class="k" id="ixHrK">Generation revenue</div><div class="v" id="ixHr">—</div><div class="s">contracted revenue p.a.</div></div>
+        <div class="rocard"><div class="k">EBITDA p.a.</div><div class="v" id="ixYr">—</div><div class="s" id="ixYrS">—</div></div>
+      </div>
 
-function buildRows(){
-  const re=document.getElementById('revRows'); re.innerHTML='';
-  STREAMS.forEach((s,i)=>{ const col=s.aero?'var(--aero)':'var(--comm)'; const tc=s.aero?'aero':'comm';
-    re.innerHTML+=`<div class="row"><span class="r-lbl">${s.name}</span><span class="r-tag ${tc}">${s.tag}</span><span class="bwrap"><span class="bfill" id="rb${i}" style="background:${col};width:50%"></span></span><span class="r-amt" id="ra${i}">£0</span></div>`; });
-  const ce=document.getElementById('costRows'); ce.innerHTML='';
-  COSTS.forEach((c,i)=>{ ce.innerHTML+=`<div class="row"><span class="r-lbl">${c.item}</span><span class="r-tag ${c.cls}">${c.tag}</span><span class="bwrap"><span class="bfill" id="cb${i}" style="background:var(--cost);width:50%"></span></span><span class="r-amt" id="ca${i}">£0</span></div>`; });
-}
-buildRows();
+      <div class="ix-facts" id="ixFacts"></div>
+      <p class="try" id="ixTry"></p>
+    </div>
 
-let simSpd=1;
-['b1','b2','b4'].forEach(id=>{ document.getElementById(id).onclick=()=>{ simSpd=parseInt(id.slice(1));
-  ['b1','b2','b4'].forEach(i=>document.getElementById(i).classList.toggle('on',i===id)); }; });
-const dLF=document.getElementById('dLF'), dPrice=document.getElementById('dPrice'), dCon=document.getElementById('dCon');
-function pulse(){ document.querySelectorAll('#nucsim .kpi,#nucsim .stock').forEach(e=>{ e.classList.remove('pulse'); void e.offsetWidth; e.classList.add('pulse'); }); }
-dLF.oninput=()=>{ document.getElementById('lfV').textContent=dLF.value+'%'; pulse(); };
-dPrice.oninput=()=>{ document.getElementById('priceV').textContent='£'+dPrice.value; pulse(); };
-dCon.oninput=()=>{ document.getElementById('conV').textContent=dCon.value+'%'; pulse(); };
+    <!-- 1 · what it is & how it works -->
+    <div class="sec" id="story">
+      <div class="sec-head"><span class="sec-no">01</span><h2>What it is &amp; how it works</h2></div>
+      <div id="s1body"></div>
+      <p class="body" id="s2intro"></p>
+    </div>
 
-// ---------- investment calculator (DCF / LBO) ----------
-function gv(id){ const v=parseFloat(document.getElementById(id).value); return isFinite(v)?v:0; }
-function irr(cf){ const f=r=>cf.reduce((s,c,i)=>s+c/Math.pow(1+r,i),0);
-  let lo=-0.95,hi=3,flo=f(lo),fhi=f(hi);
-  if(!isFinite(flo)||!isFinite(fhi)||flo*fhi>0) return NaN;
-  for(let k=0;k<140;k++){ const mid=(lo+hi)/2,fm=f(mid); if(flo*fm<=0){hi=mid;}else{lo=mid;flo=fm;} }
-  return (lo+hi)/2; }
-function computeModel(){
-  const rev0=baseRevYr, ebBase=rev0-baseCostYr;
-  const cost0=baseCostYr*(gv('iOpex')/100), eb0=rev0-cost0;
-  if(ebBase<=0 || eb0<=0 || rev0<=0) return null;
-  const gR=gv('iRevG')/100, gC=gv('iCostG')/100, capexP=gv('iCapex')/100, daP=gv('iDA')/100, tax=gv('iTax')/100;
-  const eMul=gv('iEntry'), xMul=gv('iExit'), N=Math.max(3,Math.min(25,Math.round(gv('iHold'))));
-  const lev=gv('iLev'), rd=gv('iRd')/100, amort=gv('iAmort')/100;
-  const entryEV=eMul*ebBase;
-  const debt0=Math.max(0,Math.min(lev*ebBase, entryEV*0.95));
-  const equity0=entryEV-debt0;
-  const rows=[], uCF=[-entryEV], eCF=[-equity0];
-  let debtBal=debt0; const amortAmt=amort*debt0;
-  for(let t=1;t<=N;t++){
-    const rev=rev0*Math.pow(1+gR,t), cost=cost0*Math.pow(1+gC,t), eb=rev-cost;
-    const capex=capexP*rev, da=daP*rev, ebit=eb-da;
-    const fcff=eb-tax*Math.max(0,ebit)-capex;
-    const interest=rd*debtBal, princ=Math.min(amortAmt,debtBal);
-    const ebt=ebit-interest, fcfe=eb-tax*Math.max(0,ebt)-capex-interest-princ;
-    debtBal=Math.max(0,debtBal-princ);
-    let uAdd=fcff, eAdd=fcfe;
-    if(t===N){ const exitEV=xMul*eb; uAdd+=exitEV; eAdd+=(exitEV-debtBal); }
-    uCF.push(uAdd); eCF.push(eAdd);
-    rows.push({t,rev,eb,capex,fcff,debt:debtBal,fcfe});
-  }
-  const exitEV=xMul*rows[N-1].eb, exitEq=exitEV-rows[N-1].debt;
-  const distrib=eCF.slice(1).reduce((a,b)=>a+b,0);
-  const moic=equity0>0?distrib/equity0:NaN;
-  return {eb0,entryEV,debt0,equity0,N,rows,uCF,eCF,uIRR:irr(uCF),lIRR:irr(eCF),exitEV,exitEq,moic,profit:distrib-equity0};
-}
-function pctTxt(x){ return isFinite(x)?(x*100).toFixed(1)+'%':'—'; }
-function renderModel(){
-  document.getElementById('cBaseRev').textContent=money(baseRevYr);
-  document.getElementById('cBaseEb').textContent=money(baseEbYr);
-  const m=computeModel();
-  const set=(id,t)=>{ const e=document.getElementById(id); if(e) e.textContent=t; };
-  if(!m){ ['oUIRR','oLIRR','oMOIC','oProfit'].forEach(id=>set(id,'—')); document.getElementById('calcSum').innerHTML='<span class="lbl">At this load factor / price the EBITDA is too thin to value on a multiple — raise the wind or the power price.</span>'; return; }
-  set('oUIRR',pctTxt(m.uIRR)); set('oLIRR',pctTxt(m.lIRR));
-  set('oMOIC',isFinite(m.moic)?m.moic.toFixed(2)+'×':'—');
-  set('oProfit',money(m.profit));
-  const ltv=Math.round(m.debt0/m.entryEV*100);
-  document.getElementById('calcSum').innerHTML=
-    `<span><span class="lbl">Entry EV</span> <b>${money(m.entryEV)}</b></span>`+
-    `<span><span class="lbl">Debt</span> <b>${money(m.debt0)}</b> (${ltv}% LTV)</span>`+
-    `<span><span class="lbl">Equity in</span> <b>${money(m.equity0)}</b></span>`+
-    `<span><span class="lbl">Exit EV</span> <b>${money(m.exitEV)}</b></span>`+
-    `<span><span class="lbl">Exit equity</span> <b>${money(m.exitEq)}</b></span>`;
-  const maxAbs=Math.max(...m.eCF.map(Math.abs),1), step=m.N>12?2:1;
-  let ch='<div class="jaxis"></div>';
-  m.eCF.forEach((cf,i)=>{ const hh=Math.max(2,Math.abs(cf)/maxAbs*58);
-    const cls=cf>=0?(i===m.N?'pos exit':'pos'):'neg';
-    ch+=`<div class="jcol"><div class="jbar ${cls}" style="height:${hh}px" title="Year ${i}: ${money(cf)}"></div><span class="jlbl">${i%step===0?i:''}</span></div>`; });
-  document.getElementById('jchart').innerHTML=ch;
-  document.getElementById('ptHead').innerHTML='<tr><th>Year</th><th>Revenue</th><th>EBITDA</th><th>Capex</th><th>Unlev. FCF</th><th>Net debt</th><th>Equity FCF</th></tr>';
-  document.getElementById('ptBody').innerHTML=m.rows.map(r=>
-    `<tr><td>${r.t}</td><td>${m1(r.rev)}</td><td>${m1(r.eb)}</td><td>${m1(r.capex)}</td><td>${m1(r.fcff)}</td><td>${m1(r.debt)}</td><td>${m1(r.fcfe)}</td></tr>`).join('');
-}
-['iRevG','iOpex','iCostG','iCapex','iDA','iTax','iEntry','iExit','iHold','iLev','iRd','iAmort']
-  .forEach(id=>document.getElementById(id).addEventListener('input',renderModel));
+    <!-- 2 · how it earns -->
+    <div class="sec" id="earn">
+      <div class="sec-head"><span class="sec-no">02</span><h2>How it earns</h2></div>
+      <p class="body" id="s3intro"></p>
+      <div class="two">
+        <div class="mcard">
+          <div class="tag">Model A · the contracted megaproject</div>
+          <h4>A long contract that finances a vast capex</h4>
+          <p>Nuclear is <b>firm baseload</b> — a generator that, once built, produces near-constant low-carbon power for decades at a very high capacity factor. Its defining feature is <b style="color:#0c6b4f">capital intensity</b>: the up-front capex is the largest in infrastructure (often <b>£6–9m per MW</b>), spent over a long, risky construction. What makes that capex financeable is the <b>contract</b> — a Contract for Difference (CfD), a Regulated Asset Base (RAB), a regulated cost-of-service tariff, or a long power-purchase agreement — that fixes (and usually indexes) the price for decades and so <b>removes wholesale price risk</b>. The engine is therefore the contracted price on near-constant output, set against the capex and the cost of capital the contract unlocks. Fuel is cheap per MWh; the running cost is mostly fixed O&amp;M. The risk that defines the asset class is <b>construction cost overruns</b> — the gap between a budgeted megaproject and a delivered one.</p>
+        </div>
+        <div class="mcard reg" id="mcardB">
+          <div class="tag" id="mbTag">—</div>
+          <h4 id="mbTitle">—</h4>
+          <p id="mbBody">—</p>
+        </div>
+      </div>
+    </div>
 
-// ---------- scene geometry ----------
-const HORIZON=150, SHORE_X=596, OSP={x:432,y:190}, GRID={x:672,y:118};
-const EC='rgba(127,208,255,0.95)';                       // electricity flow colour
-const COOL=[{x:108,r:46},{x:206,r:40}];   // cooling towers
-const DOME={x:300,y:236,r:30};            // reactor containment
-const HALL={x:344,y:214,w:78,h:46};       // turbine hall
-let steamP=0;
+    <!-- 3 · costs & financing -->
+    <div class="sec" id="cost">
+      <div class="sec-head"><span class="sec-no">03</span><h2>What it costs, and how it's financed</h2></div>
+      <p class="body" id="s4intro1"></p>
 
-// ---------- entities ----------
-const moneys=[];
-let T=0,cumEB=0,cTick=0,outNow=0,spin=0,vessel={x:120,y:272,dir:1},oamT=0,cashT=0;
-let baseRevYr=0,baseCostYr=0,baseEbYr=0;
-let visLF=0.90,visConShare=0.9,visRevInt=0.7,merWob=1;
-function rnd(a,b){return a+Math.random()*(b-a);} function lerp(a,b,t){return a+(b-a)*t;}
+      <div class="wf-wrap">
+        <div class="wf-head"><span class="t">Revenue → operating costs → EBITDA</span><span class="m">Margin <b id="wfMargin">—</b></span></div>
+        <svg class="wf" id="ixWaterfall" viewBox="0 0 600 200" preserveAspectRatio="xMidYMid meet" role="img" aria-label="EBITDA bridge"></svg>
+        <p class="wf-note" id="wfNote"></p>
+      </div>
 
-function light(x,y,r,col,a){ ctx.save(); ctx.globalAlpha=a;
-  const g=ctx.createRadialGradient(x,y,0,x,y,r); g.addColorStop(0,col); g.addColorStop(1,'rgba(0,0,0,0)');
-  ctx.fillStyle=g; ctx.beginPath(); ctx.arc(x,y,r,0,Math.PI*2); ctx.fill(); ctx.restore(); }
+      <p class="body" id="s4intro2"></p>
+      <div class="fin-wrap">
+        <div class="fin-col">
+          <div class="fin-h" id="finStackH">The capital · reactors + build</div>
+          <div class="fin-split-lbl"><span id="finSplitL">Financing</span><span id="finSplitR">allocation</span></div>
+          <div class="fin-split" id="finSplit"></div>
+          <ul class="fin-list" id="finList"></ul>
+          <p class="fin-note" id="finNote"></p>
+        </div>
+        <div class="fin-col">
+          <div class="fin-h">History &amp; framework · key milestones</div>
+          <ol class="tl" id="finTimeline"></ol>
+        </div>
+      </div>
+    </div>
 
-function drawScene(){
-  const sky=ctx.createLinearGradient(0,0,0,HORIZON); sky.addColorStop(0,'#13243f'); sky.addColorStop(0.6,'#2b4063'); sky.addColorStop(1,'#5b6a86');
-  ctx.fillStyle=sky; ctx.fillRect(0,0,W,HORIZON);
-  light(150,40,50,'rgba(255,238,205,0.4)',0.55);
-  ctx.fillStyle='rgba(255,255,255,0.05)';
-  [120,360,560].forEach((cx,i)=>{ const x=((cx+T*(0.3+visLF*5))%(W+120))-60, cy=30+i*16+Math.sin(T*0.01+i)*3;
-    ctx.beginPath(); ctx.ellipse(x,cy,46,12,0,0,Math.PI*2); ctx.fill(); ctx.beginPath(); ctx.ellipse(x+24,cy-5,28,9,0,0,Math.PI*2); ctx.fill(); });
-  // ground
-  const land=ctx.createLinearGradient(0,HORIZON,0,H); land.addColorStop(0,'#33402c'); land.addColorStop(1,'#1f2719');
-  ctx.fillStyle=land; ctx.fillRect(0,HORIZON,W,H-HORIZON);
-  // cooling-water channel along the bottom
-  const wat=ctx.createLinearGradient(0,H-32,0,H); wat.addColorStop(0,'#1d3a5c'); wat.addColorStop(1,'#12283f');
-  ctx.fillStyle=wat; ctx.fillRect(0,H-32,W,32);
-  ctx.strokeStyle='rgba(130,180,225,0.12)'; ctx.lineWidth=1;
-  for(let y=H-26;y<H;y+=9){ ctx.beginPath(); for(let x=0;x<=W;x+=18){ const yy=y+Math.sin((x*0.05)+(T*0.05)+y)*1.4; x===0?ctx.moveTo(x,yy):ctx.lineTo(x,yy);} ctx.stroke(); }
-}
+    <!-- 4 · cash flows & returns -->
+    <div class="sec" id="returns">
+      <div class="sec-head"><span class="sec-no">04</span><h2>Cash flows &amp; returns</h2></div>
+      <p class="calc-note" id="calcNote"></p>
 
-function drawOSP(){
-  const x=OSP.x,y=OSP.y;
-  ctx.fillStyle='#3a4654'; ctx.fillRect(x-16,y-12,32,20);
-  ctx.fillStyle='#586878'; ctx.fillRect(x-12,y-20,9,8); ctx.fillRect(x+3,y-18,8,6);
-  ctx.strokeStyle='rgba(150,170,190,0.5)'; ctx.lineWidth=0.7; ctx.strokeRect(x-16,y-12,32,20);
-  ctx.fillStyle='rgba(150,170,190,0.8)'; ctx.font='700 6px Inter,sans-serif'; ctx.textAlign='center'; ctx.fillText('SWITCHYARD',x,y-15);
-}
+      <div class="calc-grid">
+        <div class="cgroup"><h4>Build &amp; contributions</h4>
+          <div class="cfield"><label>Capex per MW total build</label><span class="ig"><input id="iBuild" type="number" value="35000" step="500"><span class="u" id="uBuild">m</span></span></div>
+          <div class="cfield"><label>State contribution</label><span class="ig"><input id="iGrant" type="number" value="6000" step="250"><span class="u" id="uGrant">m</span></span></div>
+          <div class="cfield"><label>Maintenance capex</label><span class="ig"><input id="iCapex" type="number" value="3" step="0.5"><span class="u">%</span></span></div>
+          <div class="cfield"><label>Price escalation p.a.</label><span class="ig"><input id="iRevG" type="number" value="2" step="0.5"><span class="u">%</span></span></div>
+        </div>
+        <div class="cgroup"><h4>Contract &amp; tax</h4>
+          <div class="cfield"><label>Contracted floor</label><span class="ig"><input id="iFloor" type="number" value="2900" step="100"><span class="u" id="uFloor">m</span></span></div>
+          <div class="cfield"><label>Revenue cap</label><span class="ig"><input id="iCap" type="number" value="5200" step="100"><span class="u" id="uCap">m</span></span></div>
+          <div class="cfield"><label>Tax rate</label><span class="ig"><input id="iTax" type="number" value="25" step="1"><span class="u">%</span></span></div>
+          <div class="cfield"><label>Exit EV / EBITDA</label><span class="ig"><input id="iExit" type="number" value="12" step="0.5"><span class="u">×</span></span></div>
+        </div>
+        <div class="cgroup"><h4>Financing &amp; hold</h4>
+          <div class="cfield"><label>Leverage (Net&nbsp;debt&nbsp;/&nbsp;EBITDA)</label><span class="ig"><input id="iLev" type="number" value="4" step="0.5"><span class="u">×</span></span></div>
+          <div class="cfield"><label>Cost of debt</label><span class="ig"><input id="iRd" type="number" value="5" step="0.25"><span class="u">%</span></span></div>
+          <div class="cfield"><label>Debt amortisation p.a.</label><span class="ig"><input id="iAmort" type="number" value="3" step="1"><span class="u">%</span></span></div>
+          <div class="cfield"><label>Hold period</label><span class="ig"><input id="iHold" type="number" value="20" step="1" min="3" max="40"><span class="u">y</span></span></div>
+        </div>
+      </div>
 
-function drawPlant(){
-  // turbine hall
-  ctx.fillStyle='#2c3540'; ctx.beginPath(); ctx.roundRect(HALL.x,HALL.y,HALL.w,HALL.h,4); ctx.fill();
-  ctx.strokeStyle='rgba(120,140,165,0.4)'; ctx.lineWidth=0.7; ctx.strokeRect(HALL.x,HALL.y,HALL.w,HALL.h);
-  ctx.fillStyle='rgba(150,170,195,0.22)'; for(let i=0;i<5;i++) ctx.fillRect(HALL.x+6+i*14,HALL.y+6,9,HALL.h-12);
-  ctx.fillStyle='rgba(150,170,190,0.7)'; ctx.font='700 6px Inter,sans-serif'; ctx.textAlign='center'; ctx.fillText('TURBINE HALL',HALL.x+HALL.w/2,HALL.y-4);
-  // reactor containment dome (glow tracks availability)
-  const d=DOME, glow=0.3+0.6*visLF;
-  light(d.x,d.y-2,d.r*1.2,'rgba(120,200,160,'+(0.14*glow)+')',1);
-  ctx.fillStyle='#46525e'; ctx.beginPath(); ctx.moveTo(d.x-d.r,d.y); ctx.arc(d.x,d.y,d.r,Math.PI,0); ctx.closePath(); ctx.fill();
-  ctx.fillStyle='#3a444e'; ctx.fillRect(d.x-d.r,d.y,d.r*2,14);
-  ctx.fillStyle='rgba(120,210,165,'+(0.55*glow)+')'; ctx.beginPath(); ctx.arc(d.x,d.y,4,0,Math.PI*2); ctx.fill();
-  ctx.fillStyle='rgba(150,170,190,0.7)'; ctx.fillText('REACTOR',d.x,d.y+26);
-  // cooling towers + steam plumes (size tracks availability)
-  COOL.forEach((c,ci)=>{ const baseY=DOME.y+14, topY=baseY-60;
-    ctx.fillStyle='#4a535d'; ctx.beginPath();
-    ctx.moveTo(c.x-c.r*0.5,baseY); ctx.quadraticCurveTo(c.x-c.r*0.26,(baseY+topY)/2,c.x-c.r*0.42,topY);
-    ctx.lineTo(c.x+c.r*0.42,topY); ctx.quadraticCurveTo(c.x+c.r*0.26,(baseY+topY)/2,c.x+c.r*0.5,baseY); ctx.closePath(); ctx.fill();
-    ctx.strokeStyle='rgba(160,175,190,0.4)'; ctx.lineWidth=0.6; ctx.stroke();
-    const puffs=Math.max(0,Math.round(2+visLF*5));
-    for(let k=0;k<puffs;k++){ const u=((steamP+k/puffs+ci*0.3)%1); const py=topY-4-u*42, px=c.x+Math.sin((u*6)+ci)*7;
-      ctx.fillStyle='rgba(235,242,250,'+(0.30*(1-u)*(0.4+visLF))+')'; ctx.beginPath(); ctx.arc(px,py,6+u*9,0,Math.PI*2); ctx.fill(); }
-  });
-}
+      <div class="out-cards">
+        <div class="ocard unlev"><div class="k">Unlevered IRR</div><div class="v" id="oUIRR">—</div><div class="s">asset / project return</div></div>
+        <div class="ocard lev"><div class="k">Levered IRR</div><div class="v" id="oLIRR">—</div><div class="s">return to equity</div></div>
+        <div class="ocard"><div class="k">Equity multiple</div><div class="v" id="oMOIC">—</div><div class="s">MOIC over hold</div></div>
+        <div class="ocard"><div class="k">Payback</div><div class="v" id="oPB">—</div><div class="s">project, undiscounted</div></div>
+      </div>
 
-function drawVessel(){
-  const x=vessel.x,y=vessel.y; ctx.save();
-  ctx.globalAlpha=0.3; ctx.fillStyle='#000'; ctx.beginPath(); ctx.ellipse(x,y+5,12,3,0,0,Math.PI*2); ctx.fill(); ctx.globalAlpha=1;
-  ctx.fillStyle='#c75d4f'; ctx.beginPath(); ctx.moveTo(x+11*vessel.dir,y); ctx.lineTo(x-9*vessel.dir,y-4); ctx.lineTo(x-9*vessel.dir,y+4); ctx.closePath(); ctx.fill();
-  ctx.fillStyle='#e8edf2'; ctx.fillRect(x-4,y-4,5,4); ctx.restore();
-}
+      <div class="calc-sum" id="calcSum"></div>
 
-function flowDots(ax,ay,bx,by,n,speed,phase,fn){
-  for(let k=0;k<n;k++){ const u=((T*speed+k/n+phase)%1); const x=lerp(ax,bx,u),y=lerp(ay,by,u); const o=fn(k,n,u); light(x,y,o.r,o.c,0.6); }
-}
-function drawGridNode(){
-  const x=GRID.x,y=GRID.y;
-  ctx.strokeStyle='#4a5868'; ctx.lineWidth=2; ctx.beginPath(); ctx.moveTo(x,y-30); ctx.lineTo(x,y+22); ctx.stroke();
-  ctx.beginPath(); ctx.moveTo(x-9,y-22); ctx.lineTo(x+9,y-22); ctx.moveTo(x-11,y-13); ctx.lineTo(x+11,y-13); ctx.stroke();
-  ctx.fillStyle='#2c3a45'; ctx.beginPath(); ctx.roundRect(x-6,y+10,28,22,3); ctx.fill();
-  ctx.strokeStyle='rgba(120,160,200,0.5)'; ctx.lineWidth=0.7; ctx.strokeRect(x-6,y+10,28,22);
-  ctx.fillStyle='rgba(150,185,220,0.85)'; ctx.font='700 7px Inter,sans-serif'; ctx.textAlign='center'; ctx.fillText('GRID / MARKET',x+8,y+44);
-  drawGauge();
-}
-function drawGauge(){
-  const gx=GRID.x-46, gy=16, gw=60, gh=42;
-  ctx.fillStyle='rgba(10,20,34,0.55)'; ctx.beginPath(); ctx.roundRect(gx,gy,gw,gh,5); ctx.fill();
-  ctx.fillStyle='rgba(180,196,210,0.7)'; ctx.font='700 6.5px Inter,sans-serif'; ctx.textAlign='left'; ctx.fillText('POWER PRICE £/MWh',gx+5,gy+9);
-  const top=gy+14, bot=gy+gh-5, py=p=>bot-(Math.min(220,p)/220)*(bot-top);
-  const sy=py(STRIKE); ctx.strokeStyle='rgba(55,200,140,0.9)'; ctx.setLineDash([3,2]); ctx.lineWidth=1; ctx.beginPath(); ctx.moveTo(gx+22,sy); ctx.lineTo(gx+gw-5,sy); ctx.stroke(); ctx.setLineDash([]);
-  const mp=parseFloat(dPrice.value)*merWob, my=py(mp);
-  ctx.strokeStyle='rgba(230,179,90,0.5)'; ctx.lineWidth=1; ctx.beginPath(); ctx.moveTo(gx+22,my); ctx.lineTo(gx+gw-9,my); ctx.stroke();
-  ctx.fillStyle='#e6b35a'; ctx.beginPath(); ctx.arc(gx+gw-9,my,2.4,0,Math.PI*2); ctx.fill();
-  ctx.fillStyle='#7fd9b4'; ctx.font='6px Inter,sans-serif'; ctx.fillText('CfD',gx+4,sy+2);
-  ctx.fillStyle='#e6b35a'; ctx.fillText('Merch',gx+2,my+2);
-}
-function drawFlows(){
-  const lf=visLF;
-  // generator output: turbine hall -> switchyard (electricity, cyan)
-  ctx.strokeStyle='rgba(127,208,255,0.12)'; ctx.lineWidth=1.4; ctx.beginPath(); ctx.moveTo(HALL.x+HALL.w,HALL.y+HALL.h/2); ctx.lineTo(OSP.x,OSP.y+2); ctx.stroke();
-  flowDots(HALL.x+HALL.w,HALL.y+HALL.h/2,OSP.x,OSP.y+2,Math.max(2,Math.round(2+lf*8)),0.02,0,()=>({c:EC,r:2.0}));
-  // export corridor guide rails: lower = electricity out, upper = cash back
-  ctx.strokeStyle='rgba(127,208,255,0.16)'; ctx.lineWidth=2; ctx.beginPath(); ctx.moveTo(OSP.x,OSP.y+5); ctx.lineTo(GRID.x-12,GRID.y+12); ctx.stroke();
-  ctx.strokeStyle='rgba(55,200,140,0.14)'; ctx.lineWidth=2; ctx.beginPath(); ctx.moveTo(OSP.x,OSP.y-7); ctx.lineTo(GRID.x-12,GRID.y); ctx.stroke();
-  // ENERGY: OSP -> GRID (cyan), density tracks generation
-  flowDots(OSP.x,OSP.y+5,GRID.x-12,GRID.y+12,Math.max(4,Math.round(4+lf*22)),0.016,0,()=>({c:EC,r:2.6}));
-  // CASH: GRID -> project (green contracted = steady, amber merchant = volatile)
-  flowDots(GRID.x-12,GRID.y,OSP.x,OSP.y-7,Math.max(4,Math.round(4+visRevInt*20)),0.014,0,(k,nn)=>{
-    const green=(k/nn)<visConShare;
-    return green ? {c:'rgba(55,200,140,0.95)',r:2.6} : {c:'rgba(230,179,90,0.95)',r:1.7+1.5*(0.5+0.5*Math.sin(T*0.05+k*1.7))}; });
-  // direction labels
-  const ex=(OSP.x+GRID.x)/2, ey=(OSP.y+GRID.y)/2;
-  ctx.font='700 8px Inter,sans-serif'; ctx.textAlign='center';
-  ctx.fillStyle='rgba(127,208,255,0.95)'; ctx.fillText('ELECTRICITY →',ex,ey+20);
-  ctx.fillStyle='rgba(95,210,150,0.95)'; ctx.fillText('← £ PAYMENTS',ex,ey-12);
-}
+      <div class="jwrap">
+        <div class="jhead"><span class="t">Cash-flow profile — equity</span><span class="lg"><span style="color:var(--cost)">■</span> invested &nbsp; <span style="color:var(--accent)">■</span> returned</span></div>
+        <div class="jchart" id="jchart"><div class="jaxis"></div></div>
+      </div>
 
-function update(dt){
-  const lf=parseFloat(dLF.value)/100, powerP=parseFloat(dPrice.value), con=parseFloat(dCon.value)/100;
-  const genRate=CAP_MW*lf;                          // MWh/hr (= average MW)
-  visLF=lf; steamP+=dt*(0.04+lf*0.04);              // steam plume tracks availability
-  merWob=1+0.22*Math.sin(T*0.05)+0.12*Math.sin(T*0.11+1.3);  // merchant price volatility (visual)
-  outNow=lerp(outNow, genRate*(1+0.05*Math.sin(T*0.04)), Math.min(1,0.05*dt));
+      <details class="more">
+        <summary>Show the year-by-year schedule</summary>
+        <div class="jwrap tscroll" style="margin-top:.6rem">
+          <table class="ptable"><thead id="ptHead"></thead><tbody id="ptBody"></tbody></table>
+        </div>
+      </details>
+    </div>
 
-  // service vessel patrols the farm (O&M cost)
-  vessel.x+=dt*0.5*vessel.dir; if(vessel.x>360){vessel.dir=-1;} if(vessel.x<60){vessel.dir=1;}
-  oamT-=dt; if(oamT<=0){ oamT=rnd(220,380)/simSpd; moneys.push({x:vessel.x,y:vessel.y-10,label:'O&M',col:C.cost,life:1.3,vy:-0.7}); }
+    <!-- 5 · what drives the return -->
+    <div class="sec" id="drivers">
+      <div class="sec-head"><span class="sec-no">05</span><h2>What drives the return</h2></div>
+      <p class="body" id="s6intro"></p>
+      <ul class="breakers" id="breakers"></ul>
+    </div>
 
-  // cash collected back at the project — contracted (green) vs merchant (amber)
-  cashT-=dt; if(cashT<=0){ cashT=rnd(70,150)/simSpd; const merchant=Math.random()>visConShare;
-    moneys.push({x:OSP.x-12,y:OSP.y-24,label:merchant?'Merchant':'CfD',col:merchant?C.comm:C.aero,life:1.5,vy:-0.9}); }
-
-  for(let i=moneys.length-1;i>=0;i--){ const m=moneys[i]; m.y+=m.vy*dt; m.vy*=0.97; m.life-=dt*0.013; if(m.life<=0) moneys.splice(i,1); }
-
-  // ---- finance: revenue = generation × price (contracted at strike + merchant at wholesale) ----
-  const conRev=genRate*con*STRIKE, merRev=genRate*(1-con)*powerP;
-  const nR=STREAMS.map(s=> s.aero ? conRev*s.base/CON_SUM : merRev*s.base/MER_SUM);
-  const a=genRate/GEN0;
-  const nC=COSTS.map(c=> c.cls==='fix'? c.base : c.cls==='var'? c.base*a : c.base*(0.5+0.5*a));
-  rSmooth=rSmooth.map((v,i)=>lerp(v,nR[i],0.06));
-  cSmooth=cSmooth.map((v,i)=>lerp(v,nC[i],0.06));
-
-  const totR=rSmooth.reduce((x,y)=>x+y,0), totC=cSmooth.reduce((x,y)=>x+y,0), totP=totR-totC;
-  const conTot=rSmooth.reduce((s,v,i)=>s+(STREAMS[i].aero?v:0),0), merTot=totR-conTot;
-  visConShare=conTot/Math.max(1,totR); visRevInt=Math.max(0.06,Math.min(1,totR/150000));
-  const revYr=totR*HRS_PER_YR, ebYr=totP*HRS_PER_YR, genYr=genRate*HRS_PER_YR, EV=ebYr*EV_MULT;
-  baseRevYr=revYr; baseCostYr=totC*HRS_PER_YR; baseEbYr=ebYr;
-  cumEB+=totP*dt/60;
-
-  document.getElementById('kRev').textContent=money(revYr);
-  document.getElementById('kRevHr').textContent=money(totR);
-  document.getElementById('kEb').textContent=money(ebYr);
-  document.getElementById('kEb').style.color=totP>=0?'var(--aero)':'var(--cost)';
-  document.getElementById('kMargin').textContent=Math.round(totP/totR*100)+'%';
-  document.getElementById('kYield').textContent='£'+(totR/genRate).toFixed(0);
-  document.getElementById('kPaxYr').textContent=(genYr/1e6).toFixed(1)+' TWh';
-  document.getElementById('kThru').textContent=Math.round(lf*100)+'%';
-  document.getElementById('sPax').textContent=Math.round(outNow).toLocaleString()+' MW';
-  document.getElementById('sCap').textContent=CAP_MW.toLocaleString();
-  document.getElementById('sBank').textContent=money(cumEB);
-  document.getElementById('sEV').textContent= ebYr>0 ? money(EV) : '—';
-
-  const aPct=Math.round(conTot/totR*100);
-  document.getElementById('splitTot').textContent=money(revYr);
-  document.getElementById('segAero').style.width=aPct+'%';
-  document.getElementById('segComm').style.width=(100-aPct)+'%';
-  document.getElementById('segAero').textContent='Contracted '+money(conTot*HRS_PER_YR)+' · '+aPct+'%';
-  document.getElementById('segComm').textContent='Merchant '+money(merTot*HRS_PER_YR)+' · '+(100-aPct)+'%';
-
-  document.getElementById('revSum').textContent=money(revYr)+' p.a.';
-  document.getElementById('costSum').textContent=money(totC*HRS_PER_YR)+' p.a.';
-  const maxR=Math.max(...rSmooth,1);
-  rSmooth.forEach((v,i)=>{ const b=document.getElementById('rb'+i),a2=document.getElementById('ra'+i);
-    if(b) b.style.width=Math.round(v/maxR*100)+'%'; if(a2) a2.textContent=money(v*HRS_PER_YR); });
-  const maxC=Math.max(...cSmooth,1);
-  cSmooth.forEach((v,i)=>{ const b=document.getElementById('cb'+i),a2=document.getElementById('ca'+i);
-    if(b) b.style.width=Math.round(v/maxC*100)+'%'; if(a2) a2.textContent=money(v*HRS_PER_YR); });
-
-  ebSample+=dt; if(ebSample>4){ ebSample=0; ebHist.push(ebYr); if(ebHist.length>90) ebHist.shift(); }
-}
-const ebHist=[]; let ebSample=0;
-
-function drawHUD(){
-  const x=10,y=10,w=214,h=58; ctx.save();
-  ctx.fillStyle='rgba(10,20,34,0.62)'; ctx.beginPath(); ctx.roundRect(x,y,w,h,8); ctx.fill();
-  ctx.strokeStyle='rgba(255,255,255,0.08)'; ctx.lineWidth=1; ctx.stroke();
-  light(x+13,y+13,5,'rgba(55,192,142,1)',0.7);
-  ctx.fillStyle=C.aero; ctx.beginPath(); ctx.arc(x+13,y+13,3,0,Math.PI*2); ctx.fill();
-  ctx.fillStyle='#cfe0ea'; ctx.font='700 9px Inter,sans-serif'; ctx.textAlign='left'; ctx.fillText('NUCLEAR PLANT — LIVE',x+23,y+16);
-  ctx.fillStyle='rgba(170,190,205,0.85)'; ctx.font='9px Inter,sans-serif';
-  ctx.fillText(Math.round(outNow).toLocaleString()+' MW  ·  '+Math.round(parseFloat(dLF.value))+'% load factor',x+12,y+30);
-  if(ebHist.length>2){ const sx=x+12,sy=y+38,sh=14,sw=w-24;
-    const mn=Math.min(...ebHist,0),mx=Math.max(...ebHist,1),rng=Math.max(1,mx-mn);
-    ctx.beginPath(); ebHist.forEach((v,i)=>{ const px=sx+i/(ebHist.length-1)*sw, py=sy+sh-(v-mn)/rng*sh; i===0?ctx.moveTo(px,py):ctx.lineTo(px,py); });
-    ctx.strokeStyle=C.aero; ctx.lineWidth=1.5; ctx.stroke();
-    ctx.lineTo(sx+sw,sy+sh); ctx.lineTo(sx,sy+sh); ctx.closePath(); ctx.fillStyle='rgba(55,192,142,0.16)'; ctx.fill();
-    ctx.fillStyle='#9fe0c4'; ctx.font='700 9px Inter,sans-serif'; ctx.textAlign='right';
-    ctx.fillText('EBITDA '+money(ebHist[ebHist.length-1])+'/yr',x+w-12,y+34); }
-  ctx.restore();
-}
-function tag(txt,x,y){ ctx.fillStyle='rgba(180,196,210,0.5)'; ctx.font='700 8px Inter,sans-serif'; ctx.textAlign='center'; ctx.fillText(txt,x,y); }
-
-function draw(){
-  ctx.clearRect(0,0,W,H); drawScene();
-  drawPlant();
-  drawOSP();
-  drawGridNode();
-  drawFlows();
-  tag('NUCLEAR POWER STATION',180,HORIZON+18);
-  moneys.forEach(m=>{ const a=Math.max(0,Math.min(1,m.life*0.8)); ctx.save(); ctx.globalAlpha=a;
-    ctx.font='700 9px Inter,sans-serif'; ctx.textAlign='left'; const cost=(m.col===C.cost); const tw=ctx.measureText((cost?'−£ ':'£ ')+m.label).width;
-    ctx.fillStyle='rgba(8,16,30,0.55)'; ctx.beginPath(); ctx.roundRect(m.x-4,m.y-9,tw+10,13,6); ctx.fill();
-    ctx.fillStyle=m.col; ctx.fillText((cost?'−£ ':'£ ')+m.label,m.x+1,m.y+1); ctx.restore(); });
-  drawHUD();
-  ctx.save(); const vg=ctx.createRadialGradient(W/2,H/2,H*0.4,W/2,H/2,H*0.95);
-  vg.addColorStop(0,'rgba(0,0,0,0)'); vg.addColorStop(1,'rgba(0,0,0,0.28)'); ctx.fillStyle=vg; ctx.fillRect(0,0,W,H); ctx.restore();
-}
-
-// ---- floating mini-simulation ----
-const stageEl=document.querySelector('#nucsim .as-stage');
-const miniEl=document.getElementById('asMini');
-const cvm=document.getElementById('cvMini'), mctx=cvm.getContext('2d');
-const MW=440, MH=220, MDPR=Math.max(2,Math.min(3,window.devicePixelRatio||1));
-cvm.width=MW*MDPR; cvm.height=MH*MDPR; mctx.setTransform(MDPR,0,0,MDPR,0,0);
-let miniOn=false;
-if(miniEl){
-  miniEl.addEventListener('click',()=>{ (stageEl||miniEl).scrollIntoView({behavior:'smooth',block:'center'}); });
-  if('IntersectionObserver' in window && stageEl){
-    new IntersectionObserver(es=>{ es.forEach(e=>{ miniOn=!e.isIntersecting; miniEl.classList.toggle('show',miniOn); }); },
-      {threshold:0, rootMargin:'-72px 0px -10% 0px'}).observe(stageEl);
-  }
-}
-
-let lastTs=null;
-function loop(ts){
-  if(!lastTs) lastTs=ts; const dt=Math.min((ts-lastTs)/16.67,3)*simSpd; lastTs=ts; T+=dt;
-  update(dt); draw();
-  if(miniOn){ mctx.clearRect(0,0,MW,MH); mctx.drawImage(cv,0,0,MW,MH); }
-  if((cTick=(cTick+1)%12)===0) renderModel();
-  requestAnimationFrame(loop);
-}
-requestAnimationFrame(loop);
-})();
-</script>
+    <p class="ix-src" id="ixSrc"></p>
+    <p class="ix-src">See also the <a href="nuclear-sim.html">Nuclear plant simulator</a> — build and run a reactor — and the <a href="cashflow-model.html">Cash-flow &amp; DCF model</a>.</p>
 
   </div>
 </section>
 
 <footer>
   <div class="wrap">
-    <div class="footer-text">© 2026 Infrastructure Investor | theinfrastructureinvestor.com</div>
+    <div class="footer-text">© 2026 Infrastructure Investor | theinfrastructureinvestor.com · <a href="community.html" style="color:var(--accent);text-decoration:none;font-weight:600">Community</a></div>
   </div>
 </footer>
 
+<script src="nu-geo.js"></script>
+<script src="nu-nuclear.js" defer></script>
 <script src="site.js" defer></script>
 </body>
 </html>

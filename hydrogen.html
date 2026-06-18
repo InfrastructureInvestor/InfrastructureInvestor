@@ -4,164 +4,189 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Hydrogen — Infrastructure Investor</title>
+<meta name="description" content="A reference on green (electrolytic) hydrogen — how an electrolyser earns the thin, power-cost-dominated spread between the H2 price and the electricity it consumes, leaning on subsidy and offtake — illustrated with six real projects from six regions: a European electrolyser, US Gulf Coast green H2, HIF/Atacama, Murchison/CWP, NEOM and Chinese green hydrogen.">
 <script src="anim-guard.js"></script>
-<meta name="description" content="An interactive model of how electricity, water and hydrogen flow through a green-hydrogen plant — and how utilisation and the power-to-hydrogen spread…">
 <link rel="icon" type="image/svg+xml" href="favicon.svg">
 <link rel="canonical" href="https://theinfrastructureinvestor.com/hydrogen.html">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Infrastructure Reference">
 <meta property="og:title" content="Hydrogen — Infrastructure Investor">
-<meta property="og:description" content="An interactive model of how electricity, water and hydrogen flow through a green-hydrogen plant — and how utilisation and the power-to-hydrogen spread…">
+<meta property="og:description" content="How a green-hydrogen electrolyser earns the thin spread between the H2 price and its power cost, leaning on subsidy and offtake — illustrated with six real projects from six regions.">
 <meta property="og:url" content="https://theinfrastructureinvestor.com/hydrogen.html">
 <meta property="og:image" content="https://theinfrastructureinvestor.com/og-image.svg">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Hydrogen — Infrastructure Investor">
-<meta name="twitter:description" content="An interactive model of how electricity, water and hydrogen flow through a green-hydrogen plant — and how utilisation and the power-to-hydrogen spread…">
+<meta name="twitter:description" content="How a green-hydrogen electrolyser earns the thin spread between the H2 price and its power cost, leaning on subsidy and offtake — illustrated with six real projects from six regions.">
 <meta name="twitter:image" content="https://theinfrastructureinvestor.com/og-image.svg">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,500;0,8..60,600;1,8..60,400&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="styles.css">
 <style>
+/* ---- sticky control bar : worked-example picker + section nav ---- */
+.ix-bar{position:sticky;top:0;z-index:80;background:rgba(255,255,255,0.93);backdrop-filter:blur(10px);border-bottom:1px solid var(--border)}
+.ix-bar .wrap{display:flex;align-items:center;gap:1.1rem;padding:.5rem 2rem;max-width:880px;margin:0 auto}
+.ix-bar-name{font-family:'Source Serif 4',Georgia,serif;font-size:.92rem;font-weight:600;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;flex:0 1 auto}
+.ix-bar-nav{display:flex;gap:.1rem;overflow-x:auto;scrollbar-width:none;margin-left:auto}
+.ix-bar-nav::-webkit-scrollbar{display:none}
+.ix-bar-nav a{flex:0 0 auto;font-size:.72rem;font-weight:600;color:var(--muted);text-decoration:none;padding:.4rem .65rem;border-radius:8px;white-space:nowrap;transition:all .12s}
+.ix-bar-nav a:hover{color:var(--accent)}
+.ix-bar-nav a.on{color:var(--accent);background:var(--accent-soft)}
+@media(max-width:780px){.ix-bar .wrap{gap:.6rem;padding:.5rem 1.25rem}.ix-bar-name{max-width:55%}}
 
-#h2sim{
-  --bg:#f5f7f6; --surface:#ffffff; --surface-2:#fbfcfc;
-  --border:#e7ebe9; --border-strong:#d8dedb; --text:#15201d; --text2:#4c5854; --muted:#8a948f;
-  --accent:#0c6b4f; --accent-soft:#e7f1ec;
-  --aero:#0c6b4f; --comm:#b07d24; --cost:#bc4733;
-  --stock:#2f5fb0; --stock-soft:#eaf0fa;
-}
-*{box-sizing:border-box;margin:0;padding:0}
-#h2sim{font-family:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;color:var(--text);width:100%;max-width:980px;margin:0 auto;font-variant-numeric:tabular-nums}
-#h2sim .as-head{margin-bottom:1.1rem}
-#h2sim .as-eyebrow{font-size:.66rem;letter-spacing:.16em;text-transform:uppercase;font-weight:600;color:var(--accent);margin-bottom:.5rem}
-#h2sim h2{font-family:'Source Serif 4',Georgia,serif;font-weight:500;font-size:1.7rem;line-height:1.1;letter-spacing:-.015em;margin-bottom:.4rem}
-#h2sim .as-sub{font-size:.86rem;color:var(--text2);line-height:1.6;max-width:660px}
-#h2sim .as-ctrls{display:flex;gap:.65rem;align-items:center;flex-wrap:wrap;margin:1.1rem 0 .7rem;background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:.7rem .9rem}
-#h2sim .ctrl{display:flex;align-items:center;gap:.55rem}
-#h2sim .ctrl label{font-size:.7rem;color:var(--muted);letter-spacing:.04em;text-transform:uppercase;font-weight:600;white-space:nowrap}
-#h2sim .ctrl input[type=range]{width:92px;-webkit-appearance:none;appearance:none;height:4px;border-radius:3px;background:var(--border-strong);outline:none}
-#h2sim .ctrl input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;appearance:none;width:14px;height:14px;border-radius:50%;background:var(--accent);cursor:pointer;border:2px solid #fff;box-shadow:0 1px 3px rgba(0,0,0,.2)}
-#h2sim .ctrl input[type=range]::-moz-range-thumb{width:14px;height:14px;border-radius:50%;background:var(--accent);cursor:pointer;border:2px solid #fff}
-#h2sim .ctrl .val{font-size:.8rem;font-weight:600;min-width:14px;color:var(--text)}
-#h2sim .as-divider{width:1px;height:24px;background:var(--border);margin:0 .15rem}
-#h2sim .spd{display:flex;gap:.25rem;margin-left:auto}
-#h2sim .spd button{font-family:inherit;font-size:.72rem;font-weight:600;padding:.32rem .6rem;border-radius:7px;border:1px solid var(--border-strong);background:var(--surface-2);color:var(--text2);cursor:pointer;transition:all .12s}
-#h2sim .spd button:hover{border-color:var(--accent)}
-#h2sim .spd button.on{background:var(--accent);color:#fff;border-color:var(--accent)}
-#h2sim .as-stage{position:relative;border-radius:14px;overflow:hidden;border:1px solid var(--border);box-shadow:0 12px 34px rgba(18,38,32,.10)}
-#h2sim canvas{display:block;width:100%;aspect-ratio:720/360}
-#h2sim .as-mini{position:fixed;right:20px;bottom:20px;width:clamp(300px,34vw,440px);aspect-ratio:720/360;border-radius:12px;overflow:hidden;border:1px solid rgba(255,255,255,.16);box-shadow:0 16px 40px rgba(8,16,30,.45);opacity:0;transform:translateY(12px) scale(.97);pointer-events:none;transition:opacity .28s ease,transform .28s ease;z-index:70;cursor:pointer}
-#h2sim .as-mini.show{opacity:1;transform:none;pointer-events:auto}
-#h2sim .as-mini:hover{border-color:rgba(55,192,142,.55)}
-#h2sim .as-mini canvas{display:block;width:100%;height:100%;aspect-ratio:auto}
-#h2sim .as-mini-tag{position:absolute;left:9px;top:8px;font-size:.6rem;font-weight:700;letter-spacing:.1em;color:#cfe0ea;background:rgba(10,20,34,.62);padding:3px 8px;border-radius:6px;display:flex;align-items:center;gap:5px}
-#h2sim .as-mini-tag::before{content:'';width:6px;height:6px;border-radius:50%;background:#37c08e;box-shadow:0 0 6px #37c08e}
-@media(max-width:560px){ #h2sim .as-mini{width:min(66vw,260px);right:10px;bottom:10px} }
-#h2sim .as-legend{display:flex;gap:1.1rem;flex-wrap:wrap;margin:.7rem 0 .2rem}
-#h2sim .leg{display:flex;align-items:center;gap:.4rem;font-size:.72rem;color:var(--text2)}
-#h2sim .leg .dot{width:9px;height:9px;border-radius:50%;flex-shrink:0}
-#h2sim .leg b{font-weight:600;color:var(--text)}
-#h2sim .band-label{display:flex;align-items:center;gap:.6rem;margin:1.1rem 0 .55rem}
-#h2sim .band-label .t{font-size:.66rem;letter-spacing:.08em;text-transform:uppercase;font-weight:600;color:var(--muted)}
-#h2sim .band-label .ln{flex:1;height:1px;background:var(--border)}
-#h2sim .band-label .hint{font-size:.68rem;color:var(--muted);font-weight:400;text-transform:none;letter-spacing:0}
-#h2sim .as-kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:.7rem}
-#h2sim .kpi,#h2sim .stock{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:.85rem .95rem;position:relative;overflow:hidden}
-#h2sim .kpi::before,#h2sim .stock::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px}
-#h2sim .kpi.k-eb::before{background:var(--aero)}
-#h2sim .kpi.k-rev::before{background:var(--comm)}
-#h2sim .kpi.k-yield::before{background:var(--aero)}
-#h2sim .kpi.k-pax::before{background:#3a7bd0}
-#h2sim .stock::before{background:var(--stock)}
-#h2sim .kpi .k,#h2sim .stock .k{font-size:.65rem;letter-spacing:.05em;text-transform:uppercase;color:var(--muted);font-weight:600;margin-bottom:.3rem}
-#h2sim .kpi .v,#h2sim .stock .v{font-family:'Source Serif 4',Georgia,serif;font-size:1.55rem;font-weight:500;line-height:1;letter-spacing:-.01em}
-#h2sim .stock .v{color:var(--stock)}
-#h2sim .kpi .s,#h2sim .stock .s{font-size:.7rem;color:var(--text2);margin-top:.35rem}
-#h2sim .kpi .s b,#h2sim .stock .s b{font-weight:600;color:var(--text)}
-#h2sim .as-stocks{display:grid;grid-template-columns:repeat(3,1fr);gap:.7rem}
-#h2sim .stock{background:linear-gradient(180deg,var(--stock-soft),var(--surface))}
-@keyframes kpulse{0%{box-shadow:0 0 0 0 rgba(47,95,176,0)}28%{box-shadow:0 0 0 3px rgba(47,95,176,.22)}100%{box-shadow:0 0 0 0 rgba(47,95,176,0)}}
-#h2sim .pulse{animation:kpulse .75s ease}
-#h2sim .as-split{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:.95rem 1.05rem;margin-top:.9rem}
-#h2sim .split-head{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:.6rem}
-#h2sim .split-head .t{font-size:.66rem;letter-spacing:.05em;text-transform:uppercase;color:var(--muted);font-weight:600}
-#h2sim .split-head .tot{font-size:.74rem;color:var(--text2)}
-#h2sim .split-head .tot b{font-weight:600;color:var(--text)}
-#h2sim .split-bar{display:flex;height:26px;border-radius:7px;overflow:hidden;background:var(--border)}
-#h2sim .split-seg{height:100%;display:flex;align-items:center;padding:0 .55rem;color:#fff;font-size:.72rem;font-weight:600;white-space:nowrap;transition:width .5s ease;min-width:0;overflow:hidden}
-#h2sim .seg-aero{background:var(--aero)} #h2sim .seg-comm{background:var(--comm)}
-#h2sim .split-foot{margin-top:.55rem;font-size:.72rem;color:var(--text2);line-height:1.5}
-#h2sim .split-foot b{color:var(--text);font-weight:600}
-#h2sim .as-panels{display:grid;grid-template-columns:1fr 1fr;gap:.9rem;margin-top:.9rem}
-#h2sim .panel{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:1rem 1.1rem}
-#h2sim .ptitle{font-size:.66rem;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);margin-bottom:.8rem;display:flex;justify-content:space-between;align-items:baseline}
-#h2sim .ptitle .pt-sum{color:var(--text);font-weight:600;font-size:.74rem;text-transform:none;letter-spacing:0}
-#h2sim .row{display:flex;align-items:center;gap:.5rem;margin-bottom:.5rem}
-#h2sim .row:last-child{margin-bottom:0}
-#h2sim .r-lbl{width:128px;font-size:.74rem;color:var(--text);flex-shrink:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-#h2sim .r-tag{width:54px;flex-shrink:0;font-size:.57rem;font-weight:600;letter-spacing:.03em;text-transform:uppercase}
-#h2sim .r-tag.aero{color:var(--aero)} #h2sim .r-tag.comm{color:var(--comm)}
-#h2sim .r-tag.fix{color:var(--muted)} #h2sim .r-tag.var{color:var(--cost)} #h2sim .r-tag.semi{color:#a06a2a}
-#h2sim .bwrap{flex:1;height:7px;background:var(--border);border-radius:4px;overflow:hidden}
-#h2sim .bfill{height:100%;border-radius:4px;transition:width .45s ease}
-#h2sim .r-amt{width:54px;text-align:right;font-size:.74rem;font-weight:600;color:var(--text);flex-shrink:0}
-#h2sim .as-foot{font-size:.68rem;color:var(--muted);line-height:1.6;margin-top:.9rem}
-#h2sim .as-foot b{color:var(--text2);font-weight:600}
-#h2sim .calc-note{font-size:.8rem;color:var(--text2);line-height:1.6;margin-bottom:.85rem}
-#h2sim .calc-note b{color:var(--text);font-weight:600}
-#h2sim .calc-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:.9rem;margin-bottom:.9rem}
-#h2sim .cgroup{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:.9rem 1rem}
-#h2sim .cgroup h4{font-size:.62rem;letter-spacing:.07em;text-transform:uppercase;color:var(--muted);font-weight:600;margin-bottom:.7rem}
-#h2sim .cfield{display:flex;align-items:center;justify-content:space-between;gap:.5rem;margin-bottom:.5rem}
-#h2sim .cfield:last-child{margin-bottom:0}
-#h2sim .cfield label{font-size:.74rem;color:var(--text);line-height:1.25}
-#h2sim .cfield .ig{display:flex;align-items:center;gap:.25rem;flex-shrink:0}
-#h2sim .cfield input{width:56px;font-family:inherit;font-size:.78rem;font-weight:600;text-align:right;color:var(--text);border:1px solid var(--border-strong);border-radius:7px;padding:.28rem .35rem;background:var(--surface-2);font-variant-numeric:tabular-nums}
-#h2sim .cfield input:focus{outline:none;border-color:var(--accent)}
-#h2sim .cfield .u{font-size:.7rem;color:var(--muted);width:12px;text-align:left}
-#h2sim .out-cards{display:grid;grid-template-columns:repeat(4,1fr);gap:.7rem;margin-bottom:.9rem}
-#h2sim .ocard{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:.85rem .95rem;position:relative;overflow:hidden}
-#h2sim .ocard::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--muted)}
-#h2sim .ocard.unlev::before{background:var(--aero)}
-#h2sim .ocard.lev{background:linear-gradient(180deg,var(--accent-soft),var(--surface))}
-#h2sim .ocard.lev::before{background:var(--accent)}
-#h2sim .ocard .k{font-size:.63rem;letter-spacing:.05em;text-transform:uppercase;color:var(--muted);font-weight:600;margin-bottom:.3rem}
-#h2sim .ocard .v{font-family:'Source Serif 4',Georgia,serif;font-size:1.5rem;font-weight:500;line-height:1;letter-spacing:-.01em}
-#h2sim .ocard.lev .v{color:var(--accent)}
-#h2sim .ocard .s{font-size:.7rem;color:var(--text2);margin-top:.3rem}
-#h2sim .calc-sum{display:flex;flex-wrap:wrap;gap:.45rem 1.4rem;background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:.8rem 1rem;margin-bottom:.9rem;font-size:.74rem;color:var(--text2)}
-#h2sim .calc-sum span{white-space:nowrap}
-#h2sim .calc-sum b{color:var(--text);font-weight:600}
-#h2sim .calc-sum .lbl{color:var(--muted)}
-#h2sim .jwrap{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:.9rem 1rem;margin-bottom:.9rem}
-#h2sim .jhead{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:.9rem;gap:1rem}
-#h2sim .jhead .t{font-size:.63rem;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);font-weight:600}
-#h2sim .jhead .lg{font-size:.68rem;color:var(--text2)}
-#h2sim .jchart{display:flex;align-items:stretch;gap:3px;height:132px;position:relative;margin-bottom:18px}
-#h2sim .jaxis{position:absolute;left:0;right:0;top:50%;height:1px;background:var(--border-strong)}
-#h2sim .jcol{flex:1;position:relative;min-width:0}
-#h2sim .jbar{position:absolute;left:16%;right:16%;border-radius:3px;min-height:2px}
-#h2sim .jbar.pos{background:var(--accent);bottom:50%}
-#h2sim .jbar.neg{background:var(--cost);top:50%}
-#h2sim .jbar.exit{background:#0a5a42}
-#h2sim .jlbl{position:absolute;bottom:-16px;left:0;right:0;text-align:center;font-size:.6rem;color:var(--muted)}
-#h2sim .ptable{width:100%;border-collapse:collapse;font-size:.72rem;font-variant-numeric:tabular-nums}
-#h2sim .ptable th,#h2sim .ptable td{text-align:right;padding:.32rem .45rem;border-bottom:1px solid var(--border);white-space:nowrap}
-#h2sim .ptable th{color:var(--muted);font-weight:600;font-size:.61rem;letter-spacing:.03em;text-transform:uppercase}
-#h2sim .ptable td:first-child,#h2sim .ptable th:first-child{text-align:left;color:var(--text2)}
-#h2sim .ptable tr:last-child td{border-bottom:none}
-#h2sim .tscroll{overflow-x:auto}
-@media(max-width:720px){
-  #h2sim .as-kpis{grid-template-columns:repeat(2,1fr)}
-  #h2sim .as-stocks{grid-template-columns:1fr}
-  #h2sim .as-panels{grid-template-columns:1fr}
-  #h2sim .spd{margin-left:0}
-  #h2sim .r-lbl{width:110px}
-  #h2sim .calc-grid{grid-template-columns:1fr}
-  #h2sim .out-cards{grid-template-columns:repeat(2,1fr)}
-}
+#ix{max-width:880px;margin:0 auto}
+.brhero .wrap{max-width:880px}
 
+.ix-hero{margin:1.4rem 0 .4rem}
+#ix .ix-hero-top{display:flex;align-items:center;justify-content:space-between;gap:1rem;flex-wrap:wrap;margin-bottom:.5rem}
+#ix .ix-pick{display:flex;align-items:center;gap:.5rem;flex:0 0 auto}
+#ix .ix-pick .lab{font-size:.58rem;font-weight:700;letter-spacing:.11em;text-transform:uppercase;color:var(--muted)}
+#ix .ix-pick select{font-family:'Source Serif 4',Georgia,serif;font-size:.92rem;font-weight:500;color:var(--text);background:#fff;border:1px solid var(--border-strong);border-radius:9px;padding:.42rem 1.9rem .42rem .7rem;cursor:pointer;letter-spacing:-.01em;max-width:360px;
+  -webkit-appearance:none;appearance:none;background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'><path d='M2 4l4 4 4-4' stroke='%230c6b4f' stroke-width='1.6' fill='none' stroke-linecap='round'/></svg>");background-repeat:no-repeat;background-position:right .6rem center}
+#ix .ix-pick select:focus{outline:none;border-color:var(--accent)}
+#ix .ix-eyebrow{font-size:.64rem;font-weight:700;letter-spacing:.13em;text-transform:uppercase;color:var(--accent);margin-bottom:0}
+#ix .ix-hero h2{font-family:'Source Serif 4',Georgia,serif;font-weight:500;font-size:2.05rem;line-height:1.04;letter-spacing:-.02em;margin:0;display:inline}
+#ix .ix-geochip{display:inline-block;font-size:.72rem;font-weight:600;color:var(--accent);background:var(--accent-soft);border-radius:999px;padding:.24rem .7rem;margin-left:.6rem;vertical-align:middle;white-space:nowrap}
+#ix .ix-lede{font-size:1.02rem;color:var(--text2);line-height:1.6;margin:.7rem 0 1.05rem}
+#ix .ix-lede b{color:var(--text);font-weight:600}
+#ix .ix-hint{font-size:.74rem;color:var(--muted);margin:0 0 .55rem;display:flex;align-items:center;gap:.4rem}
+#ix .ix-hint::before{content:'';width:7px;height:7px;border-radius:50%;background:var(--accent);flex:0 0 auto}
+
+#ix .sec{padding-top:.6rem;margin-bottom:1.5rem;scroll-margin-top:64px}
+.ix-hero{scroll-margin-top:64px}
+#ix .sec-head{display:flex;align-items:baseline;gap:.7rem;margin:1.7rem 0 .7rem}
+#ix .sec-no{font-family:'Source Serif 4',Georgia,serif;font-size:1.05rem;font-weight:600;color:var(--accent)}
+#ix .sec-head h2{font-family:'Source Serif 4',Georgia,serif;font-weight:500;font-size:1.55rem;line-height:1.1;letter-spacing:-.015em}
+#ix p.body{font-size:.92rem;color:var(--text2);line-height:1.75;margin-bottom:.8rem}
+#ix p.body b{color:var(--text);font-weight:600}
+
+#ix .ix-facts{display:grid;grid-template-columns:repeat(6,1fr);gap:.7rem;margin:1rem 0 .2rem}
+#ix .fact{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:.85rem .9rem}
+#ix .fact .n{font-family:'Source Serif 4',Georgia,serif;font-size:1.4rem;color:var(--accent);font-weight:500;line-height:1}
+#ix .fact .l{font-size:.6rem;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;margin-top:.4rem;font-weight:600}
+#ix .fact .d{font-size:.68rem;color:var(--text2);margin-top:.2rem;line-height:1.4}
+
+#ix .ix-ctrls{display:flex;gap:.65rem;align-items:center;flex-wrap:wrap;margin:.4rem 0 .7rem;background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:.7rem .9rem}
+#ix .ix-ctrls .ctrl{display:flex;align-items:center;gap:.55rem}
+#ix .ix-ctrls label{font-size:.7rem;color:var(--muted);letter-spacing:.04em;text-transform:uppercase;font-weight:600;white-space:nowrap}
+#ix .ix-ctrls input[type=range]{-webkit-appearance:none;appearance:none;height:4px;border-radius:3px;background:var(--border-strong);outline:none}
+#ix .ix-ctrls #ixCap{width:120px}#ix .ix-ctrls #ixAvail{width:90px}
+#ix .ix-ctrls #ixSpread{width:110px;background:var(--border-strong)}
+#ix .ix-ctrls input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;appearance:none;width:16px;height:16px;border-radius:50%;background:#fff;cursor:pointer;border:2px solid var(--accent);box-shadow:0 1px 3px rgba(0,0,0,.25)}
+#ix .ix-ctrls input[type=range]::-moz-range-thumb{width:16px;height:16px;border-radius:50%;background:#fff;cursor:pointer;border:2px solid var(--accent)}
+#ix .ix-ctrls .val{font-size:.8rem;font-weight:600;color:var(--text);min-width:30px}
+#ix .ix-ctrls .as-divider{width:1px;height:24px;background:var(--border)}
+#ix .preset{margin-left:auto;font-family:inherit;font-size:.72rem;font-weight:600;color:#fff;background:var(--accent);border:none;border-radius:8px;padding:.5rem .85rem;cursor:pointer;transition:background .12s}
+#ix .preset:hover{background:#0a5a42}
+#ix .ix-stage{position:relative;border-radius:14px;overflow:hidden;border:1px solid var(--border);box-shadow:0 12px 34px rgba(18,38,32,.08)}
+#ix .ix-stage canvas{display:block;width:100%;aspect-ratio:720/520}
+#ix .ix-readout{display:grid;grid-template-columns:repeat(4,1fr);gap:.7rem;margin-top:.7rem}
+#ix .rocard{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:.8rem .9rem;position:relative;overflow:hidden}
+#ix .rocard::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--accent)}
+#ix .rocard .k{font-size:.6rem;letter-spacing:.05em;text-transform:uppercase;color:var(--muted);font-weight:600;margin-bottom:.3rem}
+#ix .rocard .v{font-family:'Source Serif 4',Georgia,serif;font-size:1.25rem;font-weight:500;line-height:1.05;color:var(--text)}
+#ix .rocard .s{font-size:.66rem;color:var(--text2);margin-top:.25rem;line-height:1.4}
+#ix .try{font-size:.78rem;color:var(--text2);line-height:1.6;margin-top:.7rem;padding:.7rem .9rem;background:var(--accent-soft);border-left:3px solid var(--accent);border-radius:8px}
+#ix .try b{color:var(--text);font-weight:600}
+
+#ix .two{display:grid;grid-template-columns:1fr 1fr;gap:.9rem;margin-top:.4rem}
+#ix .mcard{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:1.05rem 1.2rem}
+#ix .mcard.reg{background:linear-gradient(180deg,var(--accent-soft),var(--surface))}
+#ix .mcard h4{font-size:.95rem;font-weight:600;color:var(--text);margin-bottom:.15rem;letter-spacing:-.01em}
+#ix .mcard .tag{font-size:.64rem;letter-spacing:.05em;text-transform:uppercase;color:var(--muted);font-weight:600;margin-bottom:.6rem}
+#ix .mcard p{font-size:.81rem;color:var(--text2);line-height:1.6}
+#ix .mcard p b{color:var(--text);font-weight:600}
+
+#ix .wf-wrap{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:1.1rem 1.2rem;margin:.2rem 0 .9rem}
+#ix .wf-head{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:.6rem}
+#ix .wf-head .t{font-size:.66rem;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);font-weight:600}
+#ix .wf-head .m{font-size:.74rem;color:var(--text2)}#ix .wf-head .m b{color:var(--text);font-weight:600}
+#ix .wf{width:100%;height:200px}
+#ix .wf-note{font-size:.72rem;color:var(--muted);line-height:1.55;margin-top:.5rem}
+
+#ix .fin-wrap{display:grid;grid-template-columns:1fr 1fr;gap:.9rem}
+#ix .fin-col{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:1.1rem 1.25rem}
+#ix .fin-h{font-size:.66rem;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);font-weight:600;margin-bottom:.95rem}
+#ix .fin-split-lbl{display:flex;justify-content:space-between;font-size:.66rem;color:var(--muted);text-transform:uppercase;letter-spacing:.04em;font-weight:600;margin-bottom:.4rem}
+#ix .fin-split{display:flex;height:30px;border-radius:7px;overflow:hidden;margin-bottom:1.15rem}
+#ix .fin-split .seg{display:flex;align-items:center;padding:0 .65rem;color:#fff;font-size:.72rem;font-weight:600;white-space:nowrap;overflow:hidden}
+#ix .fin-split .s1{background:var(--accent)}#ix .fin-split .s2{background:#2f5fb0}
+#ix .fin-list{list-style:none;margin:0;padding:0}
+#ix .fin-list li{display:flex;justify-content:space-between;gap:1rem;font-size:.8rem;padding:.42rem 0;border-bottom:1px solid var(--border)}
+#ix .fin-list li:last-child{border-bottom:none}
+#ix .fin-list .fl{color:var(--text2)}
+#ix .fin-list .fa{color:var(--text);font-weight:600;font-variant-numeric:tabular-nums;white-space:nowrap}
+#ix .fin-list li.sub .fl{color:var(--muted);padding-left:.7rem;font-size:.76rem}
+#ix .fin-list li.sub .fa{color:var(--text2);font-weight:500}
+#ix .fin-list li.rest .fa{color:var(--muted);font-weight:500;font-style:italic}
+#ix .fin-note{font-size:.74rem;color:var(--text2);line-height:1.6;margin-top:.95rem}
+#ix .fin-note b{color:var(--text);font-weight:600}
+#ix .tl{list-style:none;margin:0;padding:0}
+#ix .tl li{display:grid;grid-template-columns:74px 1fr;gap:.9rem;padding-bottom:1.05rem}
+#ix .tl li:last-child{padding-bottom:0}
+#ix .tl .yr{font-size:.72rem;font-weight:700;color:var(--accent);text-align:right;padding-top:1px;font-variant-numeric:tabular-nums}
+#ix .tl .ev{font-size:.8rem;color:var(--text2);line-height:1.55;border-left:2px solid var(--border-strong);padding-left:1rem;padding-bottom:.2rem;position:relative}
+#ix .tl li:last-child .ev{border-left-color:transparent}
+#ix .tl .ev::before{content:'';position:absolute;left:-6px;top:4px;width:10px;height:10px;border-radius:50%;background:var(--accent);box-shadow:0 0 0 3px var(--accent-soft)}
+#ix .tl .ev b{color:var(--text);font-weight:600}
+
+#ix .calc-note{font-size:.85rem;color:var(--text2);line-height:1.65;margin-bottom:.85rem}#ix .calc-note b{color:var(--text);font-weight:600}
+#ix .calc-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:.9rem;margin-bottom:.9rem}
+#ix .cgroup{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:.9rem 1rem}
+#ix .cgroup h4{font-size:.62rem;letter-spacing:.07em;text-transform:uppercase;color:var(--muted);font-weight:600;margin-bottom:.7rem}
+#ix .cfield{display:flex;align-items:center;justify-content:space-between;gap:.5rem;margin-bottom:.5rem}
+#ix .cfield:last-child{margin-bottom:0}
+#ix .cfield label{font-size:.74rem;color:var(--text);line-height:1.25}
+#ix .cfield .ig{display:flex;align-items:center;gap:.25rem;flex-shrink:0}
+#ix .cfield input{width:62px;font-family:inherit;font-size:.78rem;font-weight:600;text-align:right;color:var(--text);border:1px solid var(--border-strong);border-radius:7px;padding:.28rem .35rem;background:var(--surface-2);font-variant-numeric:tabular-nums}
+#ix .cfield input:focus{outline:none;border-color:var(--accent)}
+#ix .cfield .u{font-size:.7rem;color:var(--muted);width:34px;text-align:left}
+#ix .out-cards{display:grid;grid-template-columns:repeat(4,1fr);gap:.7rem;margin-bottom:.9rem}
+#ix .ocard{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:.85rem .95rem;position:relative;overflow:hidden}
+#ix .ocard::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--muted)}
+#ix .ocard.unlev::before{background:#0c6b4f}#ix .ocard.lev{background:linear-gradient(180deg,var(--accent-soft),var(--surface))}#ix .ocard.lev::before{background:var(--accent)}
+#ix .ocard .k{font-size:.63rem;letter-spacing:.05em;text-transform:uppercase;color:var(--muted);font-weight:600;margin-bottom:.3rem}
+#ix .ocard .v{font-family:'Source Serif 4',Georgia,serif;font-size:1.5rem;font-weight:500;line-height:1;letter-spacing:-.01em}
+#ix .ocard.lev .v{color:var(--accent)}
+#ix .ocard .s{font-size:.7rem;color:var(--text2);margin-top:.3rem}
+#ix .calc-sum{display:flex;flex-wrap:wrap;gap:.45rem 1.4rem;background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:.8rem 1rem;margin-bottom:.9rem;font-size:.74rem;color:var(--text2)}
+#ix .calc-sum span{white-space:nowrap}#ix .calc-sum b{color:var(--text);font-weight:600}#ix .calc-sum .lbl{color:var(--muted)}
+#ix .jwrap{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:.9rem 1rem;margin-bottom:.9rem}
+#ix .jhead{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:.9rem;gap:1rem}
+#ix .jhead .t{font-size:.63rem;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);font-weight:600}
+#ix .jhead .lg{font-size:.68rem;color:var(--text2)}
+#ix .jchart{display:flex;align-items:stretch;gap:2px;height:140px;position:relative;margin-bottom:18px}
+#ix .jaxis{position:absolute;left:0;right:0;top:50%;height:1px;background:var(--border-strong)}
+#ix .jcol{flex:1;position:relative;min-width:0}
+#ix .jbar{position:absolute;left:12%;right:12%;border-radius:3px;min-height:2px}
+#ix .jbar.pos{background:var(--accent);bottom:50%}#ix .jbar.neg{background:var(--cost);top:50%}#ix .jbar.exit{background:#0a5a42}
+#ix .jlbl{position:absolute;bottom:-16px;left:0;right:0;text-align:center;font-size:.58rem;color:var(--muted)}
+#ix .ptable{width:100%;border-collapse:collapse;font-size:.72rem;font-variant-numeric:tabular-nums}
+#ix .ptable th,#ix .ptable td{text-align:right;padding:.32rem .45rem;border-bottom:1px solid var(--border);white-space:nowrap}
+#ix .ptable th{color:var(--muted);font-weight:600;font-size:.61rem;letter-spacing:.03em;text-transform:uppercase}
+#ix .ptable td:first-child,#ix .ptable th:first-child{text-align:left;color:var(--text2)}
+#ix .ptable tr:last-child td{border-bottom:none}
+#ix .tscroll{overflow-x:auto}
+#ix details.more{margin-bottom:.9rem}
+#ix details.more summary{font-size:.74rem;font-weight:600;color:var(--accent);cursor:pointer;padding:.3rem 0}
+
+#ix .breakers{list-style:none;margin:.2rem 0 0;padding:0;display:grid;grid-template-columns:1fr 1fr;gap:.5rem .9rem}
+#ix .breakers li{font-size:.82rem;color:var(--text2);line-height:1.55;padding-left:1rem;position:relative}
+#ix .breakers li::before{content:'';position:absolute;left:0;top:7px;width:6px;height:6px;border-radius:50%;background:var(--accent)}
+#ix .breakers b{color:var(--text);font-weight:600}
+
+#ix .ix-src{font-size:.7rem;color:var(--muted);line-height:1.8;margin-top:1.4rem}
+#ix .ix-src a{color:var(--text2);text-decoration:none;border-bottom:1px solid var(--border-strong)}
+#ix .ix-src a:hover{color:var(--accent)}
+
+@media(max-width:760px){
+  #ix .ix-facts{grid-template-columns:repeat(3,1fr)}
+  #ix .ix-readout{grid-template-columns:repeat(2,1fr)}
+  #ix .two,#ix .fin-wrap,#ix .breakers{grid-template-columns:1fr}
+  #ix .calc-grid{grid-template-columns:1fr}
+  #ix .out-cards{grid-template-columns:repeat(2,1fr)}
+  #ix .ix-hero h2{font-size:1.7rem}
+}
 </style>
 </head>
 <body>
@@ -173,511 +198,194 @@
   </div>
 </nav>
 
-<section class="hero">
+<section class="hero brhero">
   <div class="wrap">
-    <div class="breadcrumb"><a href="index.html">Home</a><span class="sep">/</span><a href="energy-transition.html">Energy Transition</a><span class="sep">/</span>Hydrogen</div>
-    <div class="hero-eyebrow">Energy Transition</div>
+    <div class="breadcrumb"><a href="index.html">Home</a><span class="sep">/</span><a href="energy-transition.html">Energy transition</a><span class="sep">/</span>Hydrogen</div>
+    <div class="hero-eyebrow">Energy transition</div>
     <h1><em>Hydrogen</em></h1>
-    <p class="hero-sub">An interactive model of how electricity, water and hydrogen flow through a green-hydrogen plant — and how utilisation and the power-to-hydrogen spread convert into annual revenue, EBITDA and asset value for an investor.</p>
+    <p class="hero-sub">Green (electrolytic) hydrogen — electrolysers run on renewable power to split water into hydrogen. Not a regulated network but a <b>spread business</b>, and a hard one: the dominant cost is <b>electricity</b>, so the margin is the thin gap between the H2 price and the power needed to make it — an early-stage, often-subsidised, offtake-contracted asset. Pick a real project below and follow it through the development, the model and a working returns model.</p>
   </div>
 </section>
 
-<section class="tools-section">
+<div class="ix-bar">
   <div class="wrap">
-
-    <div class="section-header">
-      <div class="section-label">Interactive model</div>
-      <div class="section-line"></div>
-    </div>
-
-<div id="h2sim">
-
-  <div class="as-head">
-    <div class="as-eyebrow">Energy Transition · Hydrogen</div>
-    <h2>What flows through a hydrogen plant — and how it pays</h2>
-    <p class="as-sub">Electricity and water feed an electrolyser, which splits water into hydrogen; the gas is compressed, stored and dispatched to offtakers. It's a conversion business: the margin is the <b style="color:var(--aero)">spread</b> between the hydrogen price and the electricity cost, and — because the plant is capital-heavy — it only works at high utilisation. Watch power flow in (the cost) and hydrogen flow out (the revenue), and how the spread builds EBITDA and value.</p>
+    <span class="ix-bar-name" id="ixBarName">—</span>
+    <nav class="ix-bar-nav" aria-label="Sections">
+      <a href="#explore" data-step="1">Overview</a>
+      <a href="#story" data-step="2">How it works</a>
+      <a href="#earn" data-step="3">How it earns</a>
+      <a href="#cost" data-step="4">Costs &amp; financing</a>
+      <a href="#returns" data-step="5">Returns</a>
+      <a href="#drivers" data-step="6">What drives it</a>
+    </nav>
   </div>
-
-  <div class="as-ctrls">
-    <div class="ctrl"><label>Load factor</label><input type="range" id="dLF" min="15" max="95" value="50" step="1"><span class="val" id="lfV">50%</span></div>
-    <div class="as-divider"></div>
-    <div class="ctrl"><label>H₂ price</label><input type="range" id="dH2" min="2" max="12" value="6" step="0.5"><span class="val" id="h2V">£6.0</span></div>
-    <div class="as-divider"></div>
-    <div class="ctrl"><label>Power price</label><input type="range" id="dPw" min="20" max="150" value="60" step="5"><span class="val" id="pwV">£60</span></div>
-    <div class="spd">
-      <button class="on" id="b1">1×</button><button id="b2">2×</button><button id="b4">4×</button>
-    </div>
-  </div>
-
-  <div class="as-stage"><canvas id="cv"></canvas></div>
-
-  <div class="as-mini" id="asMini" title="Back to the simulation">
-    <canvas id="cvMini"></canvas><span class="as-mini-tag">LIVE</span>
-  </div>
-
-  <div class="as-legend">
-    <span class="leg"><span class="dot" style="background:#5aa0e6"></span><b>Electricity in</b>&nbsp;the dominant cost</span>
-    <span class="leg"><span class="dot" style="background:var(--aero)"></span><b>Hydrogen out</b>&nbsp;the product (sold per kg)</span>
-    <span class="leg"><span class="dot" style="background:var(--comm)"></span><b>Byproducts £</b>&nbsp;oxygen, heat, grid services</span>
-    <span class="leg"><span class="dot" style="background:var(--cost)"></span><b>Operating cost</b></span>
-  </div>
-
-  <div class="band-label"><span class="t">Flows — annualised from current assumptions</span><span class="ln"></span><span class="hint">per year</span></div>
-  <div class="as-kpis">
-    <div class="kpi k-rev"><div class="k">Revenue p.a.</div><div class="v" id="kRev">£0</div><div class="s"><b id="kRevHr">£0</b> / hr</div></div>
-    <div class="kpi k-eb"><div class="k">EBITDA p.a.</div><div class="v" id="kEb">£0</div><div class="s"><b id="kMargin">0%</b> margin</div></div>
-    <div class="kpi k-yield"><div class="k">Revenue / kg</div><div class="v" id="kYield">£0</div><div class="s">vs power cost / kg</div></div>
-    <div class="kpi k-pax"><div class="k">Production p.a.</div><div class="v" id="kPaxYr">0</div><div class="s"><b id="kThru">50%</b> load factor</div></div>
-  </div>
-
-  <div class="band-label"><span class="t">Stocks — what the flows accumulate into</span><span class="ln"></span><span class="hint">live</span></div>
-  <div class="as-stocks">
-    <div class="stock"><div class="k">H₂ in storage now</div><div class="v" id="sPax">0</div><div class="s">live buffer (tonnes)</div></div>
-    <div class="stock"><div class="k">EBITDA banked · session</div><div class="v" id="sBank">£0</div><div class="s">accumulating in real time</div></div>
-    <div class="stock"><div class="k">Implied enterprise value</div><div class="v" id="sEV">£0</div><div class="s">at <b>10×</b> EBITDA</div></div>
-  </div>
-
-  <div class="as-split">
-    <div class="split-head">
-      <span class="t">Where revenue comes from</span>
-      <span class="tot">Total <b id="splitTot">£0</b> p.a.</span>
-    </div>
-    <div class="split-bar">
-      <div class="split-seg seg-aero" id="segAero">Hydrogen</div>
-      <div class="split-seg seg-comm" id="segComm">Byproducts</div>
-    </div>
-    <div class="split-foot"><b>Why investors watch this:</b> hydrogen is an energy-conversion business — electricity is ~60% of the cost, so EBITDA is the spread between the hydrogen price (typically underpinned by an offtake or subsidy contract) and the power price, and it swings hard with utilisation against a capital-heavy fixed-cost base (there is a clear breakeven). Byproducts — oxygen, recovered heat and grid flexibility — add a higher-margin layer.</div>
-  </div>
-
-  <div class="as-panels">
-    <div class="panel"><div class="ptitle">Revenue streams<span class="pt-sum" id="revSum">£0 p.a.</span></div><div id="revRows"></div></div>
-    <div class="panel"><div class="ptitle">Operating costs<span class="pt-sum" id="costSum">£0 p.a.</span></div><div id="costRows"></div></div>
-  </div>
-
-  <div class="band-label"><span class="t">Investment case — should you buy it?</span><span class="ln"></span><span class="hint">DCF returns</span></div>
-  <p class="calc-note">Year-1 financials flow live from the simulation above: revenue <b id="cBaseRev">£0</b> and EBITDA <b id="cBaseEb">£0</b> p.a. Set your deal terms below — the <b style="color:var(--aero)">unlevered IRR</b> (asset return) and <b style="color:var(--accent)">levered IRR</b> (return to equity, after debt) recompute instantly.</p>
-
-  <div class="calc-grid">
-    <div class="cgroup"><h4>Operating</h4>
-      <div class="cfield"><label>Revenue growth p.a.</label><span class="ig"><input id="iRevG" type="number" value="3" step="0.5"><span class="u">%</span></span></div>
-      <div class="cfield"><label>OpEx vs base</label><span class="ig"><input id="iOpex" type="number" value="100" step="1"><span class="u">%</span></span></div>
-      <div class="cfield"><label>Cost inflation p.a.</label><span class="ig"><input id="iCostG" type="number" value="3" step="0.5"><span class="u">%</span></span></div>
-      <div class="cfield"><label>Maintenance capex</label><span class="ig"><input id="iCapex" type="number" value="9" step="1"><span class="u">%</span></span></div>
-      <div class="cfield"><label>Depreciation</label><span class="ig"><input id="iDA" type="number" value="10" step="1"><span class="u">%</span></span></div>
-      <div class="cfield"><label>Tax rate</label><span class="ig"><input id="iTax" type="number" value="25" step="1"><span class="u">%</span></span></div>
-    </div>
-    <div class="cgroup"><h4>Valuation &amp; hold</h4>
-      <div class="cfield"><label>Entry EV / EBITDA</label><span class="ig"><input id="iEntry" type="number" value="10" step="0.5"><span class="u">×</span></span></div>
-      <div class="cfield"><label>Exit EV / EBITDA</label><span class="ig"><input id="iExit" type="number" value="9" step="0.5"><span class="u">×</span></span></div>
-      <div class="cfield"><label>Hold period</label><span class="ig"><input id="iHold" type="number" value="8" step="1" min="3" max="25"><span class="u">y</span></span></div>
-    </div>
-    <div class="cgroup"><h4>Financing</h4>
-      <div class="cfield"><label>Leverage (Net&nbsp;debt&nbsp;/&nbsp;EBITDA)</label><span class="ig"><input id="iLev" type="number" value="4" step="0.5"><span class="u">×</span></span></div>
-      <div class="cfield"><label>Cost of debt</label><span class="ig"><input id="iRd" type="number" value="7" step="0.25"><span class="u">%</span></span></div>
-      <div class="cfield"><label>Debt amortisation p.a.</label><span class="ig"><input id="iAmort" type="number" value="0" step="1"><span class="u">%</span></span></div>
-    </div>
-  </div>
-
-  <div class="out-cards">
-    <div class="ocard unlev"><div class="k">Unlevered IRR</div><div class="v" id="oUIRR">—</div><div class="s">asset / project return</div></div>
-    <div class="ocard lev"><div class="k">Levered IRR</div><div class="v" id="oLIRR">—</div><div class="s">return to equity</div></div>
-    <div class="ocard"><div class="k">Equity multiple</div><div class="v" id="oMOIC">—</div><div class="s">MOIC over hold</div></div>
-    <div class="ocard"><div class="k">Equity gain</div><div class="v" id="oProfit">—</div><div class="s">exit equity − invested</div></div>
-  </div>
-
-  <div class="calc-sum" id="calcSum"></div>
-
-  <div class="jwrap">
-    <div class="jhead"><span class="t">Equity cash-flow profile</span><span class="lg" id="jLeg">£m · <span style="color:var(--cost)">■</span> invested &nbsp; <span style="color:var(--accent)">■</span> returned</span></div>
-    <div class="jchart" id="jchart"><div class="jaxis"></div></div>
-  </div>
-
-  <div class="jwrap tscroll">
-    <div class="jhead"><span class="t">Projection — £m per year</span></div>
-    <table class="ptable"><thead id="ptHead"></thead><tbody id="ptBody"></tbody></table>
-  </div>
-
-  <p class="as-foot"><b>Illustrative model.</b> Represents a ~100 MW electrolyser at ~50 kWh/kg, operating 24×365. Revenue = hydrogen produced × price (in practice underpinned by an offtake or subsidy contract such as the Hydrogen Production Business Model) plus byproducts (oxygen, recovered heat, grid flexibility). Electricity is the dominant variable cost and scales with running, while stack, labour and connection costs are largely fixed — hence the utilisation and power-to-hydrogen spread sensitivity (it can be loss-making). EBITDA = revenue − operating costs. The investment case is a simplified DCF: unlevered IRR discounts free cash flow to the firm (EBITDA − cash tax − capex) plus an exit on the EV/EBITDA multiple; levered IRR is the equity cash flow after debt. For illustration only — not investment advice, and not any specific asset.</p>
-
 </div>
 
-<script>
-(function(){
-const cv=document.getElementById('cv'); const ctx=cv.getContext('2d');
-const W=720,H=360; const DPR=Math.max(2,Math.min(3,window.devicePixelRatio||1));
-cv.width=W*DPR; cv.height=H*DPR; ctx.setTransform(DPR,0,0,DPR,0,0);
+<section class="tools-section" id="ix">
+  <div class="wrap">
 
-const HRS_PER_YR=8760, EV_MULT=10, CAP_MW=100, EFF=50, LF0=0.5, ANC=0.4;  // kWh/kg, base load factor, byproduct £/kg
-const C={aero:'#37c08e', comm:'#e6b35a', pow:'#5aa0e6', cost:'#ef8166'};
-const EC='rgba(95,170,235,0.95)';     // electricity in
-const HC='rgba(120,230,170,0.95)';    // hydrogen out
+    <!-- OVERVIEW / live asset -->
+    <div class="ix-hero" id="explore">
+      <div class="ix-hero-top">
+        <div class="ix-eyebrow">In focus · <span id="ixCont">—</span></div>
+        <div class="ix-pick">
+          <span class="lab">Example</span>
+          <select id="ixSelect" aria-label="Choose a worked example">
+            <option value="euroh2">European electrolyser · Germany / Netherlands</option>
+            <option value="gulfh2">US Gulf Coast green H2 · USA</option>
+            <option value="atacama">HIF / Atacama · Chile</option>
+            <option value="murchison">Murchison / CWP · Australia</option>
+            <option value="neom">NEOM Green Hydrogen · Saudi Arabia</option>
+            <option value="chinah2">Chinese green hydrogen · China</option>
+          </select>
+        </div>
+      </div>
+      <div><h2 id="ixAssetName">—</h2><span class="ix-geochip" id="ixAssetGeo">—</span></div>
+      <p class="ix-lede" id="ixLede">—</p>
+      <p class="ix-hint">Drag the sliders to see what earns the money — the electrolyser size, the H2 price and the load factor (renewable availability) — and watch the power cost, the dominant line, drain the spread.</p>
 
-// Two tills: hydrogen sales (the product) vs byproducts & services (higher margin)
-const STREAMS=[
-  {name:'Industrial offtake', tag:'H₂',aero:true, base:5000},
-  {name:'Mobility / refuel',  tag:'H₂',aero:true, base:1500},
-  {name:'Blending / export',  tag:'H₂',aero:true, base:800},
-  {name:'Oxygen sales',       tag:'Byprod',aero:false,base:200},
-  {name:'Heat recovery',      tag:'Byprod',aero:false,base:150},
-  {name:'Grid flexibility',   tag:'Byprod',aero:false,base:250},
-];
-const COSTS=[
-  {item:'Electricity (power)',tag:'Var', cls:'var', base:3000},   // overridden = MW×LF×powerPrice
-  {item:'Water & treatment',  tag:'Var', cls:'var', base:60},
-  {item:'Stack O&M & replace',tag:'Semi',cls:'semi',base:700},
-  {item:'Compression & storage',tag:'Semi',cls:'semi',base:300},
-  {item:'Labour & operations',tag:'Semi',cls:'semi',base:500},
-  {item:'Grid & network',     tag:'Fixed',cls:'fix',base:350},
-  {item:'Insurance & admin',  tag:'Fixed',cls:'fix',base:280},
-  {item:'Business rates',     tag:'Fixed',cls:'fix',base:110},
-];
-let rSmooth=STREAMS.map(s=>s.base), cSmooth=COSTS.map(c=>c.base);
-const H2_SUM=STREAMS.filter(s=>s.aero).reduce((a,s)=>a+s.base,0);
-const BY_SUM=STREAMS.filter(s=>!s.aero).reduce((a,s)=>a+s.base,0);
+      <div class="ix-ctrls">
+        <div class="ctrl"><label>Electrolyser</label><input type="range" id="ixCap" min="50" max="600" value="200" step="10"><span class="val" id="ixCapV">200 MW</span></div>
+        <div class="as-divider"></div>
+        <div class="ctrl"><label id="ixDriverLab">H2 price</label><input type="range" id="ixSpread" min="3" max="11" value="6" step="0.25"><span class="val" id="ixSpreadV">—</span></div>
+        <div class="as-divider"></div>
+        <div class="ctrl"><label id="ixAvailLab">Load factor</label><input type="range" id="ixAvail" min="25" max="60" value="42" step="1"><span class="val" id="ixAvailV">—</span></div>
+        <button class="preset" id="ixPreset">Reset to base case</button>
+      </div>
 
-function money(v){ const neg=v<0; v=Math.abs(v); let o;
-  if(v>=1e9) o=(v/1e9).toFixed(2)+'bn'; else if(v>=1e8) o=(v/1e6).toFixed(0)+'m';
-  else if(v>=1e6) o=(v/1e6).toFixed(1)+'m'; else if(v>=1e3) o=(v/1e3).toFixed(0)+'k';
-  else o=Math.round(v).toString(); return (neg?'-£':'£')+o; }
-function m1(v){ return (v/1e6).toFixed(1); }
+      <div class="ix-stage"><canvas id="ixcv"></canvas></div>
+      <div class="ix-readout">
+        <div class="rocard"><div class="k">Electrolyser</div><div class="v" id="ixDir">—</div><div class="s" id="ixDirS">—</div></div>
+        <div class="rocard"><div class="k">H2 output</div><div class="v" id="ixMW">—</div><div class="s" id="ixMWs">—</div></div>
+        <div class="rocard"><div class="k" id="ixHrK">Hydrogen revenue</div><div class="v" id="ixHr">—</div><div class="s">H2 sales + subsidy p.a.</div></div>
+        <div class="rocard"><div class="k">EBITDA p.a.</div><div class="v" id="ixYr">—</div><div class="s" id="ixYrS">—</div></div>
+      </div>
 
-function buildRows(){
-  const re=document.getElementById('revRows'); re.innerHTML='';
-  STREAMS.forEach((s,i)=>{ const col=s.aero?'var(--aero)':'var(--comm)'; const tc=s.aero?'aero':'comm';
-    re.innerHTML+=`<div class="row"><span class="r-lbl">${s.name}</span><span class="r-tag ${tc}">${s.tag}</span><span class="bwrap"><span class="bfill" id="rb${i}" style="background:${col};width:50%"></span></span><span class="r-amt" id="ra${i}">£0</span></div>`; });
-  const ce=document.getElementById('costRows'); ce.innerHTML='';
-  COSTS.forEach((c,i)=>{ ce.innerHTML+=`<div class="row"><span class="r-lbl">${c.item}</span><span class="r-tag ${c.cls}">${c.tag}</span><span class="bwrap"><span class="bfill" id="cb${i}" style="background:var(--cost);width:50%"></span></span><span class="r-amt" id="ca${i}">£0</span></div>`; });
-}
-buildRows();
+      <div class="ix-facts" id="ixFacts"></div>
+      <p class="try" id="ixTry"></p>
+    </div>
 
-let simSpd=1;
-['b1','b2','b4'].forEach(id=>{ document.getElementById(id).onclick=()=>{ simSpd=parseInt(id.slice(1));
-  ['b1','b2','b4'].forEach(i=>document.getElementById(i).classList.toggle('on',i===id)); }; });
-const dLF=document.getElementById('dLF'), dH2=document.getElementById('dH2'), dPw=document.getElementById('dPw');
-function pulse(){ document.querySelectorAll('#h2sim .kpi,#h2sim .stock').forEach(e=>{ e.classList.remove('pulse'); void e.offsetWidth; e.classList.add('pulse'); }); }
-dLF.oninput=()=>{ document.getElementById('lfV').textContent=dLF.value+'%'; pulse(); };
-dH2.oninput=()=>{ document.getElementById('h2V').textContent='£'+parseFloat(dH2.value).toFixed(1); pulse(); };
-dPw.oninput=()=>{ document.getElementById('pwV').textContent='£'+dPw.value; pulse(); };
+    <!-- 1 · what it is & how it works -->
+    <div class="sec" id="story">
+      <div class="sec-head"><span class="sec-no">01</span><h2>What it is &amp; how it works</h2></div>
+      <div id="s1body"></div>
+      <p class="body" id="s2intro"></p>
+    </div>
 
-// ---------- investment calculator (DCF / LBO) ----------
-function gv(id){ const v=parseFloat(document.getElementById(id).value); return isFinite(v)?v:0; }
-function irr(cf){ const f=r=>cf.reduce((s,c,i)=>s+c/Math.pow(1+r,i),0);
-  let lo=-0.95,hi=3,flo=f(lo),fhi=f(hi);
-  if(!isFinite(flo)||!isFinite(fhi)||flo*fhi>0) return NaN;
-  for(let k=0;k<140;k++){ const mid=(lo+hi)/2,fm=f(mid); if(flo*fm<=0){hi=mid;}else{lo=mid;flo=fm;} }
-  return (lo+hi)/2; }
-function computeModel(){
-  const rev0=baseRevYr, ebBase=rev0-baseCostYr;
-  const cost0=baseCostYr*(gv('iOpex')/100), eb0=rev0-cost0;
-  if(ebBase<=0 || eb0<=0 || rev0<=0 || ebBase/rev0<0.05) return null;
-  const gR=gv('iRevG')/100, gC=gv('iCostG')/100, capexP=gv('iCapex')/100, daP=gv('iDA')/100, tax=gv('iTax')/100;
-  const eMul=gv('iEntry'), xMul=gv('iExit'), N=Math.max(3,Math.min(25,Math.round(gv('iHold'))));
-  const lev=gv('iLev'), rd=gv('iRd')/100, amort=gv('iAmort')/100;
-  const entryEV=eMul*ebBase;
-  const debt0=Math.max(0,Math.min(lev*ebBase, entryEV*0.95));
-  const equity0=entryEV-debt0;
-  const rows=[], uCF=[-entryEV], eCF=[-equity0];
-  let debtBal=debt0; const amortAmt=amort*debt0;
-  for(let t=1;t<=N;t++){
-    const rev=rev0*Math.pow(1+gR,t), cost=cost0*Math.pow(1+gC,t), eb=rev-cost;
-    const capex=capexP*rev, da=daP*rev, ebit=eb-da;
-    const fcff=eb-tax*Math.max(0,ebit)-capex;
-    const interest=rd*debtBal, princ=Math.min(amortAmt,debtBal);
-    const ebt=ebit-interest, fcfe=eb-tax*Math.max(0,ebt)-capex-interest-princ;
-    debtBal=Math.max(0,debtBal-princ);
-    let uAdd=fcff, eAdd=fcfe;
-    if(t===N){ const exitEV=xMul*eb; uAdd+=exitEV; eAdd+=(exitEV-debtBal); }
-    uCF.push(uAdd); eCF.push(eAdd);
-    rows.push({t,rev,eb,capex,fcff,debt:debtBal,fcfe});
-  }
-  const exitEV=xMul*rows[N-1].eb, exitEq=exitEV-rows[N-1].debt;
-  const distrib=eCF.slice(1).reduce((a,b)=>a+b,0);
-  const moic=equity0>0?distrib/equity0:NaN;
-  return {eb0,entryEV,debt0,equity0,N,rows,uCF,eCF,uIRR:irr(uCF),lIRR:irr(eCF),exitEV,exitEq,moic,profit:distrib-equity0};
-}
-function pctTxt(x){ return isFinite(x)?(x*100).toFixed(1)+'%':'—'; }
-function renderModel(){
-  document.getElementById('cBaseRev').textContent=money(baseRevYr);
-  document.getElementById('cBaseEb').textContent=money(baseEbYr);
-  const m=computeModel();
-  const set=(id,t)=>{ const e=document.getElementById(id); if(e) e.textContent=t; };
-  if(!m){ ['oUIRR','oLIRR','oMOIC','oProfit'].forEach(id=>set(id,'—')); document.getElementById('calcSum').innerHTML='<span class="lbl">At this spread / utilisation the EBITDA is too thin to value on a multiple — raise the hydrogen price or load factor, or cut the power price.</span>'; return; }
-  set('oUIRR',pctTxt(m.uIRR)); set('oLIRR',pctTxt(m.lIRR));
-  set('oMOIC',isFinite(m.moic)?m.moic.toFixed(2)+'×':'—');
-  set('oProfit',money(m.profit));
-  const ltv=Math.round(m.debt0/m.entryEV*100);
-  document.getElementById('calcSum').innerHTML=
-    `<span><span class="lbl">Entry EV</span> <b>${money(m.entryEV)}</b></span>`+
-    `<span><span class="lbl">Debt</span> <b>${money(m.debt0)}</b> (${ltv}% LTV)</span>`+
-    `<span><span class="lbl">Equity in</span> <b>${money(m.equity0)}</b></span>`+
-    `<span><span class="lbl">Exit EV</span> <b>${money(m.exitEV)}</b></span>`+
-    `<span><span class="lbl">Exit equity</span> <b>${money(m.exitEq)}</b></span>`;
-  const maxAbs=Math.max(...m.eCF.map(Math.abs),1), step=m.N>12?2:1;
-  let ch='<div class="jaxis"></div>';
-  m.eCF.forEach((cf,i)=>{ const hh=Math.max(2,Math.abs(cf)/maxAbs*58);
-    const cls=cf>=0?(i===m.N?'pos exit':'pos'):'neg';
-    ch+=`<div class="jcol"><div class="jbar ${cls}" style="height:${hh}px" title="Year ${i}: ${money(cf)}"></div><span class="jlbl">${i%step===0?i:''}</span></div>`; });
-  document.getElementById('jchart').innerHTML=ch;
-  document.getElementById('ptHead').innerHTML='<tr><th>Year</th><th>Revenue</th><th>EBITDA</th><th>Capex</th><th>Unlev. FCF</th><th>Net debt</th><th>Equity FCF</th></tr>';
-  document.getElementById('ptBody').innerHTML=m.rows.map(r=>
-    `<tr><td>${r.t}</td><td>${m1(r.rev)}</td><td>${m1(r.eb)}</td><td>${m1(r.capex)}</td><td>${m1(r.fcff)}</td><td>${m1(r.debt)}</td><td>${m1(r.fcfe)}</td></tr>`).join('');
-}
-['iRevG','iOpex','iCostG','iCapex','iDA','iTax','iEntry','iExit','iHold','iLev','iRd','iAmort']
-  .forEach(id=>document.getElementById(id).addEventListener('input',renderModel));
+    <!-- 2 · how it earns -->
+    <div class="sec" id="earn">
+      <div class="sec-head"><span class="sec-no">02</span><h2>How it earns</h2></div>
+      <p class="body" id="s3intro"></p>
+      <div class="two">
+        <div class="mcard">
+          <div class="tag">Model A · the hydrogen spread (power cost is everything)</div>
+          <h4>A thin spread between the H2 price and the power cost</h4>
+          <p>Green hydrogen is a <b>spread</b> business — and an unusually hard one. An electrolyser turns electricity and water into hydrogen, and the engine is the gap between the <b>H2 sale price</b> and the cost of the <b style="color:#bc4733">electricity</b> it consumes (~55&nbsp;kWh per kg). Power is the <b>dominant cost</b> — typically most of the cost base — so the margin is <b>thin and acutely power-cost-sensitive</b>, lower than wind or solar. At a low H2 price or a high power price the <b>spread collapses</b> and EBITDA turns negative. That is why green H2 leans on a stack of support: <b>capital grants</b> (IPCEI), <b>production credits</b> (the IRA 45V PTC), and a <b style="color:#0c6b4f">contracted offtake floor</b> (H2Global-style). The projects that work pair all of this with the cheapest possible renewable power — which is why MENA, Chile and Australia lead, and Europe leans hardest on subsidy.</p>
+        </div>
+        <div class="mcard reg" id="mcardB">
+          <div class="tag" id="mbTag">—</div>
+          <h4 id="mbTitle">—</h4>
+          <p id="mbBody">—</p>
+        </div>
+      </div>
+    </div>
 
-// ---------- scene geometry ----------
-const SKY=64, GRID={x:36,y:88}, ELX={x:150,y:150,w:150,h:104}, COMP={x:322,y:204}, TANKS=[372,412,452], TANKY=178, TANKH=72, OFF={x:624,y:150};
-const ROAD_Y=312;
-const CELLX=[170,200,230,260];
+    <!-- 3 · costs & financing -->
+    <div class="sec" id="cost">
+      <div class="sec-head"><span class="sec-no">03</span><h2>What it costs, and how it's financed</h2></div>
+      <p class="body" id="s4intro1"></p>
 
-// ---------- entities ----------
-const trucks=[], moneys=[];
-let T=0,cumEB=0,cTick=0,outNow=0,storeT=8,truckT=0,oamT=0,powCashT=0,h2CashT=0,visProd=0.5,visConShare=0.9,merWob=1;
-let baseRevYr=0,baseCostYr=0,baseEbYr=0;
-function rnd(a,b){return a+Math.random()*(b-a);} function lerp(a,b,t){return a+(b-a)*t;}
+      <div class="wf-wrap">
+        <div class="wf-head"><span class="t">Revenue → operating costs → EBITDA</span><span class="m">Margin <b id="wfMargin">—</b></span></div>
+        <svg class="wf" id="ixWaterfall" viewBox="0 0 600 200" preserveAspectRatio="xMidYMid meet" role="img" aria-label="EBITDA bridge"></svg>
+        <p class="wf-note" id="wfNote"></p>
+      </div>
 
-function light(x,y,r,col,a){ ctx.save(); ctx.globalAlpha=a;
-  const g=ctx.createRadialGradient(x,y,0,x,y,r); g.addColorStop(0,col); g.addColorStop(1,'rgba(0,0,0,0)');
-  ctx.fillStyle=g; ctx.beginPath(); ctx.arc(x,y,r,0,Math.PI*2); ctx.fill(); ctx.restore(); }
-function flowDots(ax,ay,bx,by,n,speed,phase,fn){
-  for(let k=0;k<n;k++){ const u=((T*speed+k/n+phase)%1); const x=lerp(ax,bx,u),y=lerp(ay,by,u); const o=fn(k,n,u); light(x,y,o.r,o.c,0.6); }
-}
+      <p class="body" id="s4intro2"></p>
+      <div class="fin-wrap">
+        <div class="fin-col">
+          <div class="fin-h" id="finStackH">The capital · electrolysers + BoP</div>
+          <div class="fin-split-lbl"><span id="finSplitL">Financing</span><span id="finSplitR">allocation</span></div>
+          <div class="fin-split" id="finSplit"></div>
+          <ul class="fin-list" id="finList"></ul>
+          <p class="fin-note" id="finNote"></p>
+        </div>
+        <div class="fin-col">
+          <div class="fin-h">History &amp; framework · key milestones</div>
+          <ol class="tl" id="finTimeline"></ol>
+        </div>
+      </div>
+    </div>
 
-function drawScene(){
-  const sky=ctx.createLinearGradient(0,0,0,SKY); sky.addColorStop(0,'#101a30'); sky.addColorStop(1,'#2a3550');
-  ctx.fillStyle=sky; ctx.fillRect(0,0,W,SKY);
-  for(let i=0;i<34;i++){ const sx=(i*121+11)%W, sy=(i*37+5)%SKY; ctx.globalAlpha=0.3+0.45*Math.sin(T*0.02+i); ctx.fillStyle='rgba(255,255,255,0.5)'; ctx.fillRect(sx,sy,1,1); ctx.globalAlpha=1; }
-  // ground / plant yard
-  const g=ctx.createLinearGradient(0,SKY,0,H); g.addColorStop(0,'#222a33'); g.addColorStop(1,'#171d25');
-  ctx.fillStyle=g; ctx.fillRect(0,SKY,W,H-SKY);
-  ctx.fillStyle='#262d37'; ctx.fillRect(0,140,W,ROAD_Y-140);
-  // power source (left): substation + pylon + renewable hint
-  ctx.strokeStyle='#4a5868'; ctx.lineWidth=2; ctx.beginPath(); ctx.moveTo(GRID.x+8,40); ctx.lineTo(GRID.x+8,GRID.y); ctx.stroke();
-  ctx.beginPath(); ctx.moveTo(GRID.x,50); ctx.lineTo(GRID.x+16,50); ctx.moveTo(GRID.x-2,58); ctx.lineTo(GRID.x+18,58); ctx.stroke();
-  ctx.fillStyle='#2c3a45'; ctx.beginPath(); ctx.roundRect(GRID.x-10,GRID.y,40,36,3); ctx.fill();
-  ctx.strokeStyle='rgba(90,160,230,0.5)'; ctx.lineWidth=0.7; ctx.strokeRect(GRID.x-10,GRID.y,40,36);
-  ctx.fillStyle='#5aa0e6'; ctx.font='700 6px Inter,sans-serif'; ctx.textAlign='center'; ctx.fillText('POWER',GRID.x+10,GRID.y+22);
-  // road (dispatch)
-  const road=ctx.createLinearGradient(0,ROAD_Y-14,0,H); road.addColorStop(0,'#23262c'); road.addColorStop(1,'#191b20');
-  ctx.fillStyle=road; ctx.fillRect(0,ROAD_Y-14,W,H-(ROAD_Y-14));
-  ctx.fillStyle='rgba(245,210,90,0.5)'; for(let x=0;x<W;x+=52) ctx.fillRect(x,ROAD_Y-1,28,2.4);
-  // offtaker (right): factory
-  ctx.fillStyle='#26303a'; ctx.fillRect(OFF.x,OFF.y,72,60);
-  ctx.fillStyle='#1f2731'; ctx.fillRect(OFF.x+8,OFF.y-14,12,16); ctx.fillRect(OFF.x+28,OFF.y-20,12,22);
-  ctx.fillStyle='rgba(150,185,220,0.7)'; ctx.font='700 7px Inter,sans-serif'; ctx.textAlign='center'; ctx.fillText('OFFTAKER',OFF.x+36,OFF.y+72);
-}
+    <!-- 4 · cash flows & returns -->
+    <div class="sec" id="returns">
+      <div class="sec-head"><span class="sec-no">04</span><h2>Cash flows &amp; returns</h2></div>
+      <p class="calc-note" id="calcNote"></p>
 
-function drawElectrolyser(){
-  const e=ELX;
-  ctx.fillStyle='#2b333d'; ctx.beginPath(); ctx.roundRect(e.x,e.y,e.w,e.h,5); ctx.fill();
-  ctx.strokeStyle='rgba(120,160,200,0.4)'; ctx.lineWidth=0.7; ctx.strokeRect(e.x,e.y,e.w,e.h);
-  ctx.fillStyle='rgba(180,200,220,0.85)'; ctx.font='700 8px Inter,sans-serif'; ctx.textAlign='center'; ctx.fillText('ELECTROLYSER',e.x+e.w/2,e.y-5);
-  // cells with rising H2 bubbles (rate tracks production)
-  const cellTop=e.y+12, cellBot=e.y+e.h-10, ch=cellBot-cellTop;
-  CELLX.forEach((cx,ci)=>{
-    ctx.fillStyle='#1c2530'; ctx.fillRect(cx-8,cellTop,16,ch);
-    ctx.strokeStyle='rgba(90,160,230,0.4)'; ctx.lineWidth=0.6; ctx.strokeRect(cx-8,cellTop,16,ch);
-    const nb=Math.max(0,Math.round(visProd*6));
-    for(let k=0;k<nb;k++){ const u=((T*0.02+k/nb+ci*0.17)%1); const y=cellBot-u*ch;
-      ctx.fillStyle='rgba(150,235,190,'+(0.6*(1-u))+')'; ctx.beginPath(); ctx.arc(cx+rnd(-4,4),y,1.4,0,Math.PI*2); ctx.fill(); }
-  });
-  // water tank (feed)
-  ctx.fillStyle='#244055'; ctx.beginPath(); ctx.roundRect(e.x-22,e.y+44,16,40,3); ctx.fill();
-  ctx.fillStyle='rgba(90,170,235,0.5)'; ctx.fillRect(e.x-20,e.y+62,12,20);
-  ctx.fillStyle='rgba(120,160,200,0.7)'; ctx.font='6px Inter,sans-serif'; ctx.fillText('H₂O',e.x-14,e.y+42);
-}
+      <div class="calc-grid">
+        <div class="cgroup"><h4>Build &amp; subsidy</h4>
+          <div class="cfield"><label>Capex per MW total build</label><span class="ig"><input id="iBuild" type="number" value="420" step="10"><span class="u" id="uBuild">m</span></span></div>
+          <div class="cfield"><label>Capital subsidy / grant</label><span class="ig"><input id="iGrant" type="number" value="120" step="10"><span class="u" id="uGrant">m</span></span></div>
+          <div class="cfield"><label>Maintenance capex</label><span class="ig"><input id="iCapex" type="number" value="9" step="0.5"><span class="u">%</span></span></div>
+          <div class="cfield"><label>Price / cost change p.a.</label><span class="ig"><input id="iRevG" type="number" value="2" step="0.5"><span class="u">%</span></span></div>
+        </div>
+        <div class="cgroup"><h4>Offtake &amp; tax</h4>
+          <div class="cfield"><label>Contracted floor (offtake / PTC)</label><span class="ig"><input id="iFloor" type="number" value="50" step="5"><span class="u" id="uFloor">m</span></span></div>
+          <div class="cfield"><label>Revenue cap</label><span class="ig"><input id="iCap" type="number" value="600" step="10"><span class="u" id="uCap">m</span></span></div>
+          <div class="cfield"><label>Tax rate</label><span class="ig"><input id="iTax" type="number" value="25" step="1"><span class="u">%</span></span></div>
+          <div class="cfield"><label>Exit EV / EBITDA</label><span class="ig"><input id="iExit" type="number" value="10" step="0.5"><span class="u">×</span></span></div>
+        </div>
+        <div class="cgroup"><h4>Financing &amp; hold</h4>
+          <div class="cfield"><label>Leverage (Net&nbsp;debt&nbsp;/&nbsp;EBITDA)</label><span class="ig"><input id="iLev" type="number" value="4" step="0.5"><span class="u">×</span></span></div>
+          <div class="cfield"><label>Cost of debt</label><span class="ig"><input id="iRd" type="number" value="5.5" step="0.25"><span class="u">%</span></span></div>
+          <div class="cfield"><label>Debt amortisation p.a.</label><span class="ig"><input id="iAmort" type="number" value="2" step="1"><span class="u">%</span></span></div>
+          <div class="cfield"><label>Hold period</label><span class="ig"><input id="iHold" type="number" value="20" step="1" min="3" max="40"><span class="u">y</span></span></div>
+        </div>
+      </div>
 
-function drawCompTanks(){
-  // compressor
-  ctx.fillStyle='#33414e'; ctx.beginPath(); ctx.roundRect(COMP.x,COMP.y,24,30,3); ctx.fill();
-  ctx.fillStyle='#586878'; ctx.beginPath(); ctx.arc(COMP.x+12,COMP.y+14,6,0,Math.PI*2); ctx.fill();
-  ctx.fillStyle='rgba(150,185,220,0.7)'; ctx.font='6px Inter,sans-serif'; ctx.textAlign='center'; ctx.fillText('COMP',COMP.x+12,COMP.y-3);
-  // storage tanks (fill tracks storage level)
-  const fillF=Math.max(0.05,Math.min(1,storeT/40));
-  TANKS.forEach(tx=>{
-    ctx.fillStyle='#222b36'; ctx.beginPath(); ctx.roundRect(tx-13,TANKY,26,TANKH,8); ctx.fill();
-    ctx.fillStyle='rgba(55,200,140,0.45)'; const fh=(TANKH-6)*fillF; ctx.beginPath(); ctx.roundRect(tx-11,TANKY+TANKH-3-fh,22,fh,6); ctx.fill();
-    ctx.strokeStyle='rgba(120,200,160,0.5)'; ctx.lineWidth=0.7; ctx.strokeRect(tx-13,TANKY,26,TANKH);
-  });
-  ctx.fillStyle='rgba(120,200,160,0.8)'; ctx.font='700 7px Inter,sans-serif'; ctx.textAlign='center'; ctx.fillText('H₂ STORAGE',TANKS[1],TANKY-5);
-}
+      <div class="out-cards">
+        <div class="ocard unlev"><div class="k">Unlevered IRR</div><div class="v" id="oUIRR">—</div><div class="s">asset / project return</div></div>
+        <div class="ocard lev"><div class="k">Levered IRR</div><div class="v" id="oLIRR">—</div><div class="s">return to equity</div></div>
+        <div class="ocard"><div class="k">Equity multiple</div><div class="v" id="oMOIC">—</div><div class="s">MOIC over hold</div></div>
+        <div class="ocard"><div class="k">Payback</div><div class="v" id="oPB">—</div><div class="s">project, undiscounted</div></div>
+      </div>
 
-function drawTruck(v){
-  const w=34,h=12;
-  ctx.save(); ctx.globalAlpha=0.3; ctx.fillStyle='#000'; ctx.beginPath(); ctx.ellipse(v.x,v.y+h/2+2,w/2,3,0,0,Math.PI*2); ctx.fill(); ctx.restore();
-  ctx.save(); ctx.translate(v.x,v.y);
-  ctx.fillStyle='#37506e'; ctx.fillRect(w/2-8,-h/2,8,h);                 // cab
-  ctx.fillStyle='#cfd6de'; ctx.fillRect(-w/2,-h/2+1,w-8,h-2);            // tube-trailer body
-  ctx.fillStyle='#9aa6b4'; for(let i=0;i<3;i++) ctx.fillRect(-w/2+2,-h/2+2+i*3,w-12,2); // tubes
-  ctx.fillStyle='#111'; ctx.fillRect(-w/2+3,h/2-1,4,3); ctx.fillRect(w/2-11,h/2-1,4,3);
-  ctx.restore();
-  light(v.x+w/2+2,v.y,6,'rgba(255,240,190,0.8)',0.45);
-}
+      <div class="calc-sum" id="calcSum"></div>
 
-function drawFlows(){
-  // electricity IN: power source -> electrolyser (blue), density tracks load factor
-  ctx.strokeStyle='rgba(95,170,235,0.18)'; ctx.lineWidth=2; ctx.beginPath(); ctx.moveTo(GRID.x+30,GRID.y+10); ctx.lineTo(ELX.x,ELX.y+40); ctx.stroke();
-  flowDots(GRID.x+30,GRID.y+10,ELX.x,ELX.y+40,Math.max(3,Math.round(3+visProd*18)),0.02,0,()=>({c:EC,r:2.6}));
-  // hydrogen OUT: electrolyser -> compressor -> storage (green), density tracks production
-  ctx.strokeStyle='rgba(120,230,170,0.16)'; ctx.lineWidth=2; ctx.beginPath(); ctx.moveTo(ELX.x+ELX.w,ELX.y+50); ctx.lineTo(COMP.x,COMP.y+10); ctx.lineTo(TANKS[0],TANKY+TANKH-10); ctx.stroke();
-  flowDots(ELX.x+ELX.w,ELX.y+50,COMP.x,COMP.y+10,Math.max(2,Math.round(2+visProd*10)),0.022,0,()=>({c:HC,r:2.2}));
-  flowDots(COMP.x,COMP.y+10,TANKS[0],TANKY+TANKH-10,Math.max(2,Math.round(2+visProd*8)),0.022,0.3,()=>({c:HC,r:2.2}));
-  // labels
-  ctx.font='700 8px Inter,sans-serif'; ctx.textAlign='center';
-  ctx.fillStyle='rgba(95,180,240,0.95)'; ctx.fillText('ELECTRICITY →',(GRID.x+30+ELX.x)/2,ELX.y+30);
-  ctx.fillStyle='rgba(120,235,175,0.95)'; ctx.fillText('HYDROGEN →',(ELX.x+ELX.w+COMP.x)/2+6,ELX.y+40);
-}
-function drawPowerGauge(){
-  const gx=GRID.x-6, gy=14, gw=58, gh=40;
-  ctx.fillStyle='rgba(10,20,34,0.55)'; ctx.beginPath(); ctx.roundRect(gx,gy,gw,gh,5); ctx.fill();
-  ctx.fillStyle='rgba(180,196,210,0.7)'; ctx.font='700 6.5px Inter,sans-serif'; ctx.textAlign='left'; ctx.fillText('POWER £/MWh',gx+5,gy+9);
-  const top=gy+14, bot=gy+gh-5, py=p=>bot-(Math.min(160,p)/160)*(bot-top);
-  const mp=parseFloat(dPw.value)*merWob, my=py(mp);
-  ctx.strokeStyle='rgba(95,170,235,0.55)'; ctx.lineWidth=1; ctx.beginPath(); ctx.moveTo(gx+6,my); ctx.lineTo(gx+gw-9,my); ctx.stroke();
-  ctx.fillStyle='#5aa0e6'; ctx.beginPath(); ctx.arc(gx+gw-9,my,2.4,0,Math.PI*2); ctx.fill();
-  ctx.fillStyle='#8fc0ef'; ctx.font='6px Inter,sans-serif'; ctx.fillText('£'+Math.round(mp),gx+6,my-2);
-}
+      <div class="jwrap">
+        <div class="jhead"><span class="t">Cash-flow profile — equity</span><span class="lg"><span style="color:var(--cost)">■</span> invested &nbsp; <span style="color:var(--accent)">■</span> returned</span></div>
+        <div class="jchart" id="jchart"><div class="jaxis"></div></div>
+      </div>
 
-function update(dt){
-  const lf=parseFloat(dLF.value)/100, h2p=parseFloat(dH2.value), pw=parseFloat(dPw.value);
-  const prodKg=(CAP_MW*1000/EFF)*lf;                 // kg/hr
-  const elecMWh=CAP_MW*lf;                            // MWh/hr (electricity drawn)
-  visProd=Math.max(0,Math.min(1, lf/0.95));
-  merWob=1+0.18*Math.sin(T*0.05)+0.10*Math.sin(T*0.12+1);
-  outNow=lerp(outNow, prodKg*24/1000, Math.min(1,0.08*dt));   // t/day
-  // storage buffer (a stock): production fills it, dispatch draws it down
-  const storeTarget=Math.max(2, prodKg/1000*18);
-  storeT=lerp(storeT, storeTarget, Math.min(1,0.03*dt));
+      <details class="more">
+        <summary>Show the year-by-year schedule</summary>
+        <div class="jwrap tscroll" style="margin-top:.6rem">
+          <table class="ptable"><thead id="ptHead"></thead><tbody id="ptBody"></tbody></table>
+        </div>
+      </details>
+    </div>
 
-  // dispatch trucks (rate tracks production)
-  truckT-=dt; if(truckT<=0 && lf>0.15){ truckT=rnd(90,200)/(simSpd*(0.5+visProd)); trucks.push({x:TANKS[2]+20,y:ROAD_Y,phase:'load',dwell:rnd(30,60)/simSpd,speed:rnd(2.2,3.0)}); }
-  for(let i=trucks.length-1;i>=0;i--){ const v=trucks[i];
-    if(v.phase==='load'){ v.dwell-=dt; if(v.dwell<=0){ v.phase='go'; moneys.push({x:OFF.x-40,y:ROAD_Y-22,label:'H₂ sold',col:C.aero,life:1.6,vy:-0.95}); } }
-    else { v.x+=dt*v.speed*1.5; if(v.x>W+50) trucks.splice(i,1); } }
+    <!-- 5 · what drives the return -->
+    <div class="sec" id="drivers">
+      <div class="sec-head"><span class="sec-no">05</span><h2>What drives the return</h2></div>
+      <p class="body" id="s6intro"></p>
+      <ul class="breakers" id="breakers"></ul>
+    </div>
 
-  // cost & ancillary cash markers
-  oamT-=dt; if(oamT<=0){ oamT=rnd(240,400)/simSpd; moneys.push({x:ELX.x+40,y:ELX.y-12,label:'O&M',col:C.cost,life:1.3,vy:-0.7}); }
-  powCashT-=dt; if(powCashT<=0 && lf>0.1){ powCashT=rnd(60,120)/simSpd; moneys.push({x:GRID.x+16,y:GRID.y-6,label:'Power',col:C.pow,life:1.3,vy:-0.8}); }
-  h2CashT-=dt; if(h2CashT<=0 && lf>0.1){ h2CashT=rnd(150,300)/simSpd; moneys.push({x:OFF.x+10,y:OFF.y-24,label:'Byproducts',col:C.comm,life:1.4,vy:-0.8}); }
-  for(let i=moneys.length-1;i>=0;i--){ const m=moneys[i]; m.y+=m.vy*dt; m.vy*=0.97; m.life-=dt*0.013; if(m.life<=0) moneys.splice(i,1); }
-
-  // ---- finance: revenue = production × (H2 price + byproducts); electricity is the dominant variable cost ----
-  const h2Rev=prodKg*h2p, byRev=prodKg*ANC;
-  const nR=STREAMS.map(s=> s.aero ? h2Rev*s.base/H2_SUM : byRev*s.base/BY_SUM);
-  const a=lf/LF0;
-  const nC=COSTS.map((c,i)=> i===0 ? elecMWh*pw : (c.cls==='fix'? c.base : c.cls==='var'? c.base*a : c.base*(0.5+0.5*a)));
-  rSmooth=rSmooth.map((v,i)=>lerp(v,nR[i],0.06));
-  cSmooth=cSmooth.map((v,i)=>lerp(v,nC[i],0.06));
-
-  const totR=rSmooth.reduce((x,y)=>x+y,0), totC=cSmooth.reduce((x,y)=>x+y,0), totP=totR-totC;
-  const h2Tot=rSmooth.reduce((s,v,i)=>s+(STREAMS[i].aero?v:0),0), byTot=totR-h2Tot;
-  visConShare=h2Tot/Math.max(1,totR);
-  const revYr=totR*HRS_PER_YR, ebYr=totP*HRS_PER_YR, prodYr=prodKg*HRS_PER_YR, EV=ebYr*EV_MULT;
-  baseRevYr=revYr; baseCostYr=totC*HRS_PER_YR; baseEbYr=ebYr;
-  cumEB+=totP*dt/60;
-  const powPerKg=(elecMWh*pw)/Math.max(1,prodKg);
-
-  document.getElementById('kRev').textContent=money(revYr);
-  document.getElementById('kRevHr').textContent=money(totR);
-  document.getElementById('kEb').textContent=money(ebYr);
-  document.getElementById('kEb').style.color=totP>=0?'var(--aero)':'var(--cost)';
-  document.getElementById('kMargin').textContent=Math.round(totP/totR*100)+'%';
-  document.getElementById('kYield').textContent='£'+(totR/Math.max(1,prodKg)).toFixed(1);
-  document.getElementById('kPaxYr').textContent=(prodYr/1e6).toFixed(1)+' kt';
-  document.getElementById('kThru').textContent=Math.round(lf*100)+'%';
-  document.getElementById('sPax').textContent=Math.round(storeT).toLocaleString()+' t';
-  document.getElementById('sBank').textContent=money(cumEB);
-  document.getElementById('sEV').textContent= ebYr>0 ? money(EV) : '—';
-
-  const aPct=Math.round(h2Tot/totR*100);
-  document.getElementById('splitTot').textContent=money(revYr);
-  document.getElementById('segAero').style.width=aPct+'%';
-  document.getElementById('segComm').style.width=(100-aPct)+'%';
-  document.getElementById('segAero').textContent='Hydrogen '+money(h2Tot*HRS_PER_YR)+' · '+aPct+'%';
-  document.getElementById('segComm').textContent='Byproducts '+money(byTot*HRS_PER_YR)+' · '+(100-aPct)+'%';
-
-  document.getElementById('revSum').textContent=money(revYr)+' p.a.';
-  document.getElementById('costSum').textContent=money(totC*HRS_PER_YR)+' p.a.';
-  const maxR=Math.max(...rSmooth,1);
-  rSmooth.forEach((v,i)=>{ const b=document.getElementById('rb'+i),a2=document.getElementById('ra'+i);
-    if(b) b.style.width=Math.round(v/maxR*100)+'%'; if(a2) a2.textContent=money(v*HRS_PER_YR); });
-  const maxC=Math.max(...cSmooth,1);
-  cSmooth.forEach((v,i)=>{ const b=document.getElementById('cb'+i),a2=document.getElementById('ca'+i);
-    if(b) b.style.width=Math.round(v/maxC*100)+'%'; if(a2) a2.textContent=money(v*HRS_PER_YR); });
-
-  ebSample+=dt; if(ebSample>4){ ebSample=0; ebHist.push(ebYr); if(ebHist.length>90) ebHist.shift(); }
-}
-const ebHist=[]; let ebSample=0;
-
-function drawHUD(){
-  const x=10,y=10,w=214,h=58; ctx.save();
-  ctx.fillStyle='rgba(10,20,34,0.62)'; ctx.beginPath(); ctx.roundRect(x,y,w,h,8); ctx.fill();
-  ctx.strokeStyle='rgba(255,255,255,0.08)'; ctx.lineWidth=1; ctx.stroke();
-  light(x+13,y+13,5,'rgba(55,192,142,1)',0.7);
-  ctx.fillStyle=C.aero; ctx.beginPath(); ctx.arc(x+13,y+13,3,0,Math.PI*2); ctx.fill();
-  ctx.fillStyle='#cfe0ea'; ctx.font='700 9px Inter,sans-serif'; ctx.textAlign='left'; ctx.fillText('HYDROGEN PLANT — LIVE',x+23,y+16);
-  ctx.fillStyle='rgba(170,190,205,0.85)'; ctx.font='9px Inter,sans-serif';
-  ctx.fillText(Math.round(outNow)+' t/day  ·  '+Math.round(parseFloat(dLF.value))+'% load factor',x+12,y+30);
-  if(ebHist.length>2){ const sx=x+12,sy=y+38,sh=14,sw=w-24;
-    const mn=Math.min(...ebHist,0),mx=Math.max(...ebHist,1),rng=Math.max(1,mx-mn);
-    ctx.beginPath(); ebHist.forEach((v,i)=>{ const px=sx+i/(ebHist.length-1)*sw, py=sy+sh-(v-mn)/rng*sh; i===0?ctx.moveTo(px,py):ctx.lineTo(px,py); });
-    ctx.strokeStyle=C.aero; ctx.lineWidth=1.5; ctx.stroke();
-    ctx.lineTo(sx+sw,sy+sh); ctx.lineTo(sx,sy+sh); ctx.closePath(); ctx.fillStyle='rgba(55,192,142,0.16)'; ctx.fill();
-    ctx.fillStyle='#9fe0c4'; ctx.font='700 9px Inter,sans-serif'; ctx.textAlign='right';
-    ctx.fillText('EBITDA '+money(ebHist[ebHist.length-1])+'/yr',x+w-12,y+34); }
-  ctx.restore();
-}
-
-function draw(){
-  ctx.clearRect(0,0,W,H); drawScene();
-  drawElectrolyser(); drawCompTanks();
-  trucks.forEach(drawTruck);
-  drawFlows(); drawPowerGauge();
-  moneys.forEach(m=>{ const a=Math.max(0,Math.min(1,m.life*0.8)); ctx.save(); ctx.globalAlpha=a;
-    ctx.font='700 9px Inter,sans-serif'; ctx.textAlign='left'; const cost=(m.col===C.cost||m.col===C.pow); const tw=ctx.measureText((cost?'−£ ':'£ ')+m.label).width;
-    ctx.fillStyle='rgba(8,16,30,0.55)'; ctx.beginPath(); ctx.roundRect(m.x-4,m.y-9,tw+10,13,6); ctx.fill();
-    ctx.fillStyle=m.col; ctx.fillText((cost?'−£ ':'£ ')+m.label,m.x+1,m.y+1); ctx.restore(); });
-  drawHUD();
-  ctx.save(); const vg=ctx.createRadialGradient(W/2,H/2,H*0.4,W/2,H/2,H*0.95);
-  vg.addColorStop(0,'rgba(0,0,0,0)'); vg.addColorStop(1,'rgba(0,0,0,0.28)'); ctx.fillStyle=vg; ctx.fillRect(0,0,W,H); ctx.restore();
-}
-
-// ---- floating mini-simulation ----
-const stageEl=document.querySelector('#h2sim .as-stage');
-const miniEl=document.getElementById('asMini');
-const cvm=document.getElementById('cvMini'), mctx=cvm.getContext('2d');
-const MW=440, MH=220, MDPR=Math.max(2,Math.min(3,window.devicePixelRatio||1));
-cvm.width=MW*MDPR; cvm.height=MH*MDPR; mctx.setTransform(MDPR,0,0,MDPR,0,0);
-let miniOn=false;
-if(miniEl){
-  miniEl.addEventListener('click',()=>{ (stageEl||miniEl).scrollIntoView({behavior:'smooth',block:'center'}); });
-  if('IntersectionObserver' in window && stageEl){
-    new IntersectionObserver(es=>{ es.forEach(e=>{ miniOn=!e.isIntersecting; miniEl.classList.toggle('show',miniOn); }); },
-      {threshold:0, rootMargin:'-72px 0px -10% 0px'}).observe(stageEl);
-  }
-}
-
-let lastTs=null;
-function loop(ts){
-  if(!lastTs) lastTs=ts; const dt=Math.min((ts-lastTs)/16.67,3)*simSpd; lastTs=ts; T+=dt;
-  update(dt); draw();
-  if(miniOn){ mctx.clearRect(0,0,MW,MH); mctx.drawImage(cv,0,0,MW,MH); }
-  if((cTick=(cTick+1)%12)===0) renderModel();
-  requestAnimationFrame(loop);
-}
-requestAnimationFrame(loop);
-})();
-</script>
+    <p class="ix-src" id="ixSrc"></p>
+    <p class="ix-src">See also the <a href="hydrogen-sim.html">Hydrogen project simulator</a> — build and stress-test a green-H2 project — and the <a href="cashflow-model.html">Cash-flow &amp; DCF model</a>.</p>
 
   </div>
 </section>
 
 <footer>
   <div class="wrap">
-    <div class="footer-text">© 2026 Infrastructure Investor | theinfrastructureinvestor.com</div>
+    <div class="footer-text">© 2026 Infrastructure Investor | theinfrastructureinvestor.com · <a href="community.html" style="color:var(--accent);text-decoration:none;font-weight:600">Community</a></div>
   </div>
 </footer>
 
+<script src="hy-geo.js"></script>
+<script src="hy-hydrogen.js" defer></script>
 <script src="site.js" defer></script>
 </body>
 </html>
