@@ -33,6 +33,98 @@
     footer.parentNode.insertBefore(pager, footer);
   })();
 
+  /* ---------------- Contact form (Web3Forms) ---------------- */
+  (function () {
+    /* Get a free access key at https://web3forms.com — it is safe to expose in
+       client code, and it keeps your email address out of the page source.
+       Submissions are emailed to the address linked to the key, with the
+       visitor's email set as Reply-To so you can reply directly. */
+    var ACCESS_KEY = 'YOUR-WEB3FORMS-ACCESS-KEY';
+
+    var footer = document.querySelector('footer');
+    if (!footer || document.getElementById('contact')) return;
+    var narrow = document.getElementById('ix') ? ' narrow' : '';
+    var topics = ['General enquiry', 'Investment or commercial', 'Feedback or data correction',
+                  'Media, speaking or partnership', 'Something else'];
+    var esc = function (s) { return s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;'); };
+
+    var sec = document.createElement('section');
+    sec.className = 'contact' + narrow;
+    sec.id = 'contact';
+    sec.innerHTML =
+      '<div class="contact-card">' +
+        '<div class="contact-head">' +
+          '<div class="contact-eyebrow">Get in touch</div>' +
+          '<h2>Contact</h2>' +
+          '<p>Questions, a correction, or a conversation about infrastructure — leave a note and I’ll reply by email.</p>' +
+        '</div>' +
+        '<form class="contact-form" novalidate>' +
+          '<div class="contact-grid">' +
+            '<div class="contact-field"><label for="cf-topic">Topic</label>' +
+              '<select id="cf-topic" name="topic">' +
+                topics.map(function (t) { return '<option>' + esc(t) + '</option>'; }).join('') +
+              '</select></div>' +
+            '<div class="contact-field"><label for="cf-name">Name</label>' +
+              '<input id="cf-name" name="name" type="text" autocomplete="name" placeholder="Your name"></div>' +
+            '<div class="contact-field full"><label for="cf-email">Email <span class="req">*</span></label>' +
+              '<input id="cf-email" name="email" type="email" autocomplete="email" required placeholder="you@example.com"></div>' +
+            '<div class="contact-field full"><label for="cf-msg">Message <span class="req">*</span></label>' +
+              '<textarea id="cf-msg" name="message" required placeholder="How can I help?"></textarea></div>' +
+          '</div>' +
+          /* honeypot — hidden from users, catches bots */
+          '<input type="checkbox" name="botcheck" class="cf-hp" tabindex="-1" autocomplete="off" aria-hidden="true">' +
+          '<div class="contact-foot">' +
+            '<button type="submit" class="contact-btn">Send message</button>' +
+            '<span class="contact-status" role="status" aria-live="polite"></span>' +
+          '</div>' +
+          '<p class="contact-note">Your email is used only to reply to you — no newsletter, no sharing.</p>' +
+        '</form>' +
+      '</div>';
+    footer.parentNode.insertBefore(sec, footer);
+
+    var form = sec.querySelector('form'),
+        statusEl = sec.querySelector('.contact-status'),
+        btn = sec.querySelector('.contact-btn'),
+        emailEl = sec.querySelector('#cf-email'),
+        msgEl = sec.querySelector('#cf-msg');
+    function setStatus(msg, kind) { statusEl.textContent = msg; statusEl.className = 'contact-status' + (kind ? ' ' + kind : ''); }
+    function emailOk(v) { return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v); }
+
+    form.addEventListener('submit', function (e) {
+      e.preventDefault();
+      var ok = true;
+      [emailEl, msgEl].forEach(function (el) { el.classList.remove('invalid'); });
+      if (!emailOk(emailEl.value.trim())) { emailEl.classList.add('invalid'); ok = false; }
+      if (msgEl.value.trim().length < 5) { msgEl.classList.add('invalid'); ok = false; }
+      if (!ok) { setStatus('Please add a valid email and a short message.', 'err'); return; }
+      if (ACCESS_KEY.indexOf('YOUR-') === 0) { setStatus('The form isn’t configured yet (add a Web3Forms access key).', 'err'); return; }
+
+      var topic = sec.querySelector('#cf-topic').value;
+      var payload = {
+        access_key: ACCESS_KEY,
+        subject: 'Contact — ' + topic,
+        from_name: 'theinfrastructureinvestor.com',
+        name: (sec.querySelector('#cf-name').value || '').trim(),
+        email: emailEl.value.trim(),
+        topic: topic,
+        message: msgEl.value.trim(),
+        page: location.pathname,
+        botcheck: form.botcheck.checked ? 'true' : ''
+      };
+      btn.disabled = true; setStatus('Sending…', '');
+      fetch('https://api.web3forms.com/submit', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+        body: JSON.stringify(payload)
+      }).then(function (r) { return r.json(); }).then(function (data) {
+        if (data && data.success) { form.reset(); setStatus('Thanks — your message has been sent. I’ll be in touch.', 'ok'); }
+        else { setStatus((data && data.message) || 'Something went wrong. Please try again.', 'err'); }
+      }).catch(function () {
+        setStatus('Network error — please try again in a moment.', 'err');
+      }).then(function () { btn.disabled = false; });
+    });
+  })();
+
   /* ---------------- Top navigation ---------------- */
   var wrap = document.querySelector('nav .wrap');
   if (wrap) {
