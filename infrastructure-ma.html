@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Infrastructure M&amp;A — buying an asset, end to end — Infrastructure Investor</title>
+<meta name="description" content="How an infrastructure fund acquires an asset for the long term: the full deal lifecycle, what you diligence, the models you build, an interactive acquisition &amp; returns model with a value-creation bridge, and a library of landmark historical deals.">
+<script src="anim-guard.js"></script>
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<link rel="canonical" href="https://theinfrastructureinvestor.com/infrastructure-ma.html">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Infrastructure Reference">
+<meta property="og:title" content="Infrastructure M&amp;A — buying an asset, end to end">
+<meta property="og:description" content="The full M&amp;A lifecycle for an infrastructure fund — process, diligence, the model suite, an interactive acquisition &amp; returns model, and landmark historical deals.">
+<meta property="og:url" content="https://theinfrastructureinvestor.com/infrastructure-ma.html">
+<meta property="og:image" content="https://theinfrastructureinvestor.com/og-image.svg">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Infrastructure M&amp;A — buying an asset, end to end">
+<meta name="twitter:description" content="Process, diligence, models and an interactive acquisition &amp; returns model — plus landmark historical infrastructure deals.">
+<meta name="twitter:image" content="https://theinfrastructureinvestor.com/og-image.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,500;0,8..60,600;1,8..60,400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+<style>
+#ma{max-width:1040px;margin:0 auto}
+#ma .lede{font-size:1rem;color:var(--text2);line-height:1.75;margin:1.4rem 0 .4rem}
+#ma .lede b{color:var(--text);font-weight:600}
+#ma p.body{font-size:.92rem;color:var(--text2);line-height:1.75;margin:.8rem 0}
+#ma p.body b{color:var(--text);font-weight:600}
+
+/* on-this-page chip nav */
+#ma .ma-nav{display:flex;flex-wrap:wrap;gap:.4rem;margin:1.4rem 0 .4rem;position:sticky;top:62px;z-index:20;background:linear-gradient(180deg,var(--bg) 70%,transparent);padding:.5rem 0}
+#ma .ma-nav a{font-size:.72rem;font-weight:600;color:var(--text2);background:var(--surface);border:1px solid var(--border-strong);border-radius:999px;padding:.4rem .85rem;text-decoration:none;transition:all .12s ease}
+#ma .ma-nav a:hover{border-color:var(--accent);color:var(--accent)}
+
+#ma h2{font-family:'Source Serif 4',Georgia,serif;font-size:1.55rem;font-weight:500;letter-spacing:-.01em;color:var(--text);margin:0 0 .2rem;scroll-margin-top:110px}
+#ma .sec{margin:2.6rem 0 0;padding-top:1.6rem;border-top:1px solid var(--border)}
+#ma .sec-eyebrow{font-size:.66rem;letter-spacing:.13em;text-transform:uppercase;color:var(--accent);font-weight:700;margin-bottom:.7rem}
+
+/* card grids */
+#ma .grid{display:grid;gap:1rem;margin:1.2rem 0}
+#ma .grid.g3{grid-template-columns:repeat(3,1fr)}
+#ma .grid.g2{grid-template-columns:repeat(2,1fr)}
+@media(max-width:820px){#ma .grid.g3{grid-template-columns:1fr 1fr}}
+@media(max-width:560px){#ma .grid.g3,#ma .grid.g2{grid-template-columns:1fr}}
+#ma .card{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:1.1rem 1.2rem}
+#ma .card h3{font-size:.95rem;font-weight:600;color:var(--text);margin-bottom:.4rem;display:flex;align-items:center;gap:.5rem}
+#ma .card h3 .n{font-family:'Source Serif 4',Georgia,serif;font-size:.82rem;color:var(--accent);font-weight:600}
+#ma .card p{font-size:.82rem;color:var(--text2);line-height:1.6}
+#ma .card .tags{display:flex;flex-wrap:wrap;gap:.35rem;margin-top:.7rem}
+#ma .card .tag{font-size:.64rem;font-weight:600;color:var(--accent);background:var(--accent-soft);border-radius:6px;padding:.18rem .5rem}
+
+/* lifecycle timeline */
+#ma .flow{position:relative;margin:1.4rem 0 .6rem;padding-left:1.7rem}
+#ma .flow::before{content:'';position:absolute;left:.46rem;top:.4rem;bottom:.4rem;width:2px;background:linear-gradient(180deg,var(--accent),var(--border-strong))}
+#ma .step{position:relative;margin-bottom:1.05rem}
+#ma .step:last-child{margin-bottom:0}
+#ma .step::before{content:'';position:absolute;left:-1.43rem;top:.28rem;width:13px;height:13px;border-radius:50%;background:var(--surface);border:2px solid var(--accent)}
+#ma .step .ph{font-size:.62rem;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);font-weight:700;margin-bottom:.12rem}
+#ma .step h3{font-size:.98rem;font-weight:600;color:var(--text);margin-bottom:.25rem}
+#ma .step p{font-size:.84rem;color:var(--text2);line-height:1.65}
+#ma .step .wk{font-size:.78rem;color:var(--text2);line-height:1.6;margin-top:.3rem}
+#ma .step .wk b{color:var(--accent);font-weight:600}
+
+/* ===== interactive acquisition model ===== */
+#ma .tool{background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:1.3rem 1.4rem;margin:1.3rem 0 .6rem;box-shadow:0 10px 30px rgba(18,38,32,.05)}
+#ma .tool-top{display:flex;align-items:center;justify-content:space-between;gap:1rem;flex-wrap:wrap;margin-bottom:.4rem}
+#ma .tool-top .t{font-size:.66rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);font-weight:700}
+#ma .ma-reset{font-family:inherit;font-size:.72rem;font-weight:600;color:var(--accent);background:var(--accent-soft);border:none;border-radius:8px;padding:.5rem .85rem;cursor:pointer}
+
+#ma .drivers{display:grid;grid-template-columns:1fr 1fr;gap:.55rem 1.6rem;margin:.5rem 0 1rem}
+@media(max-width:640px){#ma .drivers{grid-template-columns:1fr}}
+#ma .dr{display:flex;align-items:center;gap:.7rem}
+#ma .dr .l{flex:0 0 168px;font-size:.78rem;color:var(--text)}
+#ma .dr input[type=range]{flex:1;-webkit-appearance:none;appearance:none;height:4px;border-radius:3px;background:var(--border-strong);outline:none;min-width:40px}
+#ma .dr input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;appearance:none;width:16px;height:16px;border-radius:50%;background:#fff;cursor:pointer;border:2px solid var(--accent);box-shadow:0 1px 3px rgba(0,0,0,.25)}
+#ma .dr input[type=range]::-moz-range-thumb{width:16px;height:16px;border-radius:50%;background:#fff;cursor:pointer;border:2px solid var(--accent)}
+#ma .dr .v{flex:0 0 72px;text-align:right;font-size:.8rem;font-weight:700;color:var(--accent);font-variant-numeric:tabular-nums}
+
+#ma .nums{display:grid;grid-template-columns:repeat(3,1fr);gap:.7rem 1.4rem;background:var(--surface-2);border:1px solid var(--border);border-radius:12px;padding:.9rem 1.1rem;margin-bottom:.4rem}
+@media(max-width:640px){#ma .nums{grid-template-columns:1fr 1fr}}
+#ma .nf{display:flex;align-items:center;justify-content:space-between;gap:.5rem}
+#ma .nf label{font-size:.76rem;color:var(--text);line-height:1.25}
+#ma .nf .ig{display:flex;align-items:center;gap:.25rem;flex-shrink:0}
+#ma .nf input{width:62px;font-family:inherit;font-size:.8rem;font-weight:600;text-align:right;color:var(--text);border:1px solid var(--border-strong);border-radius:7px;padding:.3rem .35rem;background:#fff;font-variant-numeric:tabular-nums}
+#ma .nf input:focus{outline:none;border-color:var(--accent)}
+#ma .nf .u{font-size:.72rem;color:var(--muted);width:20px;text-align:left}
+
+#ma .out-cards{display:grid;grid-template-columns:repeat(4,1fr);gap:.7rem;margin:1.3rem 0 .4rem}
+@media(max-width:640px){#ma .out-cards{grid-template-columns:1fr 1fr}}
+#ma .ocard{background:var(--surface-2);border:1px solid var(--border);border-radius:12px;padding:.85rem .9rem;position:relative;overflow:hidden}
+#ma .ocard::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--muted)}
+#ma .ocard.irr::before{background:var(--accent)}#ma .ocard.irr{background:linear-gradient(180deg,var(--accent-soft),var(--surface-2))}
+#ma .ocard.moic::before{background:#2f5fb0}
+#ma .ocard .k{font-size:.58rem;letter-spacing:.05em;text-transform:uppercase;color:var(--muted);font-weight:700;margin-bottom:.3rem}
+#ma .ocard .v{font-family:'Source Serif 4',Georgia,serif;font-size:1.5rem;font-weight:500;line-height:1;letter-spacing:-.01em}
+#ma .ocard.irr .v{color:var(--accent)}#ma .ocard.moic .v{color:#2f5fb0}
+#ma .ocard .s{font-size:.62rem;color:var(--text2);margin-top:.3rem}
+
+/* sources & uses */
+#ma .su{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin:1rem 0 .4rem}
+@media(max-width:560px){#ma .su{grid-template-columns:1fr}}
+#ma .su .box{background:var(--surface-2);border:1px solid var(--border);border-radius:12px;padding:.9rem 1rem}
+#ma .su h4{font-size:.62rem;letter-spacing:.07em;text-transform:uppercase;color:var(--muted);font-weight:700;margin-bottom:.6rem}
+#ma .su .ln{display:flex;justify-content:space-between;gap:1rem;font-size:.8rem;color:var(--text2);padding:.28rem 0;border-bottom:1px solid var(--border)}
+#ma .su .ln:last-child{border-bottom:none}
+#ma .su .ln b{color:var(--text);font-weight:600;font-variant-numeric:tabular-nums}
+#ma .su .ln.tot{font-weight:700;color:var(--text);border-top:1px solid var(--border-strong);margin-top:.15rem;padding-top:.42rem}
+#ma .su .ln.tot span{color:var(--text)}
+
+/* value bridge waterfall */
+#ma .bridge-wrap{background:var(--surface-2);border:1px solid var(--border);border-radius:12px;padding:1.1rem 1.2rem;margin:1rem 0 .4rem}
+#ma .bridge-h{display:flex;justify-content:space-between;align-items:baseline;gap:1rem;margin-bottom:1rem}
+#ma .bridge-h .t{font-size:.64rem;letter-spacing:.07em;text-transform:uppercase;color:var(--muted);font-weight:700}
+#ma .bridge-h .lg{font-size:.68rem;color:var(--text2)}
+#ma .bridge-h .lg i{font-style:normal;font-weight:600}
+#ma .bridge{display:flex;align-items:flex-end;gap:.4rem;height:210px;position:relative;border-bottom:1px solid var(--border-strong)}
+#ma .bcol{flex:1;height:100%;position:relative;min-width:0;display:flex;flex-direction:column;justify-content:flex-end}
+#ma .bbar{position:relative;border-radius:4px 4px 0 0;min-height:2px;transition:height .15s ease}
+#ma .bbar.start,#ma .bbar.end{background:#3a4a45}
+#ma .bbar.pos{background:var(--accent)}
+#ma .bbar.neg{background:var(--cost)}
+#ma .bval{position:absolute;left:0;right:0;top:-15px;text-align:center;font-size:.6rem;font-weight:700;color:var(--text);font-variant-numeric:tabular-nums;white-space:nowrap}
+#ma .blbl{position:absolute;top:calc(100% + 6px);left:-6px;right:-6px;text-align:center;font-size:.58rem;color:var(--muted);line-height:1.2}
+#ma .bridge-foot{margin-top:2.7rem;font-size:.74rem;color:var(--text2);line-height:1.6}
+#ma .bridge-foot b{color:var(--text);font-weight:600}
+
+/* projection mini-grid */
+#ma .ph-h{font-size:.64rem;letter-spacing:.07em;text-transform:uppercase;color:var(--muted);font-weight:700;margin:1.1rem 0 .5rem}
+#ma .pscroll{overflow-x:auto;border:1px solid var(--border);border-radius:12px;background:var(--surface-2)}
+#ma table.ptab{border-collapse:separate;border-spacing:0;font-size:.74rem;font-variant-numeric:tabular-nums;white-space:nowrap;width:100%}
+#ma .ptab th,#ma .ptab td{padding:.36rem .7rem;text-align:right;border-bottom:1px solid var(--border)}
+#ma .ptab th{background:var(--surface);color:var(--muted);font-weight:600;font-size:.6rem;text-transform:uppercase;letter-spacing:.03em}
+#ma .ptab .rl{text-align:left;color:var(--text2);font-weight:500;position:sticky;left:0;background:var(--surface-2);min-width:140px}
+#ma .ptab th.rl{background:var(--surface)}
+#ma .ptab tr:last-child td{border-bottom:none}
+
+#ma .tool-note,#ma .foot-note{font-size:.74rem;color:var(--muted);line-height:1.7;margin-top:1rem}
+#ma .tool-note b,#ma .foot-note b{color:var(--text2);font-weight:600}
+
+/* deals table */
+#ma .filters{display:flex;flex-wrap:wrap;gap:.45rem;margin:1.1rem 0 1rem}
+#ma .chip-f{font-family:inherit;font-size:.72rem;font-weight:600;color:var(--text2);background:var(--surface);border:1px solid var(--border-strong);border-radius:999px;padding:.4rem .85rem;cursor:pointer;transition:all .12s ease}
+#ma .chip-f:hover{border-color:var(--accent);color:var(--accent)}
+#ma .chip-f.on{background:var(--accent);color:#fff;border-color:var(--accent)}
+#ma .table-wrap{background:var(--surface);border:1px solid var(--border);border-radius:14px;overflow-x:auto;box-shadow:0 10px 30px rgba(18,38,32,.05)}
+#ma table.deals{width:100%;border-collapse:collapse;min-width:920px}
+#ma .deals thead th{position:sticky;top:0;background:var(--surface-2);font-size:.6rem;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);font-weight:700;text-align:left;padding:.8rem .9rem;border-bottom:1px solid var(--border);white-space:nowrap;cursor:pointer;user-select:none}
+#ma .deals thead th.r{text-align:right}
+#ma .deals thead th:hover{color:var(--accent)}
+#ma .deals thead th .arr{opacity:0;font-size:.7rem;margin-left:.2rem}
+#ma .deals thead th.sort .arr{opacity:1}
+#ma .deals tbody tr{border-bottom:1px solid var(--border)}
+#ma .deals tbody tr:last-child{border-bottom:none}
+#ma .deals tbody tr:hover{background:var(--accent-soft)}
+#ma .deals td{padding:.7rem .9rem;font-size:.82rem;color:var(--text);vertical-align:top}
+#ma .deals td.r{text-align:right;white-space:nowrap;font-variant-numeric:tabular-nums}
+#ma .deals td.tgt{font-weight:600;letter-spacing:-.01em}
+#ma .deals td .acq{color:var(--text2);font-size:.78rem}
+#ma .deals td .why{color:var(--text2);font-size:.78rem;line-height:1.5;white-space:normal;min-width:230px}
+#ma .deals .cls-dot{display:inline-block;width:8px;height:8px;border-radius:50%;margin-right:.45rem;vertical-align:middle}
+#ma .deals .cls-tag{font-size:.7rem;color:var(--text2);white-space:nowrap}
+
+#ma .src-list{font-size:.76rem;color:var(--text2);line-height:1.8;margin:.6rem 0;columns:2;column-gap:2rem}
+@media(max-width:640px){#ma .src-list{columns:1}}
+#ma .src-list a{color:var(--accent);text-decoration:none}
+#ma .src-list a:hover{text-decoration:underline}
+
+#ma .seealso{display:flex;flex-wrap:wrap;gap:.6rem;margin:1.1rem 0 .4rem}
+#ma .seealso a{font-size:.8rem;font-weight:600;color:var(--accent);background:var(--accent-soft);border:1px solid transparent;border-radius:10px;padding:.6rem .95rem;text-decoration:none;transition:border-color .12s ease}
+#ma .seealso a:hover{border-color:var(--accent)}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="wrap">
+    <a class="nav-logo" href="index.html"><span class="pulse"></span>Infrastructure Reference</a>
+    <div class="nav-meta">Infrastructure Investor</div>
+  </div>
+</nav>
+
+<section class="hero brhero">
+  <div class="wrap" style="max-width:1040px">
+    <div class="breadcrumb"><a href="index.html">Home</a><span class="sep">/</span>Cross-sector tool<span class="sep">/</span>Infrastructure M&amp;A</div>
+    <div class="hero-eyebrow">Cross-sector tool</div>
+    <h1>Infrastructure <em>M&amp;A</em></h1>
+    <p class="hero-sub">You are an infrastructure fund, and you want to own one of these assets for the long term. This module walks the whole acquisition — how a deal is structured and run, what you underwrite, the suite of models you build, an interactive acquisition &amp; returns model with a value-creation bridge, and a library of landmark deals that actually happened.</p>
+  </div>
+</section>
+
+<section class="tools-section" id="ma">
+  <div class="wrap" style="max-width:1040px">
+
+    <nav class="ma-nav" aria-label="On this page">
+      <a href="#thesis">The thesis</a>
+      <a href="#lifecycle">Deal lifecycle</a>
+      <a href="#diligence">Due diligence</a>
+      <a href="#models">The models</a>
+      <a href="#tool">Acquisition model</a>
+      <a href="#deals">Historical deals</a>
+      <a href="#sources">Sources</a>
+    </nav>
+
+    <p class="lede">Infrastructure M&amp;A is not trading. A fund buying a port, a regulated network or a wind farm is buying <b>decades of cash flow</b> and the obligation to keep an essential service running. The discipline is therefore different from corporate or growth-equity dealmaking: you underwrite <b>durability</b> before upside, you structure financing to survive the downside, and you plan the next owner's purchase on the day you sign yours.</p>
+
+    <!-- ============ 1. THE THESIS ============ -->
+    <div class="sec" id="thesis">
+      <div class="sec-eyebrow">01 — Why this asset</div>
+      <h2>What an infrastructure buyer is actually underwriting</h2>
+      <p class="body">Before any number is modelled, the question is whether the target has genuine <b>infrastructure characteristics</b>. The more of these it has, the more leverage it supports, the lower the return it can be priced to, and the longer it can be held. A "core" regulated network sits at one end; a merchant, demand-exposed asset sits at the other, and is priced for more risk.</p>
+      <div class="grid g3">
+        <div class="card"><h3><span class="n">i.</span>Essential &amp; hard to replace</h3><p>People and economies cannot easily do without the service, and a competitor cannot simply build a parallel asset. High barriers to entry — a licence, a corridor, a coastline, a grid connection — protect the cash flow.</p><div class="tags"><span class="tag">Monopoly / quasi-monopoly</span><span class="tag">Barriers to entry</span></div></div>
+        <div class="card"><h3><span class="n">ii.</span>Predictable, contracted cash flow</h3><p>Revenue is underpinned by regulation (a RAB and allowed return), a long-term contract (PPP availability payment, PPA, take-or-pay), or deeply embedded demand. The buyer maps exactly how much revenue is contracted vs merchant.</p><div class="tags"><span class="tag">Regulated / contracted</span><span class="tag">Visibility</span></div></div>
+        <div class="card"><h3><span class="n">iii.</span>Inflation linkage</h3><p>Tariffs, regulatory settlements and concession payments are often explicitly indexed to CPI/RPI. That real-return profile is a core reason pension and insurance capital owns the asset class.</p><div class="tags"><span class="tag">CPI / RPI linkage</span><span class="tag">Real returns</span></div></div>
+        <div class="card"><h3><span class="n">iv.</span>Long life, high margins</h3><p>Assets last 30–100+ years and convert revenue to EBITDA at high margins once built. Maintenance capex is real but the operating cost base is thin relative to the cash thrown off.</p><div class="tags"><span class="tag">Long-dated</span><span class="tag">Cash generative</span></div></div>
+        <div class="card"><h3><span class="n">v.</span>Supports leverage</h3><p>Stable cash flows let the asset carry far more debt than a typical company — sized to a coverage ratio (DSCR) rather than an earnings multiple. Cheap, long, often investment-grade debt is central to the return.</p><div class="tags"><span class="tag">DSCR-sized debt</span><span class="tag">Long tenor</span></div></div>
+        <div class="card"><h3><span class="n">vi.</span>Manageable, mostly political risk</h3><p>The biggest threats are regulatory resets, re-tendered concessions, and government action — not demand collapse. The fund prices the regulatory period it is buying into and the political durability of the framework.</p><div class="tags"><span class="tag">Regulatory reset risk</span><span class="tag">Political / ESG</span></div></div>
+      </div>
+      <p class="body">A buyer also fixes its <b>style</b> up front, because it sets the price it can pay and the return it must hit: <b>core</b> (regulated/contracted, ~7–9% target equity IRR), <b>core-plus</b> (some volume or merchant exposure, ~9–12%), <b>value-add</b> (build-out, repositioning, buy-and-build, ~12–16%), and <b>opportunistic / greenfield</b> (development and construction risk, 15%+). The same asset can be a different deal to a pension fund and to a value-add manager.</p>
+    </div>
+
+    <!-- ============ 2. LIFECYCLE ============ -->
+    <div class="sec" id="lifecycle">
+      <div class="sec-eyebrow">02 — The process</div>
+      <h2>The deal lifecycle, origination to ownership</h2>
+      <p class="body">A competitive infrastructure auction runs 4–9 months from teaser to signing, with another few months to completion behind regulatory approvals. Bilateral and proprietary deals move on their own clock. The phases below are the path almost every deal follows.</p>
+      <div class="flow">
+        <div class="step"><div class="ph">Phase 1</div><h3>Origination &amp; strategy</h3><p>The fund defines its mandate (geography, sector, risk style, cheque size, target return) and sources opportunities — through advisers running auctions, proprietary relationships, corporate carve-outs, take-privates of listed platforms, or secondary purchases from another fund.</p><p class="wk"><b>Output:</b> a pipeline and an initial fit screen against the fund's strategy and concentration limits.</p></div>
+        <div class="step"><div class="ph">Phase 2</div><h3>First look — teaser, NDA, IM</h3><p>A one-page <b>teaser</b> arrives; if it fits, the buyer signs an <b>NDA</b> and receives the <b>Information Memorandum (IM)</b> and a management presentation. A first-cut model and valuation range are built from this public-to-limited information.</p><p class="wk"><b>Output:</b> an internal screening paper and a preliminary view of value and fit.</p></div>
+        <div class="step"><div class="ph">Phase 3</div><h3>Indicative (non-binding) offer</h3><p>The buyer submits a <b>Non-Binding Offer (NBO)</b> — a price range, structure, financing approach, conditions and timetable. The seller shortlists bidders for the next round and opens the data room to them.</p><p class="wk"><b>Output:</b> NBO letter; admission to due diligence; an Investment Committee "go" to spend on advisers.</p></div>
+        <div class="step"><div class="ph">Phase 4</div><h3>Due diligence</h3><p>The core work. Parallel workstreams — commercial, financial &amp; tax, technical, legal &amp; regulatory, insurance, ESG — interrogate the data room, run site visits and expert sessions, and feed findings into the model. Debt providers run their own diligence in parallel.</p><p class="wk"><b>Output:</b> red-flag and full DD reports, a fully diligenced model, a financing package and a risk-allocation map.</p></div>
+        <div class="step"><div class="ph">Phase 5</div><h3>Binding offer &amp; documentation</h3><p>The buyer submits a <b>Binding Offer</b> with a markup of the <b>Sale &amp; Purchase Agreement (SPA)</b>, committed (or highly confident) financing and final IC approval. Negotiation centres on price, the locked-box/completion-accounts mechanism, warranties &amp; indemnities (and W&amp;I insurance), conditions precedent and the management package.</p><p class="wk"><b>Output:</b> a signed SPA and shareholders' agreement; debt commitment letters.</p></div>
+        <div class="step"><div class="ph">Phase 6</div><h3>Signing to completion</h3><p>Between signing and closing, conditions precedent are cleared: merger control / antitrust, sector regulator consent, foreign-investment screening (FDI), and lender conditions. Debt is drawn, equity is funded, and ownership transfers at <b>completion</b>.</p><p class="wk"><b>Output:</b> regulatory clearances, funds flow, completion — the asset is now owned.</p></div>
+        <div class="step"><div class="ph">Phase 7</div><h3>Ownership &amp; value creation</h3><p>The 100-day plan executes: governance and board, management incentives, reporting and KPIs, the capital programme, refinancing, bolt-on M&amp;A, operational improvement and the ESG/decarbonisation plan. This is where most of the return is actually built, year after year.</p><p class="wk"><b>Output:</b> a performing asset delivering the business plan; periodic distributions to the fund.</p></div>
+        <div class="step"><div class="ph">Phase 8</div><h3>Exit</h3><p>At the right point in the hold (typically 7–15 years, often longer for core), the asset is sold to another fund, a strategic, or via IPO — or recycled into a long-hold/open-ended vehicle. The exit thesis was set at entry; the bid the next buyer can pay is the cap on this fund's return.</p><p class="wk"><b>Output:</b> realised proceeds, a final IRR and money multiple, and a track record.</p></div>
+      </div>
+    </div>
+
+    <!-- ============ 3. DILIGENCE ============ -->
+    <div class="sec" id="diligence">
+      <div class="sec-eyebrow">03 — What you check</div>
+      <h2>Due diligence — the workstreams</h2>
+      <p class="body">Diligence is run as parallel workstreams, each by specialists, all feeding one model and one risk-allocation view. The recurring question is the same: <b>which risks stay with the buyer, and which can be passed to the seller (warranties/indemnities), to lenders, to insurers, or to contractors and the regulator?</b></p>
+      <div class="grid g3">
+        <div class="card"><h3>Commercial</h3><p>The market, demand drivers, competitive position, customer/counterparty concentration, contract terms and the volume vs price story. For regulated assets: the framework, the current settlement, and reset risk. The independent "commercial DD" report often anchors the base-case revenue.</p></div>
+        <div class="card"><h3>Financial &amp; tax</h3><p>Quality of earnings — is reported EBITDA real, recurring and clean of one-offs? Working capital, net debt at completion, capex history, and the tax structure (holding-company location, withholding tax, interest deductibility, capital allowances).</p></div>
+        <div class="card"><h3>Technical &amp; operational</h3><p>Asset condition, remaining life, the maintenance and capex programme, technology and obsolescence, health &amp; safety, and the operating cost base. Engineers price the lifecycle and stress the capex line — usually the biggest model swing after revenue.</p></div>
+        <div class="card"><h3>Legal &amp; regulatory</h3><p>Title and the licence/concession, change-of-control and consents, the regulatory contract and its enforceability, litigation, key contracts, and the SPA risk allocation (warranties, indemnities, conditions). Antitrust and FDI clearance feasibility is assessed here.</p></div>
+        <div class="card"><h3>ESG &amp; climate</h3><p>Physical climate risk to the asset, transition risk (stranding of carbon-exposed assets), permitting, environmental liabilities and remediation, biodiversity, community and political/social licence to operate. Increasingly a gating item for the fund's own LPs.</p></div>
+        <div class="card"><h3>Insurance &amp; model audit</h3><p>Insurability and the cost of cover (a real opex line for catastrophe-exposed assets), plus an independent <b>model audit</b> to confirm the financial model is mechanically correct and that lenders and IC are relying on the same numbers.</p></div>
+      </div>
+    </div>
+
+    <!-- ============ 4. MODELS ============ -->
+    <div class="sec" id="models">
+      <div class="sec-eyebrow">04 — The model suite</div>
+      <h2>The models you build</h2>
+      <p class="body">There is one model — a single, audited Excel <b>operating &amp; financial model</b> — and several lenses onto it. It projects the asset's cash flows for the full hold (and often the full concession/asset life), drives the debt, and produces the valuation and returns. The lenses below all read from it.</p>
+      <div class="grid g2">
+        <div class="card"><h3><span class="n">A.</span>Operating &amp; financial model</h3><p>The source of truth: revenue built bottom-up (volumes × price, or RAB × allowed return, or contracted payments), the full opex and maintenance-capex base, tax, working capital and a three-statement or cash-flow waterfall. Monthly or annual, with an explicit forecast period and indexation.</p></div>
+        <div class="card"><h3><span class="n">B.</span>Valuation</h3><p>A <b>DCF</b> of unlevered free cash flow at the asset WACC (or a dividend-discount / equity cash-flow model); cross-checked against <b>trading and transaction comparables</b> (EV/EBITDA, EV/RAB, $/MW, $/passenger). Regulated assets are also valued at a <b>premium/discount to RAB</b>. Sum-of-the-parts for platforms.</p></div>
+        <div class="card"><h3><span class="n">C.</span>Acquisition / LBO &amp; returns</h3><p>Sources &amp; uses, debt sized to a target gearing and coverage (DSCR/ICR), the cash-flow waterfall and distributions, and the equity return — <b>IRR and money multiple (MOIC)</b> — over the hold, with an exit at an assumed multiple. The <i>value-creation bridge</i> decomposes the return.</p></div>
+        <div class="card"><h3><span class="n">D.</span>Sensitivity &amp; scenarios</h3><p>One- and two-way data tables on the value drivers, a downside/management/upside case set, Monte-Carlo on key variables, and break-even analysis (e.g. the price at which covenants breach). This is what the Investment Committee actually debates.</p></div>
+      </div>
+      <p class="body">The acquisition &amp; returns lens (C) is the one that decides the price. Use the live model below to see how the headline drivers — what you pay, how much debt you raise, how fast EBITDA grows, and what you sell for — combine into an equity return, and how the <b>value-creation bridge</b> attributes that return to growth, re-rating, deleveraging and cash yield.</p>
+    </div>
+
+    <!-- ============ 5. INTERACTIVE MODEL ============ -->
+    <div class="sec" id="tool">
+      <div class="sec-eyebrow">05 — Build it live</div>
+      <h2>Acquisition &amp; returns model</h2>
+      <p class="body">A simplified buyout of a single asset. Set the four headline value drivers on the sliders and refine the operating assumptions below; the sources &amp; uses, the equity return and the value-creation bridge update live.</p>
+
+      <div class="tool">
+        <div class="tool-top">
+          <span class="t">Headline value drivers</span>
+          <button class="ma-reset" id="maReset">Reset to base case</button>
+        </div>
+        <div class="drivers">
+          <div class="dr"><span class="l">Entry EV / EBITDA</span><input type="range" id="mEntry" min="6" max="22" step="0.5" value="12"><span class="v" id="mEntryV">12.0×</span></div>
+          <div class="dr"><span class="l">Leverage (Net debt / EBITDA)</span><input type="range" id="mLev" min="0" max="9" step="0.25" value="6"><span class="v" id="mLevV">6.00×</span></div>
+          <div class="dr"><span class="l">EBITDA growth p.a.</span><input type="range" id="mGrow" min="-3" max="12" step="0.5" value="4"><span class="v" id="mGrowV">4.0%</span></div>
+          <div class="dr"><span class="l">Exit EV / EBITDA</span><input type="range" id="mExit" min="6" max="22" step="0.5" value="12"><span class="v" id="mExitV">12.0×</span></div>
+        </div>
+
+        <div class="nums">
+          <div class="nf"><label>Entry EBITDA</label><span class="ig"><input id="mEbitda" type="number" value="200" step="10" min="1"><span class="u">$m</span></span></div>
+          <div class="nf"><label>Hold period</label><span class="ig"><input id="mHold" type="number" value="7" step="1" min="1" max="25"><span class="u">y</span></span></div>
+          <div class="nf"><label>Transaction costs</label><span class="ig"><input id="mFees" type="number" value="2" step="0.5" min="0"><span class="u">%</span></span></div>
+          <div class="nf"><label>Cash flow / EBITDA</label><span class="ig"><input id="mFcf" type="number" value="55" step="5" min="0" max="100"><span class="u">%</span></span></div>
+          <div class="nf"><label>Surplus cash to debt</label><span class="ig"><input id="mSweep" type="number" value="40" step="10" min="0" max="100"><span class="u">%</span></span></div>
+          <div class="nf"><label>Cost of debt</label><span class="ig"><input id="mRd" type="number" value="6" step="0.25" min="0"><span class="u">%</span></span></div>
+        </div>
+
+        <div class="out-cards">
+          <div class="ocard irr"><div class="k">Equity IRR</div><div class="v" id="oIRR">—</div><div class="s">levered, to the fund</div></div>
+          <div class="ocard moic"><div class="k">Money multiple</div><div class="v" id="oMOIC">—</div><div class="s">MOIC over the hold</div></div>
+          <div class="ocard"><div class="k">Equity cheque</div><div class="v" id="oEqIn">—</div><div class="s">invested at entry</div></div>
+          <div class="ocard"><div class="k">Entry gearing</div><div class="v" id="oGearing">—</div><div class="s">net debt / EV</div></div>
+        </div>
+
+        <div class="su">
+          <div class="box"><h4>Sources</h4><div id="suSrc"></div></div>
+          <div class="box"><h4>Uses</h4><div id="suUse"></div></div>
+        </div>
+
+        <div class="bridge-wrap">
+          <div class="bridge-h">
+            <span class="t">Equity value-creation bridge ($m)</span>
+            <span class="lg"><i style="color:#3a4a45">■</i> equity &nbsp; <i style="color:var(--accent)">■</i> value created &nbsp; <i style="color:var(--cost)">■</i> cost</span>
+          </div>
+          <div class="bridge" id="maBridge"></div>
+          <p class="bridge-foot" id="bridgeFoot">—</p>
+        </div>
+
+        <div class="ph-h">Projection · key lines by year ($m)</div>
+        <div class="pscroll"><table class="ptab" id="maGrid"></table></div>
+
+        <p class="tool-note"><b>How it works.</b> Entry EV = entry multiple × EBITDA; the equity cheque = EV + transaction costs − new debt (debt = leverage × EBITDA, capped at 85% of EV). Each year EBITDA grows at the chosen rate; operating cash flow = cash-flow-conversion × EBITDA; after cash interest, surplus cash is split between debt repayment and distributions to the fund. At exit, equity proceeds = exit EV − remaining net debt. The IRR uses the dated equity cash flows (cheque out, distributions in, exit proceeds at the end); MOIC = total proceeds ÷ equity cheque. The <b>bridge</b> reconciles exactly: equity cheque + EBITDA growth (at the entry multiple) + multiple re-rating (on exit EBITDA) + debt paydown + distributions − transaction costs = total proceeds. Illustrative only — it omits construction phasing, refinancing, working-capital detail and the full tax structure. Not investment advice.</p>
+      </div>
+
+      <div class="seealso">
+        <a href="cashflow-model.html">→ Full cash-flow &amp; DCF model</a>
+        <a href="wacc-calculator.html">→ WACC calculator</a>
+        <a href="compare.html">→ Compare base-case returns</a>
+      </div>
+    </div>
+
+    <!-- ============ 6. HISTORICAL DEALS ============ -->
+    <div class="sec" id="deals">
+      <div class="sec-eyebrow">06 — Evidence</div>
+      <h2>Landmark infrastructure deals</h2>
+      <p class="body">A selection of significant, well-documented infrastructure acquisitions across sectors and decades — the kind of transactions this module describes, actually executed. Values are at announcement and mix enterprise value and equity value as reported; figures are rounded. Filter by sector or sort any column.</p>
+
+      <div class="filters" id="dealFilters"></div>
+      <div class="table-wrap">
+        <table class="deals">
+          <thead><tr id="dealHead"></tr></thead>
+          <tbody id="dealBody"></tbody>
+        </table>
+      </div>
+      <p class="foot-note"><b>Reading the table.</b> "Deal value" is as reported at announcement — some figures are enterprise value (including assumed debt), some are equity/offer value, and consortium deals are the whole transaction, not one party's stake. Several deals later took very different paths (Thames Water's eventual restructuring; the CK Hutchison ports portfolio, agreed with a BlackRock-led consortium in 2025, was subsequently contested in Panama) — a reminder that the entry is only the start of the ownership story.</p>
+    </div>
+
+    <!-- ============ SOURCES ============ -->
+    <div class="sec" id="sources">
+      <div class="sec-eyebrow">07 — References</div>
+      <h2>Sources &amp; further reading</h2>
+      <p class="body">Deal figures are drawn from company announcements, regulatory filings and contemporaneous trade and financial press, including:</p>
+      <div class="src-list">
+        <a href="https://www.macquarie.com/assets/macq/impact/case-studies/thames-water-upgrading-londons-water-and-wastewater-infrastructure/macquarie-thames-water-factsheet.pdf" target="_blank" rel="noopener">Macquarie — Thames Water factsheet (EV £8.5bn, RAB c.£6.5bn, 2006)</a>
+        <a href="https://www.thecasecentre.org/products/view?id=69362" target="_blank" rel="noopener">Ferrovial / BAA (Heathrow) acquisition, 2006</a>
+        <a href="https://www.constructionnews.co.uk/sections/news/baa-sells-gatwick-airport-for-1-5bn-21-10-2009/" target="_blank" rel="noopener">BAA sells Gatwick to GIP for £1.51bn, 2009</a>
+        <a href="https://www.ckh.com.hk/upload/attachments/en/pr/2253_eng.pdf" target="_blank" rel="noopener">CKI / HK Electric — UK Power Networks (£5.78bn), 2010</a>
+        <a href="https://www.infrastructureinvestor.com/macquarie-leads-13-8bn-national-grid-gas-purchase/" target="_blank" rel="noopener">Macquarie-led consortium — National Grid Gas Distribution / Cadent (EV £13.8bn), 2017</a>
+        <a href="https://www.euronews.com/2018/10/29/atlantia-acs-complete-16-point-5-billion-euro-acquisition-of-abertis" target="_blank" rel="noopener">Atlantia / ACS / Hochtief — Abertis (€16.5bn), 2018</a>
+        <a href="https://www.mobileworldlive.com/operators/cellnex-inks-e10b-europe-deal-with-ck-hutchison/" target="_blank" rel="noopener">Cellnex — CK Hutchison European towers (€10bn), 2020</a>
+        <a href="https://bip.brookfield.com/press-releases/bip/brookfield-infrastructure-announces-intention-acquire-inter-pipeline-ltd-c1650" target="_blank" rel="noopener">Brookfield Infrastructure — Inter Pipeline (C$16.50/sh), 2021</a>
+        <a href="https://www.global-infra.com/news/cyrusone-to-be-acquired-by-kkr-and-global-infrastructure-partners-in-15-billion-transaction/" target="_blank" rel="noopener">KKR &amp; GIP — CyrusOne ($15bn), 2021</a>
+        <a href="https://www.clearygottlieb.com/news-and-insights/news-listing/american-tower-acquires-coresite-for-10-1-billion" target="_blank" rel="noopener">American Tower — CoreSite ($10.1bn), 2021</a>
+        <a href="https://australianaviation.com.au/2022/02/shareholders-accept-23-6bn-bid-for-sydney-airport/" target="_blank" rel="noopener">Sydney Aviation Alliance — Sydney Airport (A$23.6bn), 2022</a>
+        <a href="https://www.infrastructureinvestor.com/kkr-launches-1-75bn-bid-for-contourglobal/" target="_blank" rel="noopener">KKR — ContourGlobal (£1.75bn), 2022</a>
+        <a href="https://www.gruppotim.it/en/press-archive/corporate/2024/PR-Closing-NetCo-1-luglio.html" target="_blank" rel="noopener">KKR-led consortium — Telecom Italia NetCo (EV up to €22bn), 2024</a>
+        <a href="https://www.blackrock.com/corporate/newsroom/press-releases/article/corporate-one/press-releases/blackRock-agrees-to-acquire-global-infrastructure-partners" target="_blank" rel="noopener">BlackRock — Global Infrastructure Partners ($12.5bn), 2024</a>
+        <a href="https://bep.brookfield.com/brookfield-enters-exclusive-negotiations-impala-and-other-shareholders-acquire-majority-stake-neoen" target="_blank" rel="noopener">Brookfield — Neoen (€6.1bn), 2024</a>
+        <a href="https://maritime-executive.com/article/hutchison-sells-panama-and-other-ports-in-22-8b-deal-to-blackrock-and-msc" target="_blank" rel="noopener">BlackRock / TiL (MSC) — CK Hutchison ports ($22.8bn, agreed 2025)</a>
+      </div>
+      <p class="foot-note">This module is an educational reference for practitioners, not investment advice or a recommendation on any transaction. The interactive model is illustrative and not a forecast of any specific asset.</p>
+    </div>
+
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="footer-text">© 2026 Infrastructure Investor | theinfrastructureinvestor.com · <a href="community.html" style="color:var(--accent);text-decoration:none;font-weight:600">Community</a></div>
+  </div>
+</footer>
+
+<script src="ma-deal.js" defer></script>
+<script src="site.js" defer></script>
+</body>
+</html>
