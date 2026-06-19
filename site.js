@@ -243,7 +243,12 @@
       var cur = rows[sel]; if (cur) cur.scrollIntoView({ block: 'nearest' });
     }
     function go() { var e = flat[sel]; if (e) location.href = e.u; }
-    function open() { overlay.classList.add('show'); document.body.style.overflow = 'hidden'; input.value = ''; render(); setTimeout(function () { input.focus(); }, 20); }
+    function open() {
+      overlay.classList.add('show'); document.body.style.overflow = 'hidden'; input.value = ''; render();
+      // focus reliably: the overlay animates in, so try now, next frame, and shortly after
+      var f = function () { try { input.focus({ preventScroll: true }); } catch (_) { input.focus(); } };
+      f(); requestAnimationFrame(f); setTimeout(f, 60);
+    }
     function close() { overlay.classList.remove('show'); document.body.style.overflow = ''; }
 
     search.addEventListener('click', open);
@@ -252,15 +257,19 @@
     results.addEventListener('mousemove', function (e) {
       var row = e.target.closest('.cmdk-row'); if (row) { sel = +row.dataset.i; highlight(); }
     });
-    input.addEventListener('keydown', function (e) {
+    document.addEventListener('keydown', function (e) {
+      var isOpen = overlay.classList.contains('show');
+      if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 'k') { e.preventDefault(); isOpen ? close() : open(); return; }
+      if (!isOpen) {
+        if (e.key === '/' && !/INPUT|TEXTAREA|SELECT/.test((e.target.tagName || ''))) { e.preventDefault(); open(); }
+        return;
+      }
+      // palette is open — drive navigation from the document so it works even if
+      // focus hasn't landed in the input yet
       if (e.key === 'ArrowDown') { e.preventDefault(); sel = Math.min(sel + 1, flat.length - 1); highlight(); }
       else if (e.key === 'ArrowUp') { e.preventDefault(); sel = Math.max(sel - 1, 0); highlight(); }
       else if (e.key === 'Enter') { e.preventDefault(); go(); }
       else if (e.key === 'Escape') { e.preventDefault(); close(); }
-    });
-    document.addEventListener('keydown', function (e) {
-      if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 'k') { e.preventDefault(); overlay.classList.contains('show') ? close() : open(); }
-      else if (e.key === '/' && !overlay.classList.contains('show') && !/INPUT|TEXTAREA|SELECT/.test((e.target.tagName||''))) { e.preventDefault(); open(); }
     });
   }
 })();
