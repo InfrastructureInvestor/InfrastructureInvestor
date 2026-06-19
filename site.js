@@ -39,7 +39,7 @@
        client code, and it keeps your email address out of the page source.
        Submissions are emailed to the address linked to the key, with the
        visitor's email set as Reply-To so you can reply directly. */
-    var ACCESS_KEY = 'YOUR-WEB3FORMS-ACCESS-KEY';
+    var ACCESS_KEY = '9e75f662-1d6a-429f-bac9-32ec7018c756';
 
     var footer = document.querySelector('footer');
     if (!footer || document.getElementById('contact')) return;
