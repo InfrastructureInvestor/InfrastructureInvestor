@@ -58,8 +58,8 @@
     src:'Figures are illustrative for a UK biomethane-to-grid AD plant under the <a href="https://www.ofgem.gov.uk/environmental-and-social-schemes/green-gas-support-scheme-ggss" target="_blank" rel="noopener">Green Gas Support Scheme</a> (formerly the RHI). All figures here are approximate and illustrative.',
     econ:{cur:'£', feedstock:'food + crop', output:'biomethane',
       gwhDef:120,gwhMin:40,gwhMax:320,gwhStep:5, priceDef:92,priceMin:45,priceMax:150,priceStep:1,
-      lfDef:88,lfMin:55,lfMax:96,lfStep:1, gatePerMWh:14, feedPerMWh:18, fixedOM:3.2},
-    calc:{build:64,grant:8,capex:11,revG:2,floor:9,cap:60,tax:25,exit:11,lev:5,rd:6,amort:3,hold:11},
+      lfDef:88,lfMin:55,lfMax:96,lfStep:1, gatePerMWh:14, feedPerMWh:29, fixedOM:2.3},
+    calc:{build:56,grant:6,capex:10,revG:2,floor:8,cap:60,tax:25,exit:9.5,lev:4,rd:6,amort:4,hold:14},
     map:{footer:GEO.ukbio.footer}
   },
 
@@ -91,8 +91,8 @@
     src:'Figures are illustrative for a US RNG project monetising LCFS, RINs and the 45Z clean-fuel credit (the model of platforms such as Archaea/RNG developers). All figures here are approximate and illustrative.',
     econ:{cur:'US$', feedstock:'dairy + landfill', output:'biomethane',
       gwhDef:90,gwhMin:30,gwhMax:240,gwhStep:5, priceDef:135,priceMin:50,priceMax:240,priceStep:1,
-      lfDef:85,lfMin:50,lfMax:95,lfStep:1, gatePerMWh:8, feedPerMWh:30, fixedOM:2.8},
-    calc:{build:62,grant:10,capex:11,revG:3,floor:8,cap:80,tax:25,exit:10,lev:4,rd:6.5,amort:3,hold:11},
+      lfDef:85,lfMin:50,lfMax:95,lfStep:1, gatePerMWh:8, feedPerMWh:31, fixedOM:2.1},
+    calc:{build:64,grant:7,capex:10,revG:3,floor:8,cap:80,tax:25,exit:9.5,lev:4,rd:6.5,amort:4,hold:13},
     map:{footer:GEO.usrng.footer}
   },
 
@@ -124,8 +124,8 @@
     src:'Figures are illustrative for a Brazilian agri-biogas plant under <a href="https://www.gov.br/" target="_blank" rel="noopener">RenovaBio</a>. The flag and example are illustrative; all figures here are approximate and illustrative.',
     econ:{cur:'R$', feedstock:'vinasse + agri', output:'biomethane',
       gwhDef:80,gwhMin:25,gwhMax:200,gwhStep:5, priceDef:90,priceMin:45,priceMax:150,priceStep:1,
-      lfDef:84,lfMin:50,lfMax:94,lfStep:1, gatePerMWh:12, feedPerMWh:14, fixedOM:2.4},
-    calc:{build:38,grant:6,capex:11,revG:5,floor:6,cap:55,tax:30,exit:9,lev:4,rd:9,amort:3,hold:11},
+      lfDef:84,lfMin:50,lfMax:94,lfStep:1, gatePerMWh:12, feedPerMWh:24, fixedOM:1.6},
+    calc:{build:38,grant:4,capex:10,revG:4,floor:6,cap:55,tax:30,exit:9,lev:4,rd:9,amort:4,hold:14},
     map:{footer:GEO.brbio.footer}
   },
 
@@ -157,8 +157,8 @@
     src:'Figures are illustrative for an emerging Australian food-waste anaerobic-digestion plant with CHP. All figures here are approximate and illustrative.',
     econ:{cur:'A$', feedstock:'food waste', output:'chp',
       gwhDef:55,gwhMin:18,gwhMax:150,gwhStep:5, priceDef:95,priceMin:50,priceMax:160,priceStep:1,
-      lfDef:82,lfMin:48,lfMax:92,lfStep:1, gatePerMWh:30, feedPerMWh:26, fixedOM:2.2},
-    calc:{build:48,grant:6,capex:12,revG:4,floor:7,cap:42,tax:30,exit:10,lev:4,rd:6.5,amort:3,hold:15},
+      lfDef:82,lfMin:48,lfMax:92,lfStep:1, gatePerMWh:30, feedPerMWh:31, fixedOM:1.5},
+    calc:{build:34,grant:4,capex:10,revG:3.5,floor:6,cap:42,tax:30,exit:9.5,lev:4,rd:6.5,amort:4,hold:15},
     map:{footer:GEO.ausfw.footer}
   },
 
@@ -190,8 +190,8 @@
     src:'Figures are illustrative for an emerging Gulf food-waste anaerobic-digestion plant with CHP. The flag and example are illustrative; all figures here are approximate and illustrative.',
     econ:{cur:'AED', feedstock:'food waste', output:'chp',
       gwhDef:45,gwhMin:15,gwhMax:130,gwhStep:5, priceDef:88,priceMin:48,priceMax:155,priceStep:1,
-      lfDef:80,lfMin:45,lfMax:92,lfStep:1, gatePerMWh:32, feedPerMWh:25, fixedOM:2.1},
-    calc:{build:46,grant:5,capex:12,revG:5,floor:6,cap:40,tax:9,exit:9,lev:4,rd:7,amort:3,hold:14},
+      lfDef:80,lfMin:45,lfMax:92,lfStep:1, gatePerMWh:32, feedPerMWh:31, fixedOM:1.3},
+    calc:{build:30,grant:3,capex:10,revG:4,floor:5,cap:40,tax:9,exit:9.5,lev:4,rd:7,amort:4,hold:14},
     map:{footer:GEO.gulffw.footer}
   },
 
@@ -223,8 +223,8 @@
     src:'Figures are illustrative for a large-scale Chinese agricultural / food-waste biogas plant. Given the scale and limited standalone disclosure, all figures here are highly approximate and illustrative.',
     econ:{cur:'¥', feedstock:'manure + straw + food', output:'biomethane',
       gwhDef:180,gwhMin:60,gwhMax:420,gwhStep:10, priceDef:78,priceMin:40,priceMax:135,priceStep:1,
-      lfDef:84,lfMin:50,lfMax:94,lfStep:1, gatePerMWh:10, feedPerMWh:12, fixedOM:5.5},
-    calc:{build:82,grant:20,capex:11,revG:4,floor:11,cap:110,tax:25,exit:9,lev:5,rd:4.5,amort:3,hold:11},
+      lfDef:84,lfMin:50,lfMax:94,lfStep:1, gatePerMWh:10, feedPerMWh:24, fixedOM:3.2},
+    calc:{build:82,grant:10,capex:10,revG:4,floor:10,cap:110,tax:25,exit:9,lev:5,rd:4.5,amort:4,hold:16},
     map:{footer:GEO.cnbio.footer}
   }
   };
