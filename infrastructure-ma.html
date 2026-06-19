@@ -170,6 +170,51 @@
 #ma .seealso{display:flex;flex-wrap:wrap;gap:.6rem;margin:1.1rem 0 .4rem}
 #ma .seealso a{font-size:.8rem;font-weight:600;color:var(--accent);background:var(--accent-soft);border:1px solid transparent;border-radius:10px;padding:.6rem .95rem;text-decoration:none;transition:border-color .12s ease}
 #ma .seealso a:hover{border-color:var(--accent)}
+
+/* asset picker (pull from the project database) */
+#ma .ma-pick{background:linear-gradient(180deg,var(--accent-soft),var(--surface));border:1px solid var(--border);border-radius:12px;padding:.9rem 1.1rem;margin-bottom:1rem}
+#ma .ma-pick .pk-row{display:flex;flex-wrap:wrap;align-items:center;gap:.6rem}
+#ma .ma-pick .pk-lab{font-size:.66rem;letter-spacing:.08em;text-transform:uppercase;color:var(--accent);font-weight:700;margin-right:.2rem}
+#ma .ma-pick select{font-family:inherit;font-size:.82rem;font-weight:500;color:var(--text);background:#fff;border:1px solid var(--border-strong);border-radius:9px;padding:.42rem 1.9rem .42rem .7rem;cursor:pointer;-webkit-appearance:none;appearance:none;background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'><path d='M2 4l4 4 4-4' stroke='%230c6b4f' stroke-width='1.6' fill='none' stroke-linecap='round'/></svg>");background-repeat:no-repeat;background-position:right .6rem center;max-width:100%}
+#ma .ma-pick select:focus{outline:none;border-color:var(--accent)}
+#ma .ma-pick #maSector{flex:1 1 220px;min-width:160px}
+#ma .ma-pick #maAssetPick{flex:1 1 220px;min-width:160px}
+#ma .pk-note{font-size:.78rem;color:var(--text2);line-height:1.55;margin-top:.6rem}
+#ma .pk-note b{color:var(--text);font-weight:600}
+#ma .pk-note a{color:var(--accent);text-decoration:none;font-weight:600}
+#ma .pk-note a:hover{text-decoration:underline}
+#ma .pk-note .ref{display:inline-flex;gap:.5rem;flex-wrap:wrap;margin-top:.25rem}
+#ma .pk-note .ref span{font-size:.72rem;color:var(--muted)}
+#ma .pk-note .ref b{color:var(--text2)}
+
+/* scenario toggle */
+#ma .scen{display:flex;align-items:center;gap:.45rem;flex-wrap:wrap;margin:.2rem 0 1rem}
+#ma .scen .sl{font-size:.66rem;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);font-weight:700;margin-right:.3rem}
+#ma .scen button{font-family:inherit;font-size:.74rem;font-weight:600;color:var(--text2);background:var(--surface);border:1px solid var(--border-strong);border-radius:999px;padding:.4rem .9rem;cursor:pointer;transition:all .12s ease}
+#ma .scen button:hover{border-color:var(--accent);color:var(--accent)}
+#ma .scen button.on{background:var(--accent);color:#fff;border-color:var(--accent)}
+#ma .scen .sn{font-size:.74rem;color:var(--text2);margin-left:.3rem}
+
+/* debt-sizing mini-block */
+#ma .nf.wide{grid-column:1 / -1;justify-content:flex-start;gap:.6rem;flex-wrap:wrap}
+#ma .nf.wide .seg-pick{display:inline-flex;border:1px solid var(--border-strong);border-radius:8px;overflow:hidden}
+#ma .nf.wide .seg-pick button{font-family:inherit;font-size:.72rem;font-weight:600;color:var(--text2);background:#fff;border:none;padding:.32rem .7rem;cursor:pointer}
+#ma .nf.wide .seg-pick button.on{background:var(--accent);color:#fff}
+#ma .nf input:disabled{opacity:.4;cursor:not-allowed}
+
+/* sensitivity matrix */
+#ma .sens-h{font-size:.64rem;letter-spacing:.07em;text-transform:uppercase;color:var(--muted);font-weight:700;margin:1.3rem 0 .5rem;display:flex;align-items:center;gap:.6rem;flex-wrap:wrap}
+#ma .sens-h .pick{font-size:.7rem;color:var(--text2);font-weight:500;text-transform:none;letter-spacing:0}
+#ma .sens-h select{font-family:inherit;font-size:.72rem;font-weight:600;color:var(--accent);background:var(--accent-soft);border:1px solid transparent;border-radius:7px;padding:.2rem 1.4rem .2rem .5rem;cursor:pointer;-webkit-appearance:none;appearance:none;background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'><path d='M2 4l4 4 4-4' stroke='%230c6b4f' stroke-width='1.6' fill='none' stroke-linecap='round'/></svg>");background-repeat:no-repeat;background-position:right .4rem center}
+#ma .sens-wrap{overflow-x:auto;border:1px solid var(--border);border-radius:12px;background:var(--surface-2)}
+#ma table.sens{border-collapse:separate;border-spacing:0;font-size:.74rem;font-variant-numeric:tabular-nums;width:100%;min-width:420px}
+#ma .sens th,#ma .sens td{padding:.4rem .6rem;text-align:center;border-bottom:1px solid var(--border)}
+#ma .sens th{background:var(--surface);color:var(--muted);font-weight:600;font-size:.62rem}
+#ma .sens .rh{background:var(--surface);color:var(--text2);font-weight:600;text-align:right}
+#ma .sens .corner{background:var(--surface);color:var(--muted);font-size:.58rem;text-transform:uppercase;letter-spacing:.04em;text-align:center}
+#ma .sens td.cell{color:var(--text);font-weight:600}
+#ma .sens td.base{outline:2px solid var(--accent);outline-offset:-2px}
+#ma .sens-cap{font-size:.7rem;color:var(--muted);margin-top:.5rem;line-height:1.5}
 </style>
 </head>
 <body>
@@ -199,6 +244,7 @@
       <a href="#diligence">Due diligence</a>
       <a href="#models">The models</a>
       <a href="#tool">Acquisition model</a>
+      <a href="#structuring">Structuring</a>
       <a href="#deals">Historical deals</a>
       <a href="#sources">Sources</a>
     </nav>
@@ -274,24 +320,50 @@
       <p class="body">A simplified buyout of a single asset. Set the four headline value drivers on the sliders and refine the operating assumptions below; the sources &amp; uses, the equity return and the value-creation bridge update live.</p>
 
       <div class="tool">
+        <div class="ma-pick">
+          <div class="pk-row">
+            <span class="pk-lab">Pull a real asset</span>
+            <select id="maSector" aria-label="Choose a sub-sector"></select>
+            <select id="maAssetPick" aria-label="Choose an asset"></select>
+          </div>
+          <p class="pk-note" id="maLoaded">Start from a generic, illustrative asset — or load any of the <b>216 worked assets</b> from across the reference library, and the model pre-fills its EBITDA, multiple, leverage, growth and hold from that page's financials.</p>
+        </div>
+
         <div class="tool-top">
           <span class="t">Headline value drivers</span>
-          <button class="ma-reset" id="maReset">Reset to base case</button>
+          <button class="ma-reset" id="maReset">Reset to loaded case</button>
         </div>
         <div class="drivers">
-          <div class="dr"><span class="l">Entry EV / EBITDA</span><input type="range" id="mEntry" min="6" max="22" step="0.5" value="12"><span class="v" id="mEntryV">12.0×</span></div>
-          <div class="dr"><span class="l">Leverage (Net debt / EBITDA)</span><input type="range" id="mLev" min="0" max="9" step="0.25" value="6"><span class="v" id="mLevV">6.00×</span></div>
-          <div class="dr"><span class="l">EBITDA growth p.a.</span><input type="range" id="mGrow" min="-3" max="12" step="0.5" value="4"><span class="v" id="mGrowV">4.0%</span></div>
-          <div class="dr"><span class="l">Exit EV / EBITDA</span><input type="range" id="mExit" min="6" max="22" step="0.5" value="12"><span class="v" id="mExitV">12.0×</span></div>
+          <div class="dr"><span class="l">Entry EV / EBITDA</span><input type="range" id="mEntry" min="4" max="26" step="0.5" value="12"><span class="v" id="mEntryV">12.0×</span></div>
+          <div class="dr"><span class="l">Leverage (Net debt / EBITDA)</span><input type="range" id="mLev" min="0" max="12" step="0.25" value="6"><span class="v" id="mLevV">6.00×</span></div>
+          <div class="dr"><span class="l">EBITDA growth p.a.</span><input type="range" id="mGrow" min="-5" max="15" step="0.5" value="4"><span class="v" id="mGrowV">4.0%</span></div>
+          <div class="dr"><span class="l">Exit EV / EBITDA</span><input type="range" id="mExit" min="4" max="26" step="0.5" value="12"><span class="v" id="mExitV">12.0×</span></div>
+        </div>
+
+        <div class="scen">
+          <span class="sl">Scenario</span>
+          <button type="button" data-scen="down">Downside</button>
+          <button type="button" data-scen="base" class="on">Base</button>
+          <button type="button" data-scen="up">Upside</button>
+          <span class="sn" id="scenNote">growth, exit multiple and cash conversion flexed around the loaded case.</span>
         </div>
 
         <div class="nums">
-          <div class="nf"><label>Entry EBITDA</label><span class="ig"><input id="mEbitda" type="number" value="200" step="10" min="1"><span class="u">$m</span></span></div>
-          <div class="nf"><label>Hold period</label><span class="ig"><input id="mHold" type="number" value="7" step="1" min="1" max="25"><span class="u">y</span></span></div>
+          <div class="nf"><label>Entry EBITDA</label><span class="ig"><input id="mEbitda" type="number" value="200" step="10" min="1"><span class="u" id="uEbitda">$m</span></span></div>
+          <div class="nf"><label>Hold period</label><span class="ig"><input id="mHold" type="number" value="7" step="1" min="1" max="40"><span class="u">y</span></span></div>
           <div class="nf"><label>Transaction costs</label><span class="ig"><input id="mFees" type="number" value="2" step="0.5" min="0"><span class="u">%</span></span></div>
           <div class="nf"><label>Cash flow / EBITDA</label><span class="ig"><input id="mFcf" type="number" value="55" step="5" min="0" max="100"><span class="u">%</span></span></div>
           <div class="nf"><label>Surplus cash to debt</label><span class="ig"><input id="mSweep" type="number" value="40" step="10" min="0" max="100"><span class="u">%</span></span></div>
           <div class="nf"><label>Cost of debt</label><span class="ig"><input id="mRd" type="number" value="6" step="0.25" min="0"><span class="u">%</span></span></div>
+          <div class="nf wide">
+            <label>Size debt by</label>
+            <span class="seg-pick" id="mDebtMode" role="group" aria-label="Debt sizing method">
+              <button type="button" data-mode="lev" class="on">Leverage ×</button>
+              <button type="button" data-mode="dscr">Target DSCR</button>
+            </span>
+            <span class="ig"><label for="mDscr" style="font-size:.74rem">min DSCR</label><input id="mDscr" type="number" value="1.8" step="0.1" min="1" disabled><span class="u">×</span></span>
+            <span class="ig"><label for="mTenor" style="font-size:.74rem">tenor</label><input id="mTenor" type="number" value="15" step="1" min="2" max="40" disabled><span class="u">y</span></span>
+          </div>
         </div>
 
         <div class="out-cards">
@@ -315,10 +387,17 @@
           <p class="bridge-foot" id="bridgeFoot">—</p>
         </div>
 
-        <div class="ph-h">Projection · key lines by year ($m)</div>
+        <div class="ph-h" id="gridH">Projection · key lines by year ($m)</div>
         <div class="pscroll"><table class="ptab" id="maGrid"></table></div>
 
-        <p class="tool-note"><b>How it works.</b> Entry EV = entry multiple × EBITDA; the equity cheque = EV + transaction costs − new debt (debt = leverage × EBITDA, capped at 85% of EV). Each year EBITDA grows at the chosen rate; operating cash flow = cash-flow-conversion × EBITDA; after cash interest, surplus cash is split between debt repayment and distributions to the fund. At exit, equity proceeds = exit EV − remaining net debt. The IRR uses the dated equity cash flows (cheque out, distributions in, exit proceeds at the end); MOIC = total proceeds ÷ equity cheque. The <b>bridge</b> reconciles exactly: equity cheque + EBITDA growth (at the entry multiple) + multiple re-rating (on exit EBITDA) + debt paydown + distributions − transaction costs = total proceeds. Illustrative only — it omits construction phasing, refinancing, working-capital detail and the full tax structure. Not investment advice.</p>
+        <div class="sens-h">Equity-IRR sensitivity
+          <span class="pick">— rows: <select id="sensRow"><option value="mEntry">entry multiple</option><option value="mGrow">EBITDA growth</option><option value="mLev">leverage</option></select>
+          &nbsp;× columns: <select id="sensCol"><option value="mExit">exit multiple</option><option value="mGrow">EBITDA growth</option><option value="mLev">leverage</option></select></span>
+        </div>
+        <div class="sens-wrap"><table class="sens" id="maSens"></table></div>
+        <p class="sens-cap">Each cell re-runs the full model holding everything else at the current settings; the outlined cell is today's case. Read it as the bid (entry multiple) you can justify for a target return, against the exit you assume.</p>
+
+        <p class="tool-note"><b>How it works.</b> Entry EV = entry multiple × EBITDA; the equity cheque = EV + transaction costs − new debt. Debt is sized either by <b>leverage</b> (Net&nbsp;debt/EBITDA, capped at 85% of EV) or by a <b>target DSCR</b> (the supportable annuity = year-1 cash-for-debt-service ÷ DSCR, annuitised over the tenor at the cost of debt). Each year EBITDA grows at the chosen rate; operating cash flow = cash-flow-conversion × EBITDA; after cash interest, surplus cash is split between debt repayment and distributions. At exit, equity proceeds = exit EV − remaining net debt. The IRR uses the dated equity cash flows; MOIC = total proceeds ÷ equity cheque. The <b>bridge</b> reconciles exactly: equity cheque + EBITDA growth (at the entry multiple) + multiple re-rating (on exit EBITDA) + debt paydown + distributions − transaction costs = total proceeds. <b>Real-asset figures</b> are pulled from each reference page's model in that asset's native currency; they are illustrative, not a forecast. The model omits construction phasing, refinancing, working-capital detail and the full tax structure. Not investment advice.</p>
       </div>
 
       <div class="seealso">
@@ -328,9 +407,24 @@
       </div>
     </div>
 
-    <!-- ============ 6. HISTORICAL DEALS ============ -->
+    <!-- ============ 6. STRUCTURING & FINANCING ============ -->
+    <div class="sec" id="structuring">
+      <div class="sec-eyebrow">06 — Structuring &amp; financing</div>
+      <h2>How the deal is actually structured</h2>
+      <p class="body">The model says what to pay; the structure decides how the price is set, who carries the risks the diligence surfaced, and how the equity cheque is minimised. These are the levers negotiated into the SPA and the financing package.</p>
+      <div class="grid g3">
+        <div class="card"><h3>Price mechanism</h3><p><b>Locked-box</b> (a price fixed to a recent audited balance sheet, with no post-completion true-up but a "no-leakage" covenant) or <b>completion accounts</b> (price adjusted for actual net debt and working capital at closing). Locked-box dominates competitive infra auctions — it gives certainty and speed.</p></div>
+        <div class="card"><h3>Warranties &amp; W&amp;I insurance</h3><p>The seller warrants the business; the buyer's recourse for breaches is increasingly placed with a <b>warranty &amp; indemnity (W&amp;I) insurer</b> rather than the seller, giving a clean exit to the seller and a solvent counterparty to the buyer. Specific indemnities ring-fence known risks (tax, litigation, environmental).</p></div>
+        <div class="card"><h3>Conditions precedent</h3><p>The gap between signing and completion exists to clear <b>merger control, sector-regulator consent and foreign-investment (FDI) screening</b>. Each is a real execution risk — and a reason deals fall over. Long-stop dates, break fees and interim-period covenants govern the gap.</p></div>
+        <div class="card"><h3>Holding &amp; tax structure</h3><p>A chain of holding companies (often in a treaty-friendly jurisdiction) houses the debt, manages <b>withholding tax</b> on distributions, preserves <b>interest deductibility</b> within local thin-cap/earnings-stripping limits, and ring-fences the asset for the lenders. Set up at entry with the exit and co-investors in mind.</p></div>
+        <div class="card"><h3>Debt package &amp; DSCR</h3><p>Senior debt sized to a minimum <b>DSCR</b> and gearing, with tenor, amortisation/cash-sweep, hedging (interest-rate and, for cross-border deals, FX) and covenant package negotiated with the lenders or bondholders. A <b>refinancing</b> at a lower margin once de-risked is a deliberate part of the return — model the debt-sizing toggle above.</p></div>
+        <div class="card"><h3>Equity, governance &amp; incentives</h3><p>The shareholders' agreement sets board seats, reserved matters, drag/tag rights and the distribution policy across the consortium. <b>Management is incentivised</b> (a ratchet / co-invest) to the business plan, and minority and co-investment stakes are syndicated to LPs alongside the fund.</p></div>
+      </div>
+    </div>
+
+    <!-- ============ 7. HISTORICAL DEALS ============ -->
     <div class="sec" id="deals">
-      <div class="sec-eyebrow">06 — Evidence</div>
+      <div class="sec-eyebrow">07 — Evidence</div>
       <h2>Landmark infrastructure deals</h2>
       <p class="body">A selection of significant, well-documented infrastructure acquisitions across sectors and decades — the kind of transactions this module describes, actually executed. Values are at announcement and mix enterprise value and equity value as reported; figures are rounded. Filter by sector or sort any column.</p>
 
@@ -346,7 +440,7 @@
 
     <!-- ============ SOURCES ============ -->
     <div class="sec" id="sources">
-      <div class="sec-eyebrow">07 — References</div>
+      <div class="sec-eyebrow">08 — References</div>
       <h2>Sources &amp; further reading</h2>
       <p class="body">Deal figures are drawn from company announcements, regulatory filings and contemporaneous trade and financial press, including:</p>
       <div class="src-list">
@@ -379,6 +473,7 @@
   </div>
 </footer>
 
+<script src="ma-assets.js" defer></script>
 <script src="ma-deal.js" defer></script>
 <script src="site.js" defer></script>
 </body>
