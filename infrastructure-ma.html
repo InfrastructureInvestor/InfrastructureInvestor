@@ -215,6 +215,45 @@
 #ma .sens td.cell{color:var(--text);font-weight:600}
 #ma .sens td.base{outline:2px solid var(--accent);outline-offset:-2px}
 #ma .sens-cap{font-size:.7rem;color:var(--muted);margin-top:.5rem;line-height:1.5}
+
+/* currency selector in the picker */
+#ma .pk-cur{font-size:.72rem;color:var(--text2);margin-left:auto;display:inline-flex;align-items:center;gap:.4rem}
+#ma .pk-cur select{font-family:inherit;font-size:.76rem;font-weight:600;color:var(--accent);background:#fff;border:1px solid var(--border-strong);border-radius:8px;padding:.34rem 1.5rem .34rem .55rem;cursor:pointer;-webkit-appearance:none;appearance:none;background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'><path d='M2 4l4 4 4-4' stroke='%230c6b4f' stroke-width='1.6' fill='none' stroke-linecap='round'/></svg>");background-repeat:no-repeat;background-position:right .45rem center}
+
+/* valuation comparison strip */
+#ma .comps{font-size:.78rem;color:var(--text);line-height:1.6;background:var(--surface-2);border:1px solid var(--border);border-radius:10px;padding:.6rem .85rem;margin:.2rem 0 1rem}
+#ma .comps b{font-weight:600}
+#ma .comps .mut{color:var(--muted)}
+
+/* goal-seek */
+#ma .gseek{display:flex;align-items:center;flex-wrap:wrap;gap:.5rem;font-size:.8rem;color:var(--text);background:var(--accent-soft);border:1px solid var(--border);border-radius:10px;padding:.6rem .85rem;margin:.2rem 0 1rem}
+#ma .gseek .gl{font-size:.62rem;letter-spacing:.09em;text-transform:uppercase;color:var(--accent);font-weight:700}
+#ma .gseek input{width:54px;font-family:inherit;font-size:.8rem;font-weight:600;text-align:right;color:var(--text);border:1px solid var(--border-strong);border-radius:7px;padding:.3rem .35rem;background:#fff}
+#ma .gseek button{font-family:inherit;font-size:.74rem;font-weight:600;color:#fff;background:var(--accent);border:none;border-radius:8px;padding:.4rem .85rem;cursor:pointer}
+#ma .gseek .gs-out{font-size:.76rem;color:var(--text2);flex:1 1 220px}
+#ma .gseek .gs-out b{color:var(--text);font-weight:700}
+
+/* refinancing row */
+#ma .nf.wide label input[type=checkbox]{margin-right:.35rem;vertical-align:middle}
+
+/* J-curve / equity cash-flow chart */
+#ma .jchart{display:flex;align-items:stretch;gap:3px;height:150px;position:relative;margin:.4rem 0 .2rem}
+#ma .jaxis{position:absolute;left:0;right:0;top:50%;height:1px;background:var(--border-strong);z-index:0}
+#ma .jcol{flex:1;position:relative;min-width:0;display:flex;flex-direction:column;justify-content:center}
+#ma .jwrapbar{position:relative;height:100%;display:flex;flex-direction:column;justify-content:center}
+#ma .jbar{position:absolute;left:14%;right:14%;border-radius:3px;min-height:2px}
+#ma .jbar.pos{background:var(--accent);bottom:50%}
+#ma .jbar.neg{background:var(--cost);top:50%}
+#ma .jbar.exit{background:#0a5a42;bottom:50%}
+#ma .jlbl{position:absolute;bottom:-16px;left:0;right:0;text-align:center;font-size:.56rem;color:var(--muted)}
+
+/* glossary */
+#ma .gloss{display:grid;grid-template-columns:1fr 1fr;gap:.3rem 1.6rem;margin:1.1rem 0}
+@media(max-width:640px){#ma .gloss{grid-template-columns:1fr}}
+#ma .gloss div{font-size:.82rem;color:var(--text2);line-height:1.55;padding:.4rem 0;border-bottom:1px solid var(--border)}
+#ma .gloss b{color:var(--text);font-weight:600}
+#ma .deals-link{display:inline-flex;align-items:center;gap:.5rem;font-size:.82rem;font-weight:600;color:var(--accent);background:var(--accent-soft);border:1px solid transparent;border-radius:10px;padding:.6rem .95rem;text-decoration:none;margin:.2rem 0 1rem;transition:border-color .12s ease}
+#ma .deals-link:hover{border-color:var(--accent)}
 </style>
 </head>
 <body>
@@ -247,6 +286,7 @@
       <a href="#structuring">Structuring</a>
       <a href="#deals">Historical deals</a>
       <a href="#sources">Sources</a>
+      <a href="#glossary">Glossary</a>
     </nav>
 
     <p class="lede">Infrastructure M&amp;A is not trading. A fund buying a port, a regulated network or a wind farm is buying <b>decades of cash flow</b> and the obligation to keep an essential service running. The discipline is therefore different from corporate or growth-equity dealmaking: you underwrite <b>durability</b> before upside, you structure financing to survive the downside, and you plan the next owner's purchase on the day you sign yours.</p>
@@ -325,6 +365,7 @@
             <span class="pk-lab">Pull a real asset</span>
             <select id="maSector" aria-label="Choose a sub-sector"></select>
             <select id="maAssetPick" aria-label="Choose an asset"></select>
+            <span class="pk-cur">Show in <select id="maCur" aria-label="Display currency"><option value="native">native</option><option value="$">USD</option><option value="£">GBP</option><option value="€">EUR</option></select></span>
           </div>
           <p class="pk-note" id="maLoaded">Start from a generic, illustrative asset — or load any of the <b>216 worked assets</b> from across the reference library, and the model pre-fills its EBITDA, multiple, leverage, growth and hold from that page's financials.</p>
         </div>
@@ -338,6 +379,15 @@
           <div class="dr"><span class="l">Leverage (Net debt / EBITDA)</span><input type="range" id="mLev" min="0" max="12" step="0.25" value="6"><span class="v" id="mLevV">6.00×</span></div>
           <div class="dr"><span class="l">EBITDA growth p.a.</span><input type="range" id="mGrow" min="-5" max="15" step="0.5" value="4"><span class="v" id="mGrowV">4.0%</span></div>
           <div class="dr"><span class="l">Exit EV / EBITDA</span><input type="range" id="mExit" min="4" max="26" step="0.5" value="12"><span class="v" id="mExitV">12.0×</span></div>
+        </div>
+
+        <p class="comps" id="maComps">—</p>
+
+        <div class="gseek">
+          <span class="gl">Goal-seek</span> Max bid for a target equity IRR of
+          <input id="mTargetIRR" type="number" value="12" step="0.5" min="1"> %
+          <button type="button" id="gsBtn">Solve for max bid</button>
+          <span class="gs-out" id="gsOut">Enter a target return and solve for the highest entry multiple that still clears it.</span>
         </div>
 
         <div class="scen">
@@ -364,6 +414,12 @@
             <span class="ig"><label for="mDscr" style="font-size:.74rem">min DSCR</label><input id="mDscr" type="number" value="1.8" step="0.1" min="1" disabled><span class="u">×</span></span>
             <span class="ig"><label for="mTenor" style="font-size:.74rem">tenor</label><input id="mTenor" type="number" value="15" step="1" min="2" max="40" disabled><span class="u">y</span></span>
           </div>
+          <div class="nf wide">
+            <label><input type="checkbox" id="mRefi"> Refinance / recap during hold</label>
+            <span class="ig"><label for="mRefiYr" style="font-size:.74rem">in year</label><input id="mRefiYr" type="number" value="4" step="1" min="1"></span>
+            <span class="ig"><label for="mRefiRd" style="font-size:.74rem">new cost of debt</label><input id="mRefiRd" type="number" value="5" step="0.25"><span class="u">%</span></span>
+            <span class="ig"><label for="mRegear" style="font-size:.74rem">re-gear to</label><input id="mRegear" type="number" value="0" step="0.5" min="0"><span class="u">×</span></span>
+          </div>
         </div>
 
         <div class="out-cards">
@@ -385,6 +441,15 @@
           </div>
           <div class="bridge" id="maBridge"></div>
           <p class="bridge-foot" id="bridgeFoot">—</p>
+        </div>
+
+        <div class="bridge-wrap">
+          <div class="bridge-h">
+            <span class="t">Equity cash flow by year — the J-curve</span>
+            <span class="lg"><i style="color:var(--cost)">■</i> cheque / outflow &nbsp; <i style="color:var(--accent)">■</i> distributions &nbsp; <i style="color:#0a5a42">■</i> incl. exit</span>
+          </div>
+          <div class="jchart" id="maJ"></div>
+          <p class="bridge-foot" id="jFoot">—</p>
         </div>
 
         <div class="ph-h" id="gridH">Projection · key lines by year ($m)</div>
@@ -428,6 +493,8 @@
       <h2>Landmark infrastructure deals</h2>
       <p class="body">A selection of significant, well-documented infrastructure acquisitions across sectors and decades — the kind of transactions this module describes, actually executed. Values are at announcement and mix enterprise value and equity value as reported; figures are rounded. Filter by sector or sort any column.</p>
 
+      <a class="deals-link" href="infrastructure-deals.html">Open the full deals database — filter by sector, region &amp; deal type →</a>
+
       <div class="filters" id="dealFilters"></div>
       <div class="table-wrap">
         <table class="deals">
@@ -464,6 +531,31 @@
       <p class="foot-note">This module is an educational reference for practitioners, not investment advice or a recommendation on any transaction. The interactive model is illustrative and not a forecast of any specific asset.</p>
     </div>
 
+    <!-- ============ 09 GLOSSARY ============ -->
+    <div class="sec" id="glossary">
+      <div class="sec-eyebrow">09 — Key terms</div>
+      <h2>Glossary</h2>
+      <p class="body">The acronyms and terms used across this module.</p>
+      <div class="gloss">
+        <div><b>NBO / binding offer</b> — non-binding indicative offer (a price range to enter due diligence), then the binding offer with a marked-up SPA.</div>
+        <div><b>IM / teaser</b> — the information memorandum (the detailed sale document) and the one-page teaser that precedes it.</div>
+        <div><b>SPA</b> — sale &amp; purchase agreement: the contract transferring ownership, with price, warranties, indemnities and conditions.</div>
+        <div><b>EV / equity value</b> — enterprise value is the whole business (debt + equity); equity value is what the shareholder pays after debt.</div>
+        <div><b>EV / EBITDA</b> — the headline valuation multiple: enterprise value divided by EBITDA (earnings before interest, tax, depreciation &amp; amortisation).</div>
+        <div><b>RAB / RCV</b> — regulated asset base / regulatory capital value: the capital a regulator lets a network earn a return on.</div>
+        <div><b>DSCR / ICR</b> — debt-service-cover ratio (cash ÷ interest + principal) and interest-cover ratio; how lenders size and covenant debt.</div>
+        <div><b>Leverage (Net debt / EBITDA)</b> — how much debt the asset carries relative to its earnings; the gearing lever of the return.</div>
+        <div><b>IRR / MOIC</b> — internal rate of return (the time-weighted % return) and the money multiple (total proceeds ÷ equity invested).</div>
+        <div><b>Locked-box / completion accounts</b> — two ways to fix the price: to a past balance sheet (no true-up) or to actual net debt/working capital at closing.</div>
+        <div><b>W&amp;I insurance</b> — warranty &amp; indemnity insurance: an insurer (not the seller) backs breaches of the warranties.</div>
+        <div><b>CP / long-stop</b> — conditions precedent that must clear before completion (antitrust, regulator, FDI), by a long-stop date or the deal lapses.</div>
+        <div><b>FDI screening</b> — foreign direct investment review; governments vet acquirers of strategic infrastructure on national-security grounds.</div>
+        <div><b>Recap / refinancing</b> — re-gearing the asset once de-risked, often returning a special distribution (dividend recap) to equity.</div>
+        <div><b>J-curve</b> — the shape of cumulative equity cash flow: negative after the cheque, turning positive as distributions and the exit land.</div>
+        <div><b>Core / core-plus / value-add</b> — the risk-return styles, from regulated/contracted (lowest) to build-out/repositioning (highest).</div>
+      </div>
+    </div>
+
   </div>
 </section>
 
@@ -474,6 +566,7 @@
 </footer>
 
 <script src="ma-assets.js" defer></script>
+<script src="ma-deals.js" defer></script>
 <script src="ma-deal.js" defer></script>
 <script src="site.js" defer></script>
 </body>
