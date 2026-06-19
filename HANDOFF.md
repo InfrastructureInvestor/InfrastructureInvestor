@@ -1,18 +1,27 @@
 # Handoff — Infrastructure Reference (theinfrastructureinvestor.com)
 
-A status summary for whoever picks this up next. Last updated: 2026-06-18.
+A status summary for whoever picks this up next. Last updated: 2026-06-19.
 
-> **Latest session (read first):** **Energy & Utilities is now COMPLETE** — all nine
-> sub-sectors are full reference pages. This session finished the last three
-> (**non-RAB** models, on a new **connections / ESCO engine** but the same daytime
-> economics-forward overlay): **last-mile electricity** (`lme-*.js`, connections/adoption
-> annuity), **last-mile water** (`lmw-*.js`, NAV connections annuity) and **heat networks**
-> (`hn-*.js`, district heating + cooling ESCO — a *heat-spread* engine, not a connections
-> one). Delivered on branch `claude/airport-animation-46ykuy` → **PR #71**. Gas transmission
-> (#67) and gas distribution (#68) merged earlier this session. Earlier sweep (all merged):
-> airports, cash-flow tool (`cashflow-model.html`), electricity transmission/distribution,
-> water & wastewater, gas transmission/distribution, ports/airports economics-overlay
-> retrofit. **Next: Transport** (roads, rolling-stock, ev-charging) — see "Suggested next steps".
+> **Latest session (read first):** **All six asset classes are COMPLETE** (every sub-sector is
+> a full 3-file reference page — see "Suggested next steps" for the per-class engine map), plus
+> two site-wide features were added on top:
+> 1. **Prev/next pager** — `site.js` injects a `<nav class="pager">` before the footer on every
+>    tour page (asset-class + sub-sector pages, in `INDEX` order); styled in `styles.css`. **(PR #75, merged.)**
+> 2. **Contact** — a structured form (topic dropdown / name / reply-to email / message / honeypot,
+>    posting to **Web3Forms**). It started as a form injected on every page (**PR #78, merged**), then
+>    was **moved to a dedicated `contact.html`** with a "Contact" link in the **top nav** (beside
+>    "Asset classes") and in the **footer** (beside "Community"), both injected by `site.js`. The
+>    form now renders **only** into `#contact-mount` on `contact.html`. **⚠️ That move is in
+>    `claude/contact-page` → PR #79, which is OPEN / not yet merged — merge it first.** The live
+>    Web3Forms access key (`9e75f662-…`) is already wired into `site.js` (safe to be public by design).
+>
+> **Chatbot discussion (no code written):** the user asked about adding an AI chatbot and then said
+> to **keep the site as low-cost as possible**. Conclusion documented in "Open items / decisions" #6:
+> a chatbot can't be purely static (an Anthropic API key can't ship in client JS — needs a tiny
+> serverless proxy, e.g. Cloudflare Workers free tier), and it's the only thing that would add a
+> *variable* cost. Recommended NOT building it for now; instead lean on the existing ⌘K search +
+> maybe a static FAQ. Current running cost of the whole site is ~**$10–15/yr (domain only)**;
+> everything else (GitHub Pages, Web3Forms, Giscus, SVG assets) is free.
 
 ## What this site is
 
@@ -288,15 +297,33 @@ assets flagged illustrative), and headless-validated returns.
 4. **OG image** is an SVG; a 1200×630 PNG would maximise social-card compatibility.
 5. **`compare.html`** base-case table predates the new reference pages — refresh its
    rows from the bridges/ports/data-centres models when convenient.
+6. **AI chatbot — discussed, decided AGAINST for now (cost).** The user wants the site as
+   low-cost as possible. A chatbot needs a serverless proxy to hold the Anthropic API key
+   (Cloudflare Workers free tier) and would add a *variable* per-message cost (~1¢ Haiku /
+   ~2–3¢ Sonnet / ~4–5¢ Opus, less with prompt caching). If revisited: cheapest viable build is
+   **Cloudflare Workers + `claude-haiku-4-5` + prompt caching + per-visitor rate limit + a hard
+   monthly spend cap in the Anthropic console**, grounded in the reference pages, widget injected
+   via `site.js` like the pager/contact. Free alternatives that cover much of the intent:
+   strengthen the existing **⌘K search** and/or add a **static FAQ page**. Cost guidance also
+   given: keep hosting on GitHub Pages, use free analytics (Cloudflare Web Analytics / GoatCounter),
+   register the domain at an at-cost registrar (Cloudflare Registrar), keep assets as SVG.
+7. **Web3Forms first-submission verification** — the live key is wired in, but Web3Forms usually
+   emails the owner to confirm on the first real submission; user should send a test message once
+   PR #79 is merged/deployed to confirm delivery + Reply-To behaviour.
 
-## Open PRs (this session) — check before building
+## Open PRs / recent merges — check before building
 
 Run `git fetch origin main` then `git log --oneline origin/main..<branch>` to see what's stranded.
-- **Merged to `main`:** electricity transmission (#63), ports/airports economics overlay (#64),
-  Cash-flow & DCF tool (#65), electricity distribution (#66), water & wastewater (#69), airports.
-- **OPEN / not yet merged:** **gas transmission #67** (`claude/gas-transmission`),
-  **gas distribution #68** (`claude/gas-distribution`). Merge these (or re-open PRs if auto-merge
-  stranded them) before doing anything gas-related.
+- **OPEN / not yet merged:** **PR #79** (`claude/contact-page`) — moves the contact form to a
+  dedicated `contact.html` + adds the nav/footer "Contact" links. **Merge this first.**
+- **Merged to `main` (this session):** prev/next pager (#75), site-wide contact form + Web3Forms
+  key (#78). Earlier (all merged): the six asset classes' sub-sector PRs, electricity transmission
+  (#63), ports/airports economics overlay (#64), cash-flow tool (#65), electricity distribution
+  (#66), gas transmission (#67), gas distribution (#68), water & wastewater (#69), E&U last-mile +
+  heat (#71).
+- **Branch note:** the designated dev branch was `claude/airport-animation-46ykuy`, but recent
+  features each used their own branch (`claude/contact-form`, `claude/contact-page`) per the
+  one-PR-per-feature workflow. The repo auto-merges, so push to a fresh feature branch and open a PR.
 
 ## Suggested next steps
 
@@ -361,8 +388,12 @@ Run `git fetch origin main` then `git log --oneline origin/main..<branch>` to se
 
 ## Map of key files
 
-- `index.html` — landing. `styles.css` — design system + nav/palette CSS.
-- `site.js` — shared nav + ⌘K palette (embedded search `INDEX`). `anim-guard.js` — reduced-motion guard.
+- `index.html` — landing. `styles.css` — design system + nav/palette CSS + `.pager` + `.contact` blocks.
+- `site.js` — shared nav + ⌘K palette (embedded search `INDEX`) **+ prev/next pager IIFE + footer
+  "Contact" link IIFE + Web3Forms contact-form IIFE (renders only into `#contact-mount` on
+  `contact.html`) + the top-nav "Contact" link**. `anim-guard.js` — reduced-motion guard.
+- `contact.html` — dedicated contact page (hero + `#contact-mount` where `site.js` mounts the form;
+  has a `<noscript>` fallback). In `INDEX` as a `Page`.
 - `<asset-class>.html` — 6 category pages (energy-utilities, transport, digital-infrastructure, social-infrastructure, energy-transition, environmental-waste).
 - `<sub-sector>.html` — sub-sector pages; `*-sim.html` — standalone sims.
 - **Reference pages (the template):** `electricity-interconnectors.html`/`ix-*.js`,
