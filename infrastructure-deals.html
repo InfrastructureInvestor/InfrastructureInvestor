@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Infrastructure deals database — Infrastructure Investor</title>
+<meta name="description" content="A filterable, sortable database of landmark infrastructure M&A transactions across sectors, regions and deal types — target, acquirer, year, value and what each one teaches.">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<link rel="canonical" href="https://theinfrastructureinvestor.com/infrastructure-deals.html">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Infrastructure Reference">
+<meta property="og:title" content="Infrastructure deals database">
+<meta property="og:description" content="Landmark infrastructure M&A transactions — filterable by sector, region and deal type, with what each one teaches.">
+<meta property="og:url" content="https://theinfrastructureinvestor.com/infrastructure-deals.html">
+<meta property="og:image" content="https://theinfrastructureinvestor.com/og-image.svg">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Infrastructure deals database">
+<meta name="twitter:description" content="Landmark infrastructure M&A transactions, filterable and sortable.">
+<meta name="twitter:image" content="https://theinfrastructureinvestor.com/og-image.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,500;0,8..60,600;1,8..60,400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+<style>
+#dl{max-width:1080px;margin:0 auto}
+#dl .lead{font-size:.92rem;color:var(--text2);line-height:1.7;max-width:760px;margin-bottom:1.3rem}
+#dl .lead b{color:var(--text);font-weight:600}
+#dl .lead a{color:var(--accent);text-decoration:none;font-weight:600}
+
+#dl .stats{display:flex;gap:2.5rem;flex-wrap:wrap;margin:0 0 1.4rem;padding-bottom:1.2rem;border-bottom:1px solid var(--border)}
+#dl .stat .n{font-family:'Source Serif 4',Georgia,serif;font-size:1.7rem;font-weight:500;color:var(--accent);line-height:1}
+#dl .stat .l{font-size:.66rem;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin-top:.3rem}
+
+#dl .frow{margin-bottom:.8rem}
+#dl .frow .fl{font-size:.6rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);font-weight:700;margin-right:.5rem}
+#dl .chip-f{font-family:inherit;font-size:.72rem;font-weight:600;color:var(--text2);background:var(--surface);border:1px solid var(--border-strong);border-radius:999px;padding:.38rem .82rem;cursor:pointer;transition:all .12s ease;margin:.18rem .18rem 0 0}
+#dl .chip-f:hover{border-color:var(--accent);color:var(--accent)}
+#dl .chip-f.on{background:var(--accent);color:#fff;border-color:var(--accent)}
+
+#dl .table-wrap{background:var(--surface);border:1px solid var(--border);border-radius:14px;overflow-x:auto;box-shadow:0 10px 30px rgba(18,38,32,.05);margin-top:1.1rem}
+#dl table{width:100%;border-collapse:collapse;min-width:960px}
+#dl thead th{position:sticky;top:0;background:var(--surface-2);font-size:.6rem;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);font-weight:700;text-align:left;padding:.8rem .9rem;border-bottom:1px solid var(--border);white-space:nowrap;cursor:pointer;user-select:none}
+#dl thead th.r{text-align:right}
+#dl thead th:hover{color:var(--accent)}
+#dl thead th .arr{opacity:0;font-size:.7rem;margin-left:.2rem}
+#dl thead th.sort .arr{opacity:1}
+#dl tbody tr{border-bottom:1px solid var(--border)}
+#dl tbody tr:last-child{border-bottom:none}
+#dl tbody tr:hover{background:var(--accent-soft)}
+#dl td{padding:.7rem .9rem;font-size:.82rem;color:var(--text);vertical-align:top}
+#dl td.r{text-align:right;white-space:nowrap;font-variant-numeric:tabular-nums}
+#dl td.tgt{font-weight:600;letter-spacing:-.01em}
+#dl td.tgt a{color:inherit;text-decoration:none;border-bottom:1px dotted var(--border-strong)}
+#dl td.tgt a:hover{color:var(--accent)}
+#dl td .acq{color:var(--text2);font-size:.78rem;margin-top:.15rem}
+#dl td .why{color:var(--text2);font-size:.78rem;line-height:1.5;white-space:normal;min-width:240px}
+#dl .cls-dot{display:inline-block;width:8px;height:8px;border-radius:50%;margin-right:.4rem;vertical-align:middle}
+#dl .cls-tag{font-size:.7rem;color:var(--text2);white-space:nowrap}
+#dl .pill{font-size:.64rem;font-weight:600;color:var(--text2);background:var(--surface-2);border:1px solid var(--border);border-radius:6px;padding:.16rem .45rem;white-space:nowrap}
+#dl .empty{padding:2rem;text-align:center;color:var(--muted);font-size:.85rem}
+#dl .foot-note{font-size:.72rem;color:var(--muted);line-height:1.7;margin-top:1.1rem;max-width:820px}
+#dl .foot-note b{color:var(--text2);font-weight:600}
+#dl .foot-note a{color:var(--accent);text-decoration:none}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="wrap">
+    <a class="nav-logo" href="index.html"><span class="pulse"></span>Infrastructure Reference</a>
+    <div class="nav-meta">Infrastructure Investor</div>
+  </div>
+</nav>
+
+<section class="hero">
+  <div class="wrap">
+    <div class="breadcrumb"><a href="index.html">Home</a><span class="sep">/</span><a href="infrastructure-ma.html">Infrastructure M&amp;A</a><span class="sep">/</span>Deals database</div>
+    <div class="hero-eyebrow">Deals database</div>
+    <h1>Infrastructure <em>deals</em></h1>
+    <p class="hero-sub">Landmark infrastructure acquisitions across sectors, regions and decades — the transactions that defined how the asset class trades. Filter by sector, region or deal type, sort any column, and click a target through to its sub-sector reference page.</p>
+  </div>
+</section>
+
+<section class="tools-section" id="dl">
+  <div class="wrap">
+
+    <p class="lead">A companion to the <a href="infrastructure-ma.html">Infrastructure M&amp;A module</a>. Values are at announcement, as reported — a mix of enterprise and equity value, rounded; consortium deals show the whole transaction. <b>Use it as a comparable set:</b> what sells, to whom, how it is structured, and at what scale.</p>
+
+    <div class="stats" id="dlStats"></div>
+
+    <div class="frow" id="fClass"></div>
+    <div class="frow" id="fRegion"></div>
+    <div class="frow" id="fType"></div>
+
+    <div class="table-wrap">
+      <table>
+        <thead><tr id="dlHead"></tr></thead>
+        <tbody id="dlBody"></tbody>
+      </table>
+    </div>
+
+    <p class="foot-note"><b>Methodology &amp; sources.</b> Figures are drawn from company announcements, regulatory filings and contemporaneous trade and financial press; full source links are listed in the <a href="infrastructure-ma.html#sources">M&amp;A module references</a>. "Deal value" mixes enterprise and equity value as reported, and several deals later took very different paths (Thames Water's restructuring; the CK Hutchison ports portfolio, agreed 2025, was subsequently contested in Panama). Educational reference only — not investment advice.</p>
+
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="footer-text">© 2026 Infrastructure Investor | theinfrastructureinvestor.com · <a href="community.html" style="color:var(--accent);text-decoration:none;font-weight:600">Community</a></div>
+  </div>
+</footer>
+
+<script src="ma-deals.js" defer></script>
+<script>
+(function(){
+  function ready(fn){ if(document.readyState!=='loading') fn(); else document.addEventListener('DOMContentLoaded',fn); }
+  ready(function(){
+    var DEALS=(window.MA_DEALS||[]).slice();
+    var CLS={ 'Energy & Utilities':'#0c6b4f','Transport':'#b07d24','Digital Infrastructure':'#2f5fb0',
+      'Social Infrastructure':'#bc4733','Energy Transition':'#37934f','Environmental & Waste':'#6a6b3a','Platform / GP':'#6b5b95' };
+    var el=function(id){ return document.getElementById(id); };
+
+    // stats
+    var totUSD=DEALS.reduce(function(s,d){ return s+(d.usd||0); },0);
+    el('dlStats').innerHTML=
+      '<div class="stat"><div class="n">'+DEALS.length+'</div><div class="l">Deals</div></div>'+
+      '<div class="stat"><div class="n">$'+Math.round(totUSD)+'bn</div><div class="l">Aggregate value</div></div>'+
+      '<div class="stat"><div class="n">'+Object.keys(CLS).filter(function(c){return DEALS.some(function(d){return d.cls===c;});}).length+'</div><div class="l">Sectors</div></div>'+
+      '<div class="stat"><div class="n">'+(Math.min.apply(null,DEALS.map(function(d){return d.y;})))+'–'+(Math.max.apply(null,DEALS.map(function(d){return d.y;})))+'</div><div class="l">Span</div></div>';
+
+    var fClass='All', fRegion='All', fType='All';
+    function uniq(key){ var s={}; DEALS.forEach(function(d){ s[d[key]]=1; }); return Object.keys(s).sort(); }
+
+    function chips(holderId, label, values, current, onpick){
+      var h='<span class="fl">'+label+'</span>';
+      ['All'].concat(values).forEach(function(v){ h+='<button class="chip-f'+(v===current?' on':'')+'" data-v="'+v+'">'+v+'</button>'; });
+      el(holderId).innerHTML=h;
+      el(holderId).querySelectorAll('.chip-f').forEach(function(b){ b.addEventListener('click',function(){ onpick(b.dataset.v); }); });
+    }
+
+    var COLS=[ {k:'t',label:'Target / acquirer'},{k:'cls',label:'Sector'},{k:'region',label:'Region'},
+      {k:'type',label:'Type'},{k:'y',label:'Year',r:true},{k:'val',label:'Deal value',r:true},{k:'why',label:'What it teaches'} ];
+    var sortK='y', sortDir=-1;
+    var head=el('dlHead');
+    COLS.forEach(function(c){
+      var th=document.createElement('th'); if(c.r) th.className='r';
+      th.innerHTML=c.label+'<span class="arr"></span>'; th.dataset.k=c.k;
+      th.addEventListener('click',function(){ if(sortK===c.k) sortDir=-sortDir; else { sortK=c.k; sortDir=(c.k==='y')?-1:1; } paint(); });
+      head.appendChild(th);
+    });
+    function sortVal(d){ if(sortK==='y') return d.y; if(sortK==='val') return d.usd||0; return String(d[sortK]).toLowerCase(); }
+
+    function paint(){
+      var rows=DEALS.filter(function(d){
+        return (fClass==='All'||d.cls===fClass)&&(fRegion==='All'||d.region===fRegion)&&(fType==='All'||d.type===fType); });
+      rows.sort(function(a,b){ var va=sortVal(a),vb=sortVal(b); if(va<vb) return -sortDir; if(va>vb) return sortDir; return 0; });
+      head.querySelectorAll('th').forEach(function(th){ var on=th.dataset.k===sortK; th.classList.toggle('sort',on); th.querySelector('.arr').textContent=on?(sortDir<0?'▾':'▴'):''; });
+      var body=el('dlBody');
+      if(!rows.length){ body.innerHTML='<tr><td colspan="7" class="empty">No deals match these filters.</td></tr>'; return; }
+      body.innerHTML=rows.map(function(d){
+        var tgt=d.url ? '<a href="'+d.url+'">'+d.t+'</a>' : d.t;
+        return '<tr>'+
+          '<td class="tgt">'+tgt+'<div class="acq">'+d.a+'</div></td>'+
+          '<td><span class="cls-tag"><span class="cls-dot" style="background:'+(CLS[d.cls]||'#889390')+'"></span>'+d.cls+'</span></td>'+
+          '<td>'+d.region+'</td>'+
+          '<td><span class="pill">'+d.type+'</span></td>'+
+          '<td class="r">'+d.y+'</td>'+
+          '<td class="r">'+d.val+'</td>'+
+          '<td><div class="why">'+d.why+'</div></td>'+
+        '</tr>';
+      }).join('');
+    }
+
+    chips('fClass','Sector',uniq('cls'),fClass,function(v){ fClass=v; refreshChips(); paint(); });
+    function refreshChips(){
+      chips('fClass','Sector',uniq('cls'),fClass,function(v){ fClass=v; refreshChips(); paint(); });
+      chips('fRegion','Region',uniq('region'),fRegion,function(v){ fRegion=v; refreshChips(); paint(); });
+      chips('fType','Type',uniq('type'),fType,function(v){ fType=v; refreshChips(); paint(); });
+    }
+    refreshChips();
+    paint();
+  });
+})();
+</script>
+<script src="site.js" defer></script>
+</body>
+</html>
