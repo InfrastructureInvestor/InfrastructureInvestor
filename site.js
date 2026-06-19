@@ -1,6 +1,6 @@
 /* Infrastructure Reference — shared nav + command palette (progressive enhancement) */
 (function () {
-  var INDEX = [{"t":"Home","u":"index.html","g":"Page"},{"t":"Compare returns","u":"compare.html","g":"Page"},{"t":"Community","u":"community.html","g":"Page"},{"t":"Energy & Utilities","u":"energy-utilities.html","g":"Asset class"},{"t":"Electricity transmission","u":"electricity-transmission.html","g":"Energy & Utilities"},{"t":"Electricity distribution","u":"electricity-distribution.html","g":"Energy & Utilities"},{"t":"Last-mile electricity","u":"last-mile-electricity.html","g":"Energy & Utilities"},{"t":"Electricity interconnectors","u":"electricity-interconnectors.html","g":"Energy & Utilities"},{"t":"Gas transmission","u":"gas-transmission.html","g":"Energy & Utilities"},{"t":"Gas distribution","u":"gas-distribution.html","g":"Energy & Utilities"},{"t":"Water & wastewater","u":"water-wastewater.html","g":"Energy & Utilities"},{"t":"Last-mile water","u":"last-mile-water.html","g":"Energy & Utilities"},{"t":"Heat networks","u":"heat-networks.html","g":"Energy & Utilities"},{"t":"Transport","u":"transport.html","g":"Asset class"},{"t":"Roads","u":"roads.html","g":"Transport"},{"t":"Rail infrastructure","u":"rail-infrastructure.html","g":"Transport"},{"t":"Airports","u":"airports.html","g":"Transport"},{"t":"Ports","u":"ports.html","g":"Transport"},{"t":"Rolling stock","u":"rolling-stock.html","g":"Transport"},{"t":"EV charging","u":"ev-charging.html","g":"Transport"},{"t":"Bridges","u":"bridges.html","g":"Transport"},{"t":"Digital Infrastructure","u":"digital-infrastructure.html","g":"Asset class"},{"t":"Fibre networks","u":"fibre-networks.html","g":"Digital Infrastructure"},{"t":"Mobile towers","u":"mobile-towers.html","g":"Digital Infrastructure"},{"t":"Data centres","u":"data-centres.html","g":"Digital Infrastructure"},{"t":"Subsea cables","u":"subsea-cables.html","g":"Digital Infrastructure"},{"t":"Social Infrastructure","u":"social-infrastructure.html","g":"Asset class"},{"t":"Hospitals","u":"hospitals.html","g":"Social Infrastructure"},{"t":"Schools","u":"schools.html","g":"Social Infrastructure"},{"t":"Prisons","u":"prisons.html","g":"Social Infrastructure"},{"t":"Courts","u":"courts.html","g":"Social Infrastructure"},{"t":"Military","u":"military.html","g":"Social Infrastructure"},{"t":"Student accommodation","u":"student-accommodation.html","g":"Social Infrastructure"},{"t":"Energy Transition","u":"energy-transition.html","g":"Asset class"},{"t":"Onshore wind","u":"onshore-wind.html","g":"Energy Transition"},{"t":"Offshore wind","u":"offshore-wind.html","g":"Energy Transition"},{"t":"Solar","u":"solar.html","g":"Energy Transition"},{"t":"Battery storage","u":"battery-storage.html","g":"Energy Transition"},{"t":"Hydrogen","u":"hydrogen.html","g":"Energy Transition"},{"t":"Nuclear","u":"nuclear.html","g":"Energy Transition"},{"t":"Pumped hydro","u":"pumped-hydro.html","g":"Energy Transition"},{"t":"Environmental & Waste","u":"environmental-waste.html","g":"Asset class"},{"t":"Waste-to-energy","u":"waste-to-energy.html","g":"Environmental & Waste"},{"t":"Anaerobic digestion","u":"anaerobic-digestion.html","g":"Environmental & Waste"},{"t":"Recycling infrastructure","u":"recycling-infrastructure.html","g":"Environmental & Waste"},{"t":"RIIO-ED2 Revenue Calculator","u":"riio_ed2_calculator.html","g":"Tool"},{"t":"Investment Considerations","u":"heat_framework.html","g":"Tool"},{"t":"Regulatory Timeline","u":"heat_regulation_timeline.html","g":"Tool"},{"t":"HSA Cashflow Model","u":"heat_dcf.html","g":"Tool"},{"t":"Cash-flow & DCF model","u":"cashflow-model.html","g":"Tool"},{"t":"WACC Calculator","u":"wacc-calculator.html","g":"Tool"},{"t":"Macro Dashboard","u":"macro_dashboard.html","g":"Tool"},{"t":"Ofgem & Ofwat Tracker","u":"regulatory_tracker.html","g":"Tool"}];
+  var INDEX = [{"t":"Home","u":"index.html","g":"Page"},{"t":"Compare returns","u":"compare.html","g":"Page"},{"t":"Community","u":"community.html","g":"Page"},{"t":"Contact","u":"contact.html","g":"Page"},{"t":"Energy & Utilities","u":"energy-utilities.html","g":"Asset class"},{"t":"Electricity transmission","u":"electricity-transmission.html","g":"Energy & Utilities"},{"t":"Electricity distribution","u":"electricity-distribution.html","g":"Energy & Utilities"},{"t":"Last-mile electricity","u":"last-mile-electricity.html","g":"Energy & Utilities"},{"t":"Electricity interconnectors","u":"electricity-interconnectors.html","g":"Energy & Utilities"},{"t":"Gas transmission","u":"gas-transmission.html","g":"Energy & Utilities"},{"t":"Gas distribution","u":"gas-distribution.html","g":"Energy & Utilities"},{"t":"Water & wastewater","u":"water-wastewater.html","g":"Energy & Utilities"},{"t":"Last-mile water","u":"last-mile-water.html","g":"Energy & Utilities"},{"t":"Heat networks","u":"heat-networks.html","g":"Energy & Utilities"},{"t":"Transport","u":"transport.html","g":"Asset class"},{"t":"Roads","u":"roads.html","g":"Transport"},{"t":"Rail infrastructure","u":"rail-infrastructure.html","g":"Transport"},{"t":"Airports","u":"airports.html","g":"Transport"},{"t":"Ports","u":"ports.html","g":"Transport"},{"t":"Rolling stock","u":"rolling-stock.html","g":"Transport"},{"t":"EV charging","u":"ev-charging.html","g":"Transport"},{"t":"Bridges","u":"bridges.html","g":"Transport"},{"t":"Digital Infrastructure","u":"digital-infrastructure.html","g":"Asset class"},{"t":"Fibre networks","u":"fibre-networks.html","g":"Digital Infrastructure"},{"t":"Mobile towers","u":"mobile-towers.html","g":"Digital Infrastructure"},{"t":"Data centres","u":"data-centres.html","g":"Digital Infrastructure"},{"t":"Subsea cables","u":"subsea-cables.html","g":"Digital Infrastructure"},{"t":"Social Infrastructure","u":"social-infrastructure.html","g":"Asset class"},{"t":"Hospitals","u":"hospitals.html","g":"Social Infrastructure"},{"t":"Schools","u":"schools.html","g":"Social Infrastructure"},{"t":"Prisons","u":"prisons.html","g":"Social Infrastructure"},{"t":"Courts","u":"courts.html","g":"Social Infrastructure"},{"t":"Military","u":"military.html","g":"Social Infrastructure"},{"t":"Student accommodation","u":"student-accommodation.html","g":"Social Infrastructure"},{"t":"Energy Transition","u":"energy-transition.html","g":"Asset class"},{"t":"Onshore wind","u":"onshore-wind.html","g":"Energy Transition"},{"t":"Offshore wind","u":"offshore-wind.html","g":"Energy Transition"},{"t":"Solar","u":"solar.html","g":"Energy Transition"},{"t":"Battery storage","u":"battery-storage.html","g":"Energy Transition"},{"t":"Hydrogen","u":"hydrogen.html","g":"Energy Transition"},{"t":"Nuclear","u":"nuclear.html","g":"Energy Transition"},{"t":"Pumped hydro","u":"pumped-hydro.html","g":"Energy Transition"},{"t":"Environmental & Waste","u":"environmental-waste.html","g":"Asset class"},{"t":"Waste-to-energy","u":"waste-to-energy.html","g":"Environmental & Waste"},{"t":"Anaerobic digestion","u":"anaerobic-digestion.html","g":"Environmental & Waste"},{"t":"Recycling infrastructure","u":"recycling-infrastructure.html","g":"Environmental & Waste"},{"t":"RIIO-ED2 Revenue Calculator","u":"riio_ed2_calculator.html","g":"Tool"},{"t":"Investment Considerations","u":"heat_framework.html","g":"Tool"},{"t":"Regulatory Timeline","u":"heat_regulation_timeline.html","g":"Tool"},{"t":"HSA Cashflow Model","u":"heat_dcf.html","g":"Tool"},{"t":"Cash-flow & DCF model","u":"cashflow-model.html","g":"Tool"},{"t":"WACC Calculator","u":"wacc-calculator.html","g":"Tool"},{"t":"Macro Dashboard","u":"macro_dashboard.html","g":"Tool"},{"t":"Ofgem & Ofwat Tracker","u":"regulatory_tracker.html","g":"Tool"}];
 
   var classes = INDEX.filter(function (e) { return e.g === 'Asset class'; });
   var here = (location.pathname.split('/').pop() || 'index.html');
@@ -33,40 +33,45 @@
     footer.parentNode.insertBefore(pager, footer);
   })();
 
-  /* ---------------- Contact form (Web3Forms) ---------------- */
+  /* ---------------- Footer contact link ---------------- */
   (function () {
+    var ft = document.querySelector('footer .footer-text');
+    if (!ft || ft.querySelector('a[href="contact.html"]')) return;
+    ft.appendChild(document.createTextNode(' · '));
+    var a = document.createElement('a');
+    a.href = 'contact.html'; a.textContent = 'Contact';
+    a.style.cssText = 'color:var(--accent);text-decoration:none;font-weight:600';
+    if (here === 'contact.html') a.setAttribute('aria-current', 'page');
+    ft.appendChild(a);
+  })();
+
+  /* ---------------- Contact form (Web3Forms) — contact.html only ---------------- */
+  (function () {
+    /* The form lives on its own page; everywhere else "Contact" is just a link. */
+    var mount = document.getElementById('contact-mount');
+    if (!mount) return;
+
     /* Get a free access key at https://web3forms.com — it is safe to expose in
        client code, and it keeps your email address out of the page source.
        Submissions are emailed to the address linked to the key, with the
        visitor's email set as Reply-To so you can reply directly. */
     var ACCESS_KEY = '9e75f662-1d6a-429f-bac9-32ec7018c756';
 
-    var footer = document.querySelector('footer');
-    if (!footer || document.getElementById('contact')) return;
-    var narrow = document.getElementById('ix') ? ' narrow' : '';
-    var topics = ['General enquiry', 'Investment or commercial', 'Feedback or data correction',
-                  'Media, speaking or partnership', 'Something else'];
+    var topics = ['General enquiry', 'Feedback or data correction', 'Investment or advisory',
+                  'Partnerships or collaboration', 'Media or speaking', 'Something else'];
     var esc = function (s) { return s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;'); };
 
-    var sec = document.createElement('section');
-    sec.className = 'contact' + narrow;
-    sec.id = 'contact';
-    sec.innerHTML =
+    mount.innerHTML =
       '<div class="contact-card">' +
-        '<div class="contact-head">' +
-          '<div class="contact-eyebrow">Get in touch</div>' +
-          '<h2>Contact</h2>' +
-          '<p>Questions, a correction, or a conversation about infrastructure — leave a note and I’ll reply by email.</p>' +
-        '</div>' +
         '<form class="contact-form" novalidate>' +
           '<div class="contact-grid">' +
-            '<div class="contact-field"><label for="cf-topic">Topic</label>' +
+            '<div class="contact-field full"><label for="cf-topic">What’s this about?</label>' +
               '<select id="cf-topic" name="topic">' +
                 topics.map(function (t) { return '<option>' + esc(t) + '</option>'; }).join('') +
               '</select></div>' +
             '<div class="contact-field"><label for="cf-name">Name</label>' +
               '<input id="cf-name" name="name" type="text" autocomplete="name" placeholder="Your name"></div>' +
-            '<div class="contact-field full"><label for="cf-email">Email <span class="req">*</span></label>' +
+            '<div class="contact-field"><label for="cf-email">Email <span class="req">*</span></label>' +
               '<input id="cf-email" name="email" type="email" autocomplete="email" required placeholder="you@example.com"></div>' +
             '<div class="contact-field full"><label for="cf-msg">Message <span class="req">*</span></label>' +
               '<textarea id="cf-msg" name="message" required placeholder="How can I help?"></textarea></div>' +
@@ -80,13 +85,13 @@
           '<p class="contact-note">Your email is used only to reply to you — no newsletter, no sharing.</p>' +
         '</form>' +
       '</div>';
-    footer.parentNode.insertBefore(sec, footer);
 
-    var form = sec.querySelector('form'),
-        statusEl = sec.querySelector('.contact-status'),
-        btn = sec.querySelector('.contact-btn'),
-        emailEl = sec.querySelector('#cf-email'),
-        msgEl = sec.querySelector('#cf-msg');
+    var form = mount.querySelector('form'),
+        statusEl = mount.querySelector('.contact-status'),
+        btn = mount.querySelector('.contact-btn'),
+        emailEl = mount.querySelector('#cf-email'),
+        msgEl = mount.querySelector('#cf-msg'),
+        sec = mount;
     function setStatus(msg, kind) { statusEl.textContent = msg; statusEl.className = 'contact-status' + (kind ? ' ' + kind : ''); }
     function emailOk(v) { return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v); }
 
@@ -155,6 +160,11 @@
     });
     document.addEventListener('click', function () { dd.classList.remove('open'); });
 
+    // Contact link (beside Asset classes)
+    var contactTop = document.createElement('a');
+    contactTop.className = 'nav-link'; contactTop.href = 'contact.html'; contactTop.textContent = 'Contact';
+    if (here === 'contact.html') contactTop.classList.add('on');
+
     // Compare link
     var cmp = document.createElement('a');
     cmp.className = 'nav-link'; cmp.href = 'compare.html'; cmp.textContent = 'Compare';
@@ -168,6 +178,7 @@
       (/Mac|iPhone|iPad/.test(navigator.platform) ? '⌘K' : 'Ctrl K') + '</kbd>';
 
     actions.appendChild(dd);
+    actions.appendChild(contactTop);
     actions.appendChild(cmp);
     actions.appendChild(search);
     wrap.appendChild(actions);
