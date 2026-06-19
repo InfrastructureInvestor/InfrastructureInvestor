@@ -342,10 +342,19 @@ Run `git fetch origin main` then `git log --oneline origin/main..<branch>` to se
   Distinct building scenes per asset, a government/offtaker icon paying the fee. **CALIBRATION LESSON:
   for availability PPPs the net entry (build−grant) must be ≈ 12–14× EBITDA over a realistic 15–20y hold,
   not the full 25–30y concession — a too-cheap entry over a long hold blows MOIC up to 5–8×.**
-  **Five asset classes now complete.** Next candidate: **environmental-waste** (waste-to-energy,
-  anaerobic digestion, recycling infrastructure) still on the old sim/tool pattern —
-  same playbook (geographic → Natural Earth; regulated/contracted →
-  economics-overlay engine; merchant/utilisation → the connections/ESCO/utilisation/penetration variants).
+  **Five asset classes now complete.**
+- **Environmental & waste is DONE** ✅ — all 3 sub-sectors, all "processing throughput" assets (a contracted
+  **gate fee** per tonne + **output sales**; copy `hn-heat.js`): `waste-to-energy.html` (`we-*`, gate fee +
+  merchant power, capital-heavy), `anaerobic-digestion.html` (`ad-*`, biomethane × an incentive-rich price +
+  feedstock gate fee − feedstock cost — subsidy-driven), `recycling-infrastructure.html` (`rc-*`, gate fee +
+  merchant commodity sales — thin commodity-exposed margins). Distinct scenes (EfW plant + chimney/furnace /
+  digester domes + grid injection / MRF sorting line + commodity bales). Old `*-sim.html` linked.
+- **🎉 ALL SIX ASSET CLASSES ARE NOW COMPLETE** — every sub-sector across Energy & Utilities, Transport,
+  Digital infrastructure, Energy transition, Social infrastructure and Environmental & waste is a full
+  3-file reference page (badge "Guide"). Plus the site-wide **prev/next pager** (`site.js` + `styles.css`)
+  walks the whole library. Future work is refinement: refresh figures, add new sub-sectors if the taxonomy
+  grows, or deepen any single page — the engine families to reuse are catalogued above
+  (RAB / connections / ESCO-spread / generation / storage / availability-PPP / penetration / throughput).
 - **If a segment is geographic, use the Natural Earth recipe above**; if it's a regulated/contracted
   network, **reuse the daytime economics-forward RAB engine + overlay** (copy `wt-water.js` or
   `ed-dist.js` and swap the scene). Keep one PR per segment; the repo auto-merges within minutes.
