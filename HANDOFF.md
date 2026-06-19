@@ -331,8 +331,19 @@ Run `git fetch origin main` then `git log --oneline origin/main..<branch>` to se
   revenue-per-MW × capture, with a tolling/capacity floor — merchant batteries higher-return/riskier,
   pumped hydro long-life/contracted/steadier). Bespoke scenes per asset (turbines / PV+sun / reactor
   domes+steam / electrolyser+H2 tanks / battery compound / reservoirs+penstock). Old `*-sim.html` linked.
-  **Four asset classes now complete.** Next candidates: remaining sub-sectors in
-  **social-infrastructure, environmental-waste** (and any stragglers) still on the old sim/tool pattern —
+- **Social infrastructure is DONE** ✅ — all 6 sub-sectors. Five are the **availability-PPP/PFI** model
+  (a contracted, indexed government annuity with NO demand risk — revenue = units × charge × availability,
+  cut only by performance deductions; copy `ho-hosp.js`, itself a copy of the rolling-stock availability
+  engine `rs-fleet.js`): `hospitals.html` (`ho-*`), `schools.html` (`sk-*`, lowest-risk/light-FM),
+  `prisons.html` (`pr-*`, heavier operations + the availability-vs-per-diem contrast), `courts.html`
+  (`ct-*`), `military.html` (`mi-*`, long-dated defence-accommodation estate). The 6th,
+  `student-accommodation.html` (`st-*`, copy of `lme-grid.js`), is the **demand-driven outlier** —
+  operational real estate (beds × rent × occupancy, operating leverage, the demand-risk contrast).
+  Distinct building scenes per asset, a government/offtaker icon paying the fee. **CALIBRATION LESSON:
+  for availability PPPs the net entry (build−grant) must be ≈ 12–14× EBITDA over a realistic 15–20y hold,
+  not the full 25–30y concession — a too-cheap entry over a long hold blows MOIC up to 5–8×.**
+  **Five asset classes now complete.** Next candidate: **environmental-waste** (waste-to-energy,
+  anaerobic digestion, recycling infrastructure) still on the old sim/tool pattern —
   same playbook (geographic → Natural Earth; regulated/contracted →
   economics-overlay engine; merchant/utilisation → the connections/ESCO/utilisation/penetration variants).
 - **If a segment is geographic, use the Natural Earth recipe above**; if it's a regulated/contracted
