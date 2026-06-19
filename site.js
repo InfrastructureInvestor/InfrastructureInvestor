@@ -57,7 +57,7 @@
        visitor's email set as Reply-To so you can reply directly. */
     var ACCESS_KEY = '9e75f662-1d6a-429f-bac9-32ec7018c756';
 
-    var topics = ['General enquiry', 'Feedback or data correction', 'Investment or advisory',
+    var topics = ['General enquiry', 'Feedback', 'Investment or advisory',
                   'Partnerships or collaboration', 'Media or speaking', 'Something else'];
     var esc = function (s) { return s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;'); };
 
