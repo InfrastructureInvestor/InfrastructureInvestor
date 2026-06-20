@@ -120,6 +120,7 @@
 #ma .bbar{position:relative;border-radius:4px 4px 0 0;min-height:2px;transition:height .15s ease}
 #ma .bbar.start,#ma .bbar.end{background:#3a4a45}
 #ma .bbar.pos{background:var(--accent)}
+#ma .bbar.idx{background:#5fa98f}
 #ma .bbar.neg{background:var(--cost)}
 #ma .bval{position:absolute;left:0;right:0;top:-15px;text-align:center;font-size:.6rem;font-weight:700;color:var(--text);font-variant-numeric:tabular-nums;white-space:nowrap}
 #ma .blbl{position:absolute;top:calc(100% + 6px);left:-6px;right:-6px;text-align:center;font-size:.58rem;color:var(--muted);line-height:1.2}
@@ -357,7 +358,7 @@
     <div class="sec" id="tool">
       <div class="sec-eyebrow">05 — Build it live</div>
       <h2>Acquisition &amp; returns model</h2>
-      <p class="body">A simplified buyout of a single asset. Set the four headline value drivers on the sliders and refine the operating assumptions below; the sources &amp; uses, the equity return and the value-creation bridge update live.</p>
+      <p class="body">A buyout of a single asset, built the way a deal team would. Set the four headline value drivers on the sliders, then refine the operating assumptions below — inflation and indexation, maintenance and growth capex, tax, the debt-sizing and terminal-value method. The sources &amp; uses, the equity return (nominal and real) and the value-creation bridge update live. Crucially, <b>real growth is paid for with growth capex</b>, and EBITDA growth is split into the part that is merely inflation indexation and the part that is genuine real value.</p>
 
       <div class="tool">
         <div class="ma-pick">
@@ -377,7 +378,7 @@
         <div class="drivers">
           <div class="dr"><span class="l">Entry EV / EBITDA</span><input type="range" id="mEntry" min="4" max="26" step="0.5" value="12"><span class="v" id="mEntryV">12.0×</span></div>
           <div class="dr"><span class="l">Leverage (Net debt / EBITDA)</span><input type="range" id="mLev" min="0" max="12" step="0.25" value="6"><span class="v" id="mLevV">6.00×</span></div>
-          <div class="dr"><span class="l">EBITDA growth p.a.</span><input type="range" id="mGrow" min="-5" max="15" step="0.5" value="4"><span class="v" id="mGrowV">4.0%</span></div>
+          <div class="dr"><span class="l">EBITDA growth p.a. (nominal)</span><input type="range" id="mGrow" min="-5" max="15" step="0.5" value="4"><span class="v" id="mGrowV">4.0%</span></div>
           <div class="dr"><span class="l">Exit EV / EBITDA</span><input type="range" id="mExit" min="4" max="26" step="0.5" value="12"><span class="v" id="mExitV">12.0×</span></div>
         </div>
 
@@ -402,7 +403,13 @@
           <div class="nf"><label>Entry EBITDA</label><span class="ig"><input id="mEbitda" type="number" value="200" step="10" min="1"><span class="u" id="uEbitda">$m</span></span></div>
           <div class="nf"><label>Hold period</label><span class="ig"><input id="mHold" type="number" value="7" step="1" min="1" max="40"><span class="u">y</span></span></div>
           <div class="nf"><label>Transaction costs</label><span class="ig"><input id="mFees" type="number" value="2" step="0.5" min="0"><span class="u">%</span></span></div>
-          <div class="nf"><label>Cash flow / EBITDA</label><span class="ig"><input id="mFcf" type="number" value="55" step="5" min="0" max="100"><span class="u">%</span></span></div>
+          <div class="nf"><label>Inflation p.a.</label><span class="ig"><input id="mInfl" type="number" value="2.5" step="0.25" min="0"><span class="u">%</span></span></div>
+          <div class="nf"><label>EBITDA inflation-linked</label><span class="ig"><input id="mIdx" type="number" value="70" step="5" min="0" max="100"><span class="u">%</span></span></div>
+          <div class="nf"><label>Cash conversion (WC)</label><span class="ig"><input id="mFcf" type="number" value="100" step="2.5" min="0" max="110"><span class="u">%</span></span></div>
+          <div class="nf"><label>Maintenance capex</label><span class="ig"><input id="mMaint" type="number" value="8" step="1" min="0"><span class="u">%</span></span></div>
+          <div class="nf"><label>Growth capex ×</label><span class="ig"><input id="mGcap" type="number" value="5" step="0.5" min="0"><span class="u">×</span></span></div>
+          <div class="nf"><label>Tax rate</label><span class="ig"><input id="mTax" type="number" value="25" step="1" min="0" max="60"><span class="u">%</span></span></div>
+          <div class="nf"><label>Tax depreciation life</label><span class="ig"><input id="mLife" type="number" value="30" step="1" min="3"><span class="u">y</span></span></div>
           <div class="nf"><label>Surplus cash to debt</label><span class="ig"><input id="mSweep" type="number" value="40" step="10" min="0" max="100"><span class="u">%</span></span></div>
           <div class="nf"><label>Cost of debt</label><span class="ig"><input id="mRd" type="number" value="6" step="0.25" min="0"><span class="u">%</span></span></div>
           <div class="nf wide">
@@ -413,6 +420,16 @@
             </span>
             <span class="ig"><label for="mDscr" style="font-size:.74rem">min DSCR</label><input id="mDscr" type="number" value="1.8" step="0.1" min="1" disabled><span class="u">×</span></span>
             <span class="ig"><label for="mTenor" style="font-size:.74rem">tenor</label><input id="mTenor" type="number" value="15" step="1" min="2" max="40" disabled><span class="u">y</span></span>
+            <label style="margin-left:.4rem"><input type="checkbox" id="mILD"> Index-linked (principal accretes with CPI)</label>
+          </div>
+          <div class="nf wide">
+            <label>Terminal value</label>
+            <span class="seg-pick" id="mTvMode" role="group" aria-label="Terminal value method">
+              <button type="button" data-tv="mult" class="on">Exit multiple</button>
+              <button type="button" data-tv="conc">Concession run-off</button>
+            </span>
+            <span class="ig"><label for="mConcEnd" style="font-size:.74rem">concession ends yr</label><input id="mConcEnd" type="number" value="30" step="1" min="2" disabled></span>
+            <span class="ig"><label for="mTVr" style="font-size:.74rem">run-off discount</label><input id="mTVr" type="number" value="8" step="0.5" min="0" disabled><span class="u">%</span></span>
           </div>
           <div class="nf wide">
             <label><input type="checkbox" id="mRefi"> Refinance / recap during hold</label>
@@ -423,7 +440,7 @@
         </div>
 
         <div class="out-cards">
-          <div class="ocard irr"><div class="k">Equity IRR</div><div class="v" id="oIRR">—</div><div class="s">levered, to the fund</div></div>
+          <div class="ocard irr"><div class="k">Equity IRR</div><div class="v" id="oIRR">—</div><div class="s" id="oIRRsub">gross of fund fees</div></div>
           <div class="ocard moic"><div class="k">Money multiple</div><div class="v" id="oMOIC">—</div><div class="s">MOIC over the hold</div></div>
           <div class="ocard"><div class="k">Equity cheque</div><div class="v" id="oEqIn">—</div><div class="s">invested at entry</div></div>
           <div class="ocard"><div class="k">Entry gearing</div><div class="v" id="oGearing">—</div><div class="s">net debt / EV</div></div>
@@ -436,8 +453,8 @@
 
         <div class="bridge-wrap">
           <div class="bridge-h">
-            <span class="t">Equity value-creation bridge ($m)</span>
-            <span class="lg"><i style="color:#3a4a45">■</i> equity &nbsp; <i style="color:var(--accent)">■</i> value created &nbsp; <i style="color:var(--cost)">■</i> cost</span>
+            <span class="t" id="maBridgeH">Equity value-creation bridge ($m)</span>
+            <span class="lg"><i style="color:#3a4a45">■</i> equity &nbsp; <i style="color:#5fa98f">■</i> indexation &nbsp; <i style="color:var(--accent)">■</i> real value &nbsp; <i style="color:var(--cost)">■</i> cost</span>
           </div>
           <div class="bridge" id="maBridge"></div>
           <p class="bridge-foot" id="bridgeFoot">—</p>
@@ -462,7 +479,7 @@
         <div class="sens-wrap"><table class="sens" id="maSens"></table></div>
         <p class="sens-cap">Each cell re-runs the full model holding everything else at the current settings; the outlined cell is today's case. Read it as the bid (entry multiple) you can justify for a target return, against the exit you assume.</p>
 
-        <p class="tool-note"><b>How it works.</b> Entry EV = entry multiple × EBITDA; the equity cheque = EV + transaction costs − new debt. Debt is sized either by <b>leverage</b> (Net&nbsp;debt/EBITDA, capped at 85% of EV) or by a <b>target DSCR</b> (the supportable annuity = year-1 cash-for-debt-service ÷ DSCR, annuitised over the tenor at the cost of debt). Each year EBITDA grows at the chosen rate; operating cash flow = cash-flow-conversion × EBITDA; after cash interest, surplus cash is split between debt repayment and distributions. At exit, equity proceeds = exit EV − remaining net debt. The IRR uses the dated equity cash flows; MOIC = total proceeds ÷ equity cheque. The <b>bridge</b> reconciles exactly: equity cheque + EBITDA growth (at the entry multiple) + multiple re-rating (on exit EBITDA) + debt paydown + distributions − transaction costs = total proceeds. <b>Real-asset figures</b> are pulled from each reference page's model in that asset's native currency; they are illustrative, not a forecast. The model omits construction phasing, refinancing, working-capital detail and the full tax structure. Not investment advice.</p>
+        <p class="tool-note"><b>How it works.</b> Entry EV = entry multiple × EBITDA; the equity cheque = EV + transaction costs − new debt. Debt is sized either by <b>leverage</b> (Net&nbsp;debt/EBITDA, capped at 85% of EV) or to a <b>target DSCR</b> — the supportable annuity = year-1 CFADS (cash conversion × EBITDA − maintenance capex) ÷ DSCR, annuitised over the tenor; the reported DSCR is the <b>minimum across the whole hold</b>, after tax. Each year, nominal EBITDA growth is split into <b>inflation indexation</b> (the inflation-linked share × inflation) and <b>real growth</b>; only real growth is paid for, with <b>growth capex</b> = the chosen multiple × the real EBITDA increment. The cash waterfall runs EBITDA → less maintenance capex → less <b>cash tax</b> (on EBITDA − straight-line tax depreciation − interest, with a loss carry-forward and the interest shield) → less cash interest → less growth capex; surplus is split between debt sweep and distributions, and any shortfall is drawn on a revolver. An optional <b>index-linked tranche</b> accretes its principal with CPI. <b>Terminal value</b> is either exit multiple × terminal EBITDA, or — for a finite concession — the discounted run-off of the remaining contracted cash flows to handback (debt repaid from that run-off). The IRR uses the dated equity cash flows (a <b>real IRR</b> deflates it by inflation); MOIC = total proceeds ÷ equity cheque; returns are <b>gross of fund management fees and carry</b>. The <b>bridge</b> reconciles exactly: equity cheque + indexation + real growth (both at the entry multiple) + re-rating (terminal value vs entry multiple × terminal EBITDA) + debt paydown + distributions − transaction costs = total proceeds. <b>Real-asset figures</b> are pulled from each reference page's model in that asset's native currency; they are illustrative, not a forecast, and the operating assumptions (capex, tax, indexation) are stylised by asset class. The model still omits construction phasing, working-capital detail and the full HoldCo tax structure. Not investment advice.</p>
       </div>
 
       <div class="seealso">
