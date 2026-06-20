@@ -4,19 +4,19 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>M&amp;A in action: entering the fibre market — Infrastructure Investor</title>
-<meta name="description" content="A worked, banker-grade playbook for an infrastructure platform entering the fibre market — build vs buy a full network vs buy-and-build, an interactive three-route comparator, the full deal process step by step, and exactly who to call in real life for advisers, debt and equity.">
+<meta name="description" content="A worked, investment-banker-grade playbook for an infrastructure platform entering the fibre market — build vs buy vs buy-and-build with a live comparator, the auction run end to end, the capital structure and financing in depth, the valuation maths, and exactly who to call. Hover any term for a definition.">
 <script src="anim-guard.js"></script>
 <link rel="icon" type="image/svg+xml" href="favicon.svg">
 <link rel="canonical" href="https://theinfrastructureinvestor.com/ma-in-action.html">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Infrastructure Reference">
 <meta property="og:title" content="M&amp;A in action: entering the fibre market">
-<meta property="og:description" content="Build vs buy vs buy-and-build into fibre — an interactive comparator, the full deal process, and who to actually call for advisers and debt.">
+<meta property="og:description" content="Build vs buy vs buy-and-build into fibre — a live comparator, the auction end to end, the capital structure in depth, and who to actually call. Banker-grade.">
 <meta property="og:url" content="https://theinfrastructureinvestor.com/ma-in-action.html">
 <meta property="og:image" content="https://theinfrastructureinvestor.com/og-image.svg">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="M&amp;A in action: entering the fibre market">
-<meta name="twitter:description" content="A worked, banker-grade fibre market-entry playbook with an interactive build-vs-buy-vs-buy-and-build comparator.">
+<meta name="twitter:description" content="An investment-banker-grade fibre market-entry playbook with a live build-vs-buy-vs-buy-and-build comparator and a hover glossary.">
 <meta name="twitter:image" content="https://theinfrastructureinvestor.com/og-image.svg">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -26,14 +26,25 @@
 #ia{max-width:1040px;margin:0 auto}
 #ia .lede{font-size:1rem;color:var(--text2);line-height:1.75;margin:1.4rem 0 .4rem}
 #ia .lede b{color:var(--text);font-weight:600}
-#ia p.body{font-size:.92rem;color:var(--text2);line-height:1.75;margin:.8rem 0}
+#ia p.body{font-size:.92rem;color:var(--text2);line-height:1.78;margin:.85rem 0}
 #ia p.body b{color:var(--text);font-weight:600}
-#ia .ia-nav{display:flex;flex-wrap:wrap;gap:.4rem;margin:1.4rem 0 .4rem;position:sticky;top:62px;z-index:20;background:linear-gradient(180deg,var(--bg) 70%,transparent);padding:.5rem 0}
+#ia .hint{font-size:.78rem;color:var(--muted);margin:.6rem 0 0;display:flex;align-items:center;gap:.4rem}
+#ia .hint .term{font-weight:600}
+#ia .ia-nav{display:flex;flex-wrap:wrap;gap:.4rem;margin:1.3rem 0 .4rem;position:sticky;top:62px;z-index:20;background:linear-gradient(180deg,var(--bg) 70%,transparent);padding:.5rem 0}
 #ia .ia-nav a{font-size:.72rem;font-weight:600;color:var(--text2);background:var(--surface);border:1px solid var(--border-strong);border-radius:999px;padding:.4rem .85rem;text-decoration:none;transition:all .12s ease}
 #ia .ia-nav a:hover{border-color:var(--accent);color:var(--accent)}
 #ia h2{font-family:'Source Serif 4',Georgia,serif;font-size:1.55rem;font-weight:500;letter-spacing:-.01em;color:var(--text);margin:0 0 .2rem;scroll-margin-top:110px}
+#ia h3.sub{font-size:1.02rem;font-weight:600;color:var(--text);margin:1.5rem 0 .3rem}
 #ia .sec{margin:2.6rem 0 0;padding-top:1.6rem;border-top:1px solid var(--border)}
 #ia .sec-eyebrow{font-size:.66rem;letter-spacing:.13em;text-transform:uppercase;color:var(--accent);font-weight:700;margin-bottom:.7rem}
+
+/* hover glossary term + tooltip (global so the engine works) */
+.term{border-bottom:1px dashed var(--accent);cursor:help;color:inherit;font-weight:500;outline:none}
+.term:hover,.term:focus{background:var(--accent-soft);border-radius:3px}
+.gtip{position:fixed;max-width:320px;background:#15201d;color:#eaf2ee;font-family:'Inter',sans-serif;font-size:.78rem;line-height:1.5;padding:.6rem .75rem;border-radius:9px;box-shadow:0 12px 34px rgba(8,20,14,.4);z-index:3000;pointer-events:none}
+.gtip .gt-term{display:block;font-weight:700;color:#fff;margin-bottom:.22rem;font-size:.8rem}
+.gtip::after{content:'';position:absolute;left:50%;bottom:-6px;transform:translateX(-50%);border:6px solid transparent;border-top-color:#15201d}
+.gtip.below::after{bottom:auto;top:-6px;border-top-color:transparent;border-bottom-color:#15201d}
 
 #ia .grid{display:grid;gap:1rem;margin:1.2rem 0}
 #ia .grid.g3{grid-template-columns:repeat(3,1fr)}
@@ -48,16 +59,19 @@
 #ia .card li::before{content:'';position:absolute;left:0;top:.62rem;width:5px;height:5px;border-radius:50%;background:var(--accent)}
 #ia .card li b{color:var(--text);font-weight:600}
 
-/* decision matrix table */
+#ia .callout{background:var(--accent-soft);border-left:3px solid var(--accent);border-radius:8px;padding:.7rem .95rem;margin:1rem 0;font-size:.85rem;color:var(--text2);line-height:1.65}
+#ia .callout b{color:var(--text);font-weight:600}
+
 #ia .tbl-wrap{overflow-x:auto;border:1px solid var(--border);border-radius:12px;background:var(--surface);margin:1.1rem 0}
-#ia table.matrix{border-collapse:collapse;width:100%;min-width:640px;font-size:.82rem}
-#ia .matrix th,#ia .matrix td{padding:.65rem .85rem;text-align:left;border-bottom:1px solid var(--border);vertical-align:top}
-#ia .matrix thead th{background:var(--surface-2);font-size:.62rem;letter-spacing:.05em;text-transform:uppercase;color:var(--muted);font-weight:700;white-space:nowrap}
-#ia .matrix td:first-child,#ia .matrix th:first-child{font-weight:600;color:var(--text);white-space:nowrap}
-#ia .matrix td{color:var(--text2);line-height:1.5}
-#ia .matrix tr:last-child td{border-bottom:none}
-#ia .dot{display:inline-block;width:8px;height:8px;border-radius:50%;margin-right:.3rem}
+#ia table{border-collapse:collapse;width:100%;font-size:.82rem}
+#ia table.matrix{min-width:660px}
+#ia th,#ia td{padding:.6rem .85rem;text-align:left;border-bottom:1px solid var(--border);vertical-align:top}
+#ia thead th{background:var(--surface-2);font-size:.62rem;letter-spacing:.05em;text-transform:uppercase;color:var(--muted);font-weight:700;white-space:nowrap}
+#ia td:first-child,#ia th:first-child{font-weight:600;color:var(--text)}
+#ia td{color:var(--text2);line-height:1.5}
+#ia tbody tr:last-child td{border-bottom:none}
 #ia .lo{color:#0a7d53;font-weight:600}#ia .mid{color:#b07d24;font-weight:600}#ia .hi{color:var(--cost);font-weight:600}
+#ia table.tl td:first-child{white-space:nowrap;color:var(--accent)}
 
 /* interactive comparator */
 #ia .tool{background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:1.3rem 1.4rem;margin:1.3rem 0 .6rem;box-shadow:0 10px 30px rgba(18,38,32,.05)}
@@ -90,7 +104,9 @@
 #ia .kpi .k{font-size:.56rem;letter-spacing:.03em;text-transform:uppercase;color:var(--muted);font-weight:700}
 #ia .kpi .v{font-family:'Source Serif 4',Georgia,serif;font-size:1.08rem;font-weight:500;color:var(--text);line-height:1.2;font-variant-numeric:tabular-nums}
 #ia .kpi.big .v{color:var(--accent)}
-#ia .route-spark-h{font-size:.58rem;letter-spacing:.04em;text-transform:uppercase;color:var(--muted);font-weight:700;margin:.8rem 0 .3rem}
+#ia .route-basis{font-size:.68rem;color:var(--text2);margin:.6rem 0 0;line-height:1.5}
+#ia .route-basis b{color:var(--text);font-weight:600}
+#ia .route-spark-h{font-size:.58rem;letter-spacing:.04em;text-transform:uppercase;color:var(--muted);font-weight:700;margin:.7rem 0 .3rem}
 #ia .rs-chart{display:flex;align-items:stretch;gap:2px;height:54px;position:relative}
 #ia .rs-axis{position:absolute;left:0;right:0;top:50%;height:1px;background:var(--border-strong)}
 #ia .rs-col{flex:1;position:relative;min-width:0}
@@ -110,8 +126,9 @@
 #ia .step:last-child{margin-bottom:0}
 #ia .step::before{content:'';position:absolute;left:-1.43rem;top:.28rem;width:13px;height:13px;border-radius:50%;background:var(--surface);border:2px solid var(--accent)}
 #ia .step .ph{font-size:.62rem;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);font-weight:700;margin-bottom:.12rem}
+#ia .step .ph .wk{color:var(--accent)}
 #ia .step h3{font-size:.98rem;font-weight:600;color:var(--text);margin-bottom:.25rem}
-#ia .step p{font-size:.84rem;color:var(--text2);line-height:1.65}
+#ia .step p{font-size:.84rem;color:var(--text2);line-height:1.68}
 #ia .step p b{color:var(--text);font-weight:600}
 #ia .step .rl{font-size:.8rem;color:var(--text2);line-height:1.6;margin-top:.35rem;padding:.45rem .7rem;background:var(--accent-soft);border-radius:8px}
 #ia .step .rl b{color:var(--accent);font-weight:700}
@@ -137,7 +154,8 @@
     <div class="breadcrumb"><a href="index.html">Home</a><span class="sep">/</span>Cross-sector tool<span class="sep">/</span>M&amp;A in action</div>
     <div class="hero-eyebrow">M&amp;A in action · worked case</div>
     <h1>Entering the <em>fibre</em> market</h1>
-    <p class="hero-sub">An infrastructure platform wants to own fibre. It can <b>build</b> a network itself, <b>buy</b> a finished one, or <b>buy a small network and build</b> on it. This is the whole thing worked through — the three routes compared live, the deal run end to end at the level a banker would describe it, and exactly who you call in real life to make it happen.</p>
+    <p class="hero-sub">An infrastructure platform wants to own fibre. It can <b>build</b> a network, <b>buy</b> a finished one, or <b>buy a small network and build</b> on it. This is the whole thing worked through at the level a deal team would run it — the three routes compared live, the auction end to end, the capital structure and financing in depth, the valuation maths, and exactly who you call.</p>
+    <p class="hint">Tip — hover (or tap) any <span class="term" data-term="lockedbox">underlined term</span> for a definition.</p>
   </div>
 </section>
 
@@ -147,32 +165,34 @@
     <nav class="ia-nav" aria-label="On this page">
       <a href="#setup">The thesis</a>
       <a href="#routes">Three routes</a>
-      <a href="#economics">Fibre economics</a>
+      <a href="#economics">Economics &amp; valuation</a>
       <a href="#process">The process</a>
+      <a href="#capital">Capital structure</a>
       <a href="#reallife">Who to call</a>
+      <a href="#risk">Risk &amp; the IC</a>
       <a href="#verdict">The verdict</a>
     </nav>
 
-    <p class="lede">Our platform — call it a mid-market infrastructure fund with a fresh allocation to digital — has set its thesis: <b>full-fibre (FTTP) is a once-in-a-generation rebuild of the access network</b>, with monopoly-like local economics once a street is built and penetrated. Copper is being switched off; governments back gigabit coverage; and the market is <b>fragmented</b> — a dozen sub-scale "altnets" chasing the same homes. That fragmentation is the opportunity. The question is not <i>whether</i> to enter, but <b>how</b>.</p>
+    <p class="lede">Our platform — a mid-market infrastructure fund with a fresh allocation to digital — has set its thesis: <b>full-fibre is a once-in-a-generation rebuild of the access network</b>, with monopoly-like local economics once a street is built and penetrated. The UK is the worked example: the <span class="term" data-term="pstn">copper network switches off in January 2027</span>, government backs gigabit coverage through <span class="term" data-term="projectgigabit">Project Gigabit</span>, and the market is fragmented across more than a hundred <span class="term" data-term="altnet">altnets</span> — many sub-scale and loss-making (sector accounting losses passed <b>£1.5bn</b> in 2024). That fragmentation, and the <span class="term" data-term="overbuild">overbuild</span> it created, is forcing <b>consolidation</b>. The question is not <i>whether</i> to enter, but <b>how</b>.</p>
 
     <!-- ============ 1. THESIS ============ -->
     <div class="sec" id="setup">
       <div class="sec-eyebrow">01 — The thesis</div>
-      <h2>Why fibre, and what we are underwriting</h2>
-      <p class="body">Fibre has the infrastructure characteristics a fund underwrites — an essential service, very high barriers to a second build, long asset life, and a recurring, inflation-linked subscription once connected. But it is <b>not</b> a regulated annuity on day one: a greenfield network is a <b>development asset</b> that burns cash building homes passed, then inflects to a high-margin annuity as penetration climbs. The three things that make or break the case:</p>
+      <h2>What we are actually underwriting</h2>
+      <p class="body">Fibre has the infrastructure characteristics a fund underwrites — an essential service, very high barriers to a second build, 30-year-plus asset life, and a recurring, inflation-linked subscription once connected. But it is <b>not</b> a regulated annuity on day one: a greenfield network is a <b>development asset</b> that burns cash building <span class="term" data-term="homespassed">homes passed</span>, then inflects to a high-margin annuity as <span class="term" data-term="penetration">penetration</span> climbs. Three variables decide the case.</p>
       <div class="grid g3">
-        <div class="card"><h3>Overbuild</h3><p>The single biggest risk. If a second (or third) network builds the same streets, penetration and ARPU both fall. The whole diligence effort orbits one question: <b>is this footprint defensible?</b></p></div>
-        <div class="card"><h3>Penetration</h3><p>The flywheel. Build cost is fixed per home passed; the return is made on <b>take-up × ARPU</b>. A network at 25% penetration loses money; the same network at 45% is a star. Everything hinges on the ramp.</p></div>
-        <div class="card"><h3>Build &amp; capital</h3><p>Hundreds of millions of front-loaded capex before the cash turns. You need a <b>build machine</b> (civils, wayleaves, vendors) and committed capital to fund the J-curve without stalling mid-build.</p></div>
+        <div class="card"><h3>Overbuild</h3><p>The single biggest risk. If a second or third network builds the same streets, penetration and <span class="term" data-term="arpu">ARPU</span> both fall. Diligence orbits one question: <b>is this footprint defensible?</b> A network that is sole-fibre in its towns is worth a different multiple to one fighting two rivals.</p></div>
+        <div class="card"><h3>Penetration</h3><p>The flywheel. Build cost is fixed per home passed; the return is earned on <b>take-up × ARPU</b>. Below ~25–35% a network loses money; at 45%+ it is a star. The <span class="term" data-term="penetration">penetration</span> ramp by <b>cohort</b> — how fast each year’s build fills up — is the most-debated line in the model.</p></div>
+        <div class="card"><h3>Build &amp; capital</h3><p>Front-loaded capex of <b>£300–£600 per home passed</b> in efficient urban builds (much more rural), before the cash turns. You need a <b>build machine</b> — civils, <span class="term" data-term="wayleave">wayleaves</span>, vendors — and committed capital to fund the <span class="term" data-term="jcurve">J-curve</span> without stalling mid-build.</p></div>
       </div>
-      <p class="body">The platform's mandate sets the frame: a <b>core-plus / value-add</b> return target (low-to-mid teens equity IRR), a 7–12 year hold, a wholesale (open-access) model to stay capital-light on the retail side, and a single national or regional footprint it can scale to an exit that a larger infrastructure fund, a strategic, or the public markets will buy.</p>
+      <p class="body">The mandate sets the frame: a <span class="term" data-term="coreplus">core-plus / value-add</span> return target (low-to-mid-teens equity <span class="term" data-term="irr">IRR</span>), a 7–12 year hold, a <span class="term" data-term="wholesale">wholesale / open-access</span> model to stay capital-light on retail, and a footprint we can scale to an exit that a larger infrastructure fund, a strategic, or the public markets will buy. <b>The reference build</b> for how this is financed is CityFibre’s 2022 package — c.<b>£4.9bn of debt</b> plus equity from Antin, Goldman Sachs, Mubadala and others — to fund a rollout to ~8m premises: the largest full-fibre financing Europe had seen, and the template a new entrant is measured against.</p>
     </div>
 
     <!-- ============ 2. THREE ROUTES + COMPARATOR ============ -->
     <div class="sec" id="routes">
       <div class="sec-eyebrow">02 — The strategic question</div>
       <h2>Build, buy, or buy-and-build</h2>
-      <p class="body">Three ways in, the same end-state footprint. They differ in <b>who creates the value</b> (you, at cost, taking the risk — or a seller, whom you pay a multiple), how fast you reach scale, how much equity is at risk, and how much execution rests on your own team.</p>
+      <p class="body">Three ways in, the same end-state footprint. They differ in <b>who creates the value</b> — you, at cost, taking the risk, or a seller you pay a multiple — how fast you reach scale, how much equity is at risk through the J-curve, and how much execution rests on your own team.</p>
 
       <div class="tbl-wrap">
         <table class="matrix">
@@ -184,12 +204,13 @@
             <tr><td>Penetration risk</td><td><span class="hi">Full</span> — ramp from zero</td><td><span class="lo">Low</span> — proven take-up</td><td><span class="mid">Mixed</span></td></tr>
             <tr><td>Equity at risk</td><td><span class="mid">Phased</span>, lower total</td><td><span class="hi">Large, day one</span></td><td><span class="mid">Phased</span></td></tr>
             <tr><td>Competition for the deal</td><td><span class="lo">None</span> — you originate it</td><td><span class="hi">High</span> — auctioned</td><td><span class="mid">Medium</span></td></tr>
-            <tr><td>Best when…</td><td>whitespace exists &amp; you have a build machine</td><td>you need scale fast &amp; want low risk</td><td>a credible sub-scale platform is for sale</td></tr>
+            <tr><td>Entry valuation basis</td><td>build cost / home</td><td><span class="term" data-term="evebitda">EV/EBITDA</span> (full multiple)</td><td><span class="term" data-term="evhome">EV/home</span> + build at cost</td></tr>
+            <tr><td>Best when…</td><td>defensible whitespace &amp; a build machine</td><td>scale fast, low risk, can win the auction</td><td>a credible sub-scale platform is for sale</td></tr>
           </tbody>
         </table>
       </div>
 
-      <p class="body">Now put numbers on it. The comparator below runs <b>one funding model three ways</b> over the same target footprint — a cohort penetration ramp, a capex/acquisition funding waterfall (debt to a cap, equity fills the gap, then surplus cash sweeps debt and distributes), and an exit at a market multiple. Change the footprint, the build cost, the penetration and the financing, and watch which route wins.</p>
+      <p class="body">Now put numbers on it. The comparator runs <b>one funding model three ways</b> over the same target footprint — a cohort penetration ramp, a capex/acquisition <span class="term" data-term="sourcesuses">funding waterfall</span> (senior debt to a cap, equity fills the gap, surplus <span class="term" data-term="cashsweep">sweeps debt</span> then distributes), and an exit at a market multiple.</p>
 
       <div class="tool">
         <div class="tool-top"><span class="t">Build vs buy vs buy-and-build · fibre platform</span><button class="rs-reset" id="rsReset">Reset</button></div>
@@ -229,7 +250,7 @@
         <div class="routes" id="routes"></div>
         <div class="verdict" id="verdict">—</div>
 
-        <p class="tool-note"><b>How it works.</b> All three routes converge on the same end-state footprint, so they are compared like-for-like. Each year, homes passed are built on a schedule (or acquired at entry); penetration ramps each cohort to the steady-state level; revenue = connected homes × ARPU (growing with inflation) × 12; EBITDA = revenue − opex. A funding waterfall draws <b>senior debt up to the cap</b> (a multiple of mature EBITDA), <b>equity fills any remaining gap</b>, and once cash-generative the surplus <b>sweeps debt then distributes</b>. The exit adds the equity value at the chosen multiple. <b>Building flatters the point estimate</b> because it books value at construction cost — but it carries the execution and penetration risk a single IRR can't show. Illustrative only; not a forecast or investment advice.</p>
+        <p class="tool-note"><b>How it works.</b> All three routes converge on the same end-state footprint, so they are compared like-for-like. Each year, homes passed are built on a schedule (or acquired at entry); penetration ramps each cohort to the steady-state level; revenue = connected homes × ARPU (growing with inflation) × 12; <span class="term" data-term="ebitda">EBITDA</span> = revenue − opex. A funding waterfall draws senior debt up to the cap (a multiple of mature EBITDA), equity fills any gap, and once cash-generative the surplus sweeps debt then distributes; the exit adds the equity value at the chosen multiple. <b>Building flatters the point estimate</b> because it books value at construction cost — but it carries the execution and penetration risk a single IRR can’t show. Illustrative only; not a forecast or investment advice.</p>
       </div>
 
       <div class="seealso">
@@ -239,55 +260,98 @@
       </div>
     </div>
 
-    <!-- ============ 3. ECONOMICS ============ -->
+    <!-- ============ 3. ECONOMICS & VALUATION ============ -->
     <div class="sec" id="economics">
-      <div class="sec-eyebrow">03 — The unit economics</div>
-      <h2>How a fibre network actually makes money</h2>
+      <div class="sec-eyebrow">03 — The maths</div>
+      <h2>The unit economics — and how you value it</h2>
       <p class="body">Everything reduces to four numbers and one curve. Get fluent in these and the diligence, the model and the negotiation all follow.</p>
       <div class="grid g2">
-        <div class="card"><h3>Homes passed vs homes connected</h3><p><b>Homes passed</b> is the footprint — premises the fibre runs past, ready to connect. <b>Homes connected</b> is the subset actually taking service. The ratio is <b>penetration (take-up)</b>. You spend to pass; you earn on connect.</p></div>
-        <div class="card"><h3>Build cost &amp; connection cost</h3><p><b>Build cost per home passed</b> (civils, fibre, electronics — roughly £300–£600 in a UK-type market) is the fixed bet. <b>Connection cost per activation</b> (the drop into the home, ~£200–£350) is incurred only when a customer signs — capex that follows revenue.</p></div>
-        <div class="card"><h3>ARPU &amp; the wholesale stack</h3><p><b>ARPU</b> is monthly revenue per connection. A <b>wholesale / open-access</b> network charges ISPs a rental (~£10–£25); a <b>vertically integrated</b> one bills the consumer (higher ARPU, but retail cost and churn). Most infra capital prefers wholesale: capital-light, contracted-ish, neutral.</p></div>
-        <div class="card"><h3>The penetration flywheel &amp; the J-curve</h3><p>Because cost is fixed per passed home and revenue scales with take-up, early years are loss-making and cash-negative — the bottom of the <b>J-curve</b>. Past a break-even penetration (~25–35%) the network inflects into a high-margin, cash-generative annuity. The art is funding the trough.</p></div>
+        <div class="card"><h3>Homes passed vs homes connected</h3><p><span class="term" data-term="homespassed">Homes passed</span> is the footprint — premises the fibre runs past, ready to connect. <span class="term" data-term="homesconnected">Homes connected</span> is the subset actually taking service. The ratio is <span class="term" data-term="penetration">penetration</span>. You spend to pass; you earn on connect.</p></div>
+        <div class="card"><h3>Build cost &amp; connection cost</h3><p>Build cost per home passed (civils, fibre, <span class="term" data-term="pon">PON</span> electronics — ~£300–£600 urban, far higher rural) is the fixed bet. Connection cost (the drop and the <span class="term" data-term="ont">ONT</span>, ~£150–£300) is incurred only when a customer signs — capex that <i>follows</i> revenue. Using the incumbent’s ducts and poles via <span class="term" data-term="pia">PIA</span> is the main lever on build cost.</p></div>
+        <div class="card"><h3>ARPU &amp; the wholesale stack</h3><p><span class="term" data-term="arpu">ARPU</span> is monthly revenue per connection. A <span class="term" data-term="wholesale">wholesale</span> network charges ISPs a rental (~£10–£25); an integrated one bills the consumer (higher ARPU, but retail cost and <span class="term" data-term="churn">churn</span>). Most infra capital prefers wholesale — capital-light, neutral, contracted via an <span class="term" data-term="anchortenant">anchor tenant</span>.</p></div>
+        <div class="card"><h3>The flywheel &amp; the J-curve</h3><p>Because cost is fixed per passed home and revenue scales with take-up, early years are cash-negative — the bottom of the <span class="term" data-term="jcurve">J-curve</span>. Past break-even penetration the network inflects into a high-margin annuity. There are two break-evens to track: <b>EBITDA break-even</b> and, later, <b>cash break-even</b> (after interest and capex). The art is funding the trough without a covenant breach.</p></div>
       </div>
-      <p class="body"><b>How you value it changes with maturity.</b> A part-built, lightly-penetrated network is valued on <b>EV per home passed</b> (and a DCF of the penetration ramp), because EBITDA is meaningless or negative. A mature, penetrated network is valued on <b>EV/EBITDA</b> — fibre infrastructure has cleared in the low-to-high teens. Underwriting the gap between those two — buying near build cost per home and exiting on a mature EBITDA multiple — is where the build and buy-and-build routes manufacture their return.</p>
+
+      <h3 class="sub">Valuation — and the arbitrage the builder captures</h3>
+      <p class="body">How you value a fibre network <b>changes with maturity</b>, and the gap between the two methods is the whole game:</p>
+      <div class="tbl-wrap">
+        <table>
+          <thead><tr><th>Stage</th><th>Primary metric</th><th>Why</th><th>Typical range</th></tr></thead>
+          <tbody>
+            <tr><td>Early / building</td><td><span class="term" data-term="evhome">EV per home passed</span> + a <span class="term" data-term="dcf">DCF</span> of the ramp</td><td>EBITDA is negative or meaningless; you are buying a footprint and a forecast</td><td>~£200–£900 / home, by penetration &amp; overbuild</td></tr>
+            <tr><td>Mature / penetrated</td><td><span class="term" data-term="evebitda">EV / EBITDA</span></td><td>A stable, cash-generative annuity is valued like one</td><td>low-to-high teens ×</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="body">The builder’s edge is the <span class="term" data-term="buildmultiple">build multiple</span>. If you can build and connect a home for, say, <b>£500 of passed cost</b> and that home (at 42% penetration, £17 ARPU) contributes EBITDA worth <b>~£60 at a 14× exit</b>… the arithmetic is the other way round: the network is created at an implied entry multiple of roughly <b>build cost ÷ mature EBITDA per home</b> — often <b>8–11×</b> if the build is efficient — and exits on a <b>mature 13–15×</b>. Buying a finished network hands that spread to the seller; building keeps it (if you execute). That single fact is why the build and buy-and-build routes out-return buying in the comparator — and why the return is <i>earned</i>, not bought.</p>
+      <div class="callout"><b>The model in practice.</b> A deal team runs <b>two linked models</b>: a monthly <b>construction model</b> (build velocity, capex draws, wayleave and PIA timing) feeding an annual <b>operating model</b> (cohort penetration, ARPU, opex, the debt waterfall and the <span class="term" data-term="dscr">DSCR</span>). The valuation lens (<span class="term" data-term="dcf">DCF</span> cross-checked against EV/home and EV/EBITDA comps) and the <span class="term" data-term="moic">returns</span> lens (the <span class="term" data-term="irr">LBO</span>) both read from it — and a <span class="term" data-term="qoe">quality-of-earnings</span> review and an independent model audit sit underneath.</p></div>
     </div>
 
     <!-- ============ 4. PROCESS ============ -->
     <div class="sec" id="process">
       <div class="sec-eyebrow">04 — The deal, step by step</div>
-      <h2>Running the process — at a banker's level of detail</h2>
-      <p class="body">This follows the eight phases of the <a href="infrastructure-ma.html#lifecycle" style="color:var(--accent);text-decoration:none;font-weight:600">M&amp;A lifecycle</a>, specialised to a fibre platform. The route changes the emphasis — building is an internal capital-allocation and financing exercise; buying is a competitive auction — but a buy-and-build runs the full M&amp;A process for the platform and then repeats a lighter version for each bolt-on.</p>
+      <h2>Running the process — at a banker’s level of detail</h2>
+      <p class="body">This follows the eight phases of the <a href="infrastructure-ma.html#lifecycle" style="color:var(--accent);text-decoration:none;font-weight:600">M&amp;A lifecycle</a>, specialised to fibre. Building is an internal capital-allocation and financing exercise; buying is a competitive <b>two-round auction</b>; a buy-and-build runs the full process for the platform, then a lighter version for each bolt-on. Indicative timing is for a buy.</p>
       <div class="flow">
-        <div class="step"><div class="ph">Phase 1</div><h3>Origination &amp; strategy</h3><p>Fix the thesis precisely: target geography and footprint, wholesale vs integrated, return and hold, and the <b>overbuild map</b> — which postcodes are unbuilt, who else is building, and where you can be first or second. Source the entry: for <b>buy/B&amp;B</b>, mandate a buy-side adviser and work the altnet founders, corporate carve-outs (a telco spinning out its infra) and secondaries; for <b>build</b>, line up a build platform, land/wayleave access and an anchor ISP.</p><p class="rl"><b>In real life:</b> brief 2–3 infrastructure-focused M&amp;A advisers and ask to see what's in market; subscribe to the regulator's coverage data to build your own overbuild map.</p></div>
-        <div class="step"><div class="ph">Phase 2</div><h3>First look — teaser, NDA, IM</h3><p>On a buy, a one-page teaser arrives; sign the NDA and receive the <b>Information Memorandum</b>. For fibre it lives or dies on a handful of exhibits: the <b>homes-passed build plan and actuals</b>, the <b>penetration curve by cohort</b>, ARPU and churn, build cost per premise (planned vs incurred), the ISP/wholesale contracts, and the overbuild exposure. Build a first-cut model off these and a preliminary value range.</p><p class="rl"><b>In real life:</b> the IM is run by the sell-side bank; your job is a fast internal screening paper to decide whether to spend on diligence.</p></div>
-        <div class="step"><div class="ph">Phase 3</div><h3>Indicative (non-binding) offer</h3><p>Submit an <b>NBO</b>: a value range (on <b>EV per home passed</b> for an early-stage network, EV/EBITDA for a mature one), structure (platform plus a committed capex programme), financing approach and conditions. Win a place in the next round and into the data room. For a build, the equivalent gate is an <b>Investment Committee mandate</b> to commit development capital.</p><p class="rl"><b>In real life:</b> the NBO is also a relationship document — sellers shortlist on price <i>and</i> on certainty (your track record of closing and funding the build).</p></div>
-        <div class="step"><div class="ph">Phase 4</div><h3>Due diligence</h3><p>The core work, run as parallel workstreams: <b>Commercial</b> — the overbuild and footprint analysis, penetration-curve realism, ARPU sustainability and ISP demand; <b>Technical</b> — network design (GPON / XGS-PON), build cost and <b>build velocity</b> actuals, as-built records, wayleaves and duct/pole access; <b>Financial &amp; tax</b> — quality of the (thin) earnings, capex capitalisation, the holdco/opco structure and capital allowances; <b>Legal &amp; regulatory</b> — wayleaves and easements, the incumbent's physical-infrastructure access, street-works permits, ISP contracts, telecoms regulation and change-of-control; <b>ESG</b> — streetworks and community impact. Lenders run their own technical and model diligence in parallel.</p><p class="rl"><b>In real life:</b> appoint a commercial-DD house, an independent technical adviser, a Big-Four financial/tax team, a model auditor and infra/telecom legal counsel — see "Who to call" below.</p></div>
-        <div class="step"><div class="ph">Phase 5</div><h3>Binding offer &amp; documentation</h3><p>Submit the <b>binding offer</b> with a marked-up <b>SPA</b>, committed (or highly-confident) debt and final IC approval. Negotiation centres on the price mechanism (<b>locked-box</b> in a competitive auction), warranties and <b>W&amp;I insurance</b>, the <b>capex and build commitments</b>, management incentives and the conditions precedent. On a build, the equivalent is signing the <b>build, vendor and wayleave contracts</b> and the financing.</p><p class="rl"><b>In real life:</b> W&amp;I is placed through a broker; the management team is locked in with a co-invest/ratchet because the build plan <i>is</i> the value.</p></div>
-        <div class="step"><div class="ph">Phase 6</div><h3>Signing to completion</h3><p>Clear the conditions precedent: merger control, telecoms-sector and <b>foreign-investment (FDI)</b> screening, and lender conditions. <b>Reach financial close on the debt</b> — the facilities agreement, security and hedging — fund the equity, draw the first debt, and complete. For a build this is the first capex drawdown against milestones.</p><p class="rl"><b>In real life:</b> FDI clearance on telecoms infrastructure is a real timetable item in the UK/EU/US — build it into the long-stop.</p></div>
-        <div class="step"><div class="ph">Phase 7</div><h3>Ownership &amp; value creation</h3><p>Now the work that actually makes the money: run the <b>build machine</b> to the plan, accelerate <b>penetration</b> (ISP onboarding, marketing, copper switch-off tailwinds), drive opex efficiency, execute <b>bolt-on acquisitions</b> of neighbouring altnets, and <b>refinance</b> the expensive greenfield facility into cheaper, longer debt as the network de-risks and the EBITDA appears.</p><p class="rl"><b>In real life:</b> the 100-day plan installs the board, the KPI pack (homes passed/connected, penetration by cohort, build cost/premise, ARPU, churn) and the bolt-on pipeline.</p></div>
-        <div class="step"><div class="ph">Phase 8</div><h3>Exit</h3><p>Once the footprint is built and penetration is proven, the network re-rates from a development asset onto a <b>mature EBITDA multiple</b>. Exit to a larger infrastructure fund or strategic consolidator, sell down to a long-hold/open-ended vehicle, recapitalise, or — at scale — IPO. The exit thesis was set at entry; consolidation is the most common destination.</p><p class="rl"><b>In real life:</b> you re-appoint a sell-side adviser ~12 months out and dress the asset (clean cohorts, contracted ISP revenue, a fundable build pipeline for the next owner).</p></div>
+        <div class="step"><div class="ph">Phase 1 · <span class="wk">weeks −8 to 0</span></div><h3>Origination &amp; strategy</h3><p>Fix the thesis precisely: geography, footprint, wholesale vs integrated, return and hold, and the <b>overbuild map</b> — which postcodes are unbuilt, who else is building, where you can be first or second. Source the entry: for buy/B&amp;B, mandate a buy-side adviser and work the altnet founders, corporate <b>carve-outs</b> (a telco spinning out infra) and <b>secondaries</b>; for build, line up the build platform, land/<span class="term" data-term="wayleave">wayleave</span> access and an anchor ISP.</p><p class="rl"><b>In real life:</b> brief 2–3 infrastructure-focused advisers, build your own overbuild map from regulator and commercial data, and decide your route before you see a teaser.</p></div>
+        <div class="step"><div class="ph">Phase 2 · <span class="wk">weeks 0–4</span></div><h3>First look — teaser, NDA, IM, data room</h3><p>A <span class="term" data-term="teaser">teaser</span> arrives; sign the <span class="term" data-term="nda">NDA</span> and receive the <span class="term" data-term="im">Information Memorandum</span>, <span class="term" data-term="vdd">vendor due diligence</span> and access to the <span class="term" data-term="dataroom">data room</span>. For fibre the case lives in a few exhibits: the homes-passed build plan and <b>actuals</b>, the <b>penetration curve by cohort</b>, ARPU and churn, build cost per premise (planned vs incurred), the ISP/wholesale contracts, and the overbuild exposure. Build a first-cut model and a value range.</p><p class="rl"><b>In real life:</b> the seller runs it to a <span class="term" data-term="processletter">process letter</span>; some sellers attach a <span class="term" data-term="staple">stapled financing</span> to set a debt benchmark. Your output is a fast internal screening paper.</p></div>
+        <div class="step"><div class="ph">Phase 3 · <span class="wk">week 4</span></div><h3>Indicative (non-binding) offer</h3><p>Submit the <span class="term" data-term="nbo">NBO</span>: a value range (on <span class="term" data-term="evhome">EV/home</span> for an early-stage network, <span class="term" data-term="evebitda">EV/EBITDA</span> for a mature one), structure, financing approach, conditions and timetable. Win a place in round two and the deeper data room. For a build, the equivalent gate is an <b>Investment Committee mandate</b> to commit development capital.</p><p class="rl"><b>In real life:</b> the NBO is a relationship document too — sellers shortlist on price <i>and</i> certainty (your track record of closing and funding the build).</p></div>
+        <div class="step"><div class="ph">Phase 4 · <span class="wk">weeks 4–12</span></div><h3>Due diligence</h3><p>The core work, run as parallel workstreams: <b>Commercial</b> — the overbuild and footprint analysis, penetration-curve realism, ARPU sustainability and ISP demand; <b>Technical</b> — network design (<span class="term" data-term="pon">GPON / XGS-PON</span>), build cost and <b>build velocity</b> actuals, as-builts, wayleaves and <span class="term" data-term="pia">duct/pole access</span>; <b>Financial &amp; tax</b> — <span class="term" data-term="qoe">quality of earnings</span>, capex capitalisation, the <span class="term" data-term="holdcoopco">holdco/opco</span> structure and <span class="term" data-term="capitalallowances">capital allowances</span>; <b>Legal &amp; regulatory</b> — wayleaves and the <span class="term" data-term="eccode">Electronic Communications Code</span>, street-works permits, ISP contracts, telecoms regulation and change-of-control. Lenders run their own technical and model diligence in parallel.</p><p class="rl"><b>In real life:</b> appoint a commercial-DD house, an independent technical adviser, a Big-Four financial/tax team, a model auditor and infra/telecom counsel — see "Who to call".</p></div>
+        <div class="step"><div class="ph">Phase 5 · <span class="wk">week 12</span></div><h3>Binding offer &amp; documentation</h3><p>Submit the <span class="term" data-term="binding">binding offer</span> with a marked-up <span class="term" data-term="spa">SPA</span>, an <span class="term" data-term="ecl">equity commitment letter</span>, committed (or highly-confident) debt and final IC approval. Negotiation centres on the price mechanism (<span class="term" data-term="lockedbox">locked-box</span> in a competitive auction — fixing the price to a <span class="term" data-term="lockedboxdate">locked-box date</span> with a <span class="term" data-term="leakage">no-leakage</span> covenant — vs <span class="term" data-term="completionaccounts">completion accounts</span>), warranties and <span class="term" data-term="wi">W&amp;I insurance</span>, the capex/build commitments, management incentives, and the conditions precedent. The seller may grant <span class="term" data-term="exclusivity">exclusivity</span> to the preferred bidder.</p><p class="rl"><b>In real life:</b> W&amp;I is placed through a broker; management is locked in with a co-invest/ratchet because the build plan <i>is</i> the value.</p></div>
+        <div class="step"><div class="ph">Phase 6 · <span class="wk">+2–4 months</span></div><h3>Signing to completion</h3><p>Clear the <span class="term" data-term="cp">conditions precedent</span>: merger control, telecoms-sector consent and <span class="term" data-term="fdi">foreign-investment screening</span> (in the UK, the <span class="term" data-term="nsia">NSIA</span>), and lender conditions. Reach <b>financial close</b> on the debt — the facilities agreement, security and <span class="term" data-term="hedging">hedging</span> — and complete with the SPA and debt <span class="term" data-term="interconditional">interconditional</span> so equity and debt fund simultaneously per the <span class="term" data-term="fundsflow">funds flow</span>.</p><p class="rl"><b>In real life:</b> FDI/NSIA clearance on communications infrastructure is a real timetable item — build it into the <span class="term" data-term="longstop">long-stop date</span>.</p></div>
+        <div class="step"><div class="ph">Phase 7 · <span class="wk">years 0–7</span></div><h3>Ownership &amp; value creation</h3><p>Now the work that makes the money: run the <b>build machine</b> to plan, accelerate <span class="term" data-term="penetration">penetration</span> (ISP onboarding, copper switch-off tailwinds, marketing), drive opex efficiency, execute <b>bolt-on acquisitions</b> of neighbouring altnets, and <b>refinance</b> the expensive greenfield facility into cheaper, longer debt as the EBITDA appears (next section).</p><p class="rl"><b>In real life:</b> the 100-day plan installs the board, the KPI pack (homes passed/connected, penetration by cohort, build cost/premise, ARPU, churn, DSCR) and the bolt-on pipeline.</p></div>
+        <div class="step"><div class="ph">Phase 8 · <span class="wk">years 7–12</span></div><h3>Exit</h3><p>Once built and penetrated, the network re-rates from a development asset onto a <span class="term" data-term="evebitda">mature EBITDA multiple</span>. Exit to a larger infrastructure fund or strategic consolidator, sell down to a long-hold/open-ended vehicle, recapitalise, or — at scale — IPO. Consolidation is the most common destination; the recent UK wave (e.g. CityFibre acquiring Connexin; the Jurassic / Swish / Giganet merger into AllPoints Fibre) is exactly this arc.</p><p class="rl"><b>In real life:</b> re-appoint a sell-side adviser ~12 months out and dress the asset — clean cohorts, contracted ISP revenue, a fundable build pipeline for the next owner.</p></div>
       </div>
     </div>
 
-    <!-- ============ 5. WHO TO CALL ============ -->
+    <!-- ============ 5. CAPITAL STRUCTURE ============ -->
+    <div class="sec" id="capital">
+      <div class="sec-eyebrow">05 — Capital structure &amp; financing</div>
+      <h2>How the build is actually funded</h2>
+      <p class="body">Fibre debt <b>evolves with the asset</b>. You cannot raise long-dated investment-grade money against a network that does not yet generate cash, so the structure is built in stages — and getting the staging right is most of the financing skill.</p>
+
+      <h3 class="sub">Stage 1 — the greenfield / altnet capex facility</h3>
+      <p class="body">At entry you raise a <span class="term" data-term="capexfacility">capex facility</span> at the operating company — a term loan plus a committed capex line and a <span class="term" data-term="rcf">revolver</span> — drawn in tranches against build milestones during an <span class="term" data-term="availabilityperiod">availability period</span>. Because there is little EBITDA early, lenders size it on the <b>business plan</b>, not trailing earnings, and protect themselves with structure rather than coverage:</p>
+      <div class="grid g3">
+        <div class="card"><h3>Sizing</h3><ul><li>To a minimum <span class="term" data-term="dscr">DSCR</span> and a maximum <span class="term" data-term="gearing">gearing</span> / <span class="term" data-term="ltv">LTV</span> on the <i>projected</i> mature EBITDA and asset value</li><li>Often expressed as a target net debt / mature EBITDA — the comparator’s "senior debt" lever</li></ul></div>
+        <div class="card"><h3>Protections</h3><ul><li>A <span class="term" data-term="dsra">debt-service reserve</span> (DSRA)</li><li>A <span class="term" data-term="cashsweep">cash sweep</span> before any distribution</li><li>An <span class="term" data-term="equitycure">equity cure</span> right and milestone covenants on homes passed / penetration</li><li>Mandatory interest-rate <span class="term" data-term="hedging">hedging</span></li></ul></div>
+        <div class="card"><h3>Costs &amp; carry</h3><ul><li>A margin over the reference rate, often on a <span class="term" data-term="marginratchet">ratchet</span> that falls as the network de-risks</li><li>A <span class="term" data-term="commitmentfee">commitment fee</span> on undrawn capex headroom</li><li><span class="term" data-term="negativecarry">Negative carry</span> — interest paid before the cash turns — funded by equity</li></ul></div>
+      </div>
+      <p class="body">Where the senior facility cannot reach, the gap is filled with <span class="term" data-term="holdcoopco">holdco</span> debt or <span class="term" data-term="pik">PIK</span> from <span class="term" data-term="coreplus">infrastructure debt funds</span>, structurally subordinated to the opco lenders, and the rest with equity (the fund’s cheque plus <span class="term" data-term="coinvest">co-invest</span>, sometimes smoothed by an <span class="term" data-term="equitybridge">equity bridge</span>).</p>
+
+      <h3 class="sub">Stage 2 — the refinancing ladder</h3>
+      <p class="body">As homes fill up and EBITDA appears, you <b>term out</b> the expensive greenfield debt into progressively cheaper, longer money — each step lowering the cost of capital and releasing equity:</p>
+      <div class="tbl-wrap"><table class="tl">
+        <thead><tr><th>As the asset…</th><th>Refinance into…</th><th>Provided by</th></tr></thead>
+        <tbody>
+          <tr><td>is mid-build, partly penetrated</td><td>a larger bank-and-fund <span class="term" data-term="capexfacility">capex / term facility</span></td><td>infra banks + debt funds, club or underwritten</td></tr>
+          <tr><td>is built &amp; cash-generative</td><td>a <span class="term" data-term="tlb">Term Loan B</span> or a long-dated bank facility</td><td>the leveraged-loan and infra-bank market</td></tr>
+          <tr><td>has stable, contracted cash flow</td><td>a <span class="term" data-term="uspp">US private placement</span> or infrastructure bond</td><td>US insurers; institutional bond buyers</td></tr>
+          <tr><td>is at scale &amp; investment-grade-like</td><td>a <span class="term" data-term="wbs">whole-business securitisation</span></td><td>a structured, ring-fenced bond platform</td></tr>
+        </tbody>
+      </table></div>
+      <p class="body">You mandate a <b>debt advisory</b> team to run this: build the lender model and information memorandum, engage the <b>rating agencies</b>, and run a lender process (club or underwrite) to <span class="term" data-term="fundsflow">financial close</span>. A <b>refinancing</b> as the asset de-risks is a deliberate part of the return — model it explicitly in the <a href="infrastructure-ma.html#tool" style="color:var(--accent);text-decoration:none;font-weight:600">acquisition model</a>’s refinancing toggle.</p>
+      <div class="callout"><b>Tax shapes the structure.</b> Deductible debt at the opco is capped by the UK <span class="term" data-term="cir">corporate interest restriction</span> (~30% of tax-EBITDA), so heavy early interest may not all shield tax; <span class="term" data-term="capitalallowances">capital allowances</span> on the build do the early sheltering instead; and the <span class="term" data-term="eurobond">quoted Eurobond exemption</span> is used so cross-border lenders are paid gross of withholding. The <span class="term" data-term="holdcoopco">holdco/opco</span> chain and any shareholder loans are set at entry, with the exit and co-investors in mind.</p></div>
+    </div>
+
+    <!-- ============ 6. WHO TO CALL ============ -->
     <div class="sec" id="reallife">
-      <div class="sec-eyebrow">05 — Translating it to real life</div>
+      <div class="sec-eyebrow">06 — Translating it to real life</div>
       <h2>Who you actually call</h2>
-      <p class="body">A deal this size is run by a syndicate of advisers and capital providers. The categories below are the ones you mandate, with illustrative examples of the kinds of firms active in infrastructure and digital — <b>examples, not endorsements or advice</b>; pick on relationship, sector credentials and conflicts.</p>
+      <p class="body">A deal this size is run by a syndicate of advisers and capital providers. The categories below are the ones you mandate, with illustrative examples of firms active in infrastructure and digital — <b>examples, not endorsements or advice</b>; pick on relationship, sector credentials and conflicts.</p>
 
       <div class="ah" style="font-size:.7rem">Advisers — the deal team</div>
       <div class="grid g3">
-        <div class="card"><h3>Financial / M&amp;A adviser</h3><p>Runs your buy-side bid (or your build financing). Use the infrastructure / telecom-infrastructure teams at the global banks, or a specialist boutique.</p><ul><li>Bank infra teams — e.g. <b>Morgan Stanley, J.P. Morgan, Goldman Sachs, Barclays, BNP Paribas, RBC, Santander</b></li><li>Boutiques — e.g. <b>Rothschild &amp; Co, Lazard, Evercore, DC Advisory</b>; telecom-infra specialists <b>Bank Street, Q Advisors, TAP Advisors</b></li></ul></div>
-        <div class="card"><h3>Commercial DD</h3><p>The overbuild map, penetration-curve and ARPU view — the single most important report.</p><ul><li>Telecom-economics specialists — e.g. <b>Analysys Mason, Plum Consulting, Arthur D. Little, CIL, OC&amp;C</b></li><li>The telecom practices of the big strategy houses</li></ul></div>
+        <div class="card"><h3>Financial / M&amp;A adviser</h3><p>Runs your buy-side bid (or your build financing) — the infrastructure / telecom-infra teams at the banks, or a specialist boutique.</p><ul><li>Bank infra teams — e.g. <b>Morgan Stanley, J.P. Morgan, Goldman Sachs, Barclays, BNP Paribas, RBC, Santander</b></li><li>Boutiques — e.g. <b>Rothschild &amp; Co, Lazard, Evercore, DC Advisory</b>; telecom-infra specialists <b>Bank Street, Q Advisors, TAP Advisors</b></li></ul></div>
+        <div class="card"><h3>Commercial DD</h3><p>The overbuild map, penetration-curve and ARPU view — the single most important report.</p><ul><li>Telecom-economics specialists — e.g. <b>Analysys Mason, Plum Consulting, Arthur D. Little, CIL, OC&amp;C</b></li></ul></div>
         <div class="card"><h3>Technical DD (ITA)</h3><p>Network architecture, build cost &amp; velocity, as-builts, wayleaves — also serves the lenders.</p><ul><li>Engineering &amp; network advisers — e.g. <b>Mott MacDonald, Atkins (Jacobs), WSP</b> and independent telecom-network ITAs</li></ul></div>
-        <div class="card"><h3>Financial, tax &amp; model audit</h3><p>Quality of earnings, structuring, and an independent audit of the model everyone relies on.</p><ul><li>Transaction services &amp; tax — the <b>Big Four (Deloitte, PwC, EY, KPMG)</b></li><li>Model audit — e.g. <b>Operis, Mazars, Grant Thornton</b></li></ul></div>
-        <div class="card"><h3>Legal counsel</h3><p>SPA, financing, wayleaves/PIA, regulatory and FDI — infra/projects and telecom teams.</p><ul><li>e.g. <b>Linklaters, Clifford Chance, A&amp;O Shearman, Freshfields, Herbert Smith Freehills, CMS, Pinsent Masons, Ashurst, Norton Rose Fulbright</b></li></ul></div>
-        <div class="card"><h3>Insurance &amp; W&amp;I</h3><p>Places warranty &amp; indemnity cover and arranges construction/operational insurance.</p><ul><li>Brokers — e.g. <b>Marsh, Aon, Howden, WTW (Willis)</b>, placing W&amp;I with the specialist insurers</li></ul></div>
+        <div class="card"><h3>Financial, tax &amp; model audit</h3><p><span class="term" data-term="qoe">Quality of earnings</span>, structuring, and an independent audit of the model everyone relies on.</p><ul><li>Transaction services &amp; tax — the <b>Big Four (Deloitte, PwC, EY, KPMG)</b></li><li>Model audit — e.g. <b>Operis, Mazars, Grant Thornton</b></li></ul></div>
+        <div class="card"><h3>Legal counsel</h3><p>SPA, financing, wayleaves/PIA, regulatory and FDI — infra/projects and telecom teams.</p><ul><li>e.g. <b>Linklaters, Clifford Chance, A&amp;O Shearman, Freshfields, Herbert Smith Freehills, CMS, Pinsent Masons, Ashurst</b></li></ul></div>
+        <div class="card"><h3>Insurance &amp; W&amp;I</h3><p>Places <span class="term" data-term="wi">warranty &amp; indemnity</span> cover and arranges construction/operational insurance.</p><ul><li>Brokers — e.g. <b>Marsh, Aon, Howden, WTW</b>, placing with specialist W&amp;I insurers</li></ul></div>
       </div>
 
-      <div class="ah" style="font-size:.7rem">Debt finance — who lends, and how you raise it</div>
-      <p class="body">Fibre debt evolves with the asset. At the start you raise a <b>greenfield / altnet capex facility</b> at the operating company — a term loan plus a committed <b>capex line</b> and a revolver — sized to a minimum <b>DSCR</b> and gearing against the business plan, drawn in tranches against build milestones. As the network penetrates and throws off cash, you <b>refinance</b> into cheaper, longer money: a larger bank-and-institutional facility, a <b>US private placement (USPP)</b> or infrastructure bond, and at real scale a <b>whole-business securitisation</b>. You mandate a <b>debt advisory</b> team to run the process, build the lender model, engage the rating agencies and arrange the club.</p>
+      <div class="ah" style="font-size:.7rem">Debt finance — who lends at each stage</div>
+      <p class="body">Mandate a <b>debt advisory</b> team to run the financing, build the lender model, engage the agencies and arrange the club. The lenders change as the asset matures:</p>
       <div class="grid g3">
         <div class="card"><h3>Relationship &amp; infra banks</h3><p>The senior facility and capex line — the project &amp; infrastructure finance desks.</p><ul><li>e.g. <b>BNP Paribas, Santander, SMBC, MUFG, ING, NatWest, Lloyds, Crédit Agricole, Société Générale, ABN AMRO, CaixaBank, Investec</b></li></ul></div>
         <div class="card"><h3>Infrastructure debt funds / private credit</h3><p>Stretched senior, holdco and mezzanine — longer-dated, more flexible, more expensive.</p><ul><li>e.g. <b>AXA IM Alts, Macquarie (MIDIS), Allianz Global Investors, IFM, BlackRock, Apollo, Ares, Blackstone Credit, Sixth Street, Infranity, Pemberton</b></li></ul></div>
@@ -296,30 +360,48 @@
 
       <div class="ah" style="font-size:.7rem">Equity, partners &amp; operations</div>
       <div class="grid g3">
-        <div class="card"><h3>Equity &amp; co-investment</h3><p>Your fund's commingled equity, plus <b>co-invest</b> syndicated to LPs (pension, insurance and sovereign funds) to manage concentration — and sometimes a strategic or anchor-ISP partner.</p></div>
-        <div class="card"><h3>Build &amp; vendor partners</h3><p>PON equipment vendors (e.g. <b>Nokia, Adtran, Calix</b>), civils and build subcontractors, and an in-house or contracted build-management team — the engine of the whole plan.</p></div>
-        <div class="card"><h3>Access &amp; demand</h3><p>The incumbent's duct-and-pole access (e.g. <b>Openreach PIA</b> in the UK) to build cheaply, the regulator (<b>Ofcom</b>-type) on the rules, and <b>anchor ISPs</b> contracted to drive penetration on day one.</p></div>
+        <div class="card"><h3>Equity &amp; co-investment</h3><p>Your fund’s commingled equity, plus <span class="term" data-term="coinvest">co-invest</span> syndicated to LPs (pension, insurance and sovereign funds) to manage concentration — and sometimes a strategic or anchor-ISP partner.</p></div>
+        <div class="card"><h3>Build &amp; vendor partners</h3><p><span class="term" data-term="pon">PON</span> equipment vendors (e.g. <b>Nokia, Adtran, Calix</b>), civils and build subcontractors, and an in-house or contracted build-management team — the engine of the whole plan.</p></div>
+        <div class="card"><h3>Access &amp; demand</h3><p>The incumbent’s duct-and-pole access (<span class="term" data-term="pia">Openreach PIA</span> in the UK), the regulator (<b>Ofcom</b>) on the rules, and <span class="term" data-term="anchortenant">anchor ISPs</span> contracted to drive penetration on day one.</p></div>
       </div>
     </div>
 
-    <!-- ============ 6. VERDICT ============ -->
+    <!-- ============ 7. RISK & THE IC CASE ============ -->
+    <div class="sec" id="risk">
+      <div class="sec-eyebrow">07 — The Investment Committee case</div>
+      <h2>Risk, sensitivities &amp; downside protection</h2>
+      <p class="body">The IC does not debate the base case — it debates the <b>downside</b>. The point estimate (especially for building) is the easy part; the work is sizing what goes wrong and what protects you. The sensitivities that move a fibre case most, in rough order:</p>
+      <div class="tbl-wrap"><table>
+        <thead><tr><th>Sensitivity</th><th>Why it bites</th><th>What protects you</th></tr></thead>
+        <tbody>
+          <tr><td>Overbuild / penetration miss</td><td>A 10pt lower steady <span class="term" data-term="penetration">penetration</span> can halve the equity return — fixed cost, less revenue</td><td>Defensible (sole-fibre) footprint, anchor-ISP volume commitments, conservative ramp underwriting</td></tr>
+          <tr><td>Build-cost overrun &amp; delay</td><td>Higher cost / home and a slower ramp deepen and lengthen the <span class="term" data-term="jcurve">J-curve</span> — and the <span class="term" data-term="negativecarry">negative carry</span></td><td>Fixed-price build contracts with KPIs/LDs, <span class="term" data-term="pia">PIA</span> to cut civils, capex contingency, milestone covenants</td></tr>
+          <tr><td>ARPU compression</td><td>Price competition from the incumbent or rival altnets erodes <span class="term" data-term="arpu">ARPU</span> and the EBITDA per home</td><td>Wholesale contracts, service quality, switching costs, copper switch-off tailwind</td></tr>
+          <tr><td>Rates &amp; refinancing</td><td>Higher rates raise the cost of the floating greenfield debt and the exit cap rate</td><td>Mandatory <span class="term" data-term="hedging">hedging</span>, a conservative exit multiple, the <span class="term" data-term="dsra">DSRA</span> buffer</td></tr>
+          <tr><td>Exit multiple contraction</td><td>You build at cost but exit on a multiple that may have de-rated</td><td>Underwrite a flat-to-lower exit; rely on EBITDA growth and deleveraging, not re-rating</td></tr>
+        </tbody>
+      </table></div>
+      <p class="body">The IC pack therefore carries a <b>base / management / downside</b> case set, one- and two-way sensitivity tables on penetration × build cost and entry × exit multiple, a <b>break-even penetration</b> (the take-up at which the equity return hits the hurdle), and <b>covenant headroom</b> through the trough (how far penetration can miss before a <span class="term" data-term="dscr">DSCR</span> breach forces an <span class="term" data-term="equitycure">equity cure</span>). Genuine <b>downside protection</b> in fibre comes from contracted anchor revenue, any <span class="term" data-term="projectgigabit">Project Gigabit</span> subsidy on rural premises, the <span class="term" data-term="pstn">copper switch-off</span> tailwind, and the simple fact that an over-levered builder’s footprint is itself a scarce, financeable asset a consolidator will want. Run the two-way sensitivity yourself on the <a href="infrastructure-ma.html#tool" style="color:var(--accent);text-decoration:none;font-weight:600">acquisition model</a>.</p>
+    </div>
+
+    <!-- ============ 8. VERDICT ============ -->
     <div class="sec" id="verdict">
-      <div class="sec-eyebrow">06 — The decision</div>
+      <div class="sec-eyebrow">08 — The decision</div>
       <h2>When each route wins</h2>
       <p class="body">There is no single answer — the comparator shows the trade-off moving with the assumptions. As a rule of thumb:</p>
       <div class="grid g3">
-        <div class="card"><h3>Build it yourself</h3><p>When there is genuine <b>whitespace</b> (unbuilt, defensible footprint), you have or can hire a proven <b>build machine</b>, and your LPs will fund a J-curve for a higher return. Highest value capture, highest execution risk — the return is <i>earned</i>, not bought.</p></div>
-        <div class="card"><h3>Buy a full network</h3><p>When you need <b>scale and cash flow now</b>, want to avoid build risk, and can win a competitive auction at a price that still clears your return. You pay for certainty — the return ceiling is lower, but so is the variance.</p></div>
-        <div class="card"><h3>Buy small &amp; build</h3><p>The route most fibre platforms actually take: acquire a credible sub-scale altnet for its <b>team, systems and footprint</b>, then fund the organic build and roll up neighbours. Entry discipline plus the build upside — provided the platform's management can really execute.</p></div>
+        <div class="card"><h3>Build it yourself</h3><p>When there is genuine <b>defensible whitespace</b>, you have or can hire a proven <b>build machine</b>, and your LPs will fund a J-curve for a higher return. Highest value capture, highest execution risk — the return is <i>earned</i>.</p></div>
+        <div class="card"><h3>Buy a full network</h3><p>When you need <b>scale and cash flow now</b>, want to avoid build risk, and can win a competitive auction at a price that still clears your <span class="term" data-term="hurdle">hurdle</span>. You pay for certainty — lower ceiling, lower variance.</p></div>
+        <div class="card"><h3>Buy small &amp; build</h3><p>The route most fibre platforms actually take: acquire a credible sub-scale altnet for its <b>team, systems and footprint</b>, then fund the organic build and roll up neighbours. Entry discipline plus build upside — if management can really execute.</p></div>
       </div>
-      <p class="body">In practice a platform often does all three over a fund's life — enter via a <b>buy-and-build</b>, accelerate with <b>organic build</b> where it has whitespace, and bolt on <b>full-network</b> acquisitions to consolidate — then exit the combined platform to the next, larger owner. That consolidation arc is the fibre investment story of the decade.</p>
+      <p class="body">In practice a platform often does all three over a fund’s life — enter via a <b>buy-and-build</b>, accelerate with <b>organic build</b> where it has whitespace, and bolt on <b>full-network</b> acquisitions to consolidate — then exit the combined platform to the next, larger owner. That consolidation arc is the fibre investment story of the decade, and it is playing out across the UK altnet market right now.</p>
     </div>
 
-    <!-- ============ SOURCES ============ -->
+    <!-- ============ NOTES ============ -->
     <div class="sec" id="sources">
-      <div class="sec-eyebrow">07 — Notes</div>
+      <div class="sec-eyebrow">09 — Notes</div>
       <h2>Notes &amp; disclaimer</h2>
-      <p class="foot-note">Unit economics are grounded in the site's <a href="fibre-networks.html" style="color:var(--accent);text-decoration:none;font-weight:600">fibre networks reference</a> (illustrative figures from UK altnet and global FTTH disclosure). The comparator is a simplified model — it omits churn detail, working capital, the full tax structure, refinancing and construction phasing — and is for illustration, not a forecast of any specific network. Named firms are <b>illustrative examples</b> of the categories of adviser and lender active in infrastructure and digital infrastructure; they are not recommendations, endorsements or investment, legal, tax or financing advice. Always take your own professional advice on a live transaction.</p>
+      <p class="foot-note">Market context (build costs, the CityFibre financing, the January 2027 PSTN copper switch-off, Project Gigabit, and the altnet consolidation wave) is drawn from public company, regulator and trade-press disclosure and is illustrative. Unit economics are grounded in the site’s <a href="fibre-networks.html" style="color:var(--accent);text-decoration:none;font-weight:600">fibre networks reference</a>. The comparator is a simplified model — it omits churn detail, working capital, the full tax structure, refinancing and construction phasing — and is for illustration, not a forecast of any specific network. Named firms are <b>illustrative examples</b> of the categories of adviser and lender active in infrastructure; they are not recommendations, endorsements or investment, legal, tax or financing advice. Always take your own professional advice on a live transaction.</p>
     </div>
 
   </div>
@@ -332,6 +414,7 @@
 </footer>
 
 <script src="ma-action.js" defer></script>
+<script src="glossary.js" defer></script>
 <script src="site.js" defer></script>
 </body>
 </html>

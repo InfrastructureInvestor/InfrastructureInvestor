@@ -66,7 +66,7 @@
     var acqEB = cfg.acqHomes*S.pen*S.arpu*12*(1-S.opex);
     var acqEV = cfg.acqMult*acqEB;
     var debt0 = Math.min(acqEV, debtCap), eq0 = acqEV-debt0, debtBal=debt0;
-    var eqCF=[-eq0], inject=eq0, distrib=0, peak=eq0, cumEq=eq0, exitEqV=0;
+    var eqCF=[-eq0], inject=eq0, distrib=0, peak=eq0, cumEq=eq0, exitEqV=0, peakDebt=debt0;
     var ttScale=null, prevConn=conn[0];
 
     for(var t=1;t<=H;t++){
@@ -84,7 +84,7 @@
       } else {
         var repay=Math.min(cfBefore,debtBal); debtBal-=repay; thisDist=cfBefore-repay;
       }
-      inject+=thisInject; distrib+=thisDist; cumEq+=thisInject-thisDist; peak=Math.max(peak,cumEq);
+      inject+=thisInject; distrib+=thisDist; cumEq+=thisInject-thisDist; peak=Math.max(peak,cumEq); peakDebt=Math.max(peakDebt,debtBal);
       var cf=thisDist-thisInject;
       if(t===H){ exitEqV=Math.max(0,S.exit*ebt)-debtBal; cf+=exitEqV; distrib+=exitEqV; }
       eqCF.push(cf);
@@ -93,8 +93,10 @@
       if(ttScale===null && hp>=0.95*S.homes) ttScale=t;
     }
     var totalIn=inject, totalOut=distrib;
+    var entryPerHome = cfg.acqHomes>0 ? acqEV/cfg.acqHomes : S.buildCost;
     return { irr:irr(eqCF), moic: totalIn>0? totalOut/totalIn : NaN, peak:peak, totalEq:totalIn,
-      ebH:eb[H], exitEq:exitEqV, conn:conn, eb:eb, eqCF:eqCF, ttScale:ttScale, acqEV:acqEV, debtCap:debtCap, matureEB:matureEB };
+      ebH:eb[H], exitEq:exitEqV, conn:conn, eb:eb, eqCF:eqCF, ttScale:ttScale, acqEV:acqEV, debtCap:debtCap,
+      matureEB:matureEB, peakDebt:peakDebt, entryPerHome:entryPerHome, acqHomes:cfg.acqHomes };
   }
 
   var ROUTES=[
@@ -146,6 +148,7 @@
           '<div class="kpi"><div class="k">Exit EBITDA</div><div class="v">'+fM(m.ebH)+'</div></div>'+
           '<div class="kpi"><div class="k">Exit equity value</div><div class="v">'+fM(m.exitEq)+'</div></div>'+
         '</div>'+
+        '<div class="route-basis">Entry basis <b>'+(m.acqHomes>0?'£'+f0(m.entryPerHome)+'/home':'£'+f0(m.entryPerHome)+'/home at cost')+'</b> · peak senior debt <b>'+fM(m.peakDebt)+'</b></div>'+
         '<div class="route-spark-h">Equity cash flow by year — the J-curve</div>'+
         '<div class="rs-chart">'+spark(m.eqCF)+'</div>'+
       '</div>';
