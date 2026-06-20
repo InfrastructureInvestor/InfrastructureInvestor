@@ -264,6 +264,14 @@
       menuOpen.forEach(function (d) { d.classList.remove('open'); });
     });
 
+    /* subtle nav elevation once the page is scrolled */
+    var navEl = document.querySelector('nav');
+    if (navEl) {
+      var onScroll = function () { navEl.classList.toggle('scrolled', window.scrollY > 8); };
+      window.addEventListener('scroll', onScroll, { passive: true });
+      onScroll();
+    }
+
     /* ---------------- Command palette ---------------- */
     var overlay = document.createElement('div');
     overlay.className = 'cmdk';
