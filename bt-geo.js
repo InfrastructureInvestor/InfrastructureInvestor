@@ -1,4 +1,4 @@
-/* Scene configuration for battery-storage.html — a grid-scale battery energy
+/* Scene configuration for battery-storage.html, a grid-scale battery energy
    storage system (BESS) drawn in 720x520 scene coordinates: rows of battery
    container units in a fenced compound, a transformer / inverter skid, and a
    grid connection with a pylon and overhead line. Power pulses flow IN from the

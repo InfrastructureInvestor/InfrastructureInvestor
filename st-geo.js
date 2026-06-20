@@ -1,9 +1,9 @@
-/* Scene configuration for student-accommodation.html — a top-down / elevation view
+/* Scene configuration for student-accommodation.html, a top-down / elevation view
    of a PURPOSE-BUILT STUDENT ACCOMMODATION (PBSA) scheme, drawn in 720x520 scene
    coordinates: a multi-storey accommodation block (or two) with a grid of room
    windows, a ground-floor common room / reception / gym amenity, a courtyard, and
    a few students and bikes outside. OCCUPIED rooms are lit (a warm desk lamp);
-   empty rooms are dark — the lit fraction = occupancy. Each scheme carries its own
+   empty rooms are dark, the lit fraction = occupancy. Each scheme carries its own
    signature: the tier (prime / value / amenity-rich), the university market it
    serves (global / regional), whether it is leasing up (growing), and the area.
    tier the renderer understands:  prime · value · amenity-rich */

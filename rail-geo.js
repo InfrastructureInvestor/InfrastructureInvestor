@@ -1,4 +1,4 @@
-/* Map geometry for rail-infrastructure.html — country / region outlines simplified from
+/* Map geometry for rail-infrastructure.html, country / region outlines simplified from
    Natural Earth (50m) with Douglas–Peucker, so each corridor sits inside the real outline
    of the country it runs through, the way the interconnector maps do. [lng,lat] rings,
    projected in-page; large countries are framed to the relevant region (the rest runs off

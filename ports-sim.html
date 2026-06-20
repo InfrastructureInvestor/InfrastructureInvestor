@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Port Economics — Live Simulation</title>
+<title>Port Economics | Live Simulation</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Source+Serif+4:opsz,wght@8..60,400;8..60,500;8..60,600&display=swap" rel="stylesheet">
@@ -153,8 +153,8 @@
 
   <div class="as-head">
     <div class="as-eyebrow">Transport · Ports</div>
-    <h2>What flows through a container port — and how it pays</h2>
-    <p class="as-sub">Watch vessels berth, ship-to-shore cranes work the boxes, and containers move through the yard to road and rail. That throughput converts into two revenue tills — <b style="color:var(--aero)">marine</b> (vessel) charges and higher-margin <b style="color:var(--comm)">cargo &amp; landside</b> income — which together drive the port's EBITDA and, in turn, its value. Adjust the drivers: the <b style="color:var(--comm)">flows</b> (per-year cash) and the <b style="color:var(--stock)">stocks</b> (yard fill and valuation) respond live.</p>
+    <h2>What flows through a container port, and how it pays</h2>
+    <p class="as-sub">Watch vessels berth, ship-to-shore cranes work the boxes, and containers move through the yard to road and rail. That throughput converts into two revenue tills, <b style="color:var(--aero)">marine</b> (vessel) charges and higher-margin <b style="color:var(--comm)">cargo &amp; landside</b> income, which together drive the port's EBITDA and, in turn, its value. Adjust the drivers: the <b style="color:var(--comm)">flows</b> (per-year cash) and the <b style="color:var(--stock)">stocks</b> (yard fill and valuation) respond live.</p>
   </div>
 
   <div class="as-ctrls">
@@ -181,7 +181,7 @@
     <span class="leg"><span class="dot" style="background:var(--cost)"></span><b>Operating cost</b></span>
   </div>
 
-  <div class="band-label"><span class="t">Flows — annualised from current assumptions</span><span class="ln"></span><span class="hint">per year</span></div>
+  <div class="band-label"><span class="t">Flows, annualised from current assumptions</span><span class="ln"></span><span class="hint">per year</span></div>
   <div class="as-kpis">
     <div class="kpi k-rev"><div class="k">Revenue p.a.</div><div class="v" id="kRev">£0</div><div class="s"><b id="kRevHr">£0</b> / hr</div></div>
     <div class="kpi k-eb"><div class="k">EBITDA p.a.</div><div class="v" id="kEb">£0</div><div class="s"><b id="kMargin">0%</b> margin</div></div>
@@ -189,7 +189,7 @@
     <div class="kpi k-pax"><div class="k">Throughput p.a.</div><div class="v" id="kPaxYr">0</div><div class="s"><b id="kThru">0</b> TEU / hr</div></div>
   </div>
 
-  <div class="band-label"><span class="t">Stocks — what the flows accumulate into</span><span class="ln"></span><span class="hint">live</span></div>
+  <div class="band-label"><span class="t">Stocks, what the flows accumulate into</span><span class="ln"></span><span class="hint">live</span></div>
   <div class="as-stocks">
     <div class="stock"><div class="k">Containers in yard now</div><div class="v" id="sPax">0</div><div class="s">live yard occupancy (TEU)</div></div>
     <div class="stock"><div class="k">EBITDA banked · session</div><div class="v" id="sBank">£0</div><div class="s">accumulating in real time</div></div>
@@ -198,14 +198,14 @@
 
   <div class="as-split">
     <div class="split-head">
-      <span class="t">The two tills — where revenue comes from</span>
+      <span class="t">The two tills, where revenue comes from</span>
       <span class="tot">Total <b id="splitTot">£0</b> p.a.</span>
     </div>
     <div class="split-bar">
       <div class="split-seg seg-aero" id="segAero">Marine</div>
       <div class="split-seg seg-comm" id="segComm">Cargo &amp; landside</div>
     </div>
-    <div class="split-foot"><b>Why investors watch the split:</b> marine charges are vessel-driven and broadly stable, while cargo &amp; landside income (handling, storage, logistics, property) is higher margin and scales with trade. Winning throughput and lifting revenue per box is the core value-creation lever — and it flows straight through to enterprise value.</div>
+    <div class="split-foot"><b>Why investors watch the split:</b> marine charges are vessel-driven and broadly stable, while cargo &amp; landside income (handling, storage, logistics, property) is higher margin and scales with trade. Winning throughput and lifting revenue per box is the core value-creation lever, and it flows straight through to enterprise value.</div>
   </div>
 
   <div class="as-panels">
@@ -213,8 +213,8 @@
     <div class="panel"><div class="ptitle">Operating costs<span class="pt-sum" id="costSum">£0 p.a.</span></div><div id="costRows"></div></div>
   </div>
 
-  <div class="band-label"><span class="t">Investment case — should you buy it?</span><span class="ln"></span><span class="hint">DCF returns</span></div>
-  <p class="calc-note">Year-1 financials flow live from the simulation above: revenue <b id="cBaseRev">£0</b> and EBITDA <b id="cBaseEb">£0</b> p.a. Set your deal terms below — the <b style="color:var(--aero)">unlevered IRR</b> (asset return) and <b style="color:var(--accent)">levered IRR</b> (return to equity, after debt) recompute instantly.</p>
+  <div class="band-label"><span class="t">Investment case, should you buy it?</span><span class="ln"></span><span class="hint">DCF returns</span></div>
+  <p class="calc-note">Year-1 financials flow live from the simulation above: revenue <b id="cBaseRev">£0</b> and EBITDA <b id="cBaseEb">£0</b> p.a. Set your deal terms below, the <b style="color:var(--aero)">unlevered IRR</b> (asset return) and <b style="color:var(--accent)">levered IRR</b> (return to equity, after debt) recompute instantly.</p>
 
   <div class="calc-grid">
     <div class="cgroup"><h4>Operating</h4>
@@ -252,11 +252,11 @@
   </div>
 
   <div class="jwrap tscroll">
-    <div class="jhead"><span class="t">Projection — £m per year</span></div>
+    <div class="jhead"><span class="t">Projection, £m per year</span></div>
     <table class="ptable"><thead id="ptHead"></thead><tbody id="ptBody"></tbody></table>
   </div>
 
-  <p class="as-foot"><b>Illustrative model.</b> Annual figures assume 24-hour operation × 365 days. EBITDA = revenue − operating costs. The investment case is a simplified DCF: unlevered IRR discounts free cash flow to the firm (EBITDA − cash tax − capex) plus an exit on the EV/EBITDA multiple; levered IRR is the equity cash flow after debt drawn at entry, interest and amortisation. Excludes transaction costs, working capital and refinancing. For illustration only — not investment advice, and not any specific asset.</p>
+  <p class="as-foot"><b>Illustrative model.</b> Annual figures assume 24-hour operation × 365 days. EBITDA = revenue − operating costs. The investment case is a simplified DCF: unlevered IRR discounts free cash flow to the firm (EBITDA − cash tax − capex) plus an exit on the EV/EBITDA multiple; levered IRR is the equity cash flow after debt drawn at entry, interest and amortisation. Excludes transaction costs, working capital and refinancing. For illustration only, not investment advice, and not any specific asset.</p>
 
 </div>
 
@@ -468,7 +468,7 @@ function drawScene(){
 }
 
 function drawYard(){
-  // discrete container stacks — height scales with yard occupancy (the stock); maps to the volume lever
+  // discrete container stacks, height scales with yard occupancy (the stock); maps to the volume lever
   const target=Math.round(Math.max(0.03,Math.min(1,yardTEU/YARD_MAX))*NS*MAXROW);
   const base=Math.floor(target/NS), rem=target%NS;
   for(let i=0;i<NS;i++){ const x=X0+i*COLW;
@@ -584,14 +584,14 @@ function update(dt){
     } else { s.x+=dt*s.speed*2.0; if(s.x>W+200) ships.splice(i,1); }
   }
 
-  // STS crane cycles — every berthed ship is worked; each completed lift drops a box into the yard
+  // STS crane cycles, every berthed ship is worked; each completed lift drops a box into the yard
   for(let i=0;i<3;i++){ const c=cranes[i]; const active=berthShip[i] && berthShip[i].phase==='berth';
     if(active){ c.prev=c.ph; c.ph=(c.ph+dt*0.018*(0.55+0.45*volF))%1;
       if(c.prev<0.5 && c.ph>=0.5){ c.col=rcol(); addInBox(BERTH_X[i]);
         if(Math.random()<boxProb) moneys.push({x:BERTH_X[i]-8,y:QUAY_TOP-4,label:'Handling',col:C.comm,life:1.1,vy:-0.85}); }
     } else { c.ph=lerp(c.ph,0,0.05); } }
 
-  // trucks — arrive at the gate, a box is plucked from the yard onto the truck, then it hauls out
+  // trucks, arrive at the gate, a box is plucked from the yard onto the truck, then it hauls out
   for(let i=trucks.length-1;i>=0;i--){ const v=trucks[i];
     if(!v.arrived){ v.x-=dt*v.speed;
       if(v.x<TRK_STOP+((i*37)%60)){ v.arrived=true; v.dwell=rnd(50,100)/simSpd; addOutBox(v.x,ROAD_Y-6,v); } }
@@ -599,7 +599,7 @@ function update(dt){
     if(v.done){ v.x-=dt*v.speed*1.4; if(v.x<-70) trucks.splice(i,1); }
   }
 
-  // containers in motion — 'in' = crane→yard, 'out' = yard→truck/rail
+  // containers in motion, 'in' = crane→yard, 'out' = yard→truck/rail
   for(let i=boxes.length-1;i>=0;i--){ const q=boxes[i];
     q.x=lerp(q.x,q.tx,0.05*q.spd); q.y=lerp(q.y,q.ty,0.05*q.spd);
     if(q.a<1) q.a=Math.min(1,q.a+dt*0.1);
@@ -610,7 +610,7 @@ function update(dt){
     }
   }
 
-  // train cycle (rail haulage) — boxes move from the yard onto the wagons while loading
+  // train cycle (rail haulage), boxes move from the yard onto the wagons while loading
   train.timer-=dt;
   if(train.state==='idle'){ if(train.timer<=0){ train.state='in'; train.x=-260; } }
   else if(train.state==='in'){ train.x+=dt*2.2; if(train.x>W*0.6){ train.state='load'; train.dwell=rnd(120,200)/simSpd; } }
@@ -618,14 +618,14 @@ function update(dt){
     train.dwell-=dt; if(train.dwell<=0){ train.state='out'; moneys.push({x:train.x-60,y:RAIL_Y-14,label:'Rail',col:C.comm,life:1.5,vy:-0.9}); } }
   else { train.x+=dt*2.6; if(train.x>W+330){ train.state='idle'; train.timer=rnd(260,520)/simSpd; } }
 
-  // storage / demurrage — the yard itself earns money while boxes dwell (scales with how full it is)
+  // storage / demurrage, the yard itself earns money while boxes dwell (scales with how full it is)
   if(Math.random()<0.05*(yardTEU/YARD_MAX)*Math.min(1,dt)){ const t=yardSlot();
     moneys.push({x:t.x,y:t.y-4,label:'Storage',col:C.comm,life:1.0,vy:-0.6}); }
 
   // money
   for(let i=moneys.length-1;i>=0;i--){ const m=moneys[i]; m.y+=m.vy*dt; m.vy*=0.97; m.life-=dt*0.013; if(m.life<=0) moneys.splice(i,1); }
 
-  // yard occupancy (a stock) = throughput × dwell — tracks the volume lever
+  // yard occupancy (a stock) = throughput × dwell, tracks the volume lever
   const occTarget=teuRate*YARD_K;
   yardTEU+=(occTarget-yardTEU)*Math.min(1,0.02*dt);
 
@@ -681,7 +681,7 @@ function drawHUD(){
   ctx.strokeStyle='rgba(255,255,255,0.08)'; ctx.lineWidth=1; ctx.stroke();
   light(x+13,y+13,5,'rgba(55,192,142,1)',0.7);
   ctx.fillStyle=C.aero; ctx.beginPath(); ctx.arc(x+13,y+13,3,0,Math.PI*2); ctx.fill();
-  ctx.fillStyle='#cfe0ea'; ctx.font='700 9px Inter,sans-serif'; ctx.textAlign='left'; ctx.fillText('PORT OPERATIONS — LIVE',x+23,y+16);
+  ctx.fillStyle='#cfe0ea'; ctx.font='700 9px Inter,sans-serif'; ctx.textAlign='left'; ctx.fillText('PORT OPERATIONS, LIVE',x+23,y+16);
   ctx.fillStyle='rgba(170,190,205,0.85)'; ctx.font='9px Inter,sans-serif';
   ctx.fillText(shipCount+' calls  ·  '+Math.round(yardTEU).toLocaleString()+' TEU in yard',x+12,y+30);
   if(ebHist.length>2){ const sx=x+12,sy=y+38,sw=w-24,sh=14;
@@ -712,7 +712,7 @@ function draw(){
   drawTrain();
   trucks.forEach(drawTruck);
   boxes.forEach(drawBox);
-  // stage labels + flow direction — make the pipeline legible
+  // stage labels + flow direction, make the pipeline legible
   tag('VESSEL BERTHS',360,SEA_TOP+12);
   tag('QUAY CRANES',360,QUAY_TOP+22);
   tag('CONTAINER YARD',360,STK_BASE-MAXROW*BH-6);

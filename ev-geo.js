@@ -1,4 +1,4 @@
-/* Scene configuration for ev-charging.html — a top-down EV CHARGING HUB /
+/* Scene configuration for ev-charging.html, a top-down EV CHARGING HUB /
    FORECOURT drawn in 720x520 scene coordinates: a grid connection (substation /
    transformer) at one side feeding power into a canopy forecourt of charging
    stalls. The number of stalls scales with the charger count; a share of stalls
@@ -38,6 +38,6 @@ var GEO={
 
   /* ---------- Star Charge (China) · vast-scale high-utilisation urban ---------- */
   "starcharge":{ kind:'urban', power:'fast', growing:true,
-    area:'CHINA — URBAN CHARGING',
+    area:'CHINA, URBAN CHARGING',
     footer:'Vast-scale urban charging · high utilisation · world\'s largest EV market' }
 };

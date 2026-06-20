@@ -1,4 +1,4 @@
-/* Scene configuration for offshore-wind.html — a top-down / sea-level view of an
+/* Scene configuration for offshore-wind.html, a top-down / sea-level view of an
    offshore wind farm drawn in 720x520 scene coordinates: a blue ocean with a
    hint of coastline on one edge, an array of offshore wind turbines standing in
    the sea (mast + three rotating blades + a small foundation + reflection), an

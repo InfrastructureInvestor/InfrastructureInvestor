@@ -1,4 +1,4 @@
-/* Scene configuration for courts.html — a top-down / elevation COURTHOUSE,
+/* Scene configuration for courts.html, a top-down / elevation COURTHOUSE,
    drawn in a 720x520 daytime scene: a dignified civic building with a columned /
    portico entrance and steps, a clock / pediment over the door, a small
    scales-of-justice motif, rows of lit windows (the building "available"), and an
@@ -7,15 +7,15 @@
    to the project SPV; the SPV drains FM (security, cleaning, lifecycle) cost. The
    model is the availability PPP / PFI: a long, government-backed, indexed,
    demand-risk-free annuity, reduced only by deductions for unavailability or
-   performance failures. There is NO demand risk — revenue does not depend on case
+   performance failures. There is NO demand risk, revenue does not depend on case
    volumes.
 
    Each example carries its own signature:
-     model   — 'PFI' | 'P3' | 'concession'      (the PPP structure)
-     tier    — 'flagship' | 'regional'          (the standing of the courthouse)
-     growing — bool                             (a + EXTENSION marker)
-     area    — the area caption (top-down map label)
-     footer  — the scene footer caption
+     model  , 'PFI' | 'P3' | 'concession'      (the PPP structure)
+     tier   , 'flagship' | 'regional'          (the standing of the courthouse)
+     growing, bool                             (a + EXTENSION marker)
+     area   , the area caption (top-down map label)
+     footer , the scene footer caption
 */
 var GEO={
 

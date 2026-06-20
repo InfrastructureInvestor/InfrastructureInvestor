@@ -1,4 +1,4 @@
-/* Scene configuration for anaerobic-digestion.html — a top-down / elevation
+/* Scene configuration for anaerobic-digestion.html, a top-down / elevation
    anaerobic-digestion plant drawn in 720x520 scene coordinates: one or two
    large digester tanks with green gas-holder domes that gently "breathe" (rise
    and fall), a feedstock reception where a truck or tractor tips organic waste,

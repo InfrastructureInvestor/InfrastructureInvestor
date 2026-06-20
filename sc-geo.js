@@ -1,4 +1,4 @@
-/* Scene configuration for subsea-cables.html — a top-down OCEAN scene, drawn in
+/* Scene configuration for subsea-cables.html, a top-down OCEAN scene, drawn in
    720x520 scene coordinates: a blue sea, a landmass and a cable landing station on
    the LEFT edge and another on the RIGHT edge, and a submarine fibre cable laid
    across the seabed between them (with mid-ocean repeaters). Bright data PULSES

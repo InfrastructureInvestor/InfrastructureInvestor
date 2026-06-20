@@ -1,4 +1,4 @@
-/* Scene configuration for electricity-distribution.html — a top-down town
+/* Scene configuration for electricity-distribution.html, a top-down town
    distribution network drawn in 720x520 scene coordinates: a primary substation
    fed from the grid, medium-voltage feeders branching out to distribution
    transformers, then low-voltage spurs to clusters of customers (homes, shops,

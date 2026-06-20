@@ -1,13 +1,13 @@
-/* Scene configuration for pumped-hydro.html — a pumped-hydro storage scheme
+/* Scene configuration for pumped-hydro.html, a pumped-hydro storage scheme
    drawn in 720x520 scene coordinates: an UPPER reservoir high on the canvas, a
    LOWER reservoir below, connected by a penstock / tunnel down a hillside, with a
    powerhouse / turbine hall between them and a grid switchyard with transmission
-   lines. Water flows DOWN the penstock when generating (discharging — cyan/white
-   flow, amber/green power pulses OUT to the grid) and UP when pumping (charging —
+   lines. Water flows DOWN the penstock when generating (discharging, cyan/white
+   flow, amber/green power pulses OUT to the grid) and UP when pumping (charging,
    cyan pulses IN) on a slow, alternating cycle; the upper-reservoir level rises
    and falls slightly with the cycle. Flow intensity scales with the revenue
    capture. Each scheme carries its own signature: contracted (cap-and-floor /
-   capacity / regulated) vs more merchant, storage duration (in hours — pumped
+   capacity / regulated) vs more merchant, storage duration (in hours, pumped
    hydro is LONG, 6–24h+), whether it is growing/expanding, and the area label and
    footer. contracted=true → a cap-and-floor / capacity / regulated revenue floor
    dominates; contracted=false → a more merchant, market-exposed revenue stack. */

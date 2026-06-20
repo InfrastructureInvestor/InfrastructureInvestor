@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Rolling Stock (ROSCO) Economics — Live Simulation</title>
+<title>Rolling Stock (ROSCO) Economics | Live Simulation</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Source+Serif+4:opsz,wght@8..60,400;8..60,500;8..60,600&display=swap" rel="stylesheet">
@@ -152,8 +152,8 @@
 
   <div class="as-head">
     <div class="as-eyebrow">Transport · Rolling stock</div>
-    <h2>What a train-leasing fleet earns — and where it bleeds</h2>
-    <p class="as-sub">A rolling-stock company (a ROSCO) owns the trains and leases them to operators on long contracts, billing a <b>lease rental</b> for the asset plus a <b>maintenance</b> charge for keeping it serviceable. It's an asset-leasing business, so the income is high-margin and contracted — but the trains <b>depreciate</b> and carry <b>residual / off-lease risk</b>: a unit that comes off lease earns nothing yet still costs to store and still wears its value down. The case turns on the size of the fleet, the lease rate, and how much of it stays <b>on lease</b>.</p>
+    <h2>What a train-leasing fleet earns, and where it bleeds</h2>
+    <p class="as-sub">A rolling-stock company (a ROSCO) owns the trains and leases them to operators on long contracts, billing a <b>lease rental</b> for the asset plus a <b>maintenance</b> charge for keeping it serviceable. It's an asset-leasing business, so the income is high-margin and contracted, but the trains <b>depreciate</b> and carry <b>residual / off-lease risk</b>: a unit that comes off lease earns nothing yet still costs to store and still wears its value down. The case turns on the size of the fleet, the lease rate, and how much of it stays <b>on lease</b>.</p>
   </div>
 
   <div class="as-ctrls">
@@ -175,12 +175,12 @@
 
   <div class="as-legend">
     <span class="leg"><span class="dot" style="background:var(--aero)"></span><b>On lease</b>&nbsp;in service, earning rent</span>
-    <span class="leg"><span class="dot" style="background:#6a86a0"></span><b>Off lease</b>&nbsp;stabled, earning nothing — still depreciating</span>
+    <span class="leg"><span class="dot" style="background:#6a86a0"></span><b>Off lease</b>&nbsp;stabled, earning nothing, still depreciating</span>
     <span class="leg"><span class="dot" style="background:var(--comm)"></span><b>Maintenance</b>&nbsp;heavy overhaul billed to operators</span>
     <span class="leg"><span class="dot" style="background:#5aa0e6"></span><b>Lease rentals</b>&nbsp;collected from operators</span>
   </div>
 
-  <div class="band-label"><span class="t">Flows — annualised from current assumptions</span><span class="ln"></span><span class="hint">per year</span></div>
+  <div class="band-label"><span class="t">Flows, annualised from current assumptions</span><span class="ln"></span><span class="hint">per year</span></div>
   <div class="as-kpis">
     <div class="kpi k-rev"><div class="k">Revenue p.a.</div><div class="v" id="kRev">£0</div><div class="s"><b id="kRevHr">£0</b> / hr</div></div>
     <div class="kpi k-eb"><div class="k">EBITDA p.a.</div><div class="v" id="kEb">£0</div><div class="s"><b id="kMargin">0%</b> margin</div></div>
@@ -188,7 +188,7 @@
     <div class="kpi k-pax"><div class="k">Vehicles on lease</div><div class="v" id="kPaxYr">0</div><div class="s"><b id="kThru">95%</b> on lease</div></div>
   </div>
 
-  <div class="band-label"><span class="t">Stocks — what the flows accumulate into</span><span class="ln"></span><span class="hint">live</span></div>
+  <div class="band-label"><span class="t">Stocks, what the flows accumulate into</span><span class="ln"></span><span class="hint">live</span></div>
   <div class="as-stocks">
     <div class="stock"><div class="k">Vehicles on lease now</div><div class="v" id="sPax">0</div><div class="s">of <b id="sCap">1,000</b> fleet</div></div>
     <div class="stock"><div class="k">EBITDA banked · session</div><div class="v" id="sBank">£0</div><div class="s">accumulating in real time</div></div>
@@ -204,7 +204,7 @@
       <div class="split-seg seg-aero" id="segAero">Lease rentals</div>
       <div class="split-seg seg-comm" id="segComm">Maintenance</div>
     </div>
-    <div class="split-foot"><b>Why investors like rolling stock:</b> a leased fleet throws off high-margin, contracted rental income with long lease terms and creditworthy operator counterparties — a steady, asset-backed cash flow that supports heavy leverage. The catch is that trains are <b>depreciating</b> assets: the return ultimately depends on <b>residual value</b> and re-leasing. When a unit comes <b>off lease</b> — typically at a franchise change — it earns nothing, still costs to stable, and keeps losing value, so utilisation and the strength of the next lease are what protect the equity.</div>
+    <div class="split-foot"><b>Why investors like rolling stock:</b> a leased fleet throws off high-margin, contracted rental income with long lease terms and creditworthy operator counterparties, a steady, asset-backed cash flow that supports heavy leverage. The catch is that trains are <b>depreciating</b> assets: the return ultimately depends on <b>residual value</b> and re-leasing. When a unit comes <b>off lease</b>, typically at a franchise change, it earns nothing, still costs to stable, and keeps losing value, so utilisation and the strength of the next lease are what protect the equity.</div>
   </div>
 
   <div class="as-panels">
@@ -212,8 +212,8 @@
     <div class="panel"><div class="ptitle">Operating costs<span class="pt-sum" id="costSum">£0 p.a.</span></div><div id="costRows"></div></div>
   </div>
 
-  <div class="band-label"><span class="t">Investment case — should you buy it?</span><span class="ln"></span><span class="hint">DCF returns</span></div>
-  <p class="calc-note">Year-1 financials flow live from the simulation above: revenue <b id="cBaseRev">£0</b> and EBITDA <b id="cBaseEb">£0</b> p.a. Set your deal terms below — the <b style="color:var(--aero)">unlevered IRR</b> (asset return) and <b style="color:var(--accent)">levered IRR</b> (return to equity, after debt) recompute instantly.</p>
+  <div class="band-label"><span class="t">Investment case, should you buy it?</span><span class="ln"></span><span class="hint">DCF returns</span></div>
+  <p class="calc-note">Year-1 financials flow live from the simulation above: revenue <b id="cBaseRev">£0</b> and EBITDA <b id="cBaseEb">£0</b> p.a. Set your deal terms below, the <b style="color:var(--aero)">unlevered IRR</b> (asset return) and <b style="color:var(--accent)">levered IRR</b> (return to equity, after debt) recompute instantly.</p>
 
   <div class="calc-grid">
     <div class="cgroup"><h4>Operating</h4>
@@ -251,11 +251,11 @@
   </div>
 
   <div class="jwrap tscroll">
-    <div class="jhead"><span class="t">Projection — £m per year</span></div>
+    <div class="jhead"><span class="t">Projection, £m per year</span></div>
     <table class="ptable"><thead id="ptHead"></thead><tbody id="ptBody"></tbody></table>
   </div>
 
-  <p class="as-foot"><b>Illustrative model.</b> Represents a rolling-stock leasing company (ROSCO). Revenue = lease rentals (vehicles on lease × lease rate) plus a maintenance charge per vehicle in service; off-lease vehicles earn nothing. Operating costs (heavy maintenance delivery per vehicle, stabling of off-lease units, insurance &amp; overheads, a remarketing/management fee) leave a high EBITDA margin — but rolling stock is a depreciating asset, so the modelled <b>depreciation</b> (a proxy for residual-value erosion) and fleet capex are deliberately high and the entry multiple lower than the availability-PFI assets. EBITDA = revenue − operating costs; excludes upfront fleet acquisition cost and senior debt service. The investment case is a simplified DCF and does not separately model end-of-lease residual realisation. For illustration only — not investment advice, and not any specific asset.</p>
+  <p class="as-foot"><b>Illustrative model.</b> Represents a rolling-stock leasing company (ROSCO). Revenue = lease rentals (vehicles on lease × lease rate) plus a maintenance charge per vehicle in service; off-lease vehicles earn nothing. Operating costs (heavy maintenance delivery per vehicle, stabling of off-lease units, insurance &amp; overheads, a remarketing/management fee) leave a high EBITDA margin, but rolling stock is a depreciating asset, so the modelled <b>depreciation</b> (a proxy for residual-value erosion) and fleet capex are deliberately high and the entry multiple lower than the availability-PFI assets. EBITDA = revenue − operating costs; excludes upfront fleet acquisition cost and senior debt service. The investment case is a simplified DCF and does not separately model end-of-lease residual realisation. For illustration only, not investment advice, and not any specific asset.</p>
 
 </div>
 
@@ -268,7 +268,7 @@ cv.width=W*DPR; cv.height=H*DPR; ctx.setTransform(DPR,0,0,DPR,0,0);
 const HRS_PER_YR=8760, EV_MULT=11, MAINT_RATE=45000;   // maintenance income per vehicle on lease
 const C={aero:'#37c08e', comm:'#e6b35a', sig:'#5aa0e6', cost:'#ef8166'};
 
-// Two tills: lease rentals (the capital rental) vs maintenance — both scale with vehicles on lease
+// Two tills: lease rentals (the capital rental) vs maintenance, both scale with vehicles on lease
 const STREAMS=[
   {name:'Lease rentals',        tag:'Lease', aero:true,  kind:'lease'},
   {name:'Maintenance & overhaul',tag:'Maint',aero:false, kind:'maint'},
@@ -348,7 +348,7 @@ function renderModel(){
   document.getElementById('cBaseEb').textContent=money(baseEbYr);
   const m=computeModel();
   const set=(id,t)=>{ const e=document.getElementById(id); if(e) e.textContent=t; };
-  if(!m){ ['oUIRR','oLIRR','oMOIC','oProfit'].forEach(id=>set(id,'—')); document.getElementById('calcSum').innerHTML='<span class="lbl">At this tenancy / rent the EBITDA is too thin to value on a multiple — add tenants or raise the rent.</span>'; return; }
+  if(!m){ ['oUIRR','oLIRR','oMOIC','oProfit'].forEach(id=>set(id,'—')); document.getElementById('calcSum').innerHTML='<span class="lbl">At this tenancy / rent the EBITDA is too thin to value on a multiple, add tenants or raise the rent.</span>'; return; }
   set('oUIRR',pctTxt(m.uIRR)); set('oLIRR',pctTxt(m.lIRR));
   set('oMOIC',isFinite(m.moic)?m.moic.toFixed(2)+'×':'—');
   set('oProfit',money(m.profit));
@@ -404,7 +404,7 @@ function drawCatenary(y){
   ctx.strokeStyle='rgba(150,160,172,0.35)'; ctx.lineWidth=1; ctx.beginPath(); ctx.moveTo(0,y-19); ctx.lineTo(W,y-19); ctx.stroke();
   for(let x=30;x<W;x+=100){ ctx.beginPath(); ctx.moveTo(x,y-3); ctx.lineTo(x,y-23); ctx.stroke(); }
 }
-// a trainset on a siding — coloured livery + lit windows when on lease, grey & dark when stabled
+// a trainset on a siding, coloured livery + lit windows when on lease, grey & dark when stabled
 function drawTrainset(x,y,lit,seed){
   const w=TW-14, cars=3, carW=(w-12)/cars, top=y-6, bh=11;
   ctx.fillStyle='rgba(0,0,0,0.25)'; ctx.fillRect(x+2,y+5,w,3);                    // shadow on rail
@@ -431,7 +431,7 @@ function drawDepot(fleet,onLease){
   ctx.fillStyle='rgba(170,185,200,0.6)'; ctx.font='700 8px Inter,sans-serif'; ctx.textAlign='left'; ctx.fillText('TRACTION MAINTENANCE DEPOT',bx+6,49);
   for(let r=0;r<rows;r++) drawCatenary(BY+r*TH);
   for(let i=0;i<N;i++){ const p=cellXY(i); drawTrainset(p.x,p.y,i<onN,i); }
-  // maintenance bay highlight on the first siding — welding sparks
+  // maintenance bay highlight on the first siding, welding sparks
   const m=cellXY(0); ctx.strokeStyle='rgba(255,180,90,0.35)'; ctx.lineWidth=1; ctx.strokeRect(m.x-4,m.y-20,TW-6,TH-4);
   ctx.fillStyle='rgba(170,150,120,0.5)'; ctx.font='700 6px Inter,sans-serif'; ctx.textAlign='left'; ctx.fillText('MAINTENANCE',m.x-2,m.y-22);
   if(Math.floor(T*0.5)%3===0){ const sx=m.x+20, sy=m.y+2; ctx.fillStyle='#fff2c0'; light(sx,sy,8,'rgba(255,220,150,0.7)',1);
@@ -523,7 +523,7 @@ function drawHUD(){
   ctx.strokeStyle='rgba(255,255,255,0.08)'; ctx.lineWidth=1; ctx.stroke();
   light(x+13,y+13,5,'rgba(55,192,142,1)',0.7);
   ctx.fillStyle=C.aero; ctx.beginPath(); ctx.arc(x+13,y+13,3,0,Math.PI*2); ctx.fill();
-  ctx.fillStyle='#cfe0ea'; ctx.font='700 9px Inter,sans-serif'; ctx.textAlign='left'; ctx.fillText('ROLLING STOCK — LIVE',x+23,y+16);
+  ctx.fillStyle='#cfe0ea'; ctx.font='700 9px Inter,sans-serif'; ctx.textAlign='left'; ctx.fillText('ROLLING STOCK, LIVE',x+23,y+16);
   ctx.fillStyle='rgba(170,190,205,0.85)'; ctx.font='9px Inter,sans-serif';
   ctx.fillText(Math.round(visFleet).toLocaleString()+' vehicles  ·  '+Math.round(visOn*100)+'% on lease',x+12,y+30);
   if(ebHist.length>2){ const sx=x+12,sy=y+38,sh=14,sw=w-24;
@@ -541,7 +541,7 @@ function draw(){
   drawDepot(visFleet,visOn);
   drawDeparture();
   drawEntrance();
-  ctx.fillStyle='rgba(180,190,200,0.55)'; ctx.font='700 7px Inter,sans-serif'; ctx.textAlign='center'; ctx.fillText('ROLLING STOCK — leased units run in service; off-lease units stable in the depot, still depreciating',W/2,H-6);
+  ctx.fillStyle='rgba(180,190,200,0.55)'; ctx.font='700 7px Inter,sans-serif'; ctx.textAlign='center'; ctx.fillText('ROLLING STOCK, leased units run in service; off-lease units stable in the depot, still depreciating',W/2,H-6);
   moneys.forEach(m=>{ const a=Math.max(0,Math.min(1,m.life*0.8)); ctx.save(); ctx.globalAlpha=a;
     ctx.font='700 9px Inter,sans-serif'; ctx.textAlign='left'; const cost=(m.col===C.cost); const tw=ctx.measureText((cost?'−£ ':'£ ')+m.label).width;
     ctx.fillStyle='rgba(8,16,30,0.55)'; ctx.beginPath(); ctx.roundRect(m.x-tw/2-4,m.y-9,tw+8,13,6); ctx.fill();

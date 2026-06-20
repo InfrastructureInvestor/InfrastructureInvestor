@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Heat Networks & Heat Pumps — Infrastructure Investor Framework</title>
+<title>Heat Networks & Heat Pumps | Infrastructure Investor Framework</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,500;0,8..60,600;1,8..60,400&display=swap" rel="stylesheet">
 <style>
   :root {
@@ -260,8 +260,8 @@
 <!-- CUSTOMER MODEL TOGGLE -->
 <div style="font-size:0.62rem; color:var(--muted); letter-spacing:0.1em; text-transform:uppercase; margin-bottom:0.6rem;">Customer relationship model</div>
 <div class="toggle-row">
-  <button class="toggle-btn active" onclick="setModel('centralised')">⬡ Centralised — Heat Network</button>
-  <button class="toggle-btn elec" onclick="setModel('decentralised')">⚡ Decentralised — Electricity Supply Only</button>
+  <button class="toggle-btn active" onclick="setModel('centralised')">⬡ Centralised, Heat Network</button>
+  <button class="toggle-btn elec" onclick="setModel('decentralised')">⚡ Decentralised, Electricity Supply Only</button>
 </div>
 
 <!-- CENTRALISED MODEL INFO -->
@@ -302,19 +302,19 @@
 
 <!-- PUMP INFO BARS -->
 <div id="info-ashp" class="pump-info pump-specific visible">
-  <strong>Air Source Heat Pump (ASHP)</strong> — Extracts heat from ambient air. COP typically 2.5–3.5 (lower in cold weather). Lowest capex, highest variability in output. Most common in residential/small commercial. Noise and siting constraints relevant for dense urban deployments.
+  <strong>Air Source Heat Pump (ASHP)</strong>, Extracts heat from ambient air. COP typically 2.5–3.5 (lower in cold weather). Lowest capex, highest variability in output. Most common in residential/small commercial. Noise and siting constraints relevant for dense urban deployments.
 </div>
 <div id="info-gshp" class="pump-info pump-specific">
-  <strong>Ground Source Heat Pump (GSHP)</strong> — Extracts heat via ground loops (horizontal) or boreholes (vertical). COP typically 3.5–5.0, more stable year-round. High upfront capex (drilling/trenching). Strong fit for greenfield sites with land availability. Less affected by ambient temperature.
+  <strong>Ground Source Heat Pump (GSHP)</strong>, Extracts heat via ground loops (horizontal) or boreholes (vertical). COP typically 3.5–5.0, more stable year-round. High upfront capex (drilling/trenching). Strong fit for greenfield sites with land availability. Less affected by ambient temperature.
 </div>
 <div id="info-wshp" class="pump-info pump-specific">
-  <strong>Water Source Heat Pump (WSHP)</strong> — Uses rivers, lakes, aquifers, or mine water as heat source. Very high COPs possible (4–6+). Requires proximity to water body; abstraction licencing from Environment Agency. Mine water (e.g. Scottish coalfields) increasingly relevant for urban district schemes.
+  <strong>Water Source Heat Pump (WSHP)</strong>, Uses rivers, lakes, aquifers, or mine water as heat source. Very high COPs possible (4–6+). Requires proximity to water body; abstraction licencing from Environment Agency. Mine water (e.g. Scottish coalfields) increasingly relevant for urban district schemes.
 </div>
 <div id="info-large" class="pump-info pump-specific">
-  <strong>Large-Scale / District Heat Pump</strong> — Industrial-scale units (often >1MW) serving district heat networks. May use waste heat from data centres, sewage, industrial processes. High engineering complexity; typically requires anchor loads (hospitals, social housing blocks) for viable base demand.
+  <strong>Large-Scale / District Heat Pump</strong>, Industrial-scale units (often >1MW) serving district heat networks. May use waste heat from data centres, sewage, industrial processes. High engineering complexity; typically requires anchor loads (hospitals, social housing blocks) for viable base demand.
 </div>
 <div id="info-hybrid" class="pump-info pump-specific">
-  <strong>Hybrid System (Heat Pump + Gas Boiler)</strong> — HP handles base load; gas boiler tops up in peak/cold conditions. Lower capex than full electrification; maintains gas connection. Regulatory position evolving — may not qualify for full heat decarbonisation incentives. Transition technology rather than long-term infrastructure bet.
+  <strong>Hybrid System (Heat Pump + Gas Boiler)</strong>, HP handles base load; gas boiler tops up in peak/cold conditions. Lower capex than full electrification; maintains gas connection. Regulatory position evolving, may not qualify for full heat decarbonisation incentives. Transition technology rather than long-term infrastructure bet.
 </div>
 
 <!-- MAIN CONSIDERATIONS GRID -->
@@ -375,29 +375,29 @@ const data = {
     centralised: {
       tech: [
         ['COP variability', 'Performance degrades in cold weather; design for worst-case heat output vs. sizing cost trade-off'],
-        ['Flow temperature', 'District heat networks often require 70–80°C flow; ASHPs most efficient at lower temps (40–55°C) — mismatch risk'],
+        ['Flow temperature', 'District heat networks often require 70–80°C flow; ASHPs most efficient at lower temps (40–55°C), mismatch risk'],
         ['Intermittency', 'Output variability requires thermal storage buffer or backup to maintain network pressure/temp'],
         ['Noise & siting', 'Multiple units at central plant site; acoustic screening and planning conditions apply'],
         ['Defrost cycles', 'Efficiency loss and brief heat interruption in sub-zero conditions; must be accounted in availability SLAs'],
       ],
       commercial: [
         ['Heat tariff design', 'Standing charge + unit rate structure; must recover capex, opex, and return on network asset'],
-        ['Energy purchase', 'Electricity input cost is primary variable cost driver — electricity price risk needs hedging or pass-through mechanism'],
+        ['Energy purchase', 'Electricity input cost is primary variable cost driver, electricity price risk needs hedging or pass-through mechanism'],
         ['Capex', 'Lower than GSHP/WSHP but multiple units needed for district scale; balance unit cost vs. redundancy'],
-        ['Grid electricity cost', 'Network charges (DUoS, TNUoS) add 3–5p/kWh to input cost — margin compression risk vs. gas-heated competitors'],
-        ['Seasonal demand', 'Revenue highly seasonal (winter peak); summer load from DHW only — affects revenue predictability'],
+        ['Grid electricity cost', 'Network charges (DUoS, TNUoS) add 3–5p/kWh to input cost, margin compression risk vs. gas-heated competitors'],
+        ['Seasonal demand', 'Revenue highly seasonal (winter peak); summer load from DHW only, affects revenue predictability'],
       ],
       regulatory: [
         ['Heat network regulation', 'Ofgem took over heat network regulation in 2024; consumer protection obligations, metering standards, price transparency'],
         ['Heat Trust / Code', 'Voluntary Heat Trust replaced by statutory framework; compliance required for connection agreements'],
         ['RHI / BUS', 'Boiler Upgrade Scheme (BUS) not applicable to networks; check HNIP and LHEES (Scotland) grant availability'],
-        ['EPC requirements', 'Customer buildings must meet minimum EPC to connect — gateway risk for older housing stock'],
-        ['SEDHAC/BEIS targets', 'Heat Network Zoning (planned) may designate areas where heat networks are the mandated solution — pipeline opportunity'],
+        ['EPC requirements', 'Customer buildings must meet minimum EPC to connect, gateway risk for older housing stock'],
+        ['SEDHAC/BEIS targets', 'Heat Network Zoning (planned) may designate areas where heat networks are the mandated solution, pipeline opportunity'],
       ],
       customer: [
         ['Heat Supply Agreement', 'Long-term HSA (typically 20–25 yrs) required; customer lock-in vs. consumer protection obligations'],
         ['Metering & billing', 'Heat meters required per unit; billing complexity, disputes, and maintenance obligations on Infrastructure Investor'],
-        ['Consumer protection', 'Ofgem framework: maximum standing charges, complaint handling, exit rights — operational burden'],
+        ['Consumer protection', 'Ofgem framework: maximum standing charges, complaint handling, exit rights, operational burden'],
         ['Anchor loads', 'Social housing, schools, or large commercial needed to underpin base load; anchor HSA negotiations critical'],
         ['Mixed tenure', 'Estates with mix of owner-occupier and rented add complexity to connection consent and billing'],
       ],
@@ -409,51 +409,51 @@ const data = {
       ],
       investment: [
         ['Yield profile', 'Long-term contracted cashflows (HSAs) support infrastructure-style yield; comparable to utility concessions'],
-        ['Illiquidity premium', 'Bespoke local infrastructure; limited secondary market — appropriate for long-duration fund mandates'],
-        ['Scope 1/2 emissions', 'Electrified heat delivers near-zero Scope 1; Scope 2 depends on grid carbon intensity — improves over time'],
+        ['Illiquidity premium', 'Bespoke local infrastructure; limited secondary market, appropriate for long-duration fund mandates'],
+        ['Scope 1/2 emissions', 'Electrified heat delivers near-zero Scope 1; Scope 2 depends on grid carbon intensity, improves over time'],
         ['Stranding risk', 'Residual gas demand in hybrid/backup creates future stranding risk as grid decarbonises'],
         ['Policy tailwind', 'Heat network zoning, social housing decarbonisation (HUG, SHDF), and Ofgem backing represent structural support'],
       ],
     },
     decentralised: {
       tech: [
-        ['Electrical load per property', 'ASHP draws 3–6kW at peak; significant uplift vs. gas-heated property — network reinforcement required'],
+        ['Electrical load per property', 'ASHP draws 3–6kW at peak; significant uplift vs. gas-heated property, network reinforcement required'],
         ['Coincident demand', 'Cold snap drives simultaneous activation across estate; coincidence factor modelling critical for DNO design'],
         ['EV + HP stacking', 'Combined EV and ASHP demand may require significant cable/transformer upgrades in last-mile network'],
-        ['Smart charging / DSR', 'Demand-side response contracts with customers can reduce peak — technical capability to offer this?'],
+        ['Smart charging / DSR', 'Demand-side response contracts with customers can reduce peak, technical capability to offer this?'],
         ['Single phase vs. 3-phase', 'Larger ASHPs (>5kW) may require 3-phase supply; existing residential connections often single-phase'],
       ],
       commercial: [
-        ['Revenue model', 'Infrastructure Investor earns from electricity units delivered + connection/standing charges — simpler than heat tariff'],
-        ['Volume upside', 'Each new ASHP installation increases kWh throughput on Infrastructure Investor\'s network — revenue per connection improves'],
+        ['Revenue model', 'Infrastructure Investor earns from electricity units delivered + connection/standing charges, simpler than heat tariff'],
+        ['Volume upside', 'Each new ASHP installation increases kWh throughput on Infrastructure Investor\'s network, revenue per connection improves'],
         ['No heat price risk', 'Customer sets their own energy tariff relationship with supplier; Infrastructure Investor not exposed to heat price regulation'],
         ['Reinforcement capex', 'Network upgrades to support heat pump loads are Infrastructure Investor\'s cost; recovery mechanism through connection charges or DNO allowances'],
-        ['Connection charge income', 'New heat pump connections may trigger new/upgraded service connections — fee income opportunity'],
+        ['Connection charge income', 'New heat pump connections may trigger new/upgraded service connections, fee income opportunity'],
       ],
       regulatory: [
-        ['IDNO framework', 'Infrastructure Investor operates under IDNO licence; Ofgem sets price control on distribution charges — limited pricing flexibility'],
-        ['Smart meter mandate', 'Heat pump customers benefit from smart metering / time-of-use tariffs — Infrastructure Investor infrastructure must support'],
+        ['IDNO framework', 'Infrastructure Investor operates under IDNO licence; Ofgem sets price control on distribution charges, limited pricing flexibility'],
+        ['Smart meter mandate', 'Heat pump customers benefit from smart metering / time-of-use tariffs, Infrastructure Investor infrastructure must support'],
         ['Grid codes', 'Distributed generation / demand response requirements if Infrastructure Investor aggregates flexibility from customer HPs'],
         ['EPC & MCS', 'Customer\'s installer must be MCS-certified; Infrastructure Investor not responsible but may need to communicate this'],
         ['Ofgem RIIO-ED2', 'Distribution network standards apply; reinforcement investment may be allowable within price control'],
       ],
       customer: [
-        ['Connection agreement', 'Standard connection T&Cs; no long-term heat supply lock-in — easier onboarding, lower switching barriers'],
+        ['Connection agreement', 'Standard connection T&Cs; no long-term heat supply lock-in, easier onboarding, lower switching barriers'],
         ['Customer education', 'Infrastructure Investor may need to inform customers on impact of HP on electricity bills and demand'],
-        ['No metering obligation', 'Infrastructure Investor does not need to install/maintain heat meters — significant opex reduction vs centralised'],
-        ['Churn risk', 'Easier for customers to switch electricity supplier vs. heat network — volume risk if large customers leave'],
+        ['No metering obligation', 'Infrastructure Investor does not need to install/maintain heat meters, significant opex reduction vs centralised'],
+        ['Churn risk', 'Easier for customers to switch electricity supplier vs. heat network, volume risk if large customers leave'],
       ],
       planning: [
-        ['No central plant', 'No energy centre planning requirement — significant simplification'],
+        ['No central plant', 'No energy centre planning requirement, significant simplification'],
         ['Network reinforcement permits', 'Highway works for cable upgrades still require permits and coordination with LA'],
         ['Substation upgrades', 'New or upgraded substations may require planning consent depending on scale'],
       ],
       investment: [
-        ['Lower capex per connection', 'No heat generation plant; capex focused on network capacity — lower upfront per property'],
-        ['Regulatory allowance', 'Reinforcement capex may be recoverable through Ofgem-allowed investment under RIIO — reduces risk'],
+        ['Lower capex per connection', 'No heat generation plant; capex focused on network capacity, lower upfront per property'],
+        ['Regulatory allowance', 'Reinforcement capex may be recoverable through Ofgem-allowed investment under RIIO, reduces risk'],
         ['Lower ESG differentiation', 'Infrastructure Investor enabling decarbonisation indirectly; Scope 1/2 impact less direct than centralised model'],
         ['Scalability', 'Easier to scale across multiple sites without repeating heat network consenting and construction'],
-        ['Tail risk lower', 'No heat supply liability; customer owns the risk of HP performance — contractual simplicity'],
+        ['Tail risk lower', 'No heat supply liability; customer owns the risk of HP performance, contractual simplicity'],
       ],
     },
   },
@@ -463,65 +463,65 @@ const data = {
       tech: [
         ['Borehole field design', 'Thermal conductivity testing required; borehole spacing and depth modelling to avoid thermal short-circuiting over time'],
         ['Long-term ground temp', 'Repeated extraction degrades ground temperature unless balanced with summer cooling injection (BTES)'],
-        ['COP stability', 'More stable output than ASHP — better fit for baseload district heat; less need for backup'],
+        ['COP stability', 'More stable output than ASHP, better fit for baseload district heat; less need for backup'],
         ['Groundwater risk', 'Drilling may intersect aquifers; contamination liability and EA oversight'],
         ['Maintenance access', 'Below-ground loops are largely maintenance-free but faults are very costly to remediate'],
       ],
       commercial: [
-        ['High capex', 'Borehole drilling £50–100k per hole at scale; significant upfront — requires confident load projections'],
-        ['Lower opex', 'Higher COP reduces electricity input cost per kWh of heat — better long-run economics than ASHP at scale'],
-        ['Land ownership', 'Infrastructure Investor must own or control land above borehole field — adds to site acquisition cost/complexity'],
+        ['High capex', 'Borehole drilling £50–100k per hole at scale; significant upfront, requires confident load projections'],
+        ['Lower opex', 'Higher COP reduces electricity input cost per kWh of heat, better long-run economics than ASHP at scale'],
+        ['Land ownership', 'Infrastructure Investor must own or control land above borehole field, adds to site acquisition cost/complexity'],
         ['Anchor load critical', 'High capex only justified with committed base load; anchor HSA must be in place before drilling'],
-        ['Grant potential', 'HNIP and Green Heat Network Fund may support capex — important for IRR'],
+        ['Grant potential', 'HNIP and Green Heat Network Fund may support capex, important for IRR'],
       ],
       regulatory: [
         ['EA abstraction licence', 'May require licence if using groundwater; EA consultation and hydrogeological assessment'],
         ['Ground investigation', 'Phase 1/2 environmental surveys required before drilling; contaminated land risk'],
         ['Heat network regulation', 'Same Ofgem heat network consumer framework as ASHP centralised applies'],
-        ['GSHP in EPC/SAP', 'SAP 10 calculation gives GSHP high efficiency rating — positive for customer EPC compliance'],
+        ['GSHP in EPC/SAP', 'SAP 10 calculation gives GSHP high efficiency rating, positive for customer EPC compliance'],
       ],
       customer: [
-        ['Same as ASHP centralised', 'HSA structure, metering, anchor load dynamics all similar — see ASHP centralised customer tab'],
-        ['Construction disruption', 'Borehole drilling on or near customer/developer sites is significant — programme management critical'],
+        ['Same as ASHP centralised', 'HSA structure, metering, anchor load dynamics all similar, see ASHP centralised customer tab'],
+        ['Construction disruption', 'Borehole drilling on or near customer/developer sites is significant, programme management critical'],
         ['Developer appetite', 'Housebuilders increasingly specifying GSHP-fed networks for planning conditions in low-carbon developments'],
       ],
       planning: [
         ['Borehole consent', 'Planning permission may be required for borehole drilling rigs; LA and EA notification'],
-        ['Groundwater SPZ', 'Drilling in source protection zones (SPZs) may be restricted or prohibited — early screening essential'],
-        ['Listed building areas', 'Less visible than ASHP — planning generally more permissive for underground systems'],
+        ['Groundwater SPZ', 'Drilling in source protection zones (SPZs) may be restricted or prohibited, early screening essential'],
+        ['Listed building areas', 'Less visible than ASHP, planning generally more permissive for underground systems'],
       ],
       investment: [
         ['Long asset life', 'Ground loops have 50+ year life; long-duration asset well matched to infrastructure fund horizon'],
-        ['Higher capex, lower opex', 'Front-loaded returns profile; critical to model correctly in DCF — IRR sensitive to assumed load ramp-up'],
-        ['Land encumbrance', 'Borehole field creates long-term encumbrance on land — title and wayleave risk for reversionary owner'],
-        ['ESG premium', 'No Scope 1 emissions; very stable Scope 2 intensity — strong green finance credentials'],
+        ['Higher capex, lower opex', 'Front-loaded returns profile; critical to model correctly in DCF, IRR sensitive to assumed load ramp-up'],
+        ['Land encumbrance', 'Borehole field creates long-term encumbrance on land, title and wayleave risk for reversionary owner'],
+        ['ESG premium', 'No Scope 1 emissions; very stable Scope 2 intensity, strong green finance credentials'],
       ],
     },
     decentralised: {
       tech: [
-        ['Rarely viable for decentral', 'Individual residential GSHP requires garden/land for loops — only realistic for rural/large plot properties'],
-        ['Borehole access', 'Infrastructure Investor may need to facilitate access to its land for customer boreholes — complex legal arrangement'],
-        ['Network impact', 'GSHP draws similar electrical load to ASHP but more steady — slightly more predictable for DNO modelling'],
+        ['Rarely viable for decentral', 'Individual residential GSHP requires garden/land for loops, only realistic for rural/large plot properties'],
+        ['Borehole access', 'Infrastructure Investor may need to facilitate access to its land for customer boreholes, complex legal arrangement'],
+        ['Network impact', 'GSHP draws similar electrical load to ASHP but more steady, slightly more predictable for DNO modelling'],
       ],
       commercial: [
-        ['Niche market', 'Decentralised GSHP customer base is small; mainly self-build and rural — not core last-mile urban opportunity'],
+        ['Niche market', 'Decentralised GSHP customer base is small; mainly self-build and rural, not core last-mile urban opportunity'],
         ['Connection income', 'Same connection charge income model as ASHP decentralised, but volume smaller'],
         ['Premium customers', 'GSHP customers tend to be higher-end properties; lower churn, higher average consumption'],
       ],
       regulatory: [
-        ['BUS grant', 'Customer can claim £7,500 BUS grant for GSHP (vs. £7,500 for ASHP) — may drive some uptake in Infrastructure Investor areas'],
+        ['BUS grant', 'Customer can claim £7,500 BUS grant for GSHP (vs. £7,500 for ASHP), may drive some uptake in Infrastructure Investor areas'],
         ['MCS requirement', 'Customer\'s installer must be MCS-registered; Infrastructure Investor not involved but may see connection enquiries increase'],
       ],
       customer: [
         ['Similar to ASHP decentral', 'Connection agreement only; Infrastructure Investor has no involvement in customer\'s heat system performance'],
-        ['Long payback for customer', 'Customer\'s GSHP capex is very high — Infrastructure Investor may need to support customer financing options to drive network uptake'],
+        ['Long payback for customer', 'Customer\'s GSHP capex is very high, Infrastructure Investor may need to support customer financing options to drive network uptake'],
       ],
       planning: [
-        ['Customer\'s planning responsibility', 'Infrastructure Investor not the planning applicant for customer\'s borehole — reduced exposure'],
+        ['Customer\'s planning responsibility', 'Infrastructure Investor not the planning applicant for customer\'s borehole, reduced exposure'],
         ['Network works same as ASHP', 'Highway permits and substation works as per ASHP decentralised'],
       ],
       investment: [
-        ['Limited volume play', 'GSHP decentralised is a low-volume, premium segment — not a core volume driver for electricity network revenue'],
+        ['Limited volume play', 'GSHP decentralised is a low-volume, premium segment, not a core volume driver for electricity network revenue'],
         ['Reinforcement same as ASHP', 'Network reinforcement obligations and RIIO recovery pathway same as ASHP decentralised'],
       ],
     },
@@ -534,11 +534,11 @@ const data = {
         ['Abstraction rate', 'EA/SEPA licence constrains maximum extraction volume and temperature differential (ΔT typically 5°C max)'],
         ['Mine water', 'Flooded mine workings (prevalent in Scottish coalfields) offer stable ~12–15°C source with very high COP potential'],
         ['Infrastructure at source', 'Intake/outfall structures in watercourses are significant civil works; corrosion, debris, and fish pass requirements'],
-        ['Closed vs open loop', 'Open loop (direct abstraction) vs closed loop (coil in watercourse) — different consenting and EA regimes'],
+        ['Closed vs open loop', 'Open loop (direct abstraction) vs closed loop (coil in watercourse), different consenting and EA regimes'],
       ],
       commercial: [
-        ['Lowest electricity input cost', 'COP of 4–6+ means very low electricity cost per unit of heat — strongest commercial case of all HP types at scale'],
-        ['Site specificity', 'Revenue model highly site-dependent; can\'t be replicated without proximity to water source — natural monopoly characteristics'],
+        ['Lowest electricity input cost', 'COP of 4–6+ means very low electricity cost per unit of heat, strongest commercial case of all HP types at scale'],
+        ['Site specificity', 'Revenue model highly site-dependent; can\'t be replicated without proximity to water source, natural monopoly characteristics'],
         ['High consenting cost', 'Abstraction licence, environmental impact assessment, and civil works costs are significant pre-investment outlays'],
         ['Mine water: low competition', 'Few operators with expertise; first-mover advantage in Scottish coalfield areas where Infrastructure Investor is active'],
         ['HNIP/GHNF eligible', 'Water source district schemes are prime candidates for Green Heat Network Fund capital grants'],
@@ -547,7 +547,7 @@ const data = {
         ['SEPA/EA abstraction licensing', 'Scotland: SEPA; England: EA. Multi-year lead time; conditions include thermal plume monitoring'],
         ['Water Framework Directive', 'Must demonstrate no deterioration of waterbody status; ecological impact assessment required'],
         ['Heat network regulation', 'Same Ofgem consumer protection framework applies'],
-        ['Mine water: Coal Authority', 'Mine water abstraction also involves Coal Authority for access and liability — tripartite consenting'],
+        ['Mine water: Coal Authority', 'Mine water abstraction also involves Coal Authority for access and liability, tripartite consenting'],
         ['Planning: watercourse works', 'Ordinary watercourse consent and flood risk assessment for any in-channel structures'],
       ],
       customer: [
@@ -559,35 +559,35 @@ const data = {
         ['Watercourse consents', 'In addition to standard planning: ordinary watercourse consent, Section 23 (EA) for main rivers, flood risk sequential test'],
         ['Environmental Impact Assessment', 'Likely EIA required for abstraction >10 l/s or significant civil works'],
         ['Mine water: underground access', 'Coal Authority surface rights and mine entry permits in addition to SEPA/EA'],
-        ['Long lead time', '3–5 year consenting timeline not unusual — must be reflected in investment underwriting'],
+        ['Long lead time', '3–5 year consenting timeline not unusual, must be reflected in investment underwriting'],
       ],
       investment: [
-        ['Highest barriers to entry', 'Site-specific, consent-heavy, capital-intensive — creates defensible moat once operational'],
-        ['Long-term stable cashflows', 'Very stable COP and input cost — more predictable opex than ASHP; well-suited to long-duration infrastructure returns'],
+        ['Highest barriers to entry', 'Site-specific, consent-heavy, capital-intensive, creates defensible moat once operational'],
+        ['Long-term stable cashflows', 'Very stable COP and input cost, more predictable opex than ASHP; well-suited to long-duration infrastructure returns'],
         ['ESG flagship', 'Mine water or river source district heat is compelling green infrastructure narrative for LP reporting'],
         ['Consenting risk', 'Pre-FID consenting risk is high; stage-gate investment approach recommended'],
-        ['Scottish opportunity', 'LHEES (Local Heat & Energy Efficiency Strategies) in Scotland identify mine water zones as priority areas — policy alignment'],
+        ['Scottish opportunity', 'LHEES (Local Heat & Energy Efficiency Strategies) in Scotland identify mine water zones as priority areas, policy alignment'],
       ],
     },
     decentralised: {
       tech: [
-        ['Extremely niche', 'Individual water source HPs require direct watercourse access — only viable for commercial/large residential on riverfront'],
+        ['Extremely niche', 'Individual water source HPs require direct watercourse access, only viable for commercial/large residential on riverfront'],
         ['Infrastructure Investor role limited', 'Unlikely to be a material volume segment for last-mile electricity; include for completeness only'],
       ],
       commercial: [
-        ['Very limited volume', 'Not a meaningful revenue driver in decentralised model — highly site-specific individual installations'],
+        ['Very limited volume', 'Not a meaningful revenue driver in decentralised model, highly site-specific individual installations'],
       ],
       regulatory: [
-        ['Same consenting applies', 'Customer still needs EA/SEPA abstraction licence — Infrastructure Investor not involved but may receive connection enquiries'],
+        ['Same consenting applies', 'Customer still needs EA/SEPA abstraction licence, Infrastructure Investor not involved but may receive connection enquiries'],
       ],
       customer: [
-        ['Sophisticated customer', 'Customer deploying own water source HP is typically large commercial or institutional — lower support burden'],
+        ['Sophisticated customer', 'Customer deploying own water source HP is typically large commercial or institutional, lower support burden'],
       ],
       planning: [
         ['Customer\'s burden', 'Infrastructure Investor not the consenting authority for customer\'s abstraction works'],
       ],
       investment: [
-        ['Not a core decentralised opportunity', 'Water source HP in decentralised model is marginal — focus centralised efforts here instead'],
+        ['Not a core decentralised opportunity', 'Water source HP in decentralised model is marginal, focus centralised efforts here instead'],
       ],
     },
   },
@@ -595,11 +595,11 @@ const data = {
   large: {
     centralised: {
       tech: [
-        ['Industrial-scale HP units', 'Units from 500kW to 10MW+; manufacturers include MAN, Ochsner, Star Refrigeration — limited supply chain'],
+        ['Industrial-scale HP units', 'Units from 500kW to 10MW+; manufacturers include MAN, Ochsner, Star Refrigeration, limited supply chain'],
         ['High-temperature output', 'Modern large HPs (e.g. HT-HP) can deliver 90–100°C; enables use of existing district heat infrastructure'],
-        ['Waste heat integration', 'Data centres, sewage treatment works, industrial processes as heat sources — source temperature and reliability are key'],
+        ['Waste heat integration', 'Data centres, sewage treatment works, industrial processes as heat sources, source temperature and reliability are key'],
         ['Redundancy design', 'N+1 or N+2 configuration for network reliability; standby boiler backup common'],
-        ['District heating primary circuit', 'Large-scale systems interface with DH primary circuit at variable flow and pressure — complex controls integration'],
+        ['District heating primary circuit', 'Large-scale systems interface with DH primary circuit at variable flow and pressure, complex controls integration'],
       ],
       commercial: [
         ['Very high capex', 'Energy centre at £2–10M+ depending on scale; grid connection and heat network distribution additional'],
@@ -610,45 +610,45 @@ const data = {
       ],
       regulatory: [
         ['Ofgem heat network regulation', 'Full consumer protection obligations; metering, billing, complaints, price disclosure'],
-        ['Heat Network Zoning (future)', 'Planned legislation will designate zones where heat networks are mandated — large schemes in urban areas benefit'],
+        ['Heat Network Zoning (future)', 'Planned legislation will designate zones where heat networks are mandated, large schemes in urban areas benefit'],
         ['Grid connection (DNO)', 'Large electrical load requires formal DNO connection agreement; may need transmission-level connection at largest scale'],
         ['CHP interaction', 'If combined with CHP, CHPQA certification and electricity export arrangements add regulatory layer'],
         ['Energy efficiency directive', 'Efficient district heating system classification enables access to obligated energy efficiency measures'],
       ],
       customer: [
         ['Anchor HSA negotiation', 'Critical to de-risk investment; ideally 20+ year HSA with public sector anchor before construction'],
-        ['Phased connection strategy', 'Initial anchor load plus planned expansion to residential/SME over time — connection programme planning'],
+        ['Phased connection strategy', 'Initial anchor load plus planned expansion to residential/SME over time, connection programme planning'],
         ['Metering at scale', 'Sub-metering for individual buildings in multi-tenanted blocks; smart thermal metering complex at scale'],
         ['Exit and assignment', 'HSA assignment clauses important if anchor tenant changes (e.g. NHS estate reconfiguration)'],
       ],
       planning: [
-        ['Energy centre: full planning', 'Large energy centre is a significant planning application — EIA may be required'],
+        ['Energy centre: full planning', 'Large energy centre is a significant planning application, EIA may be required'],
         ['Grid connection: consented route', 'HV cable route consenting if not using existing infrastructure'],
         ['Heat pipe route', 'Detailed pipe route planning; may require Highways Act S278 agreements and utility diversions'],
         ['Listed/conservation: energy centre siting', 'Urban settings often have competing planning constraints; design quality important'],
       ],
       investment: [
         ['Highest return potential', 'Scale economics, waste heat, and anchor HSAs can deliver strong risk-adjusted returns if consented and connected'],
-        ['Longest development period', 'Typically 4–7 years from site identification to full operation — J-curve is significant'],
-        ['Public sector counterparty', 'NHS, council, university HSA counterparties are investment-grade equivalent — reduces revenue risk'],
+        ['Longest development period', 'Typically 4–7 years from site identification to full operation, J-curve is significant'],
+        ['Public sector counterparty', 'NHS, council, university HSA counterparties are investment-grade equivalent, reduces revenue risk'],
         ['GHNF grant reduces capex risk', 'Grant-funded portion of capex improves IRR materially; grant conditions (output metrics) add compliance overhead'],
         ['Complexity premium', 'Higher execution complexity commands return premium; appropriate for Infrastructure Investor boutique specialist positioning'],
       ],
     },
     decentralised: {
       tech: [
-        ['Not typically applicable', 'Large-scale district HPs are centralised by definition — decentralised model does not apply in standard form'],
-        ['Exception: shared ground arrays', 'Infrastructure Investor could own a shared ground array and sell low-temperature heat as input to customer HPs — novel structure'],
+        ['Not typically applicable', 'Large-scale district HPs are centralised by definition, decentralised model does not apply in standard form'],
+        ['Exception: shared ground arrays', 'Infrastructure Investor could own a shared ground array and sell low-temperature heat as input to customer HPs, novel structure'],
       ],
       commercial: [
-        ['Novel commercial structure required', 'If pursuing shared ground array model, bespoke commercial framework needed — limited precedent'],
-        ['Electricity supply still relevant', 'Customer\'s large HP still needs electrical supply from Infrastructure Investor\'s network — connection income opportunity'],
+        ['Novel commercial structure required', 'If pursuing shared ground array model, bespoke commercial framework needed, limited precedent'],
+        ['Electricity supply still relevant', 'Customer\'s large HP still needs electrical supply from Infrastructure Investor\'s network, connection income opportunity'],
       ],
       regulatory: [
-        ['Hybrid regulatory position', 'Shared array with electricity supply could trigger both heat and electricity network regulation — legal clarity needed'],
+        ['Hybrid regulatory position', 'Shared array with electricity supply could trigger both heat and electricity network regulation, legal clarity needed'],
       ],
       customer: [
-        ['Sophisticated commercial customer', 'Only large commercial/industrial customers would deploy their own large-scale HP — small addressable market'],
+        ['Sophisticated commercial customer', 'Only large commercial/industrial customers would deploy their own large-scale HP, small addressable market'],
       ],
       planning: ['No specific planning items beyond standard network works for decentralised large-scale scenarios.'],
       investment: [
@@ -663,64 +663,64 @@ const data = {
         ['HP handles base load', 'Heat pump sized for ~70–80% of annual heat demand; gas boiler handles peak and backup'],
         ['Switchover logic', 'Controls system must manage HP/boiler switchover based on ambient temp, gas price, and carbon intensity'],
         ['Flow temperature management', 'Gas boiler can achieve high flow temps for legacy distribution infrastructure; HP portion benefits from low-temp optimisation'],
-        ['Fuel flexibility', 'Ability to switch to gas if electricity price spikes — operational flexibility but complex dispatch optimisation'],
+        ['Fuel flexibility', 'Ability to switch to gas if electricity price spikes, operational flexibility but complex dispatch optimisation'],
         ['Hydrogen readiness', 'Some hybrid boilers are H2-ready (up to 20% blend); future-proofing option but not yet commercially significant'],
       ],
       commercial: [
         ['Lower capex than full electrification', 'Smaller HP + existing/smaller gas boiler = lower upfront cost; useful for retrofit of existing heat networks'],
-        ['Operating cost uncertainty', 'Dispatch depends on relative gas/electricity prices — introduces commodity price risk not present in pure-HP model'],
-        ['Fuel switching optionality', 'In periods of high electricity prices, gas dispatch reduces opex — but creates carbon and regulatory risk'],
-        ['Retrofit economics', 'Strongest financial case for existing heat networks transitioning away from gas CHP/boiler — avoids full asset replacement'],
+        ['Operating cost uncertainty', 'Dispatch depends on relative gas/electricity prices, introduces commodity price risk not present in pure-HP model'],
+        ['Fuel switching optionality', 'In periods of high electricity prices, gas dispatch reduces opex, but creates carbon and regulatory risk'],
+        ['Retrofit economics', 'Strongest financial case for existing heat networks transitioning away from gas CHP/boiler, avoids full asset replacement'],
         ['Incentive uncertainty', 'Hybrid systems may not qualify for full heat decarbonisation grants; BUS explicitly excludes hybrid for residential'],
       ],
       regulatory: [
         ['Decarbonisation trajectory risk', 'Hybrid is a transition technology; policy tightening (e.g. SAP carbon factor changes) may erode economics'],
-        ['Ofgem heat regulation', 'Same consumer protection framework as pure HP networks — no regulatory relief for hybrid'],
+        ['Ofgem heat regulation', 'Same consumer protection framework as pure HP networks, no regulatory relief for hybrid'],
         ['ETS / carbon price', 'Gas combustion in network exposes to carbon price risk (UK ETS); increasing cost over time'],
-        ['Future gas ban risk', 'government may impose mandatory HP-only requirements in heat networks post-2035 — stranding risk for gas components'],
+        ['Future gas ban risk', 'government may impose mandatory HP-only requirements in heat networks post-2035, stranding risk for gas components'],
         ['Green finance eligibility', 'Hybrid systems may not qualify for green bonds/loans without credible phase-out plan for gas component'],
       ],
       customer: [
         ['Same HSA structure', 'Customer doesn\'t need to know about HP/boiler split; HSA is for heat delivered regardless of source'],
-        ['Carbon disclosure', 'Increasingly, anchor customers (councils, NHS) will require heat supply carbon intensity reporting — hybrid complicates this'],
+        ['Carbon disclosure', 'Increasingly, anchor customers (councils, NHS) will require heat supply carbon intensity reporting, hybrid complicates this'],
         ['Resilience advantage', 'Gas backup is a genuine resilience selling point vs. pure-HP networks during cold snaps or HP failure'],
       ],
       planning: [
-        ['Gas connection retained', 'Existing or new gas connection required for boiler — gas network continuity planning'],
+        ['Gas connection retained', 'Existing or new gas connection required for boiler, gas network continuity planning'],
         ['Energy centre: mixed plant', 'Both HP and gas boiler in energy centre; standard planning but gas safety regulations add compliance layer'],
       ],
       investment: [
         ['Transition investment only', 'Hybrid is a bridge; investment thesis must include credible decarbonisation pathway beyond the hybrid phase'],
         ['Lower initial capex, higher long-run risk', 'Capex efficiency today vs. stranding/retrofit cost risk in 10–15 years'],
-        ['ESG: amber category', 'Mixed asset — some green finance frameworks accept hybrid with phase-out plan; others exclude'],
-        ['Carbon price sensitivity', 'DCF should sensitise to rising UK ETS carbon price — significant impact on gas dispatch economics by 2030s'],
+        ['ESG: amber category', 'Mixed asset, some green finance frameworks accept hybrid with phase-out plan; others exclude'],
+        ['Carbon price sensitivity', 'DCF should sensitise to rising UK ETS carbon price, significant impact on gas dispatch economics by 2030s'],
         ['Useful for portfolio entry', 'Hybrid acquisition of existing heat network may be right entry point, with subsequent decarbonisation capex budgeted in underwriting'],
       ],
     },
     decentralised: {
       tech: [
         ['Customer\'s system complexity', 'Customer manages HP/boiler dispatch; Infrastructure Investor sees variable electrical load depending on dispatch logic'],
-        ['Lower peak electricity demand', 'Gas boiler handles cold-snap peaks — lower coincident electrical demand vs. pure HP estate — network sizing benefit'],
-        ['Demand forecasting', 'Harder to predict electrical load from hybrid customers than pure HP — may need smart meter data sharing'],
+        ['Lower peak electricity demand', 'Gas boiler handles cold-snap peaks, lower coincident electrical demand vs. pure HP estate, network sizing benefit'],
+        ['Demand forecasting', 'Harder to predict electrical load from hybrid customers than pure HP, may need smart meter data sharing'],
       ],
       commercial: [
-        ['Lower electricity volume per customer', 'Gas handles some heat demand — less kWh through Infrastructure Investor\'s network than pure HP; partially offsets simpler network investment'],
+        ['Lower electricity volume per customer', 'Gas handles some heat demand, less kWh through Infrastructure Investor\'s network than pure HP; partially offsets simpler network investment'],
         ['Same connection income', 'Connection charge income unchanged; Infrastructure Investor benefits from any future switch to full HP mode (more electricity volume)'],
-        ['Transition upside', 'If customer removes gas boiler over time, Infrastructure Investor\'s electricity revenue per customer increases — optionality value'],
+        ['Transition upside', 'If customer removes gas boiler over time, Infrastructure Investor\'s electricity revenue per customer increases, optionality value'],
       ],
       regulatory: [
-        ['Same IDNO framework', 'No regulatory difference for Infrastructure Investor as electricity network — customer\'s hybrid complexity is their problem'],
-        ['Smart export', 'Hybrid customers unlikely to export but may have battery storage — smart export guarantee and G99 protection relay requirements'],
+        ['Same IDNO framework', 'No regulatory difference for Infrastructure Investor as electricity network, customer\'s hybrid complexity is their problem'],
+        ['Smart export', 'Hybrid customers unlikely to export but may have battery storage, smart export guarantee and G99 protection relay requirements'],
       ],
       customer: [
-        ['Customer comfort', 'Gas backup is reassuring for risk-averse customers transitioning to HP — may drive uptake in Infrastructure Investor development areas'],
-        ['Lower upfront cost for customer', 'Hybrid system cheaper than full ASHP for customer — improves Infrastructure Investor\'s case for enabling HP uptake in its areas'],
+        ['Customer comfort', 'Gas backup is reassuring for risk-averse customers transitioning to HP, may drive uptake in Infrastructure Investor development areas'],
+        ['Lower upfront cost for customer', 'Hybrid system cheaper than full ASHP for customer, improves Infrastructure Investor\'s case for enabling HP uptake in its areas'],
       ],
       planning: [
         ['No change for Infrastructure Investor', 'Customer\'s hybrid planning issues are their own; Infrastructure Investor\'s network works are unaffected'],
       ],
       investment: [
-        ['Network sizing benefit', 'Lower peak coincident demand from hybrid customers reduces reinforcement capex need — positive for Infrastructure Investor economics'],
+        ['Network sizing benefit', 'Lower peak coincident demand from hybrid customers reduces reinforcement capex need, positive for Infrastructure Investor economics'],
         ['Volume risk vs. pure HP', 'Lower electricity throughput per customer reduces revenue per connection vs. full electrification scenario'],
         ['Transition pathway optionality', 'As customers eventually phase out gas, Infrastructure Investor\'s network revenue per connection grows organically'],
       ],

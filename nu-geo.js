@@ -1,4 +1,4 @@
-/* Scene configuration for nuclear.html — a nuclear power station drawn in
+/* Scene configuration for nuclear.html, a nuclear power station drawn in
    720x520 scene coordinates beside a body of water used for cooling. One or two
    reactor containment domes (large hemispherical buildings) sit beside a turbine
    hall; big cooling towers emit slow, rising steam plumes; a switchyard and

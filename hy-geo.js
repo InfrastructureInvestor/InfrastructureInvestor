@@ -1,9 +1,9 @@
-/* Scene configuration for hydrogen.html — a top-down GREEN-HYDROGEN plant drawn
+/* Scene configuration for hydrogen.html, a top-down GREEN-HYDROGEN plant drawn
    in 720x520 scene coordinates: a renewable power source on one side (solar or
    wind) pushes power (cyan pulses) into a row of electrolyser stacks/modules in
    the middle, which split water and fizz with H2 bubbles when running (intensity
    scaling with the load factor). The hydrogen flows on to storage tanks and out
-   to an offtake — a pipeline, a tanker truck, a ship or an ammonia plant
+   to an offtake, a pipeline, a tanker truck, a ship or an ammonia plant
    (amber/green H2 pulses). More MW = more electrolyser modules; higher load
    factor = more bubbling and flow. Each project carries its own signature: the
    renewable power source, the offtake route, whether it is growing, and the area.

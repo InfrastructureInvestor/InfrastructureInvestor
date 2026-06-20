@@ -1,4 +1,4 @@
-/* Scene configuration for last-mile-electricity.html — a top-down NEW DEVELOPMENT
+/* Scene configuration for last-mile-electricity.html, a top-down NEW DEVELOPMENT
    being energised plot by plot, drawn in 720x520 scene coordinates: a point of
    connection (POC) to the host distribution grid, a spine cable into the site,
    street feeders, and a grid of plots (homes, commercial units, an anchor load)

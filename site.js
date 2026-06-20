@@ -1,11 +1,11 @@
-/* Infrastructure Reference — shared nav + command palette (progressive enhancement) */
+/* Infrastructure Reference, shared nav + command palette (progressive enhancement) */
 (function () {
   var INDEX = [{"t":"Home","u":"index.html","g":"Page"},{"t":"Compare returns","u":"compare.html","g":"Page"},{"t":"Community","u":"community.html","g":"Page"},{"t":"Contact","u":"contact.html","g":"Page"},{"t":"Energy & Utilities","u":"energy-utilities.html","g":"Asset class"},{"t":"Electricity transmission","u":"electricity-transmission.html","g":"Energy & Utilities"},{"t":"Electricity distribution","u":"electricity-distribution.html","g":"Energy & Utilities"},{"t":"Last-mile electricity","u":"last-mile-electricity.html","g":"Energy & Utilities"},{"t":"Electricity interconnectors","u":"electricity-interconnectors.html","g":"Energy & Utilities"},{"t":"Gas transmission","u":"gas-transmission.html","g":"Energy & Utilities"},{"t":"Gas distribution","u":"gas-distribution.html","g":"Energy & Utilities"},{"t":"Water & wastewater","u":"water-wastewater.html","g":"Energy & Utilities"},{"t":"Last-mile water","u":"last-mile-water.html","g":"Energy & Utilities"},{"t":"Heat networks","u":"heat-networks.html","g":"Energy & Utilities"},{"t":"Transport","u":"transport.html","g":"Asset class"},{"t":"Roads","u":"roads.html","g":"Transport"},{"t":"Rail infrastructure","u":"rail-infrastructure.html","g":"Transport"},{"t":"Airports","u":"airports.html","g":"Transport"},{"t":"Ports","u":"ports.html","g":"Transport"},{"t":"Rolling stock","u":"rolling-stock.html","g":"Transport"},{"t":"EV charging","u":"ev-charging.html","g":"Transport"},{"t":"Bridges","u":"bridges.html","g":"Transport"},{"t":"Digital Infrastructure","u":"digital-infrastructure.html","g":"Asset class"},{"t":"Fibre networks","u":"fibre-networks.html","g":"Digital Infrastructure"},{"t":"Mobile towers","u":"mobile-towers.html","g":"Digital Infrastructure"},{"t":"Data centres","u":"data-centres.html","g":"Digital Infrastructure"},{"t":"Subsea cables","u":"subsea-cables.html","g":"Digital Infrastructure"},{"t":"Social Infrastructure","u":"social-infrastructure.html","g":"Asset class"},{"t":"Hospitals","u":"hospitals.html","g":"Social Infrastructure"},{"t":"Schools","u":"schools.html","g":"Social Infrastructure"},{"t":"Prisons","u":"prisons.html","g":"Social Infrastructure"},{"t":"Courts","u":"courts.html","g":"Social Infrastructure"},{"t":"Military","u":"military.html","g":"Social Infrastructure"},{"t":"Student accommodation","u":"student-accommodation.html","g":"Social Infrastructure"},{"t":"Energy Transition","u":"energy-transition.html","g":"Asset class"},{"t":"Onshore wind","u":"onshore-wind.html","g":"Energy Transition"},{"t":"Offshore wind","u":"offshore-wind.html","g":"Energy Transition"},{"t":"Solar","u":"solar.html","g":"Energy Transition"},{"t":"Battery storage","u":"battery-storage.html","g":"Energy Transition"},{"t":"Hydrogen","u":"hydrogen.html","g":"Energy Transition"},{"t":"Nuclear","u":"nuclear.html","g":"Energy Transition"},{"t":"Pumped hydro","u":"pumped-hydro.html","g":"Energy Transition"},{"t":"Environmental & Waste","u":"environmental-waste.html","g":"Asset class"},{"t":"Waste-to-energy","u":"waste-to-energy.html","g":"Environmental & Waste"},{"t":"Anaerobic digestion","u":"anaerobic-digestion.html","g":"Environmental & Waste"},{"t":"Recycling infrastructure","u":"recycling-infrastructure.html","g":"Environmental & Waste"},{"t":"RIIO-ED2 Revenue Calculator","u":"riio_ed2_calculator.html","g":"Tool"},{"t":"Investment Considerations","u":"heat_framework.html","g":"Tool"},{"t":"Regulatory Timeline","u":"heat_regulation_timeline.html","g":"Tool"},{"t":"HSA Cashflow Model","u":"heat_dcf.html","g":"Tool"},{"t":"Cash-flow & DCF model","u":"cashflow-model.html","g":"Tool"},{"t":"Infrastructure M&A","u":"infrastructure-ma.html","g":"Tool"},{"t":"Infrastructure deals database","u":"infrastructure-deals.html","g":"Tool"},{"t":"M&A in action","u":"ma-in-action.html","g":"Tool"},{"t":"In action: fibre market entry","u":"ma-in-action-fibre.html","g":"Tool"},{"t":"In action: distressed altnet","u":"ma-in-action-distressed.html","g":"Tool"},{"t":"In action: regulated take-private","u":"ma-in-action-regulated.html","g":"Tool"},{"t":"In action: data-centre platform","u":"ma-in-action-datacentre.html","g":"Tool"},{"t":"WACC Calculator","u":"wacc-calculator.html","g":"Tool"},{"t":"Macro Dashboard","u":"macro_dashboard.html","g":"Tool"},{"t":"Ofgem & Ofwat Tracker","u":"regulatory_tracker.html","g":"Tool"}];
 
   var classes = INDEX.filter(function (e) { return e.g === 'Asset class'; });
   var here = (location.pathname.split('/').pop() || 'index.html');
 
-  /* Worked projects/assets inside the reference pages (HS2, Heathrow, …) — searchable
+  /* Worked projects/assets inside the reference pages (HS2, Heathrow, …), searchable
      in the command palette and deep-linkable via <page>.html#ex=<key>, which auto-selects
      that asset. Regenerate with: node scripts/generate-search-index.js */
   /* PROJECTS:START */
@@ -314,7 +314,7 @@
                 '<span class="brand-mark"><span></span></span>' +
                 '<span class="brand-name">Infrastructure Investor</span>' +
               '</a>' +
-              '<p class="sf-blurb">A reference and analysis platform for infrastructure capital — how each asset class earns, what it is worth, and how it trades.</p>' +
+              '<p class="sf-blurb">A reference and analysis platform for infrastructure capital, how each asset class earns, what it is worth, and how it trades.</p>' +
             '</div>';
     cols.forEach(function (c) {
       html += '<div class="sf-col"><h4>' + esc(c.h) + '</h4>';
@@ -335,13 +335,13 @@
     footer.innerHTML = html;
   })();
 
-  /* ---------------- Contact form (Web3Forms) — contact.html only ---------------- */
+  /* ---------------- Contact form (Web3Forms), contact.html only ---------------- */
   (function () {
     /* The form lives on its own page; everywhere else "Contact" is just a link. */
     var mount = document.getElementById('contact-mount');
     if (!mount) return;
 
-    /* Get a free access key at https://web3forms.com — it is safe to expose in
+    /* Get a free access key at https://web3forms.com, it is safe to expose in
        client code, and it keeps your email address out of the page source.
        Submissions are emailed to the address linked to the key, with the
        visitor's email set as Reply-To so you can reply directly. */
@@ -366,13 +366,13 @@
             '<div class="contact-field full"><label for="cf-msg">Message <span class="req">*</span></label>' +
               '<textarea id="cf-msg" name="message" required placeholder="How can I help?"></textarea></div>' +
           '</div>' +
-          /* honeypot — hidden from users, catches bots */
+          /* honeypot, hidden from users, catches bots */
           '<input type="checkbox" name="botcheck" class="cf-hp" tabindex="-1" autocomplete="off" aria-hidden="true">' +
           '<div class="contact-foot">' +
             '<button type="submit" class="contact-btn">Send message</button>' +
             '<span class="contact-status" role="status" aria-live="polite"></span>' +
           '</div>' +
-          '<p class="contact-note">Your email is used only to reply to you — no newsletter, no sharing.</p>' +
+          '<p class="contact-note">Your email is used only to reply to you, no newsletter, no sharing.</p>' +
         '</form>' +
       '</div>';
 
@@ -397,7 +397,7 @@
       var topic = sec.querySelector('#cf-topic').value;
       var payload = {
         access_key: ACCESS_KEY,
-        subject: 'Contact — ' + topic,
+        subject: 'Contact, ' + topic,
         from_name: 'theinfrastructureinvestor.com',
         name: (sec.querySelector('#cf-name').value || '').trim(),
         email: emailEl.value.trim(),
@@ -412,10 +412,10 @@
         headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
         body: JSON.stringify(payload)
       }).then(function (r) { return r.json(); }).then(function (data) {
-        if (data && data.success) { form.reset(); setStatus('Thanks — your message has been sent. I’ll be in touch.', 'ok'); }
+        if (data && data.success) { form.reset(); setStatus('Thanks, your message has been sent. I’ll be in touch.', 'ok'); }
         else { setStatus((data && data.message) || 'Something went wrong. Please try again.', 'err'); }
       }).catch(function () {
-        setStatus('Network error — please try again in a moment.', 'err');
+        setStatus('Network error, please try again in a moment.', 'err');
       }).then(function () { btn.disabled = false; });
     });
   })();
@@ -599,7 +599,7 @@
         if (e.key === '/' && !/INPUT|TEXTAREA|SELECT/.test((e.target.tagName || ''))) { e.preventDefault(); open(); }
         return;
       }
-      // palette is open — drive navigation from the document so it works even if
+      // palette is open, drive navigation from the document so it works even if
       // focus hasn't landed in the input yet
       if (e.key === 'ArrowDown') { e.preventDefault(); sel = Math.min(sel + 1, flat.length - 1); highlight(); }
       else if (e.key === 'ArrowUp') { e.preventDefault(); sel = Math.max(sel - 1, 0); highlight(); }

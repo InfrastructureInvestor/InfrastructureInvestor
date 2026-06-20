@@ -1,4 +1,4 @@
-/* Scene configuration for hospitals.html — a top-down / elevation HOSPITAL CAMPUS,
+/* Scene configuration for hospitals.html, a top-down / elevation HOSPITAL CAMPUS,
    drawn in a 720x520 daytime scene: a main hospital building with a rooftop H /
    helipad, lit wards and windows (the hospital "available" and operating), an
    emergency / ambulance bay with an ambulance, and an FM / services entrance with
@@ -9,12 +9,12 @@
    for unavailability or performance failures.
 
    Each example carries its own signature:
-     model   — 'PFI' | 'P3' | 'concession' | 'integrated'   (the PPP structure)
-     phase   — 'greenfield' | 'operational'                  (build or secondary)
-     growing — bool                                          (a + NEW WING marker)
-     authority — the public payer label shown on the offtaker icon
-     area    — the area caption (top-down map label)
-     footer  — the scene footer caption
+     model  , 'PFI' | 'P3' | 'concession' | 'integrated'   (the PPP structure)
+     phase  , 'greenfield' | 'operational'                  (build or secondary)
+     growing, bool                                          (a + NEW WING marker)
+     authority, the public payer label shown on the offtaker icon
+     area   , the area caption (top-down map label)
+     footer , the scene footer caption
 */
 var GEO={
 

@@ -1,4 +1,4 @@
-/* Scene configuration for onshore-wind.html — a top-down / landscape view of an
+/* Scene configuration for onshore-wind.html, a top-down / landscape view of an
    onshore wind farm drawn in 720x520 scene coordinates: rolling green terrain
    dotted with wind turbines (a mast and three rotating blades each), a
    substation on one side and an export line carrying the power out (cyan pulses

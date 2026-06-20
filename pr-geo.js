@@ -1,4 +1,4 @@
-/* Scene configuration for prisons.html — a top-down CUSTODIAL FACILITY drawn in
+/* Scene configuration for prisons.html, a top-down CUSTODIAL FACILITY drawn in
    720x520 scene coordinates: a secure double perimeter (fence/wall) enclosing
    cell-block wings that radiate from a central control hub, a gatehouse on the
    approach, watch towers at the corners, an exercise yard and an FM/services

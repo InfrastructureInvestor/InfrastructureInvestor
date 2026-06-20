@@ -1,4 +1,4 @@
-/* Scene configuration for waste-to-energy.html — a top-down / elevation view of
+/* Scene configuration for waste-to-energy.html, a top-down / elevation view of
    an energy-from-waste (EfW) plant drawn in 720x520 scene coordinates: a large
    industrial building with a tall chimney/stack emitting a slow steam plume, a
    tipping hall where a waste truck tips residual waste into a bunker, a

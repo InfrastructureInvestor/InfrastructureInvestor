@@ -1,7 +1,7 @@
-/* Scene configuration for roads.html — a top-down premium MOTORWAY, drawn in
+/* Scene configuration for roads.html, a top-down premium MOTORWAY, drawn in
    720x520 scene coordinates: a divided dual carriageway running full width with a
    central median, an interchange / slip road branching off for richness, traffic
-   (cars and trucks) flowing along each carriageway, and — for toll concessions —
+   (cars and trucks) flowing along each carriageway, and, for toll concessions,
    an overhead TOLL GANTRY spanning the road that collects a toll from each vehicle
    that passes under it. Availability-payment PPP roads carry no demand risk: the
    government pays a fixed availability fee for the road being open and maintained,
