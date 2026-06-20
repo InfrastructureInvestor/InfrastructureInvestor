@@ -129,6 +129,9 @@
       '<div class="stat"><div class="n">'+(Math.min.apply(null,DEALS.map(function(d){return d.y;})))+'–'+(Math.max.apply(null,DEALS.map(function(d){return d.y;})))+'</div><div class="l">Span</div></div>';
 
     var fClass='All', fRegion='All', fType='All';
+    // optional ?sector= deep-link (e.g. from the fibre case) preselects the sector filter
+    try { var qs=new URLSearchParams(location.search).get('sector');
+      if(qs && DEALS.some(function(d){return d.cls===qs;})) fClass=qs; } catch(e){}
     function uniq(key){ var s={}; DEALS.forEach(function(d){ s[d[key]]=1; }); return Object.keys(s).sort(); }
 
     function chips(holderId, label, values, current, onpick){

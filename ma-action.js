@@ -24,26 +24,39 @@
   }
   function clamp(x,a,b){ return Math.max(a,Math.min(b,x)); }
 
-  /* shared assumptions read from the inputs */
-  function shared(){
+  /* scenario overlay (flexes penetration, build cost and exit multiple) */
+  var scen='base';
+  var SCEN={ down:{pen:-8,bc:1.15,exit:-1.5}, base:{pen:0,bc:1,exit:0}, up:{pen:5,bc:0.95,exit:1} };
+
+  /* shared assumptions read from the inputs.
+     ov overrides pen(%), buildCost(£), exit(×); applyScen toggles the scenario overlay. */
+  function shared(ov, applyScen){
+    ov=ov||{}; if(applyScen===undefined) applyScen=true;
+    var s=applyScen?SCEN[scen]:SCEN.base;
+    var penV=('pen' in ov)?ov.pen:gv('aPen')+s.pen;
+    var bcV =('buildCost' in ov)?ov.buildCost:gv('aBuildCost')*s.bc;
+    var exV =('exit' in ov)?ov.exit:gv('aExit')+s.exit;
     return {
-      homes: Math.max(1, gv('aHomes'))*1000,        // homes passed (input in 000s)
-      buildCost: gv('aBuildCost'),                  // £ per home passed
-      conn: gv('aConn'),                            // £ per activation
-      pen: clamp(gv('aPen'),1,95)/100,              // steady-state penetration
-      ramp: Math.max(1, gv('aRamp')),               // years to steady penetration
-      arpu: gv('aArpu'),                            // £ / month
-      opex: clamp(gv('aOpex'),5,90)/100,            // opex as % of revenue
+      homes: Math.max(1, gv('aHomes'))*1000,
+      buildCost: bcV, conn: gv('aConn'),
+      pen: clamp(penV,1,95)/100, ramp: Math.max(1, gv('aRamp')),
+      arpu: gv('aArpu'), opex: clamp(gv('aOpex'),5,90)/100,
       buildYrs: Math.max(1, Math.round(gv('aBuildYrs'))),
-      lev: gv('aLev'),                              // senior debt × mature EBITDA
-      rd: gv('aRd')/100,
-      exit: gv('aExit'),                            // exit EV / EBITDA
+      lev: gv('aLev'), rd: gv('aRd')/100, exit: exV,
       H: Math.max(5, Math.min(20, Math.round(gv('aHorizon')))),
-      tax: 0.25, life: 20, arpuG: 0.025,            // ARPU grows with inflation (all routes)
-      entryBuy: gv('aEntryBuy'),                    // EV/EBITDA paid for a mature network
-      platShare: clamp(gv('aPlatShare'),0,90)/100,  // % of footprint acquired as the platform
-      platMult: gv('aPlatMult')                     // EV/EBITDA for the (sub-scale) platform
+      tax: 0.25, life: 20, arpuG: 0.025,
+      entryBuy: gv('aEntryBuy'),
+      platShare: clamp(gv('aPlatShare'),0,90)/100, platMult: gv('aPlatMult')
     };
+  }
+  function buildIRR(penPct, exitX){ var S=shared({pen:penPct, exit:exitX}, false); return routeModel(S, cfgFor('build',S)).irr; }
+  function breakEvenPen(hurdle){          // steady penetration at which the build route hits the hurdle
+    var ex=gv('aExit');
+    var f=function(p){ var v=buildIRR(p,ex); return (isFinite(v)?v:-1)-hurdle; };   // treat undefined (deep-loss) IRR as below hurdle
+    var lo=10, hi=62, flo=f(lo), fhi=f(hi);   // well-behaved range (IRR search caps out beyond this)
+    if(flo*fhi>0) return null;             // hurdle not crossed in range
+    for(var k=0;k<50;k++){ var m=(lo+hi)/2, fm=f(m); if(flo*fm<=0){hi=m;}else{lo=m;flo=fm;} }
+    return (lo+hi)/2;
   }
 
   /* one route. cfg: {acqHomes, buildHomes, acqMult} (acquired homes are mature/penetrated) */
@@ -123,6 +136,28 @@
     return h;
   }
 
+  function heatColor(irr){
+    if(!isFinite(irr)) return '#cfd6d2';
+    var x=clamp((irr-0.04)/0.16,0,1), r,g,b;             // 4%→red, 12%→amber, 20%→green
+    if(x<0.5){ var t=x/0.5; r=188+(176-188)*t; g=71+(125-71)*t; b=51+(36-51)*t; }
+    else { var t2=(x-0.5)/0.5; r=176+(12-176)*t2; g=125+(107-125)*t2; b=36+(79-36)*t2; }
+    return 'rgb('+Math.round(r)+','+Math.round(g)+','+Math.round(b)+')';
+  }
+  function renderHeat(){
+    var h=el('maHeat'); if(!h) return;
+    var pc=gv('aPen'), ex=gv('aExit');
+    var pens=[pc-10,pc-5,pc,pc+5,pc+10].map(function(p){return clamp(p,5,90);});
+    var exits=[ex-2,ex-1,ex,ex+1,ex+2].map(function(e){return Math.max(6,e);});
+    var html='<tr><td class="corner">Penetration ↓ · Exit × →</td>';
+    exits.forEach(function(e){ html+='<th>'+e.toFixed(1)+'×</th>'; });
+    html+='</tr>';
+    pens.forEach(function(p){ html+='<tr><td class="rh">'+Math.round(p)+'%</td>';
+      exits.forEach(function(e){ var irr=buildIRR(p,e), base=(Math.abs(p-pc)<1e-6&&Math.abs(e-ex)<1e-6);
+        html+='<td class="cell'+(base?' base':'')+'" style="background:'+heatColor(irr)+';color:#fff">'+pct(irr)+'</td>'; });
+      html+='</tr>'; });
+    h.innerHTML=html;
+  }
+
   function run(){
     var S=shared();
     var matureEB=S.homes*S.pen*S.arpu*12*(1-S.opex);
@@ -130,6 +165,10 @@
     el('rsFoot').innerHTML='End-state footprint (all three routes): <b>'+f0(S.homes/1000)+'k homes passed</b>, '+
       Math.round(S.pen*100)+'% penetration → <b>'+f0(connSteady/1000)+'k connected</b>, ARPU £'+S.arpu+
       '/mo → mature EBITDA <b>'+fM(matureEB)+'</b>. Senior debt capped at '+S.lev+'× that (<b>'+fM(S.lev*matureEB)+'</b>); exit at '+S.exit+'× EBITDA.';
+    // wire the "buy case" into the acquisition model (toolkit hand-off)
+    var tm=el('toModel');
+    if(tm) tm.href='infrastructure-ma.html?eb='+Math.round(matureEB/1e6)+'&entry='+gv('aEntryBuy').toFixed(1)+
+      '&exit='+gv('aExit').toFixed(1)+'&lev='+gv('aLev').toFixed(1)+'&hold='+Math.round(gv('aHorizon'))+'&cur='+encodeURIComponent('£');
     var results=ROUTES.map(function(r){ return {r:r, m:routeModel(S, cfgFor(r.key,S))}; });
     // best IRR for the verdict
     var bestIRR=Math.max.apply(null, results.map(function(x){ return isFinite(x.m.irr)?x.m.irr:-9; }));
@@ -162,12 +201,23 @@
     el('verdict').innerHTML='At these assumptions, <b>'+byIRR[0].r.name.toLowerCase()+'</b> shows the highest modelled equity IRR ('+pct(byIRR[0].m.irr)+
       '), <b>buy a full network</b> reaches full scale fastest (at entry), and <b>'+byEq[0].r.name.toLowerCase()+'</b> needs the least equity ('+fM(byEq[0].m.totalEq)+
       '). The point estimate flatters building, which carries the execution and penetration risk the IRR alone doesn’t show — read it with the process and risk notes below.';
+    var be=breakEvenPen(0.12), beEl=el('beNote');
+    if(beEl) beEl.innerHTML = be!=null
+      ? 'Break-even: building clears a <b>12% equity IRR</b> at roughly <b>'+Math.round(be)+'% steady penetration</b> (at the current build cost and exit). Below that the greenfield route does not earn its hurdle — the heart of the overbuild risk.'
+      : 'Building does not reach a 12% IRR across the penetration range at these settings.';
+    renderHeat();
   }
 
   var IDS=['aHomes','aBuildCost','aConn','aPen','aRamp','aArpu','aOpex','aBuildYrs','aLev','aRd','aExit','aHorizon','aEntryBuy','aPlatShare','aPlatMult'];
   IDS.forEach(function(id){ var e=el(id); if(e) e.addEventListener('input',run); });
+  // scenario toggle
+  [].slice.call(document.querySelectorAll('.scen button')).forEach(function(b){
+    b.addEventListener('click',function(){ scen=b.dataset.scen;
+      document.querySelectorAll('.scen button').forEach(function(x){ x.classList.toggle('on', x===b); }); run(); });
+  });
   var reset=el('rsReset');
   var DEF={aHomes:500,aBuildCost:500,aConn:275,aPen:42,aRamp:5,aArpu:17,aOpex:32,aBuildYrs:4,aLev:5,aRd:7,aExit:14,aHorizon:12,aEntryBuy:16,aPlatShare:25,aPlatMult:13};
-  if(reset) reset.addEventListener('click',function(){ Object.keys(DEF).forEach(function(id){ var e=el(id); if(e) e.value=DEF[id]; }); run(); });
+  if(reset) reset.addEventListener('click',function(){ Object.keys(DEF).forEach(function(id){ var e=el(id); if(e) e.value=DEF[id]; });
+    scen='base'; document.querySelectorAll('.scen button').forEach(function(x){ x.classList.toggle('on', x.dataset.scen==='base'); }); run(); });
   if(el('aHomes')) run();
 })();

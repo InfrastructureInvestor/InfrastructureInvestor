@@ -389,7 +389,21 @@
   var ti=el('mTargetIRR'); if(ti) ti.addEventListener('keydown',function(e){ if(e.key==='Enter') goalSeek(); });
   var reset=el('maReset'); if(reset) reset.addEventListener('click',function(){ setScenario('base'); });
 
-  if(el('mEntry')){ buildPicker(); loadAsset(-1); }
+  if(el('mEntry')){
+    buildPicker();
+    // hand-off from the fibre comparator (or any tool): ?eb=&entry=&exit=&lev=&hold=&cur=
+    var q=(typeof URLSearchParams!=='undefined') ? new URLSearchParams(location.search) : null;
+    if(q && q.get('eb')){
+      var cur=q.get('cur')||'$';
+      nativeCur=cur; nativeEbitda=parseFloat(q.get('eb'))||200; dispCur=cur;
+      LOADED={ mEntry:parseFloat(q.get('entry'))||12, mExit:parseFloat(q.get('exit'))||12,
+        mLev:parseFloat(q.get('lev'))||6, mGrow:4, mEbitda:nativeEbitda, mHold:Math.round(parseFloat(q.get('hold'))||10),
+        mRd:6, mFees:2, mFcf:58, mSweep:40, mDscr:1.8, mTenor:12, cur:cur, ev:null, im:null, cls:'Digital Infrastructure' };
+      setCurSelect('native'); applyInputs(LOADED); setScenario('base');
+      el('maLoaded').innerHTML='Loaded from the <a href="ma-in-action-fibre.html">fibre market-entry comparator</a> — the <b>buy case</b>: '+
+        cur+nativeEbitda+'m EBITDA at '+LOADED.mEntry+'×, '+LOADED.mLev+'× leverage, '+LOADED.mHold+'-year hold. Adjust freely, or pick another asset above.';
+    } else { loadAsset(-1); }
+  }
 
   /* ====================== on-page deals table (from MA_DEALS) ====================== */
   var DEALS=(typeof window!=='undefined' && window.MA_DEALS) ? window.MA_DEALS : [];
