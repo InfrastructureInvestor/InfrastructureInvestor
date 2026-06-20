@@ -1,15 +1,22 @@
 /* Infrastructure M&A — acquisition & returns model.
-   Single-asset buyout: sources & uses, a year-by-year cash-flow waterfall driving
-   debt paydown and distributions, equity IRR/MOIC, a value-creation bridge that
-   reconciles exactly to proceeds, a sensitivity matrix, DSCR debt-sizing, an
-   optional refinancing/recap, an equity-cash-flow (J-curve) chart, a goal-seek on
-   the bid, multi-currency display, and a comparison to the reference model's
-   implied entry EV. Pulls base-case financials from the reference library
-   (MA_ASSETS). Illustrative; not a forecast of any specific asset. */
+   Single-asset buyout, built to a deal-team standard: sources & uses, a year-by-year
+   cash-flow waterfall that funds maintenance capex, cash tax (with an interest shield,
+   straight-line tax depreciation and a loss carry-forward) and growth capex before
+   debt service, drives debt paydown and distributions, and produces equity IRR/MOIC
+   (nominal and real). Growth is split into inflation indexation and real growth, and
+   real growth is paid for with growth capex. Debt is sized by leverage or to a minimum
+   DSCR held across the whole tenor, with an optional index-linked tranche whose
+   principal accretes with CPI. Exit is on an EV/EBITDA multiple or, for finite
+   concessions, on the run-off of the remaining contracted cash flows to handback.
+   A value-creation bridge reconciles exactly to proceeds; plus a sensitivity matrix,
+   an equity-cash-flow (J-curve) chart, a goal-seek on the bid, and multi-currency
+   display. Pulls base-case financials from the reference library (MA_ASSETS).
+   Illustrative; not a forecast of any specific asset. */
 (function(){
   var el=function(id){ return document.getElementById(id); };
   function gv(id){ var e=el(id); var v=e?parseFloat(e.value):0; return isFinite(v)?v:0; }
   function checked(id){ var e=el(id); return !!(e && e.checked); }
+  function clamp(v,lo,hi){ return Math.max(lo,Math.min(hi,v)); }
 
   /* ---------- currency ---------- */
   // 1 unit of currency = X USD (illustrative ~2026 rates)
@@ -33,70 +40,124 @@
     return (lo+hi)/2;
   }
 
-  var GENERIC={ mEntry:12, mLev:6, mGrow:4, mExit:12, mEbitda:200, mHold:7, mFees:2, mFcf:55, mSweep:40, mRd:6, mDscr:1.8, mTenor:15, cur:'$', ev:null, im:null, cls:null };
+  // generic, illustrative core-plus asset
+  var GENERIC={ mEntry:12, mLev:6, mGrow:4, mExit:12, mEbitda:200, mHold:7, mFees:2,
+    mInfl:2.5, mIdx:70, mFcf:100, mMaint:8, mGcap:5, mTax:25, mLife:30,
+    mSweep:40, mRd:6, mDscr:1.8, mTenor:15, mConcEnd:30, mTVr:8,
+    cur:'$', ev:null, im:null, cls:null };
   var LOADED=Object.assign({},GENERIC);
-  var debtMode='lev';
+  var debtMode='lev', tvMode='mult';
 
   /* ============ the model (pure: reads params, no DOM writes) ============ */
   function params(ov){
     ov=ov||{};
     function p(id){ return (id in ov)?ov[id]:gv(id); }
     return {
-      entryM:p('mEntry'), levX:p('mLev'), g:p('mGrow')/100, exitM:p('mExit'),
+      entryM:p('mEntry'), levX:p('mLev'), gNom:p('mGrow')/100, exitM:p('mExit'),
       eb0:Math.max(0,p('mEbitda')), H:Math.max(1,Math.min(40,Math.round(p('mHold')))),
-      feeP:p('mFees')/100, fcfP:p('mFcf')/100, sweep:Math.max(0,Math.min(1,p('mSweep')/100)),
-      rd:p('mRd')/100, dscr:Math.max(1,p('mDscr')), tenor:Math.max(2,Math.round(p('mTenor'))),
+      feeP:p('mFees')/100, infl:p('mInfl')/100, idx:clamp(p('mIdx')/100,0,1),
+      conv:clamp(p('mFcf')/100,0,1.2), maintP:Math.max(0,p('mMaint')/100), gCap:Math.max(0,p('mGcap')),
+      tax:clamp(p('mTax')/100,0,0.6), life:Math.max(3,Math.round(p('mLife'))),
+      sweep:clamp(p('mSweep')/100,0,1), rd:p('mRd')/100, dscr:Math.max(1,p('mDscr')),
+      tenor:Math.max(2,Math.round(p('mTenor'))), concEnd:Math.round(p('mConcEnd')), tvR:Math.max(0.005,p('mTVr')/100),
+      ild:checked('mILD'), tvMode:tvMode, tangible:0.9,
       refi:checked('mRefi'), refiYr:Math.round(p('mRefiYr')), refiRd:p('mRefiRd')/100, regear:p('mRegear')
     };
   }
   function annuityFactor(rd,n){ return rd>0 ? (1-Math.pow(1+rd,-n))/rd : n; }
 
-  function model(P){
-    var entryEV=P.entryM*P.eb0;
-    var af=annuityFactor(P.rd,P.tenor);
-    var cfads1=P.fcfP*P.eb0*(1+P.g);
-    var debt0 = debtMode==='dscr' ? Math.min(cfads1*af/P.dscr, entryEV*0.85) : Math.min(P.levX*P.eb0, entryEV*0.85);
-    debt0=Math.max(0,debt0);
-    var fees=P.feeP*entryEV;
-    var equity0=entryEV+fees-debt0;
-    var dscr1=debt0>0 ? cfads1*af/debt0 : Infinity;
+  // size senior debt either by a leverage multiple or to a target year-1 DSCR
+  // (project-finance annuity sizing on pre-tax CFADS, capped at 85% of EV)
+  function sizeDebt(P){
+    var entryEV=P.entryM*P.eb0, cap=entryEV*0.85;
+    if(debtMode==='dscr'){
+      var af=annuityFactor(P.rd,P.tenor);
+      var cfads1=Math.max(0,(P.conv-P.maintP))*P.eb0*(1+P.gNom);
+      return clamp(cfads1*af/P.dscr,0,cap);
+    }
+    return clamp(P.levX*P.eb0,0,cap);
+  }
 
-    var ebitda=[P.eb0], debt=[debt0], interest=[0], opcf=[0], paydown=[0], dist=[0], recapTot=0;
-    var debtBal=debt0, sumDist=0;
+  function simulate(P,debt0){
+    var entryEV=P.entryM*P.eb0, fees=P.feeP*entryEV, equity0=entryEV+fees-debt0;
+    // split nominal EBITDA growth into inflation indexation and real growth.
+    // indexation is NOT capped at nominal growth: if EBITDA grows slower than the
+    // indexed share would imply, real growth is genuinely negative (the asset is
+    // shrinking in real terms, flattered by indexation) — a key infra insight.
+    var gI=Math.max(0,P.idx*P.infl);                // indexation-driven growth p.a.
+    var gR=(1+P.gNom)/(1+gI)-1;                      // residual real growth p.a. (can be <0)
+
+    var depBase=entryEV*P.tangible, nol=0, debtBal=debt0;
+    var ebitda=[P.eb0],maint=[0],gcap=[0],taxA=[0],interest=[0],paydown=[0],dist=[0],debt=[debt0];
+    var sumDist=0, recapTot=0, drawTot=0, minDSCR=Infinity, dscr1=null;
+
     for(var t=1;t<=P.H;t++){
-      var eb=P.eb0*Math.pow(1+P.g,t); ebitda[t]=eb;
-      var rate=(P.refi && t>P.refiYr) ? P.refiRd : P.rd;
-      var intr=rate*debtBal; interest[t]=intr;
-      var ocf=P.fcfP*eb; opcf[t]=ocf;
-      var surplus=ocf-intr, pd=0, di=0;
-      if(surplus>0){ pd=Math.min(P.sweep*surplus, debtBal); di=surplus-pd; }
-      debtBal=Math.max(0,debtBal-pd);
+      var eb=P.eb0*Math.pow(1+P.gNom,t), ebPrev=P.eb0*Math.pow(1+P.gNom,t-1);
+      ebitda[t]=eb;
+      var mt=P.maintP*eb; maint[t]=mt;
+      // growth capex funds the real (volume/efficiency) increment only — indexing prices costs nothing
+      var realIncr=gR>0 ? ebPrev*(1+gI)*gR : 0;
+      var gc=P.gCap*realIncr; gcap[t]=gc;
+      var intr=P.rd*debtBal; interest[t]=intr;
+      // cash tax with straight-line tax depreciation, the interest shield and a loss carry-forward
+      var dep=depBase/P.life;
+      var taxable=eb-dep-intr, tx=0, taxableAfter=taxable-nol;
+      if(taxableAfter>0){ tx=P.tax*taxableAfter; nol=0; } else { tx=0; nol=-taxableAfter; }
+      taxA[t]=tx;
+      var cfads=P.conv*eb - mt - tx;                 // cash available for debt service (pre-interest, pre-growth-capex)
+      // index-linked tranche: principal accretes with CPI (non-cash), cash coupon stays the real rate
+      if(P.ild) debtBal+=P.infl*debtBal;
+      var netCash=cfads - intr - gc, pd=0, di=0;
+      if(netCash>=0){ pd=Math.min(P.sweep*netCash,debtBal); di=netCash-pd; debtBal=Math.max(0,debtBal-pd); }
+      else { debtBal+=-netCash; drawTot+=-netCash; }  // shortfall drawn on a revolver (raises exit debt)
       // refinancing / dividend recap at the refi year
       if(P.refi && t===P.refiYr && P.regear>0){
         var target=Math.min(P.regear*eb, 0.85*P.exitM*eb);
         if(target>debtBal){ var recap=target-debtBal; di+=recap; debtBal=target; recapTot+=recap; }
       }
       paydown[t]=pd; dist[t]=di; debt[t]=debtBal; sumDist+=di;
+      depBase=Math.max(0,depBase+gc-dep);
+      var ds=intr+pd, dscr_t=ds>0?cfads/ds:Infinity;
+      if(t===1) dscr1=dscr_t;
+      if(isFinite(dscr_t)) minDSCR=Math.min(minDSCR,dscr_t);
     }
     var ebH=ebitda[P.H], debtH=debtBal;
-    var exitEV=P.exitM*ebH, exitEq=exitEV-debtH;
+
+    // terminal value: exit multiple, or the run-off of remaining contracted cash flows to handback
+    var exitEV;
+    if(P.tvMode==='conc'){
+      var pv=0, yrs=Math.max(0,P.concEnd-P.H);
+      for(var k=1;k<=yrs;k++){
+        var EB=ebH*Math.pow(1+P.gNom,k);
+        var ocfT=Math.max(0,(P.conv-P.maintP))*EB*(1-P.tax);
+        pv+=ocfT/Math.pow(1+P.tvR,k);
+      }
+      exitEV=pv;
+    } else { exitEV=P.exitM*ebH; }
+    var exitEq=exitEV-debtH;
+
     var cf=[-equity0];
     for(var t2=1;t2<=P.H;t2++){ cf.push(dist[t2]+(t2===P.H?exitEq:0)); }
     var eqIRR=irr(cf);
     var totalProceeds=sumDist+exitEq, moic=equity0>0?totalProceeds/equity0:NaN;
-    // payback (year cumulative equity CF first turns >= 0)
+    var realIRR=isFinite(eqIRR)?(1+eqIRR)/(1+P.infl)-1:NaN;
     var cum=-equity0, payback=null;
     for(var t3=1;t3<=P.H;t3++){ cum+=cf[t3]; if(payback===null && cum>=0) payback=t3; }
 
+    // value-creation bridge — re-rating generalised to (exitEV − entry-multiple × exit EBITDA)
+    // so it reconciles exactly for any terminal-value method
+    var idxUplift=P.eb0*(Math.pow(1+gI,P.H)-1), realUplift=ebH-P.eb0*Math.pow(1+gI,P.H);
     return {
       entryM:P.entryM,exitM:P.exitM,entryEV:entryEV,exitEV:exitEV,debt0:debt0,debtH:debtH,fees:fees,
-      equity0:equity0,exitEq:exitEq,sumDist:sumDist,totalProceeds:totalProceeds,dscr1:dscr1,recap:recapTot,
-      eqIRR:eqIRR,moic:moic,H:P.H,eb0:P.eb0,ebH:ebH,cf:cf,payback:payback,
-      ebitda:ebitda,debt:debt,interest:interest,opcf:opcf,paydown:paydown,dist:dist,
-      bridge:{start:equity0,growth:P.entryM*(ebH-P.eb0),multiple:ebH*(P.exitM-P.entryM),
-              deleveraging:debt0-debtH,distrib:sumDist,fees:-fees,end:totalProceeds}
+      equity0:equity0,exitEq:exitEq,sumDist:sumDist,totalProceeds:totalProceeds,
+      dscr1:dscr1,minDSCR:isFinite(minDSCR)?minDSCR:null,recap:recapTot,draw:drawTot,
+      eqIRR:eqIRR,realIRR:realIRR,moic:moic,H:P.H,eb0:P.eb0,ebH:ebH,cf:cf,payback:payback,gI:gI,gR:gR,
+      tvMode:P.tvMode,ebitda:ebitda,maint:maint,gcap:gcap,tax:taxA,debt:debt,interest:interest,paydown:paydown,dist:dist,
+      bridge:{ start:equity0, idx:P.entryM*idxUplift, real:P.entryM*realUplift,
+               reRating:exitEV-P.entryM*ebH, deleveraging:debt0-debtH, distrib:sumDist, fees:-fees, end:totalProceeds }
     };
   }
+  function model(P){ return simulate(P, sizeDebt(P)); }
 
   /* ============ render ============ */
   var CLASS_RANGE={ 'Energy & Utilities':[10,14],'Transport':[10,18],'Digital Infrastructure':[12,22],
@@ -107,8 +168,9 @@
     el('oMOIC').textContent=isFinite(m.moic)?m.moic.toFixed(2)+'×':'—';
     el('oEqIn').textContent=money(m.equity0);
     el('oGearing').textContent=m.entryEV>0?Math.round(m.debt0/m.entryEV*100)+'%':'—';
+    var sub=el('oIRRsub'); if(sub) sub.innerHTML=(isFinite(m.realIRR)?'<b>'+pctTxt(m.realIRR)+'</b> real · ':'')+'gross of fund fees';
 
-    var dscrTxt=isFinite(m.dscr1)?m.dscr1.toFixed(2)+'×':'n/a';
+    var dscrTxt=m.minDSCR!=null?m.minDSCR.toFixed(2)+'×':'n/a';
     el('suUse').innerHTML=
       '<div class="ln"><span>Purchase enterprise value</span><b>'+money(m.entryEV)+'</b></div>'+
       '<div class="ln"><span>Transaction costs</span><b>'+money(m.fees)+'</b></div>'+
@@ -116,7 +178,7 @@
     el('suSrc').innerHTML=
       '<div class="ln"><span>New acquisition debt</span><b>'+money(m.debt0)+'</b></div>'+
       '<div class="ln"><span>Equity from the fund</span><b>'+money(m.equity0)+'</b></div>'+
-      '<div class="ln"><span>Implied year-1 DSCR</span><b>'+dscrTxt+'</b></div>'+
+      '<div class="ln"><span>Min DSCR over hold</span><b>'+dscrTxt+'</b></div>'+
       '<div class="ln tot"><span>Total sources</span><b>'+money(m.debt0+m.equity0)+'</b></div>';
 
     // valuation benchmark vs the reference model + asset-class range
@@ -132,13 +194,17 @@
       cmp.innerHTML=s;
     }
 
+    var bh=el('maBridgeH'); if(bh) bh.textContent='Equity value-creation bridge ('+CUR+'m)';
     renderBridge(m.bridge);
     var b=m.bridge;
     el('bridgeFoot').innerHTML='Over a <b>'+m.H+'-year</b> hold, a <b>'+money(b.start)+'</b> equity cheque returns <b>'+
       money(b.end)+'</b> — a <b>'+(isFinite(m.moic)?m.moic.toFixed(2):'—')+'×</b> multiple and <b>'+pctTxt(m.eqIRR)+
-      '</b> IRR. EBITDA growth adds '+money(b.growth)+', re-rating '+(b.multiple>=0?'adds ':'subtracts ')+money(Math.abs(b.multiple))+
+      '</b> IRR ('+(isFinite(m.realIRR)?pctTxt(m.realIRR)+' real':'—')+'). EBITDA growth adds '+money(b.idx+b.real)+
+      ' — of which <b>'+money(b.idx)+'</b> is inflation indexation and <b>'+money(b.real)+'</b> real growth; '+
+      (m.tvMode==='conc'?'concession run-off ':'multiple re-rating ')+(b.reRating>=0?'adds ':'subtracts ')+money(Math.abs(b.reRating))+
       ', debt paydown '+money(b.deleveraging)+' and cash distributions '+money(b.distrib)+
-      (m.recap>0?' (incl. a '+money(m.recap)+' refinancing recap)':'')+'; transaction costs cost '+money(Math.abs(b.fees))+'.';
+      (m.recap>0?' (incl. a '+money(m.recap)+' refinancing recap)':'')+'; transaction costs cost '+money(Math.abs(b.fees))+'.'+
+      (m.gR<0?' <b>Note:</b> real growth is negative — EBITDA is not keeping pace with inflation, so value here is just indexation.':'');
 
     renderJ(m);
 
@@ -150,9 +216,12 @@
       for(var t=1;t<=N;t++){ tr+='<td>'+(arr[t]==null?'—':money(arr[t]))+'</td>'; } return tr+'</tr>'; }
     var g=head;
     g+=row('EBITDA',m.ebitda,m.eb0);
-    g+=row('Cash interest',m.interest,null);
+    g+=row('− Maintenance capex',m.maint,null);
+    g+=row('− Cash tax',m.tax,null);
+    g+=row('− Growth capex',m.gcap,null);
+    g+=row('− Cash interest',m.interest,null);
     g+=row('Debt repaid',m.paydown,null);
-    g+=row('Distributions',m.dist,null);
+    g+=row('Distributions to equity',m.dist,null);
     g+=row('Net debt (year-end)',m.debt,m.debt0);
     el('maGrid').innerHTML=g;
 
@@ -161,9 +230,13 @@
 
   function renderBridge(b){
     var steps=[
-      {lab:'Equity cheque',val:b.start,type:'start'},{lab:'EBITDA growth',val:b.growth,type:'delta'},
-      {lab:'Multiple',val:b.multiple,type:'delta'},{lab:'Debt paydown',val:b.deleveraging,type:'delta'},
-      {lab:'Distributions',val:b.distrib,type:'delta'},{lab:'Costs',val:b.fees,type:'delta'},
+      {lab:'Equity cheque',val:b.start,type:'start'},
+      {lab:'Indexation',val:b.idx,type:'delta',cls2:'idx'},
+      {lab:'Real growth',val:b.real,type:'delta'},
+      {lab:'Re-rating',val:b.reRating,type:'delta'},
+      {lab:'Debt paydown',val:b.deleveraging,type:'delta'},
+      {lab:'Distributions',val:b.distrib,type:'delta'},
+      {lab:'Costs',val:b.fees,type:'delta'},
       {lab:'Total proceeds',val:b.end,type:'end'}
     ];
     var maxTop=Math.max(b.start,b.end,1), cum=0;
@@ -176,7 +249,7 @@
     var H=176, html='';
     steps.forEach(function(s){
       var top=Math.max(0,s.top)/maxTop*H, base=Math.max(0,s.base)/maxTop*H, barH=Math.max(2,top-base);
-      var cls=s.type==='start'?'start':(s.type==='end'?'end':(s.val>=0?'pos':'neg'));
+      var cls=s.type==='start'?'start':(s.type==='end'?'end':(s.val>=0?(s.cls2||'pos'):'neg'));
       var label=(s.type==='delta')?signed(s.val):money(s.val);
       html+='<div class="bcol"><div class="bbar '+cls+'" style="height:'+barH+'px;margin-bottom:'+base+'px">'+
         '<span class="bval">'+label+'</span><span class="blbl">'+s.lab+'</span></div></div>';
@@ -271,6 +344,16 @@
     run();
   }
 
+  function setTvMode(mode){
+    tvMode=mode;
+    var grp=el('mTvMode'); if(grp) grp.querySelectorAll('button').forEach(function(b){ b.classList.toggle('on', b.dataset.tv===mode); });
+    var conc=(mode==='conc');
+    if(el('mConcEnd')) el('mConcEnd').disabled=!conc;
+    if(el('mTVr')) el('mTVr').disabled=!conc;
+    var ex=el('mExit'); if(ex) ex.disabled=conc;
+    run();
+  }
+
   // write all inputs from a base (native EBITDA converted into the display currency)
   function applyInputs(base){
     Object.keys(GENERIC).forEach(function(id){
@@ -287,27 +370,30 @@
 
   function setScenario(s){
     var b=LOADED, over={};
-    if(s==='down'){ over.mGrow=b.mGrow-2; over.mExit=Math.max(4,b.mExit-1.5); over.mFcf=Math.max(10,b.mFcf-7); }
-    else if(s==='up'){ over.mGrow=b.mGrow+2; over.mExit=b.mExit+1.5; over.mFcf=Math.min(100,b.mFcf+7); }
+    if(s==='down'){ over.mGrow=b.mGrow-2; over.mExit=Math.max(4,b.mExit-1.5); over.mMaint=b.mMaint+3; over.mFcf=Math.max(80,b.mFcf-5); }
+    else if(s==='up'){ over.mGrow=b.mGrow+2; over.mExit=b.mExit+1.5; over.mMaint=Math.max(0,b.mMaint-3); over.mFcf=Math.min(105,b.mFcf+2); }
     applyInputs(Object.assign({},b,over));
     el('scenNote').textContent = s==='base'
-      ? 'growth, exit multiple and cash conversion flexed around the loaded case.'
-      : (s==='down' ? 'downside: slower growth, a lower exit multiple and weaker cash conversion.'
-                    : 'upside: faster growth, a higher exit multiple and stronger cash conversion.');
+      ? 'growth, exit, maintenance capex and cash conversion flexed around the loaded case.'
+      : (s==='down' ? 'downside: slower growth, a lower exit, heavier maintenance capex and weaker cash conversion.'
+                    : 'upside: faster growth, a higher exit, lighter maintenance capex and stronger cash conversion.');
     document.querySelectorAll('.scen button').forEach(function(btn){ btn.classList.toggle('on', btn.dataset.scen===s); });
   }
   function clearScenarioHighlight(){ document.querySelectorAll('.scen button').forEach(function(b){ b.classList.remove('on'); }); }
 
   /* ============ asset picker (pull from MA_ASSETS) ============ */
   var DB=(typeof window!=='undefined' && window.MA_ASSETS) ? window.MA_ASSETS : null;
-  var FCF_BY_CLASS={ 'Energy & Utilities':50, 'Transport':55, 'Digital Infrastructure':58,
-    'Social Infrastructure':70, 'Energy Transition':62, 'Environmental & Waste':52 };
+  // illustrative operating assumptions by asset class
+  var MAINT_BY_CLASS={ 'Energy & Utilities':12,'Transport':8,'Digital Infrastructure':10,'Social Infrastructure':4,'Energy Transition':6,'Environmental & Waste':9 };
+  var GCAP_BY_CLASS ={ 'Energy & Utilities':6,'Transport':7,'Digital Infrastructure':6,'Social Infrastructure':5,'Energy Transition':5,'Environmental & Waste':5 };
+  var IDX_BY_CLASS  ={ 'Energy & Utilities':85,'Transport':70,'Digital Infrastructure':50,'Social Infrastructure':90,'Energy Transition':60,'Environmental & Waste':55 };
+  var LIFE_BY_CLASS ={ 'Energy & Utilities':40,'Transport':30,'Digital Infrastructure':15,'Social Infrastructure':30,'Energy Transition':20,'Environmental & Waste':20 };
   var ACQ_HOLD=12;
 
   function loadAsset(secIdx, astIdx){
     if(secIdx<0 || !DB){
       LOADED=Object.assign({},GENERIC); nativeCur='$'; nativeEbitda=GENERIC.mEbitda; dispCur='$';
-      setCurSelect('native');
+      setCurSelect('native'); setTvMode('mult'); if(el('mILD')) el('mILD').checked=false;
       applyInputs(LOADED); setScenario('base');
       el('maLoaded').innerHTML='Generic, illustrative asset. Pick a sub-sector above to pull a real worked asset’s financials into the model.';
       return;
@@ -320,10 +406,13 @@
     var lev=Math.min(a.lev, 0.7*entry);
     var im=(a.ev&&a.ebitda>0)?a.ev/a.ebitda:null;
     LOADED={ mEntry:entry, mExit:exitM, mLev:lev, mGrow:a.growth, mEbitda:a.ebitda,
-      mHold:hold, mRd:a.rd, mFees:2, mFcf:FCF_BY_CLASS[sec.cls]||55, mSweep:40,
-      mDscr:1.8, mTenor:Math.max(5,Math.min(15,Math.round(hold*0.9))), cur:a.cur,
+      mHold:hold, mRd:a.rd, mFees:2, mInfl:2.5, mIdx:IDX_BY_CLASS[sec.cls]||60, mFcf:100,
+      mMaint:MAINT_BY_CLASS[sec.cls]||8, mGcap:GCAP_BY_CLASS[sec.cls]||5, mTax:25, mLife:LIFE_BY_CLASS[sec.cls]||30,
+      mSweep:40, mDscr:1.8, mTenor:Math.max(5,Math.min(15,Math.round(hold*0.9))),
+      mConcEnd:Math.max(hold+5, Math.round(a.hold||30)), mTVr:8, cur:a.cur,
       ev:a.ev||null, im:im, cls:sec.cls };
-    nativeCur=a.cur; nativeEbitda=a.ebitda; dispCur=a.cur; setCurSelect('native');
+    nativeCur=a.cur; nativeEbitda=a.ebitda; dispCur=a.cur;
+    setCurSelect('native'); setTvMode('mult'); if(el('mILD')) el('mILD').checked=false;
     applyInputs(LOADED); setScenario('base');
     var refLine = (a.ev!=null && im!=null)
       ? ' The reference model implies an entry EV of <b>'+a.cur+Math.round(a.ev).toLocaleString()+'m</b> (~<b>'+im.toFixed(1)+'×</b> EBITDA); the default bid is set to that.'
@@ -374,20 +463,23 @@
   }
 
   /* ============ wiring ============ */
-  ['mEntry','mLev','mGrow','mExit','mHold','mFees','mFcf','mSweep','mRd','mDscr','mTenor','mRefiYr','mRefiRd','mRegear'].forEach(function(id){
+  ['mEntry','mLev','mGrow','mExit','mHold','mFees','mInfl','mIdx','mFcf','mMaint','mGcap','mTax','mLife',
+   'mSweep','mRd','mDscr','mTenor','mConcEnd','mTVr','mRefiYr','mRefiRd','mRegear'].forEach(function(id){
     var e=el(id); if(e) e.addEventListener('input',function(){ clearScenarioHighlight(); run(); });
   });
   // EBITDA edits update the stored native value (so currency switches stay correct)
   (function(){ var e=el('mEbitda'); if(e) e.addEventListener('input',function(){
     nativeEbitda=gv('mEbitda')*fx(dispCur,nativeCur); clearScenarioHighlight(); run(); }); })();
   var refi=el('mRefi'); if(refi) refi.addEventListener('change',function(){ clearScenarioHighlight(); run(); });
+  var ild=el('mILD'); if(ild) ild.addEventListener('change',function(){ clearScenarioHighlight(); run(); });
   var cur=el('maCur'); if(cur) cur.addEventListener('change',onCurChange);
   ['sensRow','sensCol'].forEach(function(id){ var e=el(id); if(e) e.addEventListener('change',renderSens); });
   var dm=el('mDebtMode'); if(dm) dm.querySelectorAll('button').forEach(function(b){ b.addEventListener('click',function(){ setDebtMode(b.dataset.mode); }); });
+  var tm=el('mTvMode'); if(tm) tm.querySelectorAll('button').forEach(function(b){ b.addEventListener('click',function(){ setTvMode(b.dataset.tv); }); });
   document.querySelectorAll('.scen button').forEach(function(b){ b.addEventListener('click',function(){ setScenario(b.dataset.scen); }); });
   var gs=el('gsBtn'); if(gs) gs.addEventListener('click',goalSeek);
   var ti=el('mTargetIRR'); if(ti) ti.addEventListener('keydown',function(e){ if(e.key==='Enter') goalSeek(); });
-  var reset=el('maReset'); if(reset) reset.addEventListener('click',function(){ setScenario('base'); });
+  var reset=el('maReset'); if(reset) reset.addEventListener('click',function(){ setTvMode('mult'); if(el('mILD')) el('mILD').checked=false; setScenario('base'); });
 
   if(el('mEntry')){
     buildPicker();
@@ -398,8 +490,10 @@
       nativeCur=cur; nativeEbitda=parseFloat(q.get('eb'))||200; dispCur=cur;
       LOADED={ mEntry:parseFloat(q.get('entry'))||12, mExit:parseFloat(q.get('exit'))||12,
         mLev:parseFloat(q.get('lev'))||6, mGrow:4, mEbitda:nativeEbitda, mHold:Math.round(parseFloat(q.get('hold'))||10),
-        mRd:6, mFees:2, mFcf:58, mSweep:40, mDscr:1.8, mTenor:12, cur:cur, ev:null, im:null, cls:'Digital Infrastructure' };
-      setCurSelect('native'); applyInputs(LOADED); setScenario('base');
+        mRd:6, mFees:2, mInfl:2.5, mIdx:50, mFcf:100, mMaint:10, mGcap:6, mTax:25, mLife:15,
+        mSweep:40, mDscr:1.8, mTenor:12, mConcEnd:25, mTVr:8, cur:cur, ev:null, im:null, cls:'Digital Infrastructure' };
+      setCurSelect('native'); setTvMode('mult'); if(el('mILD')) el('mILD').checked=false;
+      applyInputs(LOADED); setScenario('base');
       el('maLoaded').innerHTML='Loaded from the <a href="ma-in-action-fibre.html">fibre market-entry comparator</a> — the <b>buy case</b>: '+
         cur+nativeEbitda+'m EBITDA at '+LOADED.mEntry+'×, '+LOADED.mLev+'× leverage, '+LOADED.mHold+'-year hold. Adjust freely, or pick another asset above.';
     } else { loadAsset(-1); }
