@@ -52,7 +52,7 @@
     'equitybridge':{t:'Equity bridge',d:'A short-term facility that funds the equity portion temporarily, repaid when LPs’ capital is drawn, smoothing the equity funding.'},
     /* valuation & returns */
     'ev':{t:'Enterprise value (EV)',d:'The value of the whole business, equity plus net debt. What the asset is worth before financing.'},
-    'evebitda':{t:'EV / EBITDA',d:'The headline valuation multiple: enterprise value ÷ EBITDA. Mature fibre infrastructure has cleared in the low-to-high teens.'},
+    'evebitda':{t:'EV / EBITDA',d:'The headline valuation multiple: enterprise value ÷ EBITDA. Mature fibre infrastructure has cleared in the low-to-high teens.',a:['EV/EBITDA','EV / EBITDA']},
     'evhome':{t:'EV per home passed',d:'Enterprise value ÷ homes passed, the valuation metric for an early-stage network whose EBITDA is still negative or meaningless.'},
     'ebitda':{t:'EBITDA',d:'Earnings before interest, tax, depreciation and amortisation, the cash-operating profit a network throws off.'},
     'buildmultiple':{t:'Build multiple',d:'The total cost to build (and connect) ÷ the mature EBITDA it produces, the implied entry multiple a builder creates the asset at, versus the multiple it can exit on.'},
@@ -96,7 +96,7 @@
     'irrevocable':{t:'Irrevocable undertakings',d:'Binding commitments from major shareholders to accept an offer, locking up support before a bid is launched.'},
     'breakfee':{t:'Break fee',d:'A fee payable if a deal fails for specified reasons, limited under the UK Takeover Code, more common in financing.'},
     'rabpremium':{t:'Premium / discount to RAB',d:'The price paid for a regulated network expressed against its regulated asset base, buyers routinely pay a premium to RAB for growth and outperformance, or a discount where the framework is under pressure.'},
-    'allowedreturn':{t:'Allowed return (WACC)',d:'The cost of capital the regulator lets the network earn on its RAB each price control, the spine of allowed revenue.'},
+    'allowedreturn':{t:'Allowed return (WACC)',d:'The cost of capital the regulator lets the network earn on its RAB each price control, the spine of allowed revenue.',a:['allowed return']},
     'totex':{t:'Totex',d:'Total expenditure (operating + capital) the regulator allows and incentivises efficiency against, sharing out- or under-performance with customers.'},
     'regreset':{t:'Regulatory reset / price control',d:'The periodic (typically 5-year) review at which the regulator re-sets the allowed return, RAB and incentives, the single biggest risk in a regulated buyout.'},
     'notionalgearing':{t:'Notional gearing',d:'The debt/RAB ratio the regulator assumes when setting allowed returns, a benchmark, not your actual leverage.'},
@@ -116,11 +116,199 @@
     'stabyield':{t:'Stabilised yield-on-cost',d:'Stabilised EBITDA ÷ total development cost, the build yield. The spread over the exit cap rate is the development profit.'},
     'caprate':{t:'Cap rate',d:'The yield a buyer demands, EBITDA ÷ EV, the inverse of the EV/EBITDA multiple. A 6% cap rate ≈ a ~16.7× multiple.'},
     'devspread':{t:'Development spread',d:'The gap between the yield you build at and the yield (cap rate) you exit on, the value a developer creates over buying stabilised.'},
-    'interconnection':{t:'Interconnection',d:'The cross-connects and cloud on-ramps linking tenants inside a data centre, sticky, high-margin recurring revenue.'}
+    'interconnection':{t:'Interconnection',d:'The cross-connects and cloud on-ramps linking tenants inside a data centre, sticky, high-margin recurring revenue.'},
+    /* ===== general infrastructure finance & returns ===== */
+    'wacc':{t:'WACC',d:'Weighted average cost of capital, the blended cost of debt and equity used to discount an asset’s cash flows.',a:['WACC','weighted average cost of capital']},
+    'npv':{t:'Net present value (NPV)',d:'The value today of a stream of future cash flows discounted at the cost of capital, less the upfront cost.',a:['NPV','net present value']},
+    'discountrate':{t:'Discount rate',d:'The rate used to convert future cash flows into present value, reflecting the time value of money and risk.',a:['discount rate']},
+    'terminalvalue':{t:'Terminal value',d:'The assumed value of an asset at the end of an explicit forecast, often the largest single component of a DCF.',a:['terminal value']},
+    'opex':{t:'Opex',d:'Operating expenditure, the day-to-day cost of running an asset (staff, maintenance, energy), as opposed to capital spend.',a:['opex','operating expenditure']},
+    'capex':{t:'Capex',d:'Capital expenditure, money spent building or upgrading long-lived assets, the core of an infrastructure investment programme.',a:['capex','capital expenditure']},
+    'offtake':{t:'Offtake / offtaker',d:'A contracted buyer of an asset’s output (power, gas, capacity); a strong offtake underpins revenue and financing.',a:['offtake','offtaker','offtake agreement']},
+    'ppa':{t:'Power-purchase agreement (PPA)',d:'A long-term contract to sell electricity at an agreed price, the contracted revenue that de-risks a renewables project.',a:['PPA','power-purchase agreement','power purchase agreement']},
+    'cfd':{t:'Contract for Difference (CfD)',d:'A UK support scheme paying generators the difference between a fixed “strike price” and the market price, giving stable revenue.',a:['CfD','CfDs','Contract for Difference','contracts for difference']},
+    'roc':{t:'Renewables Obligation Certificate (ROC)',d:'A legacy UK green subsidy: tradable certificates issued per MWh of renewable generation.',a:['ROC','ROCs','Renewables Obligation']},
+    'rego':{t:'REGO',d:'Renewable Energy Guarantees of Origin, certificates proving a unit of power came from renewable sources.',a:['REGO','REGOs']},
+    'fit':{t:'Feed-in tariff',d:'A fixed per-unit payment for renewable generation, used to support early or small-scale projects.',a:['feed-in tariff','feed in tariff']},
+    'lcoe':{t:'LCOE',d:'Levelised cost of energy, the lifetime cost of a project divided by lifetime output, the break-even price per MWh.',a:['LCOE','levelised cost of energy','levelized cost of energy']},
+    'merchant':{t:'Merchant revenue',d:'Output sold at the open-market price with no fixed contract, higher upside but exposed to price risk.',a:['merchant','merchant power','merchant revenue']},
+    'concession':{t:'Concession',d:'A long-term right granted (often by government) to build and/or operate an asset and collect its revenues for a set period.',a:['concession','concession agreement']},
+    'ppp':{t:'Public-private partnership (PPP)',d:'A long-term contract where private capital finances, builds and operates public infrastructure for availability or usage payments.',a:['PPP','PPPs','public-private partnership']},
+    'pfi':{t:'Private Finance Initiative (PFI)',d:'The UK’s PPP model: a private SPV designs, builds, finances and maintains a public asset for a unitary charge. PF2 is its successor.',a:['PFI','Private Finance Initiative','PF2']},
+    'dbfo':{t:'DBFO',d:'Design-Build-Finance-Operate, a PPP structure where one party is responsible across the whole asset lifecycle.',a:['DBFO','design-build-finance-operate']},
+    'spv':{t:'Special-purpose vehicle (SPV)',d:'A ring-fenced company set up to own a single project, isolating its assets, debt and cash flows.',a:['SPV','special-purpose vehicle','special purpose vehicle','ProjectCo']},
+    'unitarycharge':{t:'Unitary charge',d:'The single periodic payment a public authority makes to a PFI/PPP provider, covering finance, maintenance and services, subject to deductions.',a:['unitary charge','unitary payment']},
+    'availabilitypayment':{t:'Availability payment',d:'Revenue paid for keeping an asset available to a required standard, regardless of how much it is used, removing demand risk.',a:['availability payment','availability-based','availability based']},
+    'demandrisk':{t:'Demand / volume risk',d:'The risk that usage (traffic, throughput, volumes) falls short of forecast, the key variable in user-pays infrastructure.',a:['demand risk','volume risk','traffic risk']},
+    'shadowtoll':{t:'Shadow toll',d:'A per-user payment made by government (not the user) to the operator, linking revenue to usage without charging the public directly.',a:['shadow toll']},
+    'rampup':{t:'Ramp-up',d:'The period after opening when usage and revenue build towards a mature run-rate, a high-risk phase for demand-based assets.',a:['ramp-up','ramp up']},
+    'indexation':{t:'Inflation indexation',d:'Linking revenues (or the RAB) to an inflation index such as RPI or CPIH, a defining feature of infrastructure’s inflation protection.',a:['indexation','inflation-linked','index-linked','RPI','CPIH']},
+    'brownfield':{t:'Brownfield',d:'An existing, operating asset with an established track record, lower risk and lower return than greenfield.',a:['brownfield']},
+    'greenfield':{t:'Greenfield',d:'A new asset still to be built, carrying construction and ramp-up risk in exchange for higher return.',a:['greenfield']},
+    'coreinfra':{t:'Core infrastructure',d:'Mature, monopolistic, contracted or regulated assets with stable, inflation-linked cash flows, the lowest-risk infrastructure style.',a:['core infrastructure','core asset']},
+    'handback':{t:'Handback',d:'Returning a concession asset to the public authority at the end of the contract, in a contractually-specified condition.',a:['handback','hand-back']},
+    'lifecycle':{t:'Lifecycle cost',d:'The cost of major periodic renewals (roofs, plant, track) over a concession, reserved so the asset meets handback standards.',a:['lifecycle','lifecycle cost','life-cycle']},
+    'fm':{t:'Facilities management (FM)',d:'Operating services under a PPP: “hard FM” is building fabric and plant, “soft FM” is cleaning, catering and security.',a:['facilities management','hard FM','soft FM']},
+    'costofequity':{t:'Cost of equity',d:'The return equity investors require for the risk they take, the more expensive component of WACC.',a:['cost of equity']},
+    'costofdebt':{t:'Cost of debt',d:'The interest rate paid on borrowings, the cheaper, tax-deductible component of WACC.',a:['cost of debt']},
+    'capitalrecycling':{t:'Capital recycling',d:'Selling mature, de-risked assets to fund new development, a core strategy for listed and fund infrastructure investors.',a:['capital recycling','asset recycling']},
+    'gp':{t:'General partner (GP)',d:'The fund manager that raises and runs a closed-end fund, makes investment decisions and earns fees and carry.',a:['general partner']},
+    'lp':{t:'Limited partner (LP)',d:'An investor (pension fund, insurer, sovereign fund) that commits capital to a fund but is not involved in day-to-day management.',a:['limited partner','LPs']},
+    'aum':{t:'AUM',d:'Assets under management, the total capital a manager oversees, a headline measure of scale.',a:['AUM','assets under management']},
+    'drypowder':{t:'Dry powder',d:'Capital that has been committed to a fund but not yet invested, available for new deals.',a:['dry powder']},
+    'vintage':{t:'Vintage',d:'The year a fund starts investing; vintage shapes returns because it sets the entry environment and pricing.',a:['vintage']},
+    'closedend':{t:'Closed-end fund',d:'A fund with a fixed life (often 10–12 years) that raises capital once, invests, then harvests and returns it.',a:['closed-end fund','closed-ended fund']},
+    'openend':{t:'Open-end (evergreen) fund',d:'A perpetual fund that lets investors subscribe and redeem periodically, increasingly used for core infrastructure.',a:['open-end fund','open-ended fund','evergreen fund','evergreen']},
+    'nav':{t:'Net asset value (NAV)',d:'The value of a fund or vehicle’s assets less its liabilities, the basis for unit prices and performance.',a:['NAV','net asset value']},
+    'tvpi':{t:'TVPI',d:'Total value to paid-in, total value (distributions plus remaining NAV) divided by capital drawn, a money-multiple measure.',a:['TVPI']},
+    'dpi':{t:'DPI',d:'Distributions to paid-in, cash actually returned to investors divided by capital drawn, the “realised” multiple.',a:['DPI']},
+    'secondaries':{t:'Secondaries',d:'Buying existing fund stakes or assets from other investors, rather than primary commitments, for liquidity or portfolio management.',a:['secondaries','secondary market']},
+    'managementfee':{t:'Management fee',d:'The annual fee a fund manager charges (often on committed or invested capital) to cover operations, separate from carry.',a:['management fee']},
+    'continuationfund':{t:'Continuation fund',d:'A vehicle a GP uses to buy assets from one of its own maturing funds, giving existing investors liquidity and new ones entry.',a:['continuation fund','continuation vehicle']},
+    /* ===== power & renewables ===== */
+    'capacityfactor':{t:'Capacity factor',d:'Actual output over a period divided by the maximum if the asset ran at full nameplate the whole time, the key driver of generation revenue.',a:['capacity factor']},
+    'loadfactor':{t:'Load factor',d:'How fully capacity is used, passenger seats filled for transport, or output versus nameplate for generation.',a:['load factor']},
+    'nameplate':{t:'Nameplate capacity',d:'The maximum rated output of a plant (in MW), the denominator behind the capacity factor.',a:['nameplate','nameplate capacity','installed capacity']},
+    'mw':{t:'MW / MWh / GW',d:'Power (MW, GW) is the rate of generation; energy (MWh, GWh) is power over time. Capacity is quoted in MW, output in MWh.',a:['MW','MWh','GW','GWh','MWp','kWh']},
+    'curtailment':{t:'Curtailment',d:'Output a generator is forced to waste when the grid cannot take it, a growing drag on renewables revenue.',a:['curtailment','curtailed']},
+    'cannibalisation':{t:'Price cannibalisation',d:'When generators of one type (e.g. solar) all produce at once, depressing the market price exactly when they sell, eroding capture prices.',a:['cannibalisation','cannibalization','price cannibalisation']},
+    'captureprice':{t:'Capture price',d:'The average price a generator actually achieves, which can be below the market average if it produces at low-price times.',a:['capture price','capture rate']},
+    'baseload':{t:'Baseload',d:'Generation that runs steadily around the clock (nuclear, some gas), as opposed to variable or peaking plant.',a:['baseload','base-load']},
+    'dispatchable':{t:'Dispatchable',d:'Generation or storage that can be turned up or down on demand, increasingly valuable as variable renewables grow.',a:['dispatchable']},
+    'intermittent':{t:'Intermittent / variable',d:'Generation that depends on weather (wind, solar) and cannot be controlled, creating the need for storage and flexibility.',a:['intermittent','intermittency']},
+    'gridconnection':{t:'Grid connection',d:'The contracted right and physical link to export power to the network, often the scarce, rate-limiting asset for new projects.',a:['grid connection']},
+    'substation':{t:'Substation',d:'Equipment that transforms voltage and connects generation or demand to the transmission or distribution network.',a:['substation']},
+    'ancillary':{t:'Ancillary / balancing services',d:'Services that keep the grid stable (frequency, reserve, inertia), a revenue stream for batteries and flexible plant.',a:['ancillary services','balancing services','balancing mechanism']},
+    'capacitymarket':{t:'Capacity market',d:'A scheme paying generators and storage to be available at peak, a contracted revenue stream separate from selling energy.',a:['capacity market']},
+    'frequencyresponse':{t:'Frequency response',d:'Fast services that balance supply and demand second-by-second to hold grid frequency, a core battery revenue.',a:['frequency response','dynamic containment']},
+    'interconnector':{t:'Interconnector',d:'A high-voltage link between two power markets, earning by moving electricity from the cheaper to the dearer side.',a:['interconnector']},
+    'hvdc':{t:'HVDC',d:'High-voltage direct current, the technology used for long-distance and subsea power links such as interconnectors.',a:['HVDC','high-voltage direct current']},
+    'bess':{t:'Battery storage (BESS)',d:'Battery energy storage systems that store cheap power and sell it, or provide grid services, when it is scarce.',a:['BESS','battery energy storage']},
+    'roundtrip':{t:'Round-trip efficiency',d:'The share of stored energy a battery returns after charge/discharge losses, a key driver of storage economics.',a:['round-trip efficiency','round trip efficiency']},
+    'arbitrage':{t:'Energy arbitrage',d:'Buying power when it is cheap and selling when it is expensive, the core merchant revenue for storage.',a:['arbitrage','energy arbitrage']},
+    'electrolyser':{t:'Electrolyser',d:'Equipment that splits water into hydrogen and oxygen using electricity, the core kit of green-hydrogen projects.',a:['electrolyser','electrolyzer','electrolysis']},
+    'hydrogencolour':{t:'Green / blue hydrogen',d:'Green hydrogen is made from renewable power via electrolysis; blue from natural gas with carbon capture; grey is unabated.',a:['green hydrogen','blue hydrogen','grey hydrogen']},
+    'corporateppa':{t:'Corporate PPA',d:'A power-purchase agreement signed directly with a corporate buyer (often a tech or industrial firm) rather than a utility.',a:['corporate PPA']},
+    /* ===== regulated utilities ===== */
+    'riio':{t:'RIIO',d:'Ofgem’s framework (“Revenue = Incentives + Innovation + Outputs”) setting allowed revenues for UK energy networks.',a:['RIIO','RIIO-ED2','RIIO-T2','RIIO-GD2']},
+    'ofgem':{t:'Ofgem',d:'Great Britain’s energy regulator, which sets allowed returns and price controls for electricity and gas networks.',a:['Ofgem']},
+    'ofwat':{t:'Ofwat',d:'The economic regulator of water and wastewater companies in England and Wales, setting price controls each AMP.',a:['Ofwat']},
+    'amp':{t:'Asset Management Period (AMP)',d:'Ofwat’s five-year price-control cycle for water companies (e.g. AMP7, AMP8) that sets allowed spend and revenue.',a:['AMP7','AMP8','Asset Management Period']},
+    /* ===== transport ===== */
+    'teu':{t:'TEU',d:'Twenty-foot equivalent unit, the standard container measure used to size and benchmark port throughput.',a:['TEU','TEUs','twenty-foot equivalent']},
+    'throughput':{t:'Throughput',d:'The volume an asset handles over a period, containers at a port, passengers at an airport, the demand-side revenue driver.',a:['throughput']},
+    'rosco':{t:'ROSCO',d:'Rolling-stock company, an owner that leases trains to operators, an availability-style infrastructure business.',a:['ROSCO','ROSCOs','rolling-stock company']},
+    'franchise':{t:'Rail franchise / concession',d:'A contracted right to run train services for a period, either taking revenue risk (franchise) or a fee (concession).',a:['franchise','rail franchise']},
+    /* ===== digital ===== */
+    'tenancyratio':{t:'Tenancy ratio',d:'The average number of tenants (mobile operators) per tower, the single biggest driver of tower-company margins and returns.',a:['tenancy ratio','tenancy ratios','colocation ratio']},
+    'latency':{t:'Latency',d:'The delay in moving data along a network, a key quality (and pricing) metric for fibre, subsea cable and data-centre routes.',a:['latency']},
+    'mla':{t:'Master lease agreement (MLA)',d:'A single long-term lease framework (common in towers and data centres) under which many sites or units are contracted.',a:['master lease','MLA']},
+    /* ===== environmental & waste ===== */
+    'gatefee':{t:'Gate fee / tipping fee',d:'The charge a waste facility levies to accept a tonne of waste, the primary revenue for energy-from-waste and recycling plants.',a:['gate fee','tipping fee']},
+    'feedstock':{t:'Feedstock',d:'The input material a plant processes, waste for energy-from-waste, food and farm waste for AD, the supply-side risk in these assets.',a:['feedstock']},
+    'calorific':{t:'Calorific value',d:'The energy content of a fuel or waste stream, which sets how much power an energy-from-waste plant can generate per tonne.',a:['calorific value']},
+    'biomethane':{t:'Biomethane / RNG',d:'Upgraded biogas (renewable natural gas) injected into the grid or used as fuel, the main output of many AD plants.',a:['biomethane','renewable natural gas','RNG']},
+    'efw':{t:'Energy-from-waste (EfW)',d:'Burning residual waste to generate electricity and/or heat, earning a gate fee for the waste plus power revenue.',a:['EfW','energy-from-waste','energy from waste']},
+    'wte':{t:'Waste-to-energy (WtE)',d:'The broad category of converting waste into usable energy, including incineration (EfW) and gasification.',a:['WtE','waste-to-energy','waste to energy']},
+    'mrf':{t:'Materials recovery facility (MRF)',d:'A plant that sorts mixed recyclables into clean commodity streams (paper, plastics, metals) for sale.',a:['MRF','MRFs','materials recovery facility']},
+    'recyclate':{t:'Recyclate',d:'The sorted, baled output of a recycling plant, sold as a commodity whose price drives plant revenue.',a:['recyclate']},
+    'anaerobicd':{t:'Anaerobic digestion (AD)',d:'Breaking down organic matter without oxygen to produce biogas and digestate, the core process of an AD plant.',a:['anaerobic digestion']},
+    'gasification':{t:'Gasification',d:'Converting waste or biomass into a synthetic gas at high temperature, an alternative to conventional incineration.',a:['gasification']},
+    'nonrevwater':{t:'Non-revenue water',d:'Water that is produced but lost to leaks or theft before it can be billed, a key efficiency and capex driver for water utilities.',a:['non-revenue water']},
+    'desalination':{t:'Desalination',d:'Removing salt from seawater to produce fresh water, an energy-intensive, often availability-contracted water asset.',a:['desalination','desalination plant']},
+    /* ===== nuclear ===== */
+    'smr':{t:'Small modular reactor (SMR)',d:'Factory-built nuclear reactors of ~50–300MW, intended to cut nuclear’s cost and build risk through standardisation.',a:['SMR','SMRs','small modular reactor']},
+    'decommissioning':{t:'Decommissioning',d:'Safely retiring and dismantling an asset (e.g. a reactor or offshore platform) at end of life, a long-dated funded liability.',a:['decommissioning']}
   };
 
   function ready(fn){ if(document.readyState!=='loading') fn(); else document.addEventListener('DOMContentLoaded',fn); }
+
+  /* Inject the glossary styles so the feature is fully self-contained and works
+     even on pages that do not load the site stylesheet (e.g. the simulators). */
+  function injectCSS(){
+    if(document.getElementById('gloss-style')) return;
+    var s=document.createElement('style'); s.id='gloss-style';
+    s.textContent=
+      '.term{border-bottom:1px dashed var(--accent,#0c6b4f);cursor:help;color:inherit;font-weight:inherit;outline:none}'+
+      '.term:hover,.term:focus{background:var(--accent-soft,rgba(12,107,79,.12));border-radius:3px}'+
+      '.gtip{position:fixed;max-width:320px;background:#15201d;color:#eaf2ee;font-family:Inter,system-ui,sans-serif;font-size:.78rem;line-height:1.5;padding:.6rem .75rem;border-radius:9px;box-shadow:0 12px 34px rgba(8,20,14,.4);z-index:9000;pointer-events:none}'+
+      '.gtip .gt-term{display:block;font-weight:700;color:#fff;margin-bottom:.22rem;font-size:.8rem}'+
+      '.gtip::after{content:"";position:absolute;left:50%;bottom:-6px;transform:translateX(-50%);border:6px solid transparent;border-top-color:#15201d}'+
+      '.gtip.below::after{bottom:auto;top:-6px;border-top-color:transparent;border-bottom-color:#15201d}';
+    (document.head||document.documentElement).appendChild(s);
+  }
+
+  /* ---- Build the match index from GLOSSARY ----
+     Each entry can supply explicit aliases via `a`; otherwise aliases are derived
+     from the title (parentheticals stripped, split on "/"). STOP filters out a few
+     ambiguous two-letter tokens so they only resolve via manual data-term markup. */
+  var STOP={'EV':1,'DA':1};
+  function escRx(s){ return s.replace(/[.*+?^${}()|[\]\\]/g,'\\$&'); }
+  function buildIndex(){
+    var map={}, list=[];
+    Object.keys(GLOSSARY).forEach(function(key){
+      var g=GLOSSARY[key]; if(g.skip) return;
+      var al=g.a;
+      if(!al){
+        al=[];
+        var pm=g.t.match(/\(([^)]*)\)/g);          // parenthetical acronyms / synonyms
+        if(pm) pm.forEach(function(p){ p.slice(1,-1).split('/').forEach(function(tok){
+          tok=tok.trim(); if(tok.length>=3 && !STOP[tok]) al.push(tok);
+        }); });
+        g.t.replace(/\([^)]*\)/g,' ').split('/').forEach(function(s){   // main phrase(s)
+          s=s.replace(/\s+/g,' ').trim(); if(s.length>=3 && !STOP[s]) al.push(s);
+        });
+      }
+      al.forEach(function(a){
+        a=(a||'').trim(); if(a.length<3) return;
+        var low=a.toLowerCase();
+        if(map[low]!=null) return;            // first definition of an alias wins
+        map[low]=key; list.push(a);
+      });
+    });
+    list.sort(function(a,b){return b.length-a.length;});   // prefer the longest match
+    return {map:map, rx:list.length?new RegExp('\\b(?:'+list.map(escRx).join('|')+')\\b','gi'):null};
+  }
+
+  /* Skip structural chrome, interactive controls, headings and anything already
+     tagged, so auto-tagging only touches readable body prose. */
+  var SKIP_SEL='a,button,select,option,textarea,input,label,code,pre,kbd,script,style,noscript,svg,h1,h2,h3,h4,h5,h6,nav,header,footer,.term,.gtip,.cmdk,.pager,.site-footer,[data-term],[data-no-gloss],[contenteditable]';
+  function inSkip(node){
+    for(var el=node.parentNode; el && el.nodeType===1; el=el.parentNode){
+      if(el.matches && el.matches(SKIP_SEL)) return true;
+    }
+    return false;
+  }
+
+  /* Wrap the first occurrence of each known term in the page body. */
+  function autoTag(ix){
+    if(!ix.rx || !document.body) return;
+    var done={};
+    [].forEach.call(document.querySelectorAll('[data-term]'),function(el){ done[el.getAttribute('data-term')]=true; });
+    var walker=document.createTreeWalker(document.body,NodeFilter.SHOW_TEXT,null,false), nodes=[], n;
+    while((n=walker.nextNode())){ if(n.nodeValue && /[A-Za-z]/.test(n.nodeValue) && !inSkip(n)) nodes.push(n); }
+    var rx=ix.rx, cap=600, count=0, m, i;
+    for(i=0;i<nodes.length && count<cap;i++){
+      var node=nodes[i], text=node.nodeValue, last=0, frag=null; rx.lastIndex=0;
+      while((m=rx.exec(text))){
+        var key=ix.map[m[0].toLowerCase()];
+        if(key && !done[key]){
+          done[key]=true; count++;
+          if(!frag) frag=document.createDocumentFragment();
+          frag.appendChild(document.createTextNode(text.slice(last,m.index)));
+          var sp=document.createElement('span'); sp.className='term'; sp.setAttribute('data-term',key); sp.textContent=m[0];
+          frag.appendChild(sp); last=m.index+m[0].length;
+          if(count>=cap) break;
+        }
+      }
+      if(frag){ frag.appendChild(document.createTextNode(text.slice(last))); node.parentNode.replaceChild(frag,node); }
+    }
+  }
+
   ready(function(){
+    if(window.__glossInit) return; window.__glossInit=true;
+    injectCSS();
+    autoTag(buildIndex());
     var nodes=[].slice.call(document.querySelectorAll('[data-term]'));
     if(!nodes.length) return;
     var tip=document.createElement('div'); tip.className='gtip'; tip.setAttribute('role','tooltip');
