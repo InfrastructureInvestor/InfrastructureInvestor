@@ -89,7 +89,34 @@
     'eurobond':{t:'Quoted Eurobond exemption',d:'A UK exemption removing withholding tax on interest paid on listed debt — routinely used so cross-border lenders are paid gross.'},
     'da':{t:'Depreciation & amortisation',d:'The non-cash write-down of the network’s capital cost over its life — large for fibre, and the main early tax shield.'},
     'qoe':{t:'Quality of earnings (QoE)',d:'Financial diligence testing whether reported EBITDA is real, recurring and clean of one-offs.'},
-    'rab':{t:'RAB / RCV',d:'Regulated asset base — the capital a regulator allows a network to earn a return on (relevant to regulated, not greenfield, fibre).'}
+    'rab':{t:'RAB / RCV',d:'Regulated asset base — the capital a regulator allows a network to earn a return on (relevant to regulated, not greenfield, fibre).'},
+    /* take-private & regulated */
+    'takeprivate':{t:'Take-private',d:'Acquiring a listed company and de-listing it — taking it from public to private ownership.'},
+    'scheme':{t:'Scheme of arrangement',d:'A court-sanctioned procedure (needing ~75% shareholder approval) commonly used to take a UK listed company private; the alternative is a contractual takeover offer.'},
+    'irrevocable':{t:'Irrevocable undertakings',d:'Binding commitments from major shareholders to accept an offer — locking up support before a bid is launched.'},
+    'breakfee':{t:'Break fee',d:'A fee payable if a deal fails for specified reasons — limited under the UK Takeover Code, more common in financing.'},
+    'rabpremium':{t:'Premium / discount to RAB',d:'The price paid for a regulated network expressed against its regulated asset base — buyers routinely pay a premium to RAB for growth and outperformance, or a discount where the framework is under pressure.'},
+    'allowedreturn':{t:'Allowed return (WACC)',d:'The cost of capital the regulator lets the network earn on its RAB each price control — the spine of allowed revenue.'},
+    'totex':{t:'Totex',d:'Total expenditure (operating + capital) the regulator allows and incentivises efficiency against, sharing out- or under-performance with customers.'},
+    'regreset':{t:'Regulatory reset / price control',d:'The periodic (typically 5-year) review at which the regulator re-sets the allowed return, RAB and incentives — the single biggest risk in a regulated buyout.'},
+    'notionalgearing':{t:'Notional gearing',d:'The debt/RAB ratio the regulator assumes when setting allowed returns — a benchmark, not your actual leverage.'},
+    'odi':{t:'Outcome-delivery incentives (ODIs)',d:'Rewards and penalties tied to service measures (leakage, reliability) that flex allowed revenue around the baseline.'},
+    /* distressed */
+    'distressed':{t:'Distressed / special situations',d:'Buying an asset under financial stress — over-levered, cash-short or insolvent — at a discount, to fix and consolidate.'},
+    'administration':{t:'Administration / insolvency',d:'A formal process where an insolvent company is restructured or sold; buyers may acquire the business and assets out of it free of legacy debt.'},
+    'turnaround':{t:'Turnaround',d:'The operational fix — finishing the build, lifting penetration, cutting cost — that re-rates a distressed asset to a normal multiple.'},
+    'loantoown':{t:'Loan-to-own',d:'Buying a distressed company’s debt at a discount to convert it into ownership through a restructuring.'},
+    /* data centres */
+    'poweredland':{t:'Powered land / powered shell',d:'A site with secured grid power (and often a building shell) ready for fit-out — the scarce input in the data-centre boom; power, not land, is the constraint.'},
+    'prelet':{t:'Pre-let / pre-lease',d:'Capacity contracted to a customer before (or during) construction — de-risks lease-up and underpins the financing.'},
+    'hyperscale':{t:'Hyperscale',d:'Very large data centres built for a single cloud or AI tenant (e.g. the big cloud providers), typically on long leases.'},
+    'colocation':{t:'Colocation (colo)',d:'Renting data-centre space and power to many customers — higher-margin and more granular than a single hyperscale lease, but less contracted.'},
+    'pue':{t:'PUE',d:'Power usage effectiveness — total facility power ÷ IT power. Lower is more efficient; it drives the operating cost and the deliverable capacity.'},
+    'leaseup':{t:'Lease-up',d:'Filling a newly-built data centre with contracted load over time — the data-centre equivalent of fibre’s penetration ramp.'},
+    'stabyield':{t:'Stabilised yield-on-cost',d:'Stabilised EBITDA ÷ total development cost — the build yield. The spread over the exit cap rate is the development profit.'},
+    'caprate':{t:'Cap rate',d:'The yield a buyer demands — EBITDA ÷ EV — the inverse of the EV/EBITDA multiple. A 6% cap rate ≈ a ~16.7× multiple.'},
+    'devspread':{t:'Development spread',d:'The gap between the yield you build at and the yield (cap rate) you exit on — the value a developer creates over buying stabilised.'},
+    'interconnection':{t:'Interconnection',d:'The cross-connects and cloud on-ramps linking tenants inside a data centre — sticky, high-margin recurring revenue.'}
   };
 
   function ready(fn){ if(document.readyState!=='loading') fn(); else document.addEventListener('DOMContentLoaded',fn); }
