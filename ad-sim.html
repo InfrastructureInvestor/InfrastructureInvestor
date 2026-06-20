@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Anaerobic Digestion Economics — Live Simulation</title>
+<title>Anaerobic Digestion Economics | Live Simulation</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Source+Serif+4:opsz,wght@8..60,400;8..60,500;8..60,600&display=swap" rel="stylesheet">
@@ -152,8 +152,8 @@
 
   <div class="as-head">
     <div class="as-eyebrow">Environmental &amp; Waste · Anaerobic digestion</div>
-    <h2>What an AD plant earns — gate fee plus green gas</h2>
-    <p class="as-sub">An anaerobic digestion plant is paid a <b>gate fee</b> to take food and farm waste, then digests it to produce <b>biomethane</b> it injects to the gas grid (or burns in a CHP engine) — typically earning a green premium via support schemes — and sells the leftover <b>digestate</b> as fertiliser. The gate-fee leg is a contracted feedstock annuity; the gas leg carries <b>price risk</b> (offset by green-gas support). The case turns on the plant's capacity, the gate fee, and the green-gas price.</p>
+    <h2>What an AD plant earns, gate fee plus green gas</h2>
+    <p class="as-sub">An anaerobic digestion plant is paid a <b>gate fee</b> to take food and farm waste, then digests it to produce <b>biomethane</b> it injects to the gas grid (or burns in a CHP engine), typically earning a green premium via support schemes, and sells the leftover <b>digestate</b> as fertiliser. The gate-fee leg is a contracted feedstock annuity; the gas leg carries <b>price risk</b> (offset by green-gas support). The case turns on the plant's capacity, the gate fee, and the green-gas price.</p>
   </div>
 
   <div class="as-ctrls">
@@ -180,7 +180,7 @@
     <span class="leg"><span class="dot" style="background:var(--cost)"></span><b>Operating cost</b>&nbsp;feedstock, O&amp;M, digestate</span>
   </div>
 
-  <div class="band-label"><span class="t">Flows — annualised from current assumptions</span><span class="ln"></span><span class="hint">per year</span></div>
+  <div class="band-label"><span class="t">Flows, annualised from current assumptions</span><span class="ln"></span><span class="hint">per year</span></div>
   <div class="as-kpis">
     <div class="kpi k-rev"><div class="k">Revenue p.a.</div><div class="v" id="kRev">£0</div><div class="s"><b id="kRevHr">£0</b> / hr</div></div>
     <div class="kpi k-eb"><div class="k">EBITDA p.a.</div><div class="v" id="kEb">£0</div><div class="s"><b id="kMargin">0%</b> margin</div></div>
@@ -188,7 +188,7 @@
     <div class="kpi k-pax"><div class="k">Feedstock processed</div><div class="v" id="kPaxYr">0</div><div class="s"><b id="kThru">15</b> MW biomethane</div></div>
   </div>
 
-  <div class="band-label"><span class="t">Stocks — what the flows accumulate into</span><span class="ln"></span><span class="hint">live</span></div>
+  <div class="band-label"><span class="t">Stocks, what the flows accumulate into</span><span class="ln"></span><span class="hint">live</span></div>
   <div class="as-stocks">
     <div class="stock"><div class="k">Green gas · session</div><div class="v" id="sPax">0</div><div class="s">at <b id="sCap">15</b> MW</div></div>
     <div class="stock"><div class="k">EBITDA banked · session</div><div class="v" id="sBank">£0</div><div class="s">accumulating in real time</div></div>
@@ -204,7 +204,7 @@
       <div class="split-seg seg-aero" id="segAero">Gate fees</div>
       <div class="split-seg seg-comm" id="segComm">Green gas &amp; digestate</div>
     </div>
-    <div class="split-foot"><b>Why investors like AD:</b> two complementary income legs — a contracted gate fee for taking food and farm waste, and green-gas revenue that often comes with long-term, inflation-linked support, giving more visibility than pure merchant power. It is genuinely green (diverting organics from landfill) and modular. The risks are <b>feedstock</b> (securing enough good-quality waste at the right gate fee) and <b>biology</b> — digesters are living systems, so plant availability and yield depend on keeping the bugs happy.</div>
+    <div class="split-foot"><b>Why investors like AD:</b> two complementary income legs, a contracted gate fee for taking food and farm waste, and green-gas revenue that often comes with long-term, inflation-linked support, giving more visibility than pure merchant power. It is genuinely green (diverting organics from landfill) and modular. The risks are <b>feedstock</b> (securing enough good-quality waste at the right gate fee) and <b>biology</b>, digesters are living systems, so plant availability and yield depend on keeping the bugs happy.</div>
   </div>
 
   <div class="as-panels">
@@ -212,8 +212,8 @@
     <div class="panel"><div class="ptitle">Operating costs<span class="pt-sum" id="costSum">£0 p.a.</span></div><div id="costRows"></div></div>
   </div>
 
-  <div class="band-label"><span class="t">Investment case — should you buy it?</span><span class="ln"></span><span class="hint">DCF returns</span></div>
-  <p class="calc-note">Year-1 financials flow live from the simulation above: revenue <b id="cBaseRev">£0</b> and EBITDA <b id="cBaseEb">£0</b> p.a. Set your deal terms below — the <b style="color:var(--aero)">unlevered IRR</b> (asset return) and <b style="color:var(--accent)">levered IRR</b> (return to equity, after debt) recompute instantly.</p>
+  <div class="band-label"><span class="t">Investment case, should you buy it?</span><span class="ln"></span><span class="hint">DCF returns</span></div>
+  <p class="calc-note">Year-1 financials flow live from the simulation above: revenue <b id="cBaseRev">£0</b> and EBITDA <b id="cBaseEb">£0</b> p.a. Set your deal terms below, the <b style="color:var(--aero)">unlevered IRR</b> (asset return) and <b style="color:var(--accent)">levered IRR</b> (return to equity, after debt) recompute instantly.</p>
 
   <div class="calc-grid">
     <div class="cgroup"><h4>Operating</h4>
@@ -251,11 +251,11 @@
   </div>
 
   <div class="jwrap tscroll">
-    <div class="jhead"><span class="t">Projection — £m per year</span></div>
+    <div class="jhead"><span class="t">Projection, £m per year</span></div>
     <table class="ptable"><thead id="ptHead"></thead><tbody id="ptBody"></tbody></table>
   </div>
 
-  <p class="as-foot"><b>Illustrative model.</b> Represents a food/farm-waste anaerobic digestion plant producing grid-injected biomethane. Revenue = gate fees (tonnes × gate fee) + green gas (tonnes × biomethane yield per tonne × price, inclusive of green-gas support) + digestate sales. Operating costs (feedstock handling &amp; pre-treatment, plant O&amp;M, digestate handling per tonne, plus fixed labour and insurance and a maintenance reserve) leave a moderate margin that improves with scale. The gate-fee leg is a contracted feedstock annuity; the gas leg is part-merchant, part-supported. EBITDA = revenue − operating costs; excludes upfront construction capex. The investment case is a simplified DCF. For illustration only — not investment advice, and not any specific asset.</p>
+  <p class="as-foot"><b>Illustrative model.</b> Represents a food/farm-waste anaerobic digestion plant producing grid-injected biomethane. Revenue = gate fees (tonnes × gate fee) + green gas (tonnes × biomethane yield per tonne × price, inclusive of green-gas support) + digestate sales. Operating costs (feedstock handling &amp; pre-treatment, plant O&amp;M, digestate handling per tonne, plus fixed labour and insurance and a maintenance reserve) leave a moderate margin that improves with scale. The gate-fee leg is a contracted feedstock annuity; the gas leg is part-merchant, part-supported. EBITDA = revenue − operating costs; excludes upfront construction capex. The investment case is a simplified DCF. For illustration only, not investment advice, and not any specific asset.</p>
 
 </div>
 
@@ -351,7 +351,7 @@ function renderModel(){
   document.getElementById('cBaseEb').textContent=money(baseEbYr);
   const m=computeModel();
   const set=(id,t)=>{ const e=document.getElementById(id); if(e) e.textContent=t; };
-  if(!m){ ['oUIRR','oLIRR','oMOIC','oProfit'].forEach(id=>set(id,'—')); document.getElementById('calcSum').innerHTML='<span class="lbl">At this tenancy / rent the EBITDA is too thin to value on a multiple — add tenants or raise the rent.</span>'; return; }
+  if(!m){ ['oUIRR','oLIRR','oMOIC','oProfit'].forEach(id=>set(id,'—')); document.getElementById('calcSum').innerHTML='<span class="lbl">At this tenancy / rent the EBITDA is too thin to value on a multiple, add tenants or raise the rent.</span>'; return; }
   set('oUIRR',pctTxt(m.uIRR)); set('oLIRR',pctTxt(m.lIRR));
   set('oMOIC',isFinite(m.moic)?m.moic.toFixed(2)+'×':'—');
   set('oProfit',money(m.profit));
@@ -430,7 +430,7 @@ function drawPlant(){
   ctx.strokeStyle='#6b7682'; ctx.lineWidth=3;
   for(let i=0;i<n;i++){ ctx.beginPath(); ctx.moveTo(xs[i],172); ctx.lineTo(xs[i],150); ctx.lineTo(GASH_X,150); ctx.stroke(); }
   for(let p=0;p<5;p++){ const u=((T*0.05+p/5)%1); ctx.fillStyle='rgba(140,220,170,0.9)'; ctx.fillRect(lerp(xs[0],GASH_X,u)-1.4,148,2.8,2.8); }
-  // gas holder — double-membrane dome that breathes as it fills/empties
+  // gas holder, double-membrane dome that breathes as it fills/empties
   const fill=0.5+0.32*Math.sin(T*0.05), gr=26, gh=18+fill*22;
   ctx.fillStyle='#2c3a30'; ctx.fillRect(GASH_X-gr,GY-14,gr*2,14);                                   // base ring
   ctx.fillStyle='#3a7a52'; ctx.beginPath(); ctx.ellipse(GASH_X,GY-14,gr,gh,0,Math.PI,0); ctx.fill();
@@ -522,7 +522,7 @@ function drawHUD(){
   ctx.strokeStyle='rgba(255,255,255,0.08)'; ctx.lineWidth=1; ctx.stroke();
   light(x+13,y+13,5,'rgba(55,192,142,1)',0.7);
   ctx.fillStyle=C.aero; ctx.beginPath(); ctx.arc(x+13,y+13,3,0,Math.PI*2); ctx.fill();
-  ctx.fillStyle='#cfe0ea'; ctx.font='700 9px Inter,sans-serif'; ctx.textAlign='left'; ctx.fillText('ANAEROBIC DIGESTION — LIVE',x+23,y+16);
+  ctx.fillStyle='#cfe0ea'; ctx.font='700 9px Inter,sans-serif'; ctx.textAlign='left'; ctx.fillText('ANAEROBIC DIGESTION, LIVE',x+23,y+16);
   ctx.fillStyle='rgba(170,190,205,0.85)'; ctx.font='9px Inter,sans-serif';
   ctx.fillText(Math.round(visCap)+' kt/yr  ·  £'+Math.round(visGate)+'/t gate  ·  £'+Math.round(visPP)+'/MWh gas',x+12,y+30);
   if(ebHist.length>2){ const sx=x+12,sy=y+38,sh=14,sw=w-24;
@@ -539,7 +539,7 @@ function draw(){
   ctx.clearRect(0,0,W,H); drawScene();
   drawPlant();
   trucks.forEach(drawTruck);
-  ctx.fillStyle='rgba(180,190,200,0.55)'; ctx.font='700 7px Inter,sans-serif'; ctx.textAlign='center'; ctx.fillText('ANAEROBIC DIGESTION — feedstock earns a gate fee; digestion makes biomethane for the grid',W/2,H-6);
+  ctx.fillStyle='rgba(180,190,200,0.55)'; ctx.font='700 7px Inter,sans-serif'; ctx.textAlign='center'; ctx.fillText('ANAEROBIC DIGESTION, feedstock earns a gate fee; digestion makes biomethane for the grid',W/2,H-6);
   moneys.forEach(m=>{ const a=Math.max(0,Math.min(1,m.life*0.8)); ctx.save(); ctx.globalAlpha=a;
     ctx.font='700 9px Inter,sans-serif'; ctx.textAlign='left'; const cost=(m.col===C.cost); const tw=ctx.measureText((cost?'−£ ':'£ ')+m.label).width;
     ctx.fillStyle='rgba(8,16,30,0.55)'; ctx.beginPath(); ctx.roundRect(m.x-tw/2-4,m.y-9,tw+8,13,6); ctx.fill();

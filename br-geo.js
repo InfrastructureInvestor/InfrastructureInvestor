@@ -1,4 +1,4 @@
-/* Map geometry for bridges.html — coastlines hand-authored at drawing grade for each
+/* Map geometry for bridges.html, coastlines hand-authored at drawing grade for each
    crossing (the two shores either side of the link). [lng,lat] rings, projected in-page.
    Not survey-grade: simplified to read clearly at small size, faithful in orientation,
    landing points and route. */

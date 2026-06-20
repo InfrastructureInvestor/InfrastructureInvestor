@@ -1,4 +1,4 @@
-/* Scene configuration for gas-transmission.html — a top-down high-pressure gas
+/* Scene configuration for gas-transmission.html, a top-down high-pressure gas
    network drawn in 720x520 scene coordinates: entry points on the left (an LNG
    import terminal, a gas field, a cross-border interconnector) feed a trunk
    pipeline that runs across the scene through compressor stations, with offtakes

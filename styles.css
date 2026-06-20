@@ -10,7 +10,7 @@
   --accent: #0c6b4f;
   --accent-soft: #e7f1ec;
 
-  /* premium layer (additive — existing tokens unchanged) */
+  /* premium layer (additive, existing tokens unchanged) */
   --ink: #0c1512;            /* near-black for premium headings */
   --ink-deep: #08130f;       /* darkest band background */
   --accent-deep: #094c38;
@@ -319,7 +319,7 @@ h1 { animation: fadeUp 0.5s 0.08s ease both; }
 }
 
 /* =====================================================================
-   PREMIUM PLATFORM LAYER — homepage + shared chrome upgrade (additive)
+   PREMIUM PLATFORM LAYER, homepage + shared chrome upgrade (additive)
    ===================================================================== */
 
 /* ---- wider container option for product pages ---- */
@@ -479,7 +479,7 @@ h1 { animation: fadeUp 0.5s 0.08s ease both; }
 }
 
 /* =====================================================================
-   GLOBAL FINISHING PASS — applies site-wide
+   GLOBAL FINISHING PASS, applies site-wide
    ===================================================================== */
 
 /* selection + accessible focus rings */

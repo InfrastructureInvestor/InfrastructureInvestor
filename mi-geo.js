@@ -1,4 +1,4 @@
-/* Scene configuration for military.html — a top-down / elevation DEFENCE
+/* Scene configuration for military.html, a top-down / elevation DEFENCE
    ACCOMMODATION ESTATE, drawn in a 720x520 daytime scene: rows of uniform
    accommodation blocks / barracks behind a gated entrance with a flagpole and
    flag, a parade square, a mess / HQ building and a perimeter, lit windows (the
@@ -13,13 +13,13 @@
    keeping serviceperson accommodation built, maintained and available.
 
    Each example carries its own signature:
-     model   — 'PFI' | 'MHPI' | 'concession'        (the PPP / privatisation structure)
-     kind    — 'housing' | 'barracks' | 'estate'     (the accommodation type)
-     phase   — 'greenfield' | 'operational'          (build or operating)
-     growing — bool                                  (a + NEW QUARTERS / + PHASE 2 marker)
-     authority — the government payer label shown on the offtaker icon
-     area    — the area caption (top-down map label)
-     footer  — the scene footer caption
+     model  , 'PFI' | 'MHPI' | 'concession'        (the PPP / privatisation structure)
+     kind   , 'housing' | 'barracks' | 'estate'     (the accommodation type)
+     phase  , 'greenfield' | 'operational'          (build or operating)
+     growing, bool                                  (a + NEW QUARTERS / + PHASE 2 marker)
+     authority, the government payer label shown on the offtaker icon
+     area   , the area caption (top-down map label)
+     footer , the scene footer caption
 */
 var GEO={
 

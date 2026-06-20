@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Regulatory Tracker — Ofgem & Ofwat (CDCM · NAV)</title>
+<title>Regulatory Tracker | Ofgem & Ofwat (CDCM · NAV)</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,500;0,8..60,600;1,8..60,400&display=swap" rel="stylesheet">
 <style>
   :root {
@@ -17,8 +17,8 @@
     --muted: #889390;
     --accent: #0c6b4f;
     --accent-dim: #cfe6db;
-    --ofgem: #b45309;     /* electricity — amber */
-    --ofwat: #0e7490;     /* water — cyan */
+    --ofgem: #b45309;     /* electricity, amber */
+    --ofwat: #0e7490;     /* water, cyan */
     --live: #15803d;
     --consult: #b45309;
     --upcoming: #1d4ed8;
@@ -174,15 +174,15 @@
   <div class="wrap">
     <div class="hero-eyebrow">Ofgem &amp; Ofwat · Last-Mile Regulatory Tracker</div>
     <h1>Regulatory <em>Tracker</em></h1>
-    <p class="hero-sub">Live view of the regulatory developments that move the model for <strong>last-mile network assets</strong> — independent electricity distribution (<strong>CDCM / IDNO</strong>) and water &amp; wastewater (<strong>NAV</strong>). Each item carries a modelling implication: what it changes for revenue, charges, allowed returns, or asset ownership. Reviewed May 2026.</p>
+    <p class="hero-sub">Live view of the regulatory developments that move the model for <strong>last-mile network assets</strong>, independent electricity distribution (<strong>CDCM / IDNO</strong>) and water &amp; wastewater (<strong>NAV</strong>). Each item carries a modelling implication: what it changes for revenue, charges, allowed returns, or asset ownership. Reviewed May 2026.</p>
 
     <div class="regime-note">
       <div class="regime-box">
-        <div class="rb-tag" style="color:var(--ofgem)">CDCM — Common Distribution Charging Methodology</div>
-        <div class="rb-body">Ofgem's methodology (governed under DCUSA) for LV/HV distribution use-of-system charges. IDNOs largely mirror host-DNO CDCM tariffs within the Relative Price Control — so CDCM mechanics set last-mile DUoS revenue.</div>
+        <div class="rb-tag" style="color:var(--ofgem)">CDCM, Common Distribution Charging Methodology</div>
+        <div class="rb-body">Ofgem's methodology (governed under DCUSA) for LV/HV distribution use-of-system charges. IDNOs largely mirror host-DNO CDCM tariffs within the Relative Price Control, so CDCM mechanics set last-mile DUoS revenue.</div>
       </div>
       <div class="regime-box">
-        <div class="rb-tag" style="color:var(--ofwat)">NAV — New Appointments &amp; Variations</div>
+        <div class="rb-tag" style="color:var(--ofwat)">NAV, New Appointments &amp; Variations</div>
         <div class="rb-body">Ofwat's regime under which a NAV is appointed to supply water/sewerage to a defined area (typically new development), buying bulk supply from the incumbent. NAV economics turn on bulk price, the no-worse-off charging cap, and developer income.</div>
       </div>
     </div>
@@ -240,7 +240,7 @@
   <div id="timeline"></div>
 
   <div class="section-head">
-    <span class="section-title">Tracked items — detail</span>
+    <span class="section-title">Tracked items, detail</span>
     <span class="section-line"></span>
   </div>
   <div class="list-meta" id="list-meta"></div>
@@ -258,7 +258,7 @@
 
 <script>
 // ============================================================
-// SINGLE SOURCE OF TRUTH — every item drives both the timeline
+// SINGLE SOURCE OF TRUTH, every item drives both the timeline
 // and the detail cards.
 // ============================================================
 const START_YEAR = 2021;
@@ -266,10 +266,10 @@ const END_YEAR = 2033;
 const CURRENT = 2026.4; // ~late May 2026
 
 const tracksMeta = [
-  { id: 'elec-cdcm', title: 'Electricity · Ofgem — CDCM & IDNO charging' },
-  { id: 'elec-pc',   title: 'Electricity · Ofgem — Price control & settlement' },
-  { id: 'water-nav', title: 'Water · Ofwat — NAV & developer services' },
-  { id: 'water-pc',  title: 'Water · Ofwat — Price control & sector reform' }
+  { id: 'elec-cdcm', title: 'Electricity · Ofgem, CDCM & IDNO charging' },
+  { id: 'elec-pc',   title: 'Electricity · Ofgem, Price control & settlement' },
+  { id: 'water-nav', title: 'Water · Ofwat, NAV & developer services' },
+  { id: 'water-pc',  title: 'Water · Ofwat, Price control & sector reform' }
 ];
 
 const items = [
@@ -280,28 +280,28 @@ const items = [
     title:'Targeted Charging Review (TCR)', date:'In force from April 2022',
     start:2022.25, end:END_YEAR,
     summary:'The TCR moved DUoS residual recovery from a volumetric (p/kWh) basis to fixed charges set by customer band (agreed capacity / line-loss-factor class). It also removed residual avoidance via embedded benefits and behind-the-meter arrangements.',
-    impl:'Model DUoS residual as a fixed £/MPAN band, largely volume-insensitive — not as a p/kWh charge. The value of demand-shifting purely to dodge residual is gone.',
-    srcLabel:'Ofgem — Targeted Charging Review decision (Nov 2019)',
+    impl:'Model DUoS residual as a fixed £/MPAN band, largely volume-insensitive, not as a p/kWh charge. The value of demand-shifting purely to dodge residual is gone.',
+    srcLabel:'Ofgem, Targeted Charging Review decision (Nov 2019)',
     srcUrl:'https://www.ofgem.gov.uk/publications/targeted-charging-review-decision-and-impact-assessment'
   },
   {
     regulator:'ofgem', cat:'connections', catLabel:'Connections', status:'live',
     track:'elec-cdcm', row:'Connection charging boundary',
-    title:'Access SCR — shallow connection boundary', date:'Decision Jun 2022 · live Apr 2023',
+    title:'Access SCR, shallow connection boundary', date:'Decision Jun 2022 · live Apr 2023',
     start:2023.25, end:END_YEAR,
     summary:'The Access & Forward-Looking Charges Significant Code Review introduced a "fully shallow" connection boundary from April 2023: connecting customers pay only for sole-use extension assets, while network reinforcement is funded through DUoS.',
-    impl:'Materially lower upfront connection cost for new developments — better developer/IDNO connection economics, but reinforcement cost now recovered through ongoing DUoS. Re-base connection capex for post-Apr-2023 sites.',
-    srcLabel:'Ofgem — Access SCR (DCP405 decision)',
+    impl:'Materially lower upfront connection cost for new developments, better developer/IDNO connection economics, but reinforcement cost now recovered through ongoing DUoS. Re-base connection capex for post-Apr-2023 sites.',
+    srcLabel:'Ofgem, Access SCR (DCP405 decision)',
     srcUrl:'https://www.ofgem.gov.uk/decision/decision-dcp405-access-scr-managing-curtailable-connections-between-licensed-distribution-networks'
   },
   {
     regulator:'ofgem', cat:'connections', catLabel:'Connections', status:'decided',
     track:'elec-cdcm', row:'Non-firm & curtailable connections',
-    title:'DCP404 / DCP405 — curtailable connections & DNO↔IDNO parity', date:'Decided 2022',
+    title:'DCP404 / DCP405, curtailable connections & DNO↔IDNO parity', date:'Decided 2022',
     start:2022.5, end:2023.4,
     summary:'DCP404 set the terms of connection for curtailable (non-firm) customers; DCP405 ensures the Access SCR reforms are applied consistently across DNO and IDNO networks so customers are treated equitably whichever they connect to.',
     impl:'IDNOs must mirror DNO connection-boundary treatment. Flexible/curtailable connection offers can cut reinforcement and speed up energisation where network capacity is constrained.',
-    srcLabel:'Ofgem — DCP404 decision',
+    srcLabel:'Ofgem, DCP404 decision',
     srcUrl:'https://www.ofgem.gov.uk/publications/decision-dcp404-access-scr-changes-terms-connection-curtailable-customers'
   },
   {
@@ -310,8 +310,8 @@ const items = [
     title:'Annual CDCM charge setting & residual-surplus derogations', date:'Annual · derogations 2025–28',
     start:2024, end:2027.6,
     summary:'DNOs set DUoS tariffs annually via the CDCM model (15-month notice). For 2025-26 to 2027-28 Ofgem has issued derogations to several DNOs (e.g. ENWL, SSEN) to manage surplus residual charges thrown out by the CDCM/EDCM models.',
-    impl:'Annual CDCM inputs (LLFs, network-use factors, allowed revenue) feed IDNO pass-through tariffs. Surplus-residual derogations create year-to-year tariff noise — re-read each DNO\'s published charging statement when refreshing DUoS lines.',
-    srcLabel:'Ofgem — DCUSA CDCM/EDCM derogation directions',
+    impl:'Annual CDCM inputs (LLFs, network-use factors, allowed revenue) feed IDNO pass-through tariffs. Surplus-residual derogations create year-to-year tariff noise, re-read each DNO\'s published charging statement when refreshing DUoS lines.',
+    srcLabel:'Ofgem, DCUSA CDCM/EDCM derogation directions',
     srcUrl:'https://www.ofgem.gov.uk/sites/default/files/2026-01/SSEN_Direction_to_derogate-DCUSA_Notice_Period_2027-28-20260106160138.pdf'
   },
   {
@@ -320,8 +320,8 @@ const items = [
     title:'Fundamental review of CDCM & EDCM', date:'Ahead of 2027-28 charge setting',
     start:2025.5, end:2028,
     summary:'Ofgem and DCUSA have signalled that a fundamental review of the CDCM and EDCM is needed ahead of the 2027-28 final charge-setting process, driven by growing residual surpluses and the need to align with RIIO-ED3.',
-    impl:'Potentially the biggest medium-term change to last-mile DUoS revenue mechanics — residual recovery structure, tariff models and IDNO pass-through could all change for 2027-28+. Build scenario flex into long-run DUoS revenue lines.',
-    srcLabel:'DCUSA — CDCM/EDCM change proposals & panel',
+    impl:'Potentially the biggest medium-term change to last-mile DUoS revenue mechanics, residual recovery structure, tariff models and IDNO pass-through could all change for 2027-28+. Build scenario flex into long-run DUoS revenue lines.',
+    srcLabel:'DCUSA, CDCM/EDCM change proposals & panel',
     srcUrl:'https://www.dcusa.co.uk/'
   },
   {
@@ -331,7 +331,7 @@ const items = [
     start:START_YEAR, end:END_YEAR,
     summary:'IDNOs largely mirror the host DNO\'s published LV/HV charges; the Relative Price Control caps the differential. Ofgem\'s Oct-2023 open letter set out IDNO regulatory arrangements, and the parallel Independent Gas Transporter RPC is under review from 2025.',
     impl:'Model IDNO DUoS income as host-DNO charges held within RPC bounds, not as an independent tariff. Watch for read-across from any IGT RPC reform to the electricity IDNO RPC.',
-    srcLabel:'Ofgem — Open letter on regulatory arrangements for IDNOs (Oct 2023)',
+    srcLabel:'Ofgem, Open letter on regulatory arrangements for IDNOs (Oct 2023)',
     srcUrl:'https://www.ofgem.gov.uk/sites/default/files/2023-10/Open%20letter%20on%20IDNOs%20-%20Oct-23-Final.pdf'
   },
 
@@ -339,21 +339,21 @@ const items = [
   {
     regulator:'ofgem', cat:'pricecontrol', catLabel:'RIIO-ED2', status:'live',
     track:'elec-pc', row:'DNO price control (RIIO-ED)',
-    title:'RIIO-ED2 — DNO price control', date:'1 Apr 2023 – 31 Mar 2028',
+    title:'RIIO-ED2, DNO price control', date:'1 Apr 2023 – 31 Mar 2028',
     start:2023.25, end:2028.25,
-    summary:'The price control for GB electricity distribution. Sets DNO allowed revenue, totex allowances and cost of capital — the inputs that ultimately drive DUoS charges.',
+    summary:'The price control for GB electricity distribution. Sets DNO allowed revenue, totex allowances and cost of capital, the inputs that ultimately drive DUoS charges.',
     impl:'DUoS unit rates (and hence IDNO pass-through revenue) are governed by ED2 allowed revenues. The ED2 allowed return on equity is the regulated benchmark your last-mile returns are compared against.',
-    srcLabel:'Ofgem — RIIO-ED2 Final Determinations (Nov 2022)',
+    srcLabel:'Ofgem, RIIO-ED2 Final Determinations (Nov 2022)',
     srcUrl:'https://www.ofgem.gov.uk'
   },
   {
     regulator:'ofgem', cat:'pricecontrol', catLabel:'RIIO-ED3', status:'upcoming',
     track:'elec-pc', row:'DNO price control (RIIO-ED)',
-    title:'RIIO-ED3 — next DNO price control', date:'1 Apr 2028 – 31 Mar 2033',
+    title:'RIIO-ED3, next DNO price control', date:'1 Apr 2028 – 31 Mar 2033',
     start:2028.25, end:END_YEAR,
     summary:'Framework consultation Nov 2024; framework decision 30 Apr 2025; Sector-Specific Methodology Decision 21 May 2026. DNO business plans expected late 2026, with final determinations around late 2027.',
-    impl:'Sets the forward allowed return / WACC signal for the regulated electricity base from 2028 — the key benchmark for long-run last-mile return assumptions and terminal values.',
-    srcLabel:'Ofgem — RIIO-ED3 framework decision (Apr 2025)',
+    impl:'Sets the forward allowed return / WACC signal for the regulated electricity base from 2028, the key benchmark for long-run last-mile return assumptions and terminal values.',
+    srcLabel:'Ofgem, RIIO-ED3 framework decision (Apr 2025)',
     srcUrl:'https://www.ofgem.gov.uk/decision/framework-decision-electricity-distribution-price-control-ed3'
   },
   {
@@ -362,8 +362,8 @@ const items = [
     title:'RIIO-ED3 Sector-Specific Methodology Decision', date:'Published 21 May 2026',
     start:2026.38, end:2026.55,
     summary:'Ofgem published the ED3 SSMD on 21 May 2026, confirming the methodology for cost of capital, totex, outputs and incentives ahead of DNO business-plan submissions in late 2026.',
-    impl:'Most current official signal on the 2028–33 allowed return and totex approach — refresh WACC and regulated-return benchmarks against the SSMD assumptions.',
-    srcLabel:'Ofgem — ED3 Sector-Specific Methodology',
+    impl:'Most current official signal on the 2028–33 allowed return and totex approach, refresh WACC and regulated-return benchmarks against the SSMD assumptions.',
+    srcLabel:'Ofgem, ED3 Sector-Specific Methodology',
     srcUrl:'https://www.ofgem.gov.uk/consultation/sector-specific-methodology-consultation-electricity-distribution-price-control-ed3'
   },
   {
@@ -372,8 +372,8 @@ const items = [
     title:'Market-wide Half-Hourly Settlement (MHHS)', date:'Live 22 Sep 2025 · migration to 2027',
     start:2025.72, end:2027.5,
     summary:'MHHS went live on 22 Sep 2025; migration of supply points runs ~18 months (≈80% by Oct 2026, complete May 2027, settlement cutover ~Jul 2027). Line-Loss-Factor-Class IDs are being replaced by DUoS Tariff IDs.',
-    impl:'Enables time-of-use DUoS billing — DUoS revenue becomes half-hourly / profile-dependent rather than flat-rate. Update revenue models for HH consumption profiles and the new DUoS Tariff ID structure as sites migrate.',
-    srcLabel:'Elexon — Market-wide Half-Hourly Settlement',
+    impl:'Enables time-of-use DUoS billing, DUoS revenue becomes half-hourly / profile-dependent rather than flat-rate. Update revenue models for HH consumption profiles and the new DUoS Tariff ID structure as sites migrate.',
+    srcLabel:'Elexon, Market-wide Half-Hourly Settlement',
     srcUrl:'https://www.elexon.co.uk/bsc/operational/market-wide-half-hourly-settlement/'
   },
   {
@@ -381,9 +381,9 @@ const items = [
     track:'elec-pc', row:'Connections queue reform',
     title:'Connections reform (Connections Action Plan / Gate-2)', date:'Ongoing 2024–2027',
     start:2024, end:2027,
-    summary:'Ofgem and NESO are overhauling the connections queue — moving from "first come, first served" to a "first ready, first connected" model that prioritises viable projects. Primarily transmission, but with material distribution read-across.',
+    summary:'Ofgem and NESO are overhauling the connections queue, moving from "first come, first served" to a "first ready, first connected" model that prioritises viable projects. Primarily transmission, but with material distribution read-across.',
     impl:'Affects connection timelines and certainty for larger last-mile sites and embedded generation. Factor revised connection-date assumptions and queue milestones into project phasing.',
-    srcLabel:'Ofgem / NESO — Connections reform',
+    srcLabel:'Ofgem / NESO, Connections reform',
     srcUrl:'https://www.ofgem.gov.uk'
   },
 
@@ -394,8 +394,8 @@ const items = [
     title:'NAV bulk supply charging', date:'Ongoing',
     start:START_YEAR, end:END_YEAR,
     summary:'A NAV buys wholesale (bulk) water/sewerage from the incumbent and retails to customers in its appointed area. Bulk supply prices are set under Ofwat\'s bulk supply framework (the average- vs marginal-cost basis remains contested).',
-    impl:'NAV margin = (customer charges, capped at the incumbent tariff under the no-worse-off rule) − (bulk supply cost + opex). Bulk price methodology is the single biggest driver of NAV unit economics — model it explicitly and stress-test it.',
-    srcLabel:'Ofwat — Bulk supply & NAV charging guidance',
+    impl:'NAV margin = (customer charges, capped at the incumbent tariff under the no-worse-off rule) − (bulk supply cost + opex). Bulk price methodology is the single biggest driver of NAV unit economics, model it explicitly and stress-test it.',
+    srcLabel:'Ofwat, Bulk supply & NAV charging guidance',
     srcUrl:'https://www.ofwat.gov.uk'
   },
   {
@@ -405,7 +405,7 @@ const items = [
     start:START_YEAR, end:END_YEAR,
     summary:'Ofwat\'s charging rules for new connection services govern infrastructure charges, requisition / self-lay arrangements and income offset that undertakers (and, by extension, NAVs and self-lay providers) apply to new developments.',
     impl:'Infrastructure charges and income offset drive the developer-funding side of last-mile water economics. Refresh the relevant charging year\'s rules each AMP year when modelling connection income.',
-    srcLabel:'Ofwat — Charging rules for new connection services',
+    srcLabel:'Ofwat, Charging rules for new connection services',
     srcUrl:'https://www.ofwat.gov.uk'
   },
   {
@@ -414,8 +414,8 @@ const items = [
     title:'Charging rules for new appointees (no-worse-off)', date:'Ongoing',
     start:START_YEAR, end:END_YEAR,
     summary:'NAVs must comply with Ofwat\'s charging rules for new appointees: end customers should be "no worse off" than if served by the incumbent, with defined cross-subsidy and charging constraints.',
-    impl:'Caps NAV retail revenue at the incumbent\'s tariff — there is no independent retail price upside. NAV returns therefore come from the bulk-retail margin and developer income, not premium pricing.',
-    srcLabel:'Ofwat — Charging rules for new appointees (NAVs)',
+    impl:'Caps NAV retail revenue at the incumbent\'s tariff, there is no independent retail price upside. NAV returns therefore come from the bulk-retail margin and developer income, not premium pricing.',
+    srcLabel:'Ofwat, Charging rules for new appointees (NAVs)',
     srcUrl:'https://www.ofwat.gov.uk'
   },
   {
@@ -424,8 +424,8 @@ const items = [
     title:'Codes for Adoption (water & sewerage)', date:'Ongoing',
     start:START_YEAR, end:END_YEAR,
     summary:'Sector Codes for Adoption (the water adoption code and the s.104 sewerage adoption code) standardise how self-laid / adopted infrastructure is designed and transferred to undertakers.',
-    impl:'Adoption terms decide whether last-mile water/sewerage assets are retained (NAV model) or adopted by the incumbent (self-lay / adoption model) — a fork in the asset-ownership and revenue thesis.',
-    srcLabel:'Ofwat / Water UK — Codes for Adoption',
+    impl:'Adoption terms decide whether last-mile water/sewerage assets are retained (NAV model) or adopted by the incumbent (self-lay / adoption model), a fork in the asset-ownership and revenue thesis.',
+    srcLabel:'Ofwat / Water UK, Codes for Adoption',
     srcUrl:'https://www.ofwat.gov.uk'
   },
 
@@ -437,7 +437,7 @@ const items = [
     start:2025.25, end:2030.25,
     summary:'Ofwat\'s PR24 final determinations for AMP8 (1 Apr 2025 – 31 Mar 2030) set wholesale charges, totex allowances and an appointee WACC of ~4.03% (CPIH real).',
     impl:'Incumbent wholesale prices set at PR24 flow directly into NAV bulk supply charges and developer charges. The 4.03% appointee WACC is the regulated-return benchmark for water last-mile assets (see CMA redetermination for the revised figure).',
-    srcLabel:'Ofwat — 2024 price review (PR24)',
+    srcLabel:'Ofwat, 2024 price review (PR24)',
     srcUrl:'https://www.ofwat.gov.uk/regulated-companies/price-review/2024-price-review/'
   },
   {
@@ -445,29 +445,29 @@ const items = [
     track:'water-pc', row:'CMA redetermination',
     title:'PR24 CMA redeterminations', date:'Final report Mar 2026',
     start:2025.2, end:2026.35,
-    summary:'Five companies (Anglian, Northumbrian, South East, Southern, Wessex) referred PR24 to the CMA (references made 18 Mar 2025). The CMA\'s final report (to Ofwat 10 Mar 2026; published 26 Mar 2026) raised the WACC by 26bps — from 4.03% to 4.29% — and added £556m of allowed expenditure. Ofwat republished the models on 23 Apr 2026.',
-    impl:'The CMA\'s 4.29% WACC re-sets the upper bound for the AMP8 water cost of capital — use it as the benchmark for water last-mile return assumptions, and expect higher incumbent wholesale charges feeding NAV bulk supply prices.',
-    srcLabel:'CMA — Water PR24 price redeterminations',
+    summary:'Five companies (Anglian, Northumbrian, South East, Southern, Wessex) referred PR24 to the CMA (references made 18 Mar 2025). The CMA\'s final report (to Ofwat 10 Mar 2026; published 26 Mar 2026) raised the WACC by 26bps, from 4.03% to 4.29%, and added £556m of allowed expenditure. Ofwat republished the models on 23 Apr 2026.',
+    impl:'The CMA\'s 4.29% WACC re-sets the upper bound for the AMP8 water cost of capital, use it as the benchmark for water last-mile return assumptions, and expect higher incumbent wholesale charges feeding NAV bulk supply prices.',
+    srcLabel:'CMA, Water PR24 price redeterminations',
     srcUrl:'https://www.gov.uk/cma-cases/water-pr24-price-redeterminations'
   },
   {
     regulator:'ofwat', cat:'structural', catLabel:'Sector reform', status:'consultation',
     track:'water-pc', row:'Sector reform & regulator',
-    title:'Independent Water Commission (Cunliffe) — abolition of Ofwat', date:'Report Jul 2025 · Bill pending',
+    title:'Independent Water Commission (Cunliffe), abolition of Ofwat', date:'Report Jul 2025 · Bill pending',
     start:2025.55, end:2028,
     summary:'Sir Jon Cunliffe\'s Independent Water Commission reported on 21 Jul 2025 (88 recommendations), recommending abolishing Ofwat and creating a single integrated water regulator (merging Ofwat, the DWI and the water functions of the EA and Natural England). Government endorsed in principle; a White Paper and consultation precede a Water Reform Bill. Ofwat remains in place through the transition.',
-    impl:'The economic regulator that runs the NAV regime is set to be replaced. Material medium-term regulatory uncertainty for NAV appointments, bulk supply rules and price-control design — track the White Paper and Bill closely; assume continuity of the NAV regime but not of its detailed rules.',
-    srcLabel:'GOV.UK — Government response to the Independent Water Commission',
+    impl:'The economic regulator that runs the NAV regime is set to be replaced. Material medium-term regulatory uncertainty for NAV appointments, bulk supply rules and price-control design, track the White Paper and Bill closely; assume continuity of the NAV regime but not of its detailed rules.',
+    srcLabel:'GOV.UK, Government response to the Independent Water Commission',
     srcUrl:'https://www.gov.uk/government/speeches/government-initial-response-to-independent-water-commissions-final-report'
   },
   {
     regulator:'ofwat', cat:'pricecontrol', catLabel:'PR29', status:'upcoming',
     track:'water-pc', row:'Price review (PR24 / PR29)',
-    title:'PR29 — next price review', date:'AMP9 2030–2035',
+    title:'PR29, next price review', date:'AMP9 2030–2035',
     start:2030.25, end:END_YEAR,
     summary:'The price control for AMP9 (2030–2035). Methodology development is expected from ~2026–2028, under whichever regulator succeeds Ofwat following the water reforms.',
-    impl:'Sets the long-run wholesale price trajectory beyond 2030 — relevant for NAV bulk supply forecasts and terminal-value assumptions in long-dated water last-mile models.',
-    srcLabel:'Ofwat — Future price reviews (PR29)',
+    impl:'Sets the long-run wholesale price trajectory beyond 2030, relevant for NAV bulk supply forecasts and terminal-value assumptions in long-dated water last-mile models.',
+    srcLabel:'Ofwat, Future price reviews (PR29)',
     srcUrl:'https://www.ofwat.gov.uk'
   },
   {
@@ -477,7 +477,7 @@ const items = [
     start:START_YEAR, end:END_YEAR,
     summary:'Water RCV and revenues are indexed to CPIH, with the legacy RPI-linked share of the RCV running off over time (the PR19 split was 50% RPI / 50% CPIH; new additions are fully CPIH).',
     impl:'Use CPIH (not RPI) for new water last-mile revenue and RCV indexation; the RPI wedge matters only for legacy RCV. Align inflation assumptions with the PR24 / CMA indexation basis.',
-    srcLabel:'Ofwat — PR24 (RCV indexation / CPIH)',
+    srcLabel:'Ofwat, PR24 (RCV indexation / CPIH)',
     srcUrl:'https://www.ofwat.gov.uk/regulated-companies/price-review/2024-price-review/'
   }
 ];
@@ -648,7 +648,7 @@ function renderCards() {
         <div class="card-title">${it.title}</div>
         <div class="card-date">${it.date}</div>
         <div class="card-summary">${it.summary}</div>
-        <div class="card-impl"><strong>Modelling implication —</strong> ${it.impl}</div>
+        <div class="card-impl"><strong>Modelling implication:</strong> ${it.impl}</div>
         <div class="card-src"><a href="${it.srcUrl}" target="_blank" rel="noopener">${it.srcLabel} ↗</a></div>
       </div>`;
   }).join('');

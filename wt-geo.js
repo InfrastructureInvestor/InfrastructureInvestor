@@ -1,4 +1,4 @@
-/* Scene configuration for water-wastewater.html — a top-down water cycle drawn
+/* Scene configuration for water-wastewater.html, a top-down water cycle drawn
    in 720x520: a source (reservoir / river / desalination from the sea) feeds a
    water treatment works, clean water flows to the town, wastewater drains via
    sewers to a wastewater treatment works, and treated effluent is discharged to

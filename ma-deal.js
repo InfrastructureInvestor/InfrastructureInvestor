@@ -1,4 +1,4 @@
-/* Infrastructure M&A — acquisition & returns model.
+/* Infrastructure M&A, acquisition & returns model.
    Single-asset buyout, built to a deal-team standard: sources & uses, a year-by-year
    cash-flow waterfall that funds maintenance capex, cash tax (with an interest shield,
    straight-line tax depreciation and a loss carry-forward) and growth capex before
@@ -83,7 +83,7 @@
     // split nominal EBITDA growth into inflation indexation and real growth.
     // indexation is NOT capped at nominal growth: if EBITDA grows slower than the
     // indexed share would imply, real growth is genuinely negative (the asset is
-    // shrinking in real terms, flattered by indexation) — a key infra insight.
+    // shrinking in real terms, flattered by indexation), a key infra insight.
     var gI=Math.max(0,P.idx*P.infl);                // indexation-driven growth p.a.
     var gR=(1+P.gNom)/(1+gI)-1;                      // residual real growth p.a. (can be <0)
 
@@ -95,7 +95,7 @@
       var eb=P.eb0*Math.pow(1+P.gNom,t), ebPrev=P.eb0*Math.pow(1+P.gNom,t-1);
       ebitda[t]=eb;
       var mt=P.maintP*eb; maint[t]=mt;
-      // growth capex funds the real (volume/efficiency) increment only — indexing prices costs nothing
+      // growth capex funds the real (volume/efficiency) increment only, indexing prices costs nothing
       var realIncr=gR>0 ? ebPrev*(1+gI)*gR : 0;
       var gc=P.gCap*realIncr; gcap[t]=gc;
       var intr=P.rd*debtBal; interest[t]=intr;
@@ -144,7 +144,7 @@
     var cum=-equity0, payback=null;
     for(var t3=1;t3<=P.H;t3++){ cum+=cf[t3]; if(payback===null && cum>=0) payback=t3; }
 
-    // value-creation bridge — re-rating generalised to (exitEV − entry-multiple × exit EBITDA)
+    // value-creation bridge, re-rating generalised to (exitEV − entry-multiple × exit EBITDA)
     // so it reconciles exactly for any terminal-value method
     var idxUplift=P.eb0*(Math.pow(1+gI,P.H)-1), realUplift=ebH-P.eb0*Math.pow(1+gI,P.H);
     return {
@@ -198,13 +198,13 @@
     renderBridge(m.bridge);
     var b=m.bridge;
     el('bridgeFoot').innerHTML='Over a <b>'+m.H+'-year</b> hold, a <b>'+money(b.start)+'</b> equity cheque returns <b>'+
-      money(b.end)+'</b> — a <b>'+(isFinite(m.moic)?m.moic.toFixed(2):'—')+'×</b> multiple and <b>'+pctTxt(m.eqIRR)+
+      money(b.end)+'</b>, a <b>'+(isFinite(m.moic)?m.moic.toFixed(2):'—')+'×</b> multiple and <b>'+pctTxt(m.eqIRR)+
       '</b> IRR ('+(isFinite(m.realIRR)?pctTxt(m.realIRR)+' real':'—')+'). EBITDA growth adds '+money(b.idx+b.real)+
-      ' — of which <b>'+money(b.idx)+'</b> is inflation indexation and <b>'+money(b.real)+'</b> real growth; '+
+      ', of which <b>'+money(b.idx)+'</b> is inflation indexation and <b>'+money(b.real)+'</b> real growth; '+
       (m.tvMode==='conc'?'concession run-off ':'multiple re-rating ')+(b.reRating>=0?'adds ':'subtracts ')+money(Math.abs(b.reRating))+
       ', debt paydown '+money(b.deleveraging)+' and cash distributions '+money(b.distrib)+
       (m.recap>0?' (incl. a '+money(m.recap)+' refinancing recap)':'')+'; transaction costs cost '+money(Math.abs(b.fees))+'.'+
-      (m.gR<0?' <b>Note:</b> real growth is negative — EBITDA is not keeping pace with inflation, so value here is just indexation.':'');
+      (m.gR<0?' <b>Note:</b> real growth is negative, EBITDA is not keeping pace with inflation, so value here is just indexation.':'');
 
     renderJ(m);
 
@@ -274,8 +274,8 @@
     }
     el('maJ').innerHTML=html;
     var pf=el('jFoot');
-    if(pf) pf.innerHTML = m.payback ? 'Cumulative equity cash flow turns positive in <b>year '+m.payback+'</b> — the bottom of the J-curve. '+(m.recap>0?'The spike is the refinancing recap.':'')
-      : 'Cumulative equity cash flow stays negative until exit — all the return is realised on sale.';
+    if(pf) pf.innerHTML = m.payback ? 'Cumulative equity cash flow turns positive in <b>year '+m.payback+'</b>, the bottom of the J-curve. '+(m.recap>0?'The spike is the refinancing recap.':'')
+      : 'Cumulative equity cash flow stays negative until exit, all the return is realised on sale.';
   }
 
   /* ============ sensitivity matrix ============ */
@@ -313,8 +313,8 @@
     function irrAt(e){ return model(params({mEntry:e})).eqIRR; }
     var lo=4, hi=40;
     var fLo=irrAt(lo)-target, fHi=irrAt(hi)-target;   // IRR decreases as entry rises
-    if(!isFinite(fLo) || fLo<0){ if(out) out.innerHTML='Even at <b>'+lo+'×</b> the return is below '+(target*100).toFixed(0)+'% — target not achievable here.'; return; }
-    if(isFinite(fHi) && fHi>0){ if(out) out.innerHTML='Clears '+(target*100).toFixed(0)+'% even at <b>'+hi+'×</b> — you can pay up.'; var sol0=hi; applyEntry(sol0,target); return; }
+    if(!isFinite(fLo) || fLo<0){ if(out) out.innerHTML='Even at <b>'+lo+'×</b> the return is below '+(target*100).toFixed(0)+'%, target not achievable here.'; return; }
+    if(isFinite(fHi) && fHi>0){ if(out) out.innerHTML='Clears '+(target*100).toFixed(0)+'% even at <b>'+hi+'×</b>, you can pay up.'; var sol0=hi; applyEntry(sol0,target); return; }
     for(var k=0;k<80;k++){ var mid=(lo+hi)/2, fm=irrAt(mid)-target; if(fLo*fm<=0){ hi=mid; } else { lo=mid; fLo=fm; } }
     var sol=(lo+hi)/2;
     applyEntry(Math.round(sol*2)/2, target);
@@ -401,7 +401,7 @@
     var sec=DB.sectors[secIdx], a=sec.assets[astIdx]; if(!a) return;
     var hold=Math.min(a.hold||ACQ_HOLD, ACQ_HOLD);
     // default entry = the reference model's implied multiple; exit flat at the same
-    // multiple (the neutral, no-re-rating assumption) — the user flexes the exit.
+    // multiple (the neutral, no-re-rating assumption), the user flexes the exit.
     var entry=a.entry||a.exit, exitM=entry;
     var lev=Math.min(a.lev, 0.7*entry);
     var im=(a.ev&&a.ebitda>0)?a.ev/a.ebitda:null;
@@ -418,7 +418,7 @@
       ? ' The reference model implies an entry EV of <b>'+a.cur+Math.round(a.ev).toLocaleString()+'m</b> (~<b>'+im.toFixed(1)+'×</b> EBITDA); the default bid is set to that.'
       : '';
     el('maLoaded').innerHTML=
-      'Loaded <b>'+a.name+'</b>'+(a.geo?' ('+a.geo+')':'')+' from <a href="'+sec.url+'">'+sec.name+'</a> — '+
+      'Loaded <b>'+a.name+'</b>'+(a.geo?' ('+a.geo+')':'')+' from <a href="'+sec.url+'">'+sec.name+'</a>, '+
       '<b>'+a.cur+a.ebitda+'m</b> EBITDA.'+refLine+
       ' <span class="ref"><span>As modelled on the reference page: unlevered IRR <b>'+a.uirr+'</b>, levered <b>'+a.lirr+'</b>, MOIC <b>'+a.moic+'</b>.</span></span>'+
       ' Figures are illustrative and in the asset’s native currency.';
@@ -494,7 +494,7 @@
         mSweep:40, mDscr:1.8, mTenor:12, mConcEnd:25, mTVr:8, cur:cur, ev:null, im:null, cls:'Digital Infrastructure' };
       setCurSelect('native'); setTvMode('mult'); if(el('mILD')) el('mILD').checked=false;
       applyInputs(LOADED); setScenario('base');
-      el('maLoaded').innerHTML='Loaded from the <a href="ma-in-action-fibre.html">fibre market-entry comparator</a> — the <b>buy case</b>: '+
+      el('maLoaded').innerHTML='Loaded from the <a href="ma-in-action-fibre.html">fibre market-entry comparator</a>, the <b>buy case</b>: '+
         cur+nativeEbitda+'m EBITDA at '+LOADED.mEntry+'×, '+LOADED.mLev+'× leverage, '+LOADED.mHold+'-year hold. Adjust freely, or pick another asset above.';
     } else { loadAsset(-1); }
   }

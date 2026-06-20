@@ -1,4 +1,4 @@
-/* Scene configuration for recycling-infrastructure.html — a materials recovery
+/* Scene configuration for recycling-infrastructure.html, a materials recovery
    facility (MRF) drawn in 720x520 scene coordinates: a collection truck tips
    mixed dry recycling onto an infeed, conveyor belts carry the material through
    a chain of sorting stages (a trommel screen, optical sorters, a magnet /

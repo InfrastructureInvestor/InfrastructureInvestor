@@ -7,7 +7,7 @@
 <title>Infrastructure Macro Dashboard</title>
 <style>
 /* ============================================================
-   CSS — Dark professional terminal theme
+   CSS, Dark professional terminal theme
    ============================================================ */
 :root {
   --bg: #f5f7f6;
@@ -505,7 +505,7 @@ body {
             <span class="multi-val" id="pmiValue">50.5</span>
           </div>
         </div>
-        <div class="card-note">Economy near-stagnant. Construction PMI tracking below 50 — negative for new-build infrastructure pipeline.</div>
+        <div class="card-note">Economy near-stagnant. Construction PMI tracking below 50, negative for new-build infrastructure pipeline.</div>
         <div class="card-updated">Manual update: 2025-02-28</div>
       </div>
 
@@ -513,7 +513,7 @@ body {
       <div class="card static-card">
         <div class="card-label">Global Infrastructure Dry Powder</div>
         <div class="card-value" style="font-size:22px" id="dryPowderValue">$330bn</div>
-        <div class="card-note">Source: Preqin (Dec 2024). Record levels — supportive for asset valuations but compresses return premiums. Significant capital targeting energy transition and digital infra.</div>
+        <div class="card-note">Source: Preqin (Dec 2024). Record levels, supportive for asset valuations but compresses return premiums. Significant capital targeting energy transition and digital infra.</div>
         <div class="card-updated">Manual update: 2025-01-10</div>
       </div>
 
@@ -546,7 +546,7 @@ body {
   function cacheSet(key, data) {
     try {
       localStorage.setItem(CACHE_PREFIX + key, JSON.stringify({ ts: Date.now(), data }));
-    } catch (e) { /* storage full — ignore */ }
+    } catch (e) { /* storage full, ignore */ }
   }
 
   function cacheGet(key) {
@@ -581,7 +581,7 @@ body {
         warn.className = 'stale-warning';
         card.appendChild(warn);
       }
-      warn.textContent = msg || 'Stale data — API unavailable';
+      warn.textContent = msg || 'Stale data, API unavailable';
     }
   }
 
@@ -648,7 +648,7 @@ body {
       const resp = await fetch(url, { ...options, signal: AbortSignal.timeout(10000) });
       if (resp.ok) return resp;
     } catch (e) {
-      // CORS or network error — try proxies
+      // CORS or network error, try proxies
     }
     // Try each proxy
     for (let i = 0; i < CORS_PROXIES.length; i++) {
@@ -675,7 +675,7 @@ body {
   //   IUDMNZC = 10yr gilt yield
   //   IUDMNB4 = 30yr gilt (actually ~25yr benchmark)
   //   IUDBEDR = Bank Rate
-  //   IUDSOIA = SONIA rate (overnight) — swaps derived
+  //   IUDSOIA = SONIA rate (overnight), swaps derived
   // NOTE: BoE API may require CORS proxy from browser.
 
   async function fetchBoEseries(seriesId, fromDate) {
@@ -754,7 +754,7 @@ body {
       const cached30 = cacheGet('gilt30y');
       if (cached10) document.getElementById('gilt10y').textContent = cached10.data.latest.value.toFixed(3) + '%';
       if (cached30) document.getElementById('gilt30y').textContent = cached30.data.latest.value.toFixed(3) + '%';
-      showStale('cardGilts', 'Using cached data — BoE API unavailable');
+      showStale('cardGilts', 'Using cached data, BoE API unavailable');
     }
   }
 
@@ -792,7 +792,7 @@ body {
       const c10 = cacheGet('sonia10y');
       if (c5) document.getElementById('sonia5y').textContent = c5.data.value.toFixed(3) + '%';
       if (c10) document.getElementById('sonia10y').textContent = c10.data.value.toFixed(3) + '%';
-      showStale('cardSonia', 'Using cached data — BoE API unavailable');
+      showStale('cardSonia', 'Using cached data, BoE API unavailable');
     }
   }
 
@@ -814,12 +814,12 @@ body {
       console.warn('Base rate fetch failed:', e);
       const c = cacheGet('baseRate');
       if (c) document.getElementById('baseRateValue').textContent = c.data.latest.value.toFixed(2) + '%';
-      showStale('cardBaseRate', 'Using cached data — BoE API unavailable');
+      showStale('cardBaseRate', 'Using cached data, BoE API unavailable');
     }
   }
 
 
-  // ─── ONS API — UK Inflation (RPI, CPIH, CPI) ───
+  // ─── ONS API, UK Inflation (RPI, CPIH, CPI) ───
   // Free, no API key required.
   // Series: D7G7 = RPI annual rate, L55O = CPIH annual rate, D7G7 = CPI
   // NOTE: ONS API may require CORS proxy from browser.
@@ -862,7 +862,7 @@ body {
       const cCpih = cacheGet('cpih');
       if (cRpi) document.getElementById('rpiValue').textContent = parseFloat(cRpi.data.value).toFixed(1) + '%';
       if (cCpih) document.getElementById('cpihValue').textContent = parseFloat(cCpih.data.value).toFixed(1) + '%';
-      showStale('cardInflation', 'Using cached data — ONS API unavailable');
+      showStale('cardInflation', 'Using cached data, ONS API unavailable');
     }
   }
 
@@ -888,13 +888,13 @@ body {
       console.warn('CPI fetch failed:', e);
       const c = cacheGet('cpi');
       if (c) document.getElementById('cpiValue').textContent = parseFloat(c.data.latest.value).toFixed(1) + '%';
-      showStale('cardCPI', 'Using cached data — ONS API unavailable');
+      showStale('cardCPI', 'Using cached data, ONS API unavailable');
     }
   }
 
 
   // ─── US 10yr Treasury Yield ───
-  // Using FRED (Federal Reserve Economic Data) — no key required for basic access
+  // Using FRED (Federal Reserve Economic Data), no key required for basic access
   // Series: DGS10 = 10-Year Treasury Constant Maturity Rate
   // NOTE: FRED may require CORS proxy. Alternatively use BoE data or a free proxy.
   // /* INSERT API KEY HERE: const FRED_API_KEY = 'YOUR_KEY'; */
@@ -902,7 +902,7 @@ body {
 
   async function loadUSTreasury() {
     try {
-      // Try using BoE for US data as fallback — BoE publishes some US yield data
+      // Try using BoE for US data as fallback, BoE publishes some US yield data
       // Series IUQAAJNB = US 10yr benchmark (not always available)
       // Primary approach: use Treasury.gov XML
       const url = 'https://data.treasury.gov/feed.svc/DailyTreasuryYieldCurveRateData?$top=5&$orderby=NEW_DATE%20desc&$format=json';
@@ -937,7 +937,7 @@ body {
       } else {
         document.getElementById('ustValue').textContent = '—';
       }
-      showStale('cardUST', 'Using cached data — Treasury API unavailable');
+      showStale('cardUST', 'Using cached data, Treasury API unavailable');
     }
   }
 
@@ -1019,7 +1019,7 @@ body {
       console.warn('Ofgem RSS failed:', e);
       const c = cacheGet('ofgemFeed');
       if (c) renderNewsFeed('ofgemFeed', c.data, 'Ofgem (cached)', 'ofgemUpdated');
-      else document.getElementById('ofgemFeed').innerHTML = '<span style="color:var(--amber)">Feed unavailable — CORS proxy may be needed</span>';
+      else document.getElementById('ofgemFeed').innerHTML = '<span style="color:var(--amber)">Feed unavailable, CORS proxy may be needed</span>';
       showStale('cardOfgem', 'Feed may require CORS proxy');
     }
   }
@@ -1043,7 +1043,7 @@ body {
       } catch (e2) {
         const c = cacheGet('nesoFeed');
         if (c) renderNewsFeed('nesoFeed', c.data, 'NESO (cached)', 'nesoUpdated');
-        else document.getElementById('nesoFeed').innerHTML = '<span style="color:var(--amber)">Feed unavailable — CORS proxy may be needed</span>';
+        else document.getElementById('nesoFeed').innerHTML = '<span style="color:var(--amber)">Feed unavailable, CORS proxy may be needed</span>';
         showStale('cardNESO', 'Feed may require CORS proxy');
       }
     }
@@ -1103,7 +1103,7 @@ body {
         });
         container.innerHTML = html;
       } else {
-        document.getElementById('govFeed').innerHTML = '<span style="color:var(--amber)">Feed unavailable — CORS proxy may be needed</span>';
+        document.getElementById('govFeed').innerHTML = '<span style="color:var(--amber)">Feed unavailable, CORS proxy may be needed</span>';
       }
       showStale('cardGovUK', 'Feed may require CORS proxy');
     }
@@ -1126,7 +1126,7 @@ body {
       console.warn('M&A feed failed:', e);
       const c = cacheGet('maFeed');
       if (c) renderNewsFeed('maFeed', c.data, 'Google News (cached)', 'maUpdated');
-      else document.getElementById('maFeed').innerHTML = '<span style="color:var(--amber)">Feed unavailable — CORS proxy may be needed</span>';
+      else document.getElementById('maFeed').innerHTML = '<span style="color:var(--amber)">Feed unavailable, CORS proxy may be needed</span>';
       showStale('cardMA', 'Feed may require CORS proxy');
     }
   }
@@ -1148,7 +1148,7 @@ body {
     document.getElementById('masterTimestamp').textContent = 'Refreshing...';
 
     try {
-      // Fire all fetches in parallel — each handles its own errors gracefully
+      // Fire all fetches in parallel, each handles its own errors gracefully
       await Promise.allSettled([
         loadGiltYields(),
         loadSONIA(),

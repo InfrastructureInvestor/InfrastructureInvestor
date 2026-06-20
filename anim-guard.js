@@ -4,7 +4,7 @@
 (function () {
   try {
     var mq = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)');
-    if (!mq || !mq.matches) return;                 // motion is fine — do nothing
+    if (!mq || !mq.matches) return;                 // motion is fine, do nothing
     var native = window.requestAnimationFrame.bind(window);
     var frames = 0, WARMUP = 90;                    // ~1.5s: scene draws + KPIs/DCF settle
     window.requestAnimationFrame = function (cb) {

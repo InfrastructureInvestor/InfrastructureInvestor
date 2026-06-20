@@ -1,4 +1,4 @@
-/* "M&A in action — buying a distressed altnet": a turnaround / consolidation
+/* "M&A in action, buying a distressed altnet": a turnaround / consolidation
    model. Buy a sub-scale, over-levered network cheap on EV/home, fund the
    remaining build, lift penetration and cut opex, and re-rate it on a mature
    EBITDA multiple. Yearly funding waterfall + equity IRR/MOIC + an EV-level
@@ -83,7 +83,7 @@
     el('dJ').innerHTML=bar(m.eqCF);
     el('dFoot').innerHTML='Bought for <b>'+fM(m.entryEV)+'</b> (<b>£'+f0(m.entryPerHome)+'/home</b>) with the network at a depressed entry EBITDA of '+fM(m.eb0)+
       '. Finishing the build and lifting penetration takes it to <b>'+fM(m.ebStab)+'</b> of stabilised EBITDA; exiting at '+gv('dExit')+'× values it at <b>'+fM(m.exitEV)+
-      '</b>. The equity return is <b>'+pct(m.irr)+'</b> IRR / <b>'+(isFinite(m.moic)?m.moic.toFixed(2):'—')+'×</b> — most of it from the <b>re-rating</b> (buying below the mature multiple) plus the <b>turnaround</b> EBITDA you build.';
+      '</b>. The equity return is <b>'+pct(m.irr)+'</b> IRR / <b>'+(isFinite(m.moic)?m.moic.toFixed(2):'—')+'×</b>, most of it from the <b>re-rating</b> (buying below the mature multiple) plus the <b>turnaround</b> EBITDA you build.';
   }
 
   var IDS=['dHomes','dEntryPerHome','dEntryPen','dFixCapex','dTargetPen','dArpu','dEntryOpex','dTargetOpex','dFixYrs','dLev','dRd','dExit','dHold'];

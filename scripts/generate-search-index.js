@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-/* Regenerates the PROJECTS array in site.js — the searchable, deep-linkable list
+/* Regenerates the PROJECTS array in site.js, the searchable, deep-linkable list
  * of individual worked assets (HS2, Heathrow, Rotterdam, …) embedded in the
  * reference pages' <select id="ixSelect"> pickers.
  *

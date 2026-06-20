@@ -1,11 +1,11 @@
-/* Cash-flow & DCF model — a generic, asset-aware projection + DCF template.
+/* Cash-flow & DCF model, a generic, asset-aware projection + DCF template.
    Pick an asset type; every major revenue and cost line is a slider. The model
    builds a year-by-year projection (line items down, years across) and a DCF:
    unlevered/levered IRR, NPV at the discount rate, equity multiple and payback.
    All figures are illustrative ($m), not a forecast of any specific asset. */
 (function(){
   /* ===================================================================
-     ASSET PRESETS — revenue lines, cost lines (Year-1 $m) + assumptions.
+     ASSET PRESETS, revenue lines, cost lines (Year-1 $m) + assumptions.
      Consistent format across types; line items chosen to suit each asset.
   =================================================================== */
   var ASSETS={
@@ -184,7 +184,7 @@
     g+=row('Unlevered free cash flow',m.uCore,{cls:'cf-tot',entry:-m.entryEV});
     var exitRow=[]; exitRow[N]=m.exitEV; g+=row('Exit proceeds (EV)',exitRow,{blank:true});
     g+=row('Discount factor @ WACC',m.disc,{cls:'cf-mut',blank:true,dec:true});
-    // discount factor needs decimals — handle specially
+    // discount factor needs decimals, handle specially
     g+=row('PV of unlevered FCF',m.pv,{cls:'cf-tot',entry:-m.entryEV});
     g+='<tr class="cf-sec"><td class="cf-rowlab" colspan="'+(N+2)+'">FINANCING</td></tr>';
     g+=row('Interest',m.interest,{neg:true,blank:true});

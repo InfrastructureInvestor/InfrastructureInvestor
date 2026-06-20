@@ -1,8 +1,8 @@
-/* Scene configuration for mobile-towers.html — a landscape dotted with MOBILE
+/* Scene configuration for mobile-towers.html, a landscape dotted with MOBILE
    TOWERS (masts), drawn in 720x520 scene coordinates: tapered lattice / monopole
    masts on small platforms, each carrying one or more sets of operator antenna
    panels (the tenants). More towers = more masts across the scene; a higher
-   tenancy ratio = more antenna sets per mast — the colocation story made visible.
+   tenancy ratio = more antenna sets per mast, the colocation story made visible.
    Each towerco carries its own signature: the kind of business, whether it is
    growing (build-to-suit / lease-up), how dense the footprint is, and the area.
    kind the renderer understands:  independent · captive · em · state */

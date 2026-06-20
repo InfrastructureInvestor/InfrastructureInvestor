@@ -1,4 +1,4 @@
-/* Stylised but geographically-faithful harbour layouts for ports.html — drawn in
+/* Stylised but geographically-faithful harbour layouts for ports.html, drawn in
    scene coordinates (720 x 520), sea as the background and land/structures on top.
    Each port carries its real signature features in roughly correct relative
    positions, and the approach channel runs through the real harbour entrance. */

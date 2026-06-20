@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Heat Network DCF — HSA Cashflow Model</title>
+<title>Heat Network DCF | HSA Cashflow Model</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,500;0,8..60,600;1,8..60,400&display=swap" rel="stylesheet">
 <style>
   :root {
@@ -388,7 +388,7 @@
 
 <header>
   <div class="header-left">
-    <h1>Heat Network DCF — HSA Cashflow Model</h1>
+    <h1>Heat Network DCF, HSA Cashflow Model</h1>
     <p>Infrastructure Investor</p>
   </div>
   <div class="header-right">
@@ -659,7 +659,7 @@
 
     <!-- SENSITIVITY -->
     <div class="table-section">
-      <div class="table-title">NPV Sensitivity — WACC vs Heat Rate (£k)</div>
+      <div class="table-title">NPV Sensitivity, WACC vs Heat Rate (£k)</div>
       <div id="sensitivity-grid" class="sensitivity-grid"></div>
     </div>
 
@@ -787,7 +787,7 @@ function update() {
   document.getElementById('heat-gen').textContent = fmt(Math.round(heatGenBase)) + ' MWh';
   document.getElementById('ev-per-conn').textContent = '£' + fmt(Math.round(ev/p.connections/1000)) + 'k';
 
-  // Cashflow table — show every year up to 25, then every 5
+  // Cashflow table, show every year up to 25, then every 5
   const tbody = document.getElementById('cashflow-tbody');
   tbody.innerHTML = '';
 

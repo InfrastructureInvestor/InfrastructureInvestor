@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Pumped Hydro Economics — Live Simulation</title>
+<title>Pumped Hydro Economics | Live Simulation</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Source+Serif+4:opsz,wght@8..60,400;8..60,500;8..60,600&display=swap" rel="stylesheet">
@@ -152,8 +152,8 @@
 
   <div class="as-head">
     <div class="as-eyebrow">Energy Transition · Pumped hydro</div>
-    <h2>What flows through a pumped-hydro scheme — and how it pays</h2>
-    <p class="as-sub">A pumped-hydro scheme stores energy as water: it <b style="color:var(--comm)">pumps water uphill</b> to the upper reservoir when power is cheap, then releases it back down through turbines to generate when power is dear — long-duration arbitrage — plus contracted <b style="color:var(--aero)">capacity-market and ancillary/inertia</b> services. Watch it pump at the price troughs and generate at the peaks, and how the spread and services stack into EBITDA across a very long-life, capital-heavy asset.</p>
+    <h2>What flows through a pumped-hydro scheme, and how it pays</h2>
+    <p class="as-sub">A pumped-hydro scheme stores energy as water: it <b style="color:var(--comm)">pumps water uphill</b> to the upper reservoir when power is cheap, then releases it back down through turbines to generate when power is dear, long-duration arbitrage, plus contracted <b style="color:var(--aero)">capacity-market and ancillary/inertia</b> services. Watch it pump at the price troughs and generate at the peaks, and how the spread and services stack into EBITDA across a very long-life, capital-heavy asset.</p>
   </div>
 
   <div class="as-ctrls">
@@ -180,7 +180,7 @@
     <span class="leg"><span class="dot" style="background:var(--cost)"></span><b>Operating cost</b>&nbsp;civil &amp; O&amp;M</span>
   </div>
 
-  <div class="band-label"><span class="t">Flows — annualised from current assumptions</span><span class="ln"></span><span class="hint">per year</span></div>
+  <div class="band-label"><span class="t">Flows, annualised from current assumptions</span><span class="ln"></span><span class="hint">per year</span></div>
   <div class="as-kpis">
     <div class="kpi k-rev"><div class="k">Revenue p.a.</div><div class="v" id="kRev">£0</div><div class="s"><b id="kRevHr">£0</b> / hr</div></div>
     <div class="kpi k-eb"><div class="k">EBITDA p.a.</div><div class="v" id="kEb">£0</div><div class="s"><b id="kMargin">0%</b> margin</div></div>
@@ -188,7 +188,7 @@
     <div class="kpi k-pax"><div class="k">Energy cycled p.a.</div><div class="v" id="kPaxYr">0</div><div class="s"><b id="kThru">1.0</b> cycles / day</div></div>
   </div>
 
-  <div class="band-label"><span class="t">Stocks — what the flows accumulate into</span><span class="ln"></span><span class="hint">live</span></div>
+  <div class="band-label"><span class="t">Stocks, what the flows accumulate into</span><span class="ln"></span><span class="hint">live</span></div>
   <div class="as-stocks">
     <div class="stock"><div class="k">Upper reservoir now</div><div class="v" id="sPax">0</div><div class="s">live, of <b id="sCap">4,000</b> MWh</div></div>
     <div class="stock"><div class="k">EBITDA banked · session</div><div class="v" id="sBank">£0</div><div class="s">accumulating in real time</div></div>
@@ -197,14 +197,14 @@
 
   <div class="as-split">
     <div class="split-head">
-      <span class="t">The revenue stack — contracted vs merchant</span>
+      <span class="t">The revenue stack, contracted vs merchant</span>
       <span class="tot">Total <b id="splitTot">£0</b> p.a.</span>
     </div>
     <div class="split-bar">
       <div class="split-seg seg-aero" id="segAero">Contracted</div>
       <div class="split-seg seg-comm" id="segComm">Merchant</div>
     </div>
-    <div class="split-foot"><b>Why investors watch the stack:</b> contracted revenue (capacity market + frequency response) is relatively stable; merchant arbitrage rides volatile day-to-day price spreads — higher upside but far less predictable. The mix, the achievable spread and how hard it cycles are the core dials, and — unlike a generator — the scheme earns nothing of its own — it lives on price differences.</div>
+    <div class="split-foot"><b>Why investors watch the stack:</b> contracted revenue (capacity market + frequency response) is relatively stable; merchant arbitrage rides volatile day-to-day price spreads, higher upside but far less predictable. The mix, the achievable spread and how hard it cycles are the core dials, and, unlike a generator, the scheme earns nothing of its own, it lives on price differences.</div>
   </div>
 
   <div class="as-panels">
@@ -212,8 +212,8 @@
     <div class="panel"><div class="ptitle">Operating costs<span class="pt-sum" id="costSum">£0 p.a.</span></div><div id="costRows"></div></div>
   </div>
 
-  <div class="band-label"><span class="t">Investment case — should you buy it?</span><span class="ln"></span><span class="hint">DCF returns</span></div>
-  <p class="calc-note">Year-1 financials flow live from the simulation above: revenue <b id="cBaseRev">£0</b> and EBITDA <b id="cBaseEb">£0</b> p.a. Set your deal terms below — the <b style="color:var(--aero)">unlevered IRR</b> (asset return) and <b style="color:var(--accent)">levered IRR</b> (return to equity, after debt) recompute instantly.</p>
+  <div class="band-label"><span class="t">Investment case, should you buy it?</span><span class="ln"></span><span class="hint">DCF returns</span></div>
+  <p class="calc-note">Year-1 financials flow live from the simulation above: revenue <b id="cBaseRev">£0</b> and EBITDA <b id="cBaseEb">£0</b> p.a. Set your deal terms below, the <b style="color:var(--aero)">unlevered IRR</b> (asset return) and <b style="color:var(--accent)">levered IRR</b> (return to equity, after debt) recompute instantly.</p>
 
   <div class="calc-grid">
     <div class="cgroup"><h4>Operating</h4>
@@ -251,11 +251,11 @@
   </div>
 
   <div class="jwrap tscroll">
-    <div class="jhead"><span class="t">Projection — £m per year</span></div>
+    <div class="jhead"><span class="t">Projection, £m per year</span></div>
     <table class="ptable"><thead id="ptHead"></thead><tbody id="ptBody"></tbody></table>
   </div>
 
-  <p class="as-foot"><b>Illustrative model.</b> Represents a ~400 MW / 4,000 MWh (10-hour) pumped-hydro scheme, ~75% round-trip efficiency and a 60–100 year life. Revenue = energy cycled × the captured price spread (arbitrage, net of pumping cost) + contracted capacity-market and ancillary/inertia services. Operating costs are largely fixed (civil &amp; dam maintenance, turbine/pump O&amp;M, network charges, insurance and rates), with little degradation. EBITDA = revenue − operating costs. The investment case is a simplified DCF: unlevered IRR discounts free cash flow to the firm (EBITDA − cash tax − capex) plus an exit on the EV/EBITDA multiple; levered IRR is the equity cash flow after debt. Storage revenues are volatile and depend on day-to-day price spreads. For illustration only — not investment advice, and not any specific asset.</p>
+  <p class="as-foot"><b>Illustrative model.</b> Represents a ~400 MW / 4,000 MWh (10-hour) pumped-hydro scheme, ~75% round-trip efficiency and a 60–100 year life. Revenue = energy cycled × the captured price spread (arbitrage, net of pumping cost) + contracted capacity-market and ancillary/inertia services. Operating costs are largely fixed (civil &amp; dam maintenance, turbine/pump O&amp;M, network charges, insurance and rates), with little degradation. EBITDA = revenue − operating costs. The investment case is a simplified DCF: unlevered IRR discounts free cash flow to the firm (EBITDA − cash tax − capex) plus an exit on the EV/EBITDA multiple; levered IRR is the equity cash flow after debt. Storage revenues are volatile and depend on day-to-day price spreads. For illustration only, not investment advice, and not any specific asset.</p>
 
 </div>
 
@@ -353,7 +353,7 @@ function renderModel(){
   document.getElementById('cBaseEb').textContent=money(baseEbYr);
   const m=computeModel();
   const set=(id,t)=>{ const e=document.getElementById(id); if(e) e.textContent=t; };
-  if(!m){ ['oUIRR','oLIRR','oMOIC','oProfit'].forEach(id=>set(id,'—')); document.getElementById('calcSum').innerHTML='<span class="lbl">At this spread / services level the EBITDA is too thin to value on a multiple — widen the spread, add services revenue, or cycle more.</span>'; return; }
+  if(!m){ ['oUIRR','oLIRR','oMOIC','oProfit'].forEach(id=>set(id,'—')); document.getElementById('calcSum').innerHTML='<span class="lbl">At this spread / services level the EBITDA is too thin to value on a multiple, widen the spread, add services revenue, or cycle more.</span>'; return; }
   set('oUIRR',pctTxt(m.uIRR)); set('oLIRR',pctTxt(m.lIRR));
   set('oMOIC',isFinite(m.moic)?m.moic.toFixed(2)+'×':'—');
   set('oProfit',money(m.profit));
@@ -420,7 +420,7 @@ function drawPriceChart(){
   const col=mode==='charge'?C.chg:mode==='discharge'?C.comm:'#9aa6b4';
   light(cx,cy,7,col==C.chg?'rgba(90,160,230,0.9)':col==C.comm?'rgba(230,179,90,0.9)':'rgba(150,160,180,0.6)',0.7);
   ctx.fillStyle=col; ctx.beginPath(); ctx.arc(cx,cy,3,0,Math.PI*2); ctx.fill();
-  ctx.fillStyle='rgba(180,196,210,0.85)'; ctx.font='700 7px Inter,sans-serif'; ctx.textAlign='left'; ctx.fillText('WHOLESALE PRICE — buy low, sell high',p.x+6,p.y-4);
+  ctx.fillStyle='rgba(180,196,210,0.85)'; ctx.font='700 7px Inter,sans-serif'; ctx.textAlign='left'; ctx.fillText('WHOLESALE PRICE, buy low, sell high',p.x+6,p.y-4);
   ctx.textAlign='right'; ctx.fillStyle=col; ctx.font='700 8px Inter,sans-serif';
   ctx.fillText(mode==='charge'?'PUMPING':mode==='discharge'?'GENERATING':'IDLE',p.x+p.w-6,p.y+p.h+11);
 }
@@ -548,7 +548,7 @@ function drawHUD(){
   ctx.strokeStyle='rgba(255,255,255,0.08)'; ctx.lineWidth=1; ctx.stroke();
   light(x+13,y+13,5,'rgba(55,192,142,1)',0.7);
   ctx.fillStyle=C.aero; ctx.beginPath(); ctx.arc(x+13,y+13,3,0,Math.PI*2); ctx.fill();
-  ctx.fillStyle='#cfe0ea'; ctx.font='700 9px Inter,sans-serif'; ctx.textAlign='left'; ctx.fillText('PUMPED HYDRO — LIVE',x+23,y+16);
+  ctx.fillStyle='#cfe0ea'; ctx.font='700 9px Inter,sans-serif'; ctx.textAlign='left'; ctx.fillText('PUMPED HYDRO, LIVE',x+23,y+16);
   ctx.fillStyle='rgba(170,190,205,0.85)'; ctx.font='9px Inter,sans-serif';
   ctx.fillText(Math.round(soc)+' MWh ('+Math.round(soc/MWH*100)+'%)  ·  '+(mode==='charge'?'pumping':mode==='discharge'?'generating':'idle'),x+12,y+30);
   if(ebHist.length>2){ const sx=x+12,sy=y+38,sh=14,sw=w-24;

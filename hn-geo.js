@@ -1,7 +1,7 @@
-/* Scene configuration for heat-networks.html — a top-down district thermal
+/* Scene configuration for heat-networks.html, a top-down district thermal
    network drawn in 720x520 scene coordinates: a central energy centre (the heat
    or cooling source) feeds a flow main (warm, orange) out to connected buildings
-   and a return main (cool, blue) back — the classic flow/return loop. Buildings
+   and a return main (cool, blue) back, the classic flow/return loop. Buildings
    glow warm with the load factor (how much thermal energy is actually being
    delivered). Each operator carries its own signature: heating vs cooling, the
    energy source, whether it is growing, the building mix, and the area.

@@ -1,4 +1,4 @@
-/* Scene configuration for rolling-stock.html — a top-down TRAIN DEPOT and
+/* Scene configuration for rolling-stock.html, a top-down TRAIN DEPOT and
    RUNNING LINE, drawn in 720x520 scene coordinates: a stabling depot on the left
    with parallel sidings and a maintenance shed (where the unavailable fleet sits),
    and a mainline running line across the canvas where in-service trains run and

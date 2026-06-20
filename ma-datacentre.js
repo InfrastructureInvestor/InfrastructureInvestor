@@ -1,4 +1,4 @@
-/* "M&A in action — a data-centre platform": develop vs buy-stabilised, over the
+/* "M&A in action, a data-centre platform": develop vs buy-stabilised, over the
    same capacity. Powered land built to a pre-let then leased up, vs acquiring a
    fully-let asset at a cap rate. Yearly funding waterfall + equity IRR/MOIC, and
    the development spread (build yield vs exit cap rate). Illustrative ($). */
@@ -63,7 +63,7 @@
     eqCF.forEach(function(v,t){ var bh=Math.max(2,Math.abs(v)/maxAbs*26), cls=v>=0?(t===eqCF.length-1?'pos exit':'pos'):'neg';
       h+='<div class="rs-col"><div class="rs-bar '+cls+'" style="height:'+bh+'px" title="Yr '+t+': '+fM(v)+'"></div></div>'; }); return h; }
 
-  var R=[{k:'dev',name:'Develop',tag:'Build to a pre-let',desc:'Secure powered land, build to a contracted pre-let, then lease up the balance. You capture the spread between the yield you build at and the cap rate you exit on — but take construction and lease-up risk.'},
+  var R=[{k:'dev',name:'Develop',tag:'Build to a pre-let',desc:'Secure powered land, build to a contracted pre-let, then lease up the balance. You capture the spread between the yield you build at and the cap rate you exit on, but take construction and lease-up risk.'},
          {k:'buy',name:'Buy stabilised',tag:'Acquire fully let',desc:'Acquire a fully-leased, cash-generating campus at a market cap rate. Instant, contracted income and low execution risk, but you pay the developer’s margin away and the return is capped.'}];
 
   function run(){
@@ -84,8 +84,8 @@
     }).join('');
     var dev=res[0].m, capRate=1/I.exit, spread=dev.buildYield-capRate;
     el('cFoot').innerHTML='Stabilised EBITDA <b>'+fM(dev.stab)+'</b> on a <b>'+fM(dev.buildTotal)+'</b> build = a <b>'+pct(dev.buildYield)+
-      ' yield-on-cost</b>, against an exit <b>cap rate of '+pct(capRate)+'</b> ('+gv('cExit').toFixed(1)+'×) — a <b>development spread of '+(spread>=0?'+':'')+(spread*100).toFixed(1)+'pts</b>. '+
-      'That spread is the developer’s margin: it is why developing out-returns buying stabilised when you can secure power and a pre-let — and it collapses if build cost rises, lease-up stalls or cap rates widen.';
+      ' yield-on-cost</b>, against an exit <b>cap rate of '+pct(capRate)+'</b> ('+gv('cExit').toFixed(1)+'×), a <b>development spread of '+(spread>=0?'+':'')+(spread*100).toFixed(1)+'pts</b>. '+
+      'That spread is the developer’s margin: it is why developing out-returns buying stabilised when you can secure power and a pre-let, and it collapses if build cost rises, lease-up stalls or cap rates widen.';
   }
 
   var IDS=['cMW','cBuildCost','cPrelet','cTargetLet','cLeaseupYrs','cRate','cOpex','cLev','cRd','cExit','cEntryMult','cHold'];

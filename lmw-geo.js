@@ -1,4 +1,4 @@
-/* Scene configuration for last-mile-water.html — a top-down NEW DEVELOPMENT
+/* Scene configuration for last-mile-water.html, a top-down NEW DEVELOPMENT
    being connected to water and wastewater plot by plot, drawn in 720x520 scene
    coordinates: a connection to the incumbent water main, a clean-water spine main
    into the site (blue), street mains, a grid of plots that connect as they fill,

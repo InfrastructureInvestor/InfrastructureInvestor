@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Student Accommodation Economics — Live Simulation</title>
+<title>Student Accommodation Economics | Live Simulation</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Source+Serif+4:opsz,wght@8..60,400;8..60,500;8..60,600&display=swap" rel="stylesheet">
@@ -152,8 +152,8 @@
 
   <div class="as-head">
     <div class="as-eyebrow">Social Infrastructure · Student accommodation</div>
-    <h2>What fills a student block — and what it earns</h2>
-    <p class="as-sub">Purpose-built student accommodation (PBSA) is a rental-yield play with a powerful demand driver: a fixed pool of students chasing beds near campus. Revenue is simply <b>beds × weekly rent × occupancy</b>, and because you heat, staff and maintain the whole building whether the rooms are full or not, the cost base is largely <b>fixed</b> — so <b>every empty bed is lost rent that falls straight to the bottom line</b>. The case turns on the size of the portfolio, the rent you can push, and how full you keep it.</p>
+    <h2>What fills a student block, and what it earns</h2>
+    <p class="as-sub">Purpose-built student accommodation (PBSA) is a rental-yield play with a powerful demand driver: a fixed pool of students chasing beds near campus. Revenue is simply <b>beds × weekly rent × occupancy</b>, and because you heat, staff and maintain the whole building whether the rooms are full or not, the cost base is largely <b>fixed</b>, so <b>every empty bed is lost rent that falls straight to the bottom line</b>. The case turns on the size of the portfolio, the rent you can push, and how full you keep it.</p>
   </div>
 
   <div class="as-ctrls">
@@ -175,12 +175,12 @@
 
   <div class="as-legend">
     <span class="leg"><span class="dot" style="background:var(--aero)"></span><b>Let room</b>&nbsp;a student in, paying rent</span>
-    <span class="leg"><span class="dot" style="background:var(--cost)"></span><b>Void room</b>&nbsp;empty — lost rent vs fixed costs</span>
+    <span class="leg"><span class="dot" style="background:var(--cost)"></span><b>Void room</b>&nbsp;empty, lost rent vs fixed costs</span>
     <span class="leg"><span class="dot" style="background:var(--comm)"></span><b>Common room</b>&nbsp;study &amp; social space</span>
     <span class="leg"><span class="dot" style="background:#5aa0e6"></span><b>Rent &amp; ancillary</b>&nbsp;collected at reception</span>
   </div>
 
-  <div class="band-label"><span class="t">Flows — annualised from current assumptions</span><span class="ln"></span><span class="hint">per year</span></div>
+  <div class="band-label"><span class="t">Flows, annualised from current assumptions</span><span class="ln"></span><span class="hint">per year</span></div>
   <div class="as-kpis">
     <div class="kpi k-rev"><div class="k">Revenue p.a.</div><div class="v" id="kRev">£0</div><div class="s"><b id="kRevHr">£0</b> / hr</div></div>
     <div class="kpi k-eb"><div class="k">EBITDA p.a.</div><div class="v" id="kEb">£0</div><div class="s"><b id="kMargin">0%</b> margin</div></div>
@@ -188,7 +188,7 @@
     <div class="kpi k-pax"><div class="k">Beds let</div><div class="v" id="kPaxYr">0</div><div class="s"><b id="kThru">97%</b> occupancy</div></div>
   </div>
 
-  <div class="band-label"><span class="t">Stocks — what the flows accumulate into</span><span class="ln"></span><span class="hint">live</span></div>
+  <div class="band-label"><span class="t">Stocks, what the flows accumulate into</span><span class="ln"></span><span class="hint">live</span></div>
   <div class="as-stocks">
     <div class="stock"><div class="k">Beds let now</div><div class="v" id="sPax">0</div><div class="s">of <b id="sCap">5,000</b> beds</div></div>
     <div class="stock"><div class="k">EBITDA banked · session</div><div class="v" id="sBank">£0</div><div class="s">accumulating in real time</div></div>
@@ -204,7 +204,7 @@
       <div class="split-seg seg-aero" id="segAero">Accommodation</div>
       <div class="split-seg seg-comm" id="segComm">Ancillary</div>
     </div>
-    <div class="split-foot"><b>Why investors like PBSA:</b> demand is counter-cyclical and structural — student numbers tend to hold up (or rise) in a downturn, leases are short so rents reset to the market every year, and bills are bundled so income is inflation-protected. Add high, sticky occupancy near good universities and you get a resilient, growing real-estate annuity that trades on a keen yield. The risk is <b>local oversupply</b>: because costs are fixed, occupancy and rent are what move the return.</div>
+    <div class="split-foot"><b>Why investors like PBSA:</b> demand is counter-cyclical and structural, student numbers tend to hold up (or rise) in a downturn, leases are short so rents reset to the market every year, and bills are bundled so income is inflation-protected. Add high, sticky occupancy near good universities and you get a resilient, growing real-estate annuity that trades on a keen yield. The risk is <b>local oversupply</b>: because costs are fixed, occupancy and rent are what move the return.</div>
   </div>
 
   <div class="as-panels">
@@ -212,8 +212,8 @@
     <div class="panel"><div class="ptitle">Operating costs<span class="pt-sum" id="costSum">£0 p.a.</span></div><div id="costRows"></div></div>
   </div>
 
-  <div class="band-label"><span class="t">Investment case — should you buy it?</span><span class="ln"></span><span class="hint">DCF returns</span></div>
-  <p class="calc-note">Year-1 financials flow live from the simulation above: revenue <b id="cBaseRev">£0</b> and EBITDA <b id="cBaseEb">£0</b> p.a. Set your deal terms below — the <b style="color:var(--aero)">unlevered IRR</b> (asset return) and <b style="color:var(--accent)">levered IRR</b> (return to equity, after debt) recompute instantly.</p>
+  <div class="band-label"><span class="t">Investment case, should you buy it?</span><span class="ln"></span><span class="hint">DCF returns</span></div>
+  <p class="calc-note">Year-1 financials flow live from the simulation above: revenue <b id="cBaseRev">£0</b> and EBITDA <b id="cBaseEb">£0</b> p.a. Set your deal terms below, the <b style="color:var(--aero)">unlevered IRR</b> (asset return) and <b style="color:var(--accent)">levered IRR</b> (return to equity, after debt) recompute instantly.</p>
 
   <div class="calc-grid">
     <div class="cgroup"><h4>Operating</h4>
@@ -251,11 +251,11 @@
   </div>
 
   <div class="jwrap tscroll">
-    <div class="jhead"><span class="t">Projection — £m per year</span></div>
+    <div class="jhead"><span class="t">Projection, £m per year</span></div>
     <table class="ptable"><thead id="ptHead"></thead><tbody id="ptBody"></tbody></table>
   </div>
 
-  <p class="as-foot"><b>Illustrative model.</b> Represents a purpose-built student accommodation (PBSA) portfolio. Revenue = beds × weekly rent × occupancy over a ~51-week academic-year contract, plus ancillary income (summer lettings &amp; conferences, services). Operating costs (staffing &amp; security, utilities, maintenance &amp; cleaning, marketing &amp; lettings, a management fee and insurance &amp; rates) are dominated by per-bed running costs that are largely fixed against occupancy — so every void bed is lost rent against a standing cost base. EBITDA (net operating income) = revenue − operating costs; excludes upfront development/acquisition cost. The investment case is a simplified DCF on a yield asset. For illustration only — not investment advice, and not any specific asset.</p>
+  <p class="as-foot"><b>Illustrative model.</b> Represents a purpose-built student accommodation (PBSA) portfolio. Revenue = beds × weekly rent × occupancy over a ~51-week academic-year contract, plus ancillary income (summer lettings &amp; conferences, services). Operating costs (staffing &amp; security, utilities, maintenance &amp; cleaning, marketing &amp; lettings, a management fee and insurance &amp; rates) are dominated by per-bed running costs that are largely fixed against occupancy, so every void bed is lost rent against a standing cost base. EBITDA (net operating income) = revenue − operating costs; excludes upfront development/acquisition cost. The investment case is a simplified DCF on a yield asset. For illustration only, not investment advice, and not any specific asset.</p>
 
 </div>
 
@@ -351,7 +351,7 @@ function renderModel(){
   document.getElementById('cBaseEb').textContent=money(baseEbYr);
   const m=computeModel();
   const set=(id,t)=>{ const e=document.getElementById(id); if(e) e.textContent=t; };
-  if(!m){ ['oUIRR','oLIRR','oMOIC','oProfit'].forEach(id=>set(id,'—')); document.getElementById('calcSum').innerHTML='<span class="lbl">At this tenancy / rent the EBITDA is too thin to value on a multiple — add tenants or raise the rent.</span>'; return; }
+  if(!m){ ['oUIRR','oLIRR','oMOIC','oProfit'].forEach(id=>set(id,'—')); document.getElementById('calcSum').innerHTML='<span class="lbl">At this tenancy / rent the EBITDA is too thin to value on a multiple, add tenants or raise the rent.</span>'; return; }
   set('oUIRR',pctTxt(m.uIRR)); set('oLIRR',pctTxt(m.lIRR));
   set('oMOIC',isFinite(m.moic)?m.moic.toFixed(2)+'×':'—');
   set('oProfit',money(m.profit));
@@ -429,7 +429,7 @@ function drawBlock(beds,occ){
     ctx.fillStyle='rgba(20,24,30,0.55)'; ctx.fillRect(wx,wy+wh*0.5,ww,1);                   // transom
   }
 }
-// a student in a let room — at the desk studying or up at the window; dark silhouette against the warm light
+// a student in a let room, at the desk studying or up at the window; dark silhouette against the warm light
 function drawResident(wx,wy,ww,wh,seed){
   const k=seed%3, cx=wx+ww*0.5, baseY=wy+wh-2;
   ctx.fillStyle=FIG;
@@ -458,7 +458,7 @@ function standFigure(x,footY,seed){
   ctx.beginPath(); ctx.roundRect(x-3+sway*0.5,footY-14,6,12,2); ctx.fill();
   ctx.beginPath(); ctx.arc(x+sway*0.5,footY-17,2.6,0,Math.PI*2); ctx.fill();
 }
-// the glazed ground-floor common room — study & social space; livelier when the block is full
+// the glazed ground-floor common room, study & social space; livelier when the block is full
 function drawCommonRoom(beds,occ){
   const x0=WB_X-12, w=WB_COLS*WB_CW+24, y0=GRID_BOT, h=COMMON_H, floorY=PAVE-6;
   ctx.fillStyle='#2a2620'; ctx.fillRect(x0,y0,w,h);                          // interior
@@ -468,14 +468,14 @@ function drawCommonRoom(beds,occ){
   ctx.strokeStyle='rgba(150,165,170,0.22)'; ctx.lineWidth=1;                  // glazing mullions
   for(let x=x0+26;x<x0+w;x+=30){ ctx.beginPath(); ctx.moveTo(x,y0+2); ctx.lineTo(x,floorY); ctx.stroke(); }
   ctx.fillStyle='rgba(150,170,150,0.5)'; ctx.font='700 7px Inter,sans-serif'; ctx.textAlign='left'; ctx.fillText('COMMON ROOM',x0+8,y0-4);
-  // how busy — scales with beds let
+  // how busy, scales with beds let
   const nLet=Math.round(winCount(beds)*occ), groups=Math.max(2,Math.min(7,Math.round(nLet/8)));
   for(let g=0;g<groups;g++){ const gx=x0+30+(g+0.5)*(w-60)/groups;
     if(g%2===0){ // study table with two seated
       ctx.fillStyle='#4a4036'; ctx.beginPath(); ctx.ellipse(gx,floorY-1,14,4,0,0,Math.PI*2); ctx.fill();
       ctx.fillStyle='#cfd6dd'; ctx.fillRect(gx-2,floorY-4,4,2);              // laptop / books
       seatedFigure(gx-12,floorY,g+1,1); seatedFigure(gx+12,floorY,g+2,-1);
-    } else { // sofa cluster — standing chat
+    } else { // sofa cluster, standing chat
       ctx.fillStyle='#3a3a44'; ctx.beginPath(); ctx.roundRect(gx-13,floorY-5,26,5,2); ctx.fill();
       standFigure(gx-6,floorY-1,g+3); standFigure(gx+7,floorY-1,g+4);
     }
@@ -566,7 +566,7 @@ function drawHUD(){
   ctx.strokeStyle='rgba(255,255,255,0.08)'; ctx.lineWidth=1; ctx.stroke();
   light(x+13,y+13,5,'rgba(55,192,142,1)',0.7);
   ctx.fillStyle=C.aero; ctx.beginPath(); ctx.arc(x+13,y+13,3,0,Math.PI*2); ctx.fill();
-  ctx.fillStyle='#cfe0ea'; ctx.font='700 9px Inter,sans-serif'; ctx.textAlign='left'; ctx.fillText('STUDENT RESIDENCE — LIVE',x+23,y+16);
+  ctx.fillStyle='#cfe0ea'; ctx.font='700 9px Inter,sans-serif'; ctx.textAlign='left'; ctx.fillText('STUDENT RESIDENCE, LIVE',x+23,y+16);
   ctx.fillStyle='rgba(170,190,205,0.85)'; ctx.font='9px Inter,sans-serif';
   ctx.fillText(Math.round(visBeds*visOcc).toLocaleString()+' beds let  ·  '+(visOcc*100).toFixed(1)+'% occupancy',x+12,y+30);
   if(ebHist.length>2){ const sx=x+12,sy=y+38,sh=14,sw=w-24;
@@ -584,7 +584,7 @@ function draw(){
   drawBlock(visBeds,visOcc);
   drawCommonRoom(visBeds,visOcc);
   drawEntrance();
-  ctx.fillStyle='rgba(170,180,190,0.55)'; ctx.font='700 7px Inter,sans-serif'; ctx.textAlign='center'; ctx.fillText('PURPOSE-BUILT STUDENT ACCOMMODATION — let rooms light up; every void is lost rent against fixed costs',W/2,H-6);
+  ctx.fillStyle='rgba(170,180,190,0.55)'; ctx.font='700 7px Inter,sans-serif'; ctx.textAlign='center'; ctx.fillText('PURPOSE-BUILT STUDENT ACCOMMODATION, let rooms light up; every void is lost rent against fixed costs',W/2,H-6);
   moneys.forEach(m=>{ const a=Math.max(0,Math.min(1,m.life*0.8)); ctx.save(); ctx.globalAlpha=a;
     ctx.font='700 9px Inter,sans-serif'; ctx.textAlign='left'; const cost=(m.col===C.cost); const tw=ctx.measureText((cost?'−£ ':'£ ')+m.label).width;
     ctx.fillStyle='rgba(8,16,30,0.55)'; ctx.beginPath(); ctx.roundRect(m.x-tw/2-4,m.y-9,tw+8,13,6); ctx.fill();

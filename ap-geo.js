@@ -1,4 +1,4 @@
-/* Stylised but characteristic top-down airfield layouts for airports.html — drawn in
+/* Stylised but characteristic top-down airfield layouts for airports.html, drawn in
    scene coordinates (720 x 520). North is up. The vertical stratification is fixed by
    the engine: runways across the top, an apron taxiway, a row of contact stands at the
    terminal, then the landside forecourt, access road and car park at the bottom.

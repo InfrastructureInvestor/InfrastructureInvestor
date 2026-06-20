@@ -211,7 +211,7 @@
 
   <div class="page-header">
     <h1>Infrastructure WACC Calculator</h1>
-    <p>Risk-adjusted discount rate builder for regulated utility assets. Every input moves the rate — riskier characteristics push it up, safer ones pull it down.</p>
+    <p>Risk-adjusted discount rate builder for regulated utility assets. Every input moves the rate, riskier characteristics push it up, safer ones pull it down.</p>
   </div>
 
   <div class="top-grid">
@@ -260,7 +260,7 @@
     </div>
     <div class="section-body" id="gilt-body">
       <div class="gilt-row">
-        <label>Gilt yield<small>10-year nominal benchmark — current ~4.5%</small></label>
+        <label>Gilt yield<small>10-year nominal benchmark, current ~4.5%</small></label>
         <input type="range" min="2" max="8" step="0.1" value="4.5" id="gilt-range" oninput="updateGilt(this.value)" />
         <span class="slider-val" id="gilt-val">4.5%</span>
       </div>
@@ -279,7 +279,7 @@
   <div class="section">
     <div class="section-header" onclick="toggleSection('l3')">
       <div>
-        <div class="section-title">Risk taxonomy — rate adjustments</div>
+        <div class="section-title">Risk taxonomy, rate adjustments</div>
         <div class="section-subtitle">Each factor adds or removes basis points from the asset class baseline</div>
       </div>
       <div style="display:flex;align-items:center;">
@@ -380,8 +380,8 @@
   <div class="section">
     <div class="section-header" onclick="toggleSection('l2')">
       <div>
-        <div class="section-title">Option value — rate offset</div>
-        <div class="section-subtitle">Higher-probability options reduce the required return — value outside the DCF lowers the yield needed from cash flows</div>
+        <div class="section-title">Option value, rate offset</div>
+        <div class="section-subtitle">Higher-probability options reduce the required return, value outside the DCF lowers the yield needed from cash flows</div>
       </div>
       <div style="display:flex;align-items:center;">
         <div class="section-delta" id="l2-delta">—</div>
@@ -395,9 +395,9 @@
         <div class="row-label">Portfolio synergy<small>Internalised portfolio value reduces required standalone return</small></div>
         <div class="row-right">
           <div class="toggle-group" id="port-syn">
-            <button class="toggle-btn" data-bps="-40" onclick="setT('port-syn',this,'active-low');recalc()">High — material synergies<span class="bps-hint">−40bps</span></button>
+            <button class="toggle-btn" data-bps="-40" onclick="setT('port-syn',this,'active-low');recalc()">High, material synergies<span class="bps-hint">−40bps</span></button>
             <button class="toggle-btn" data-bps="-15" onclick="setT('port-syn',this,'active-mid');recalc()">Moderate<span class="bps-hint">−15bps</span></button>
-            <button class="toggle-btn" data-bps="0"   onclick="setT('port-syn',this,'');recalc()">Low — standalone<span class="bps-hint">0bps</span></button>
+            <button class="toggle-btn" data-bps="0"   onclick="setT('port-syn',this,'');recalc()">Low, standalone<span class="bps-hint">0bps</span></button>
           </div>
           <span class="bps-tag" id="bps-port-syn">—</span>
         </div>
@@ -408,7 +408,7 @@
   <!-- Waterfall -->
   <div class="section">
     <div class="section-header" onclick="toggleSection('wf')">
-      <div><div class="section-title">Rate build — waterfall</div></div>
+      <div><div class="section-title">Rate build, waterfall</div></div>
       <div style="display:flex;align-items:center;"><div class="chevron" id="wf-chev">▼</div></div>
     </div>
     <div class="section-body" id="wf-body">
@@ -443,7 +443,7 @@
             <td>Regulatory framework maturity</td>
             <td><span class="w-low">−30</span> / <span class="w-mid">+20</span> / <span class="w-high">+75</span> bps</td>
             <td>105bps</td>
-            <td>The single largest driver of cash flow certainty in regulated infrastructure. A mature price control provides an allowed revenue floor, a reset mechanism, and a known regulatory philosophy. The absence of any price control introduces near-full merchant risk — hence the widest range of any factor.</td>
+            <td>The single largest driver of cash flow certainty in regulated infrastructure. A mature price control provides an allowed revenue floor, a reset mechanism, and a known regulatory philosophy. The absence of any price control introduces near-full merchant risk, hence the widest range of any factor.</td>
           </tr>
           <tr>
             <td>Revenue predictability</td>
@@ -455,31 +455,31 @@
             <td>Demand and load risk</td>
             <td><span class="w-low">−15</span> / <span class="w-mid">+25</span> / <span class="w-high">+65</span> bps</td>
             <td>80bps</td>
-            <td>Distinct from revenue predictability — this is specifically about whether the underlying demand assumption is captive or behavioural. Captive demand is near-certain; adoption-dependent demand introduces non-linear risk that standard DCF sensitivity analysis tends to understate.</td>
+            <td>Distinct from revenue predictability, this is specifically about whether the underlying demand assumption is captive or behavioural. Captive demand is near-certain; adoption-dependent demand introduces non-linear risk that standard DCF sensitivity analysis tends to understate.</td>
           </tr>
           <tr>
             <td>Technology and obsolescence risk</td>
             <td><span class="w-low">−10</span> / <span class="w-mid">+20</span> / <span class="w-high">+55</span> bps</td>
             <td>65bps</td>
-            <td>Weighted lower than regulatory and demand risk because technology substitution tends to be slow in physical network infrastructure. However for assets operating in less-settled technology environments it becomes material — a new standard or competing solution could strand the asset base within the hold period.</td>
+            <td>Weighted lower than regulatory and demand risk because technology substitution tends to be slow in physical network infrastructure. However for assets operating in less-settled technology environments it becomes material, a new standard or competing solution could strand the asset base within the hold period.</td>
           </tr>
           <tr>
             <td>Political and policy durability</td>
             <td><span class="w-low">−15</span> / <span class="w-mid">+15</span> / <span class="w-high">+45</span> bps</td>
             <td>60bps</td>
-            <td>Weighted moderately — infrastructure regulation has historically been stable and the statutory underpinning of most price controls provides meaningful insulation from political reversal. The range is narrower than regulatory maturity because even assets facing policy risk rarely lose their physical network value entirely.</td>
+            <td>Weighted moderately, infrastructure regulation has historically been stable and the statutory underpinning of most price controls provides meaningful insulation from political reversal. The range is narrower than regulatory maturity because even assets facing policy risk rarely lose their physical network value entirely.</td>
           </tr>
           <tr>
             <td>Counterparty and contract quality</td>
             <td><span class="w-low">−10</span> / <span class="w-mid">+15</span> / <span class="w-high">+40</span> bps</td>
             <td>50bps</td>
-            <td>A secondary factor — in regulated infrastructure the regulatory framework typically substitutes for contractual certainty. The weight rises for assets relying on specific commercial relationships such as heat network anchor loads or EVPC fleet agreements.</td>
+            <td>A secondary factor, in regulated infrastructure the regulatory framework typically substitutes for contractual certainty. The weight rises for assets relying on specific commercial relationships such as heat network anchor loads or EVPC fleet agreements.</td>
           </tr>
           <tr>
             <td>Hold period / asset longevity</td>
             <td><span class="w-low">−10</span> / <span class="w-mid">+15</span> / <span class="w-high">+35</span> bps</td>
             <td>45bps</td>
-            <td>The narrowest risk range — physical infrastructure assets generally have very long economic lives. The adjustment primarily penalises assets where the investment thesis depends on a technology lifecycle that may not extend to the assumed hold period without significant reinvestment.</td>
+            <td>The narrowest risk range, physical infrastructure assets generally have very long economic lives. The adjustment primarily penalises assets where the investment thesis depends on a technology lifecycle that may not extend to the assumed hold period without significant reinvestment.</td>
           </tr>
         </tbody>
       </table>
@@ -497,17 +497,17 @@
           <tr>
             <td>Asset-specific options</td>
             <td>−15 to −60bps at high probability</td>
-            <td>Option value offsets reflect the probability-weighted NPV of unmodelled upside. If a material portion of the asset's true value is captured outside the DCF — regulatory ratchet, grid services revenue, network densification — the investor accepts a lower cash yield because total return compensates adequately. Options assessed as low probability carry zero offset, preserving analytical discipline.</td>
+            <td>Option value offsets reflect the probability-weighted NPV of unmodelled upside. If a material portion of the asset's true value is captured outside the DCF, regulatory ratchet, grid services revenue, network densification, the investor accepts a lower cash yield because total return compensates adequately. Options assessed as low probability carry zero offset, preserving analytical discipline.</td>
           </tr>
           <tr>
             <td>Portfolio synergy</td>
             <td><span class="w-low">−40bps</span> / <span class="w-mid">−15bps</span> / 0bps</td>
-            <td>The largest single offset available. Justified where owning the asset creates value in the wider portfolio not captured in the standalone DCF: vertical integration, cost internalisation, or informational advantages from combined load data. Should only be applied where the synergy is specific, named, and quantifiable — not as a general portfolio premium.</td>
+            <td>The largest single offset available. Justified where owning the asset creates value in the wider portfolio not captured in the standalone DCF: vertical integration, cost internalisation, or informational advantages from combined load data. Should only be applied where the synergy is specific, named, and quantifiable, not as a general portfolio premium.</td>
           </tr>
         </tbody>
       </table>
 
-      <div class="weight-note">These weights are calibrated for regulated infrastructure and should be reviewed against current Ofgem / Ofwat WACC determinations and recent comparable transaction evidence before use in a live investment process. The asset class baseline spreads embed the current gilt environment — if the gilt yield moves materially, revisit the baseline spreads accordingly.</div>
+      <div class="weight-note">These weights are calibrated for regulated infrastructure and should be reviewed against current Ofgem / Ofwat WACC determinations and recent comparable transaction evidence before use in a live investment process. The asset class baseline spreads embed the current gilt environment, if the gilt yield moves materially, revisit the baseline spreads accordingly.</div>
     </div>
   </div>
 
@@ -520,13 +520,13 @@
 
 <script>
 const assetBases = {
-  idno:       { spread: 150, label: 'Domestic electricity — mature RIIO framework, RAB-backed' },
-  commercial: { spread: 175, label: 'Commercial electricity — regulated, moderate complexity' },
-  gas:        { spread: 160, label: 'Gas distribution — mature RIIO-GD framework, RAB-backed' },
-  water:      { spread: 155, label: 'Water network — Ofwat PR24 framework, RAB-backed' },
-  wastewater: { spread: 165, label: 'Wastewater network — Ofwat PR24, elevated capex obligations' },
-  heat:       { spread: 280, label: 'Heat network — developing regulation, no RAB yet' },
-  evpc:       { spread: 310, label: 'EV charging — merchant exposure, immature framework' },
+  idno:       { spread: 150, label: 'Domestic electricity, mature RIIO framework, RAB-backed' },
+  commercial: { spread: 175, label: 'Commercial electricity, regulated, moderate complexity' },
+  gas:        { spread: 160, label: 'Gas distribution, mature RIIO-GD framework, RAB-backed' },
+  water:      { spread: 155, label: 'Water network, Ofwat PR24 framework, RAB-backed' },
+  wastewater: { spread: 165, label: 'Wastewater network, Ofwat PR24, elevated capex obligations' },
+  heat:       { spread: 280, label: 'Heat network, developing regulation, no RAB yet' },
+  evpc:       { spread: 310, label: 'EV charging, merchant exposure, immature framework' },
 };
 
 const optionDefs = {
@@ -549,7 +549,7 @@ const optionDefs = {
   ],
   water:[
     {label:'PR29 efficiency outperformance',bps:[-25,-10,0]},
-    {label:'ODI reward — leakage / service',bps:[-20,-8,0]},
+    {label:'ODI reward, leakage / service',bps:[-20,-8,0]},
     {label:'RAB growth through capex programme',bps:[-30,-12,0]},
     {label:'Strategic acquisition premium',bps:[-20,-8,0]},
   ],
@@ -560,7 +560,7 @@ const optionDefs = {
     {label:'Nutrient neutrality regulatory income',bps:[-15,-6,0]},
   ],
   heat:[
-    {label:'Heat Network Zoning — mandatory connections',bps:[-50,-20,0]},
+    {label:'Heat Network Zoning, mandatory connections',bps:[-50,-20,0]},
     {label:'RAB framework introduction',bps:[-60,-20,0]},
     {label:'Anchor load densification',bps:[-35,-15,0]},
     {label:'Low-carbon heat source transition',bps:[-30,-12,0]},
@@ -592,7 +592,7 @@ function buildOptionRows(asset){
     div.className='row';
     div.innerHTML=
       '<div class="row-label" style="padding-top:6px;">'+o.label+
-      '<small>Option offset — reduces required return if probable</small></div>'+
+      '<small>Option offset, reduces required return if probable</small></div>'+
       '<div class="row-right">'+
       '<div class="toggle-group" id="'+id+'">'+
       '<button class="toggle-btn" data-bps="'+o.bps[0]+'" onclick="setT(\''+id+'\',this,\'active-low\');recalc()">High probability<span class="bps-hint">'+o.bps[0]+'bps</span></button>'+
@@ -750,7 +750,7 @@ function exportText(){
   var assetEl=document.getElementById('assetType');
   var assetLabel=assetEl.options[assetEl.selectedIndex]?assetEl.options[assetEl.selectedIndex].text:'';
   var rate=document.getElementById('rate-out').textContent;
-  var out='INFRASTRUCTURE WACC CALCULATOR — RATE SUMMARY\n';
+  var out='INFRASTRUCTURE WACC CALCULATOR, RATE SUMMARY\n';
   out+='==========================================\n';
   out+='Deal: '+name+'  |  Asset: '+assetLabel+'\n';
   out+='Recommended nominal WACC: '+rate+'%\n\n';

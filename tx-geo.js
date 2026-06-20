@@ -1,4 +1,4 @@
-/* Scene configuration for electricity-transmission.html — a side-elevation grid
+/* Scene configuration for electricity-transmission.html, a side-elevation grid
    landscape drawn in 720x520 scene coordinates: generation (left) → step-up
    substation → a corridor of pylons carrying HV/HVDC lines → step-down
    substation → the demand city (right), with animated power flow and a

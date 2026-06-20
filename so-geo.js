@@ -1,4 +1,4 @@
-/* Scene configuration for solar.html — a top-down utility-scale PV solar farm
+/* Scene configuration for solar.html, a top-down utility-scale PV solar farm
    drawn in 720x520 scene coordinates: neat rows of tilted PV panel tables fill
    the scene, a sun glyph in the corner whose glow ties to the capacity factor
    casts light rays across the array, and a combiner/substation exports power out

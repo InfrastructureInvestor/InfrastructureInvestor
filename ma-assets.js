@@ -1,4 +1,4 @@
-/* Infrastructure project financials — auto-generated from the reference-page models.
+/* Infrastructure project financials, auto-generated from the reference-page models.
    Source of truth for the M&A module asset picker. Regenerate with the throwaway
    harvester if the reference models change. Do not hand-edit. */
 window.MA_ASSETS = {

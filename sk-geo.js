@@ -1,4 +1,4 @@
-/* Scene configuration for schools.html — a top-down / elevation SCHOOL CAMPUS,
+/* Scene configuration for schools.html, a top-down / elevation SCHOOL CAMPUS,
    drawn in 720x520 scene coordinates: one or two school buildings with rows of lit
    classroom windows, a playground / sports pitch (a green field with markings), a
    covered entrance and a small bus drop-off, plus a local-authority icon that pays

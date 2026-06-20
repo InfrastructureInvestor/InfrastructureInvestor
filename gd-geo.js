@@ -1,4 +1,4 @@
-/* Scene configuration for gas-distribution.html — a top-down town gas network
+/* Scene configuration for gas-distribution.html, a top-down town gas network
    drawn in 720x520: a city gate (taking gas from the transmission grid) feeds
    medium-pressure gas mains along the streets to district governors (pressure
    reduction), then service connections to homes (gas boilers), commercial and

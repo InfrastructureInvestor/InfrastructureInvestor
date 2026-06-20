@@ -331,7 +331,7 @@
   <div class="chart-wrap">
 
     <div class="chart-box">
-      <div class="chart-label">Revenue Waterfall — Base to Total Allowed Revenue</div>
+      <div class="chart-label">Revenue Waterfall, Base to Total Allowed Revenue</div>
       <svg id="waterfall" viewBox="0 0 620 300"></svg>
       <div class="legend">
         <div class="legend-item"><div class="legend-dot" style="background:var(--accent)"></div>Base / Total</div>
@@ -354,7 +354,7 @@
     <div class="cards" id="cards"></div>
 
     <div class="footnote">
-      * Values are editable — set them to match your target DNO's Final Determination.<br>
+      * Values are editable, set them to match your target DNO's Final Determination.<br>
       † Totex uses ~40% sharing factor between company and consumers under RIIO-ED2.<br>
       ‡ Negative ODI adjustments reduce allowed revenue; use the +/− toggle on the Adjustments row.
     </div>
@@ -366,7 +366,7 @@
 // ── Data model ──────────────────────────────────────────────────────────────
 const DEFS = [
   { id:'base',  label:'Base Revenue',        tag:'BASE',  color:'accent',  cssVar:'--accent',
-    desc:'Baseline revenue set at Final Determination to recover ongoing efficient costs — maintenance, business support, financing.',
+    desc:'Baseline revenue set at Final Determination to recover ongoing efficient costs, maintenance, business support, financing.',
     default: 210, sign: 1 },
   { id:'totex', label:'Totex Allowance',      tag:'TOTEX', color:'green',   cssVar:'--green',
     desc:'Total expenditure allowance (capex + opex). ~40% sharing factor means over/under-runs are partly borne by the company.',
@@ -375,7 +375,7 @@ const DEFS = [
     desc:'Return on Regulatory Asset Base. Calculated as WACC × opening RAB. RIIO-ED2 WACC ≈ 4.25% CPIH-real.',
     default: 52,  sign: 1 },
   { id:'dep',   label:'Depreciation',         tag:'DEP',   color:'teal',    cssVar:'--teal',
-    desc:'Regulatory depreciation — straight-line recovery of the RAB over asset lives (typically 40–45 years for network assets).',
+    desc:'Regulatory depreciation, straight-line recovery of the RAB over asset lives (typically 40–45 years for network assets).',
     default: 28,  sign: 1 },
   { id:'inc',   label:'Incentive Revenue',    tag:'INC',   color:'amber',   cssVar:'--amber',
     desc:'Revenue earned by outperforming Output Delivery Incentives (ODIs): reliability (CML/CI), customer satisfaction, connections.',
@@ -385,7 +385,7 @@ const DEFS = [
     default: 6,   sign: -1 },
 ];
 
-// Live state — value is signed directly from the input
+// Live state, value is signed directly from the input
 const state = {};
 DEFS.forEach(d => { state[d.id] = d.default * d.sign; });
 
