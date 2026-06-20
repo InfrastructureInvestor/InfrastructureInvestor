@@ -33,16 +33,63 @@
     footer.parentNode.insertBefore(pager, footer);
   })();
 
-  /* ---------------- Footer contact link ---------------- */
+  /* ---------------- Premium site footer (rebuilds every page's <footer>) ---------------- */
   (function () {
-    var ft = document.querySelector('footer .footer-text');
-    if (!ft || ft.querySelector('a[href="contact.html"]')) return;
-    ft.appendChild(document.createTextNode(' · '));
-    var a = document.createElement('a');
-    a.href = 'contact.html'; a.textContent = 'Contact';
-    a.style.cssText = 'color:var(--accent);text-decoration:none;font-weight:600';
-    if (here === 'contact.html') a.setAttribute('aria-current', 'page');
-    ft.appendChild(a);
+    var footer = document.querySelector('footer');
+    if (!footer || footer.classList.contains('site-footer')) return;
+
+    var cols = [
+      { h: 'Asset classes', links: [
+        ['Energy & Utilities', 'energy-utilities.html'],
+        ['Transport', 'transport.html'],
+        ['Digital infrastructure', 'digital-infrastructure.html'],
+        ['Social infrastructure', 'social-infrastructure.html'],
+        ['Energy transition', 'energy-transition.html'],
+        ['Environmental & waste', 'environmental-waste.html']
+      ]},
+      { h: 'Tools & analysis', links: [
+        ['Cash-flow & DCF model', 'cashflow-model.html'],
+        ['WACC calculator', 'wacc-calculator.html'],
+        ['Macro dashboard', 'macro_dashboard.html'],
+        ['Regulatory tracker', 'regulatory_tracker.html'],
+        ['Compare returns', 'compare.html']
+      ]},
+      { h: 'M&A & deals', links: [
+        ['Infrastructure M&A', 'infrastructure-ma.html'],
+        ['Deals database', 'infrastructure-deals.html'],
+        ['M&A in action', 'ma-in-action.html'],
+        ['Community', 'community.html'],
+        ['Contact', 'contact.html']
+      ]}
+    ];
+
+    function esc(s) { return s.replace(/&/g, '&amp;'); }
+    var html = '<div class="wrap">';
+    html += '<div class="sf-top">';
+    html += '<div class="sf-brand">' +
+              '<a class="sf-mark" href="index.html" style="text-decoration:none">' +
+                '<span class="brand-mark"><span></span></span>' +
+                '<span class="brand-name">Infrastructure Investor</span>' +
+              '</a>' +
+              '<p class="sf-blurb">A reference and analysis platform for infrastructure capital — how each asset class earns, what it is worth, and how it trades.</p>' +
+            '</div>';
+    cols.forEach(function (c) {
+      html += '<div class="sf-col"><h4>' + esc(c.h) + '</h4>';
+      c.links.forEach(function (l) {
+        var cur = l[1] === here ? ' aria-current="page"' : '';
+        html += '<a href="' + l[1] + '"' + cur + '>' + esc(l[0]) + '</a>';
+      });
+      html += '</div>';
+    });
+    html += '</div>';
+    html += '<div class="sf-bottom">' +
+              '<div class="sf-copy">© ' + (new Date().getFullYear()) + ' Infrastructure Investor · theinfrastructureinvestor.com</div>' +
+              '<div class="sf-meta">Educational reference, not investment advice · <a href="contact.html">Contact</a></div>' +
+            '</div>';
+    html += '</div>';
+
+    footer.className = 'site-footer';
+    footer.innerHTML = html;
   })();
 
   /* ---------------- Contact form (Web3Forms) — contact.html only ---------------- */
@@ -136,39 +183,71 @@
     var meta = wrap.querySelector('.nav-meta');
     if (meta) meta.classList.add('nav-meta-hide');
 
+    /* Upgrade the brand lockup (logo) into a mark + wordmark + descriptor */
+    var logo = wrap.querySelector('.nav-logo');
+    if (logo) {
+      logo.classList.add('brand-lockup');
+      logo.innerHTML =
+        '<span class="brand-mark"><span></span></span>' +
+        '<span class="brand-text">' +
+          '<span class="brand-name">Infrastructure Investor</span>' +
+          '<span class="brand-tag">Reference &amp; Analysis</span>' +
+        '</span>';
+    }
+
     var actions = document.createElement('div');
     actions.className = 'nav-actions';
 
-    // Asset-classes dropdown
-    var dd = document.createElement('div');
-    dd.className = 'nav-dd';
-    var ddBtn = document.createElement('button');
-    ddBtn.className = 'nav-link nav-dd-btn';
-    ddBtn.type = 'button';
-    ddBtn.innerHTML = 'Asset classes <span class="caret">▾</span>';
-    var ddMenu = document.createElement('div');
-    ddMenu.className = 'nav-dd-menu';
-    classes.forEach(function (c) {
-      var a = document.createElement('a');
-      a.href = c.u; a.textContent = c.t;
-      if (c.u === here) a.className = 'on';
-      ddMenu.appendChild(a);
-    });
-    dd.appendChild(ddBtn); dd.appendChild(ddMenu);
-    ddBtn.addEventListener('click', function (e) {
-      e.stopPropagation(); dd.classList.toggle('open');
-    });
-    document.addEventListener('click', function () { dd.classList.remove('open'); });
+    var menuOpen = []; // track open dropdowns to close on outside click
+    function makeDropdown(label, items) {
+      var dd = document.createElement('div');
+      dd.className = 'nav-dd';
+      var btn = document.createElement('button');
+      btn.className = 'nav-link nav-dd-btn'; btn.type = 'button';
+      btn.innerHTML = label + ' <span class="caret">▾</span>';
+      var menu = document.createElement('div');
+      menu.className = 'nav-dd-menu';
+      var active = false;
+      items.forEach(function (it) {
+        var a = document.createElement('a');
+        a.href = it.u; a.textContent = it.t;
+        if (it.u === here) { a.className = 'on'; active = true; }
+        menu.appendChild(a);
+      });
+      if (active) btn.classList.add('on');
+      dd.appendChild(btn); dd.appendChild(menu);
+      btn.addEventListener('click', function (e) {
+        e.stopPropagation();
+        var wasOpen = dd.classList.contains('open');
+        menuOpen.forEach(function (d) { d.classList.remove('open'); });
+        if (!wasOpen) dd.classList.add('open');
+      });
+      menuOpen.push(dd);
+      return dd;
+    }
 
-    // Contact link (beside Asset classes)
+    var toolItems = [
+      { t: 'Cash-flow & DCF model', u: 'cashflow-model.html' },
+      { t: 'WACC calculator', u: 'wacc-calculator.html' },
+      { t: 'Macro dashboard', u: 'macro_dashboard.html' },
+      { t: 'Regulatory tracker', u: 'regulatory_tracker.html' },
+      { t: 'RIIO-ED2 calculator', u: 'riio_ed2_calculator.html' },
+      { t: 'Compare returns', u: 'compare.html' }
+    ];
+    var maItems = [
+      { t: 'Infrastructure M&A', u: 'infrastructure-ma.html' },
+      { t: 'Deals database', u: 'infrastructure-deals.html' },
+      { t: 'M&A in action', u: 'ma-in-action.html' }
+    ];
+
+    actions.appendChild(makeDropdown('Asset classes', classes));
+    actions.appendChild(makeDropdown('Tools', toolItems));
+    actions.appendChild(makeDropdown('M&amp;A', maItems));
+
+    // Contact link
     var contactTop = document.createElement('a');
     contactTop.className = 'nav-link'; contactTop.href = 'contact.html'; contactTop.textContent = 'Contact';
     if (here === 'contact.html') contactTop.classList.add('on');
-
-    // Compare link
-    var cmp = document.createElement('a');
-    cmp.className = 'nav-link'; cmp.href = 'compare.html'; cmp.textContent = 'Compare';
-    if (here === 'compare.html') cmp.classList.add('on');
 
     // Search trigger
     var search = document.createElement('button');
@@ -177,11 +256,13 @@
     search.innerHTML = '<span class="ns-ico">⌕</span><span class="ns-txt">Search</span><kbd class="ns-kbd">' +
       (/Mac|iPhone|iPad/.test(navigator.platform) ? '⌘K' : 'Ctrl K') + '</kbd>';
 
-    actions.appendChild(dd);
     actions.appendChild(contactTop);
-    actions.appendChild(cmp);
     actions.appendChild(search);
     wrap.appendChild(actions);
+
+    document.addEventListener('click', function () {
+      menuOpen.forEach(function (d) { d.classList.remove('open'); });
+    });
 
     /* ---------------- Command palette ---------------- */
     var overlay = document.createElement('div');
