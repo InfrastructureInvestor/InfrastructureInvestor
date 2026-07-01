@@ -270,15 +270,19 @@ assets flagged illustrative), and headless-validated returns.
 - **Electricity transmission** — `electricity-transmission.html` + `tx-grid.js` + `tx-geo.js`. National Grid ET
   (UK RAB), ITC (US FERC formula rates), ISA CTEEP (Brazil ANEEL availability/RAP concession), TransGrid
   (Australia, privatised AER revenue-cap), National Grid SA (Saudi state), State Grid (China state UHV).
-  **Cinematic dusk grid-landscape animation** (not geographic): a twilight scene — generation cluster
-  (spinning turbine,
-  solar, cooling-tower steam, coal/gas stacks, hydro dam — mix varies per network from `tx-geo.js`) →
-  step-up substation → a corridor of lattice **pylons** carrying catenary HV conductors with animated
-  **current pulses** (plus a distinct orange **HVDC** bipole where the network runs DC) → step-down
-  substation → a lit **demand city** skyline. The **value-flow** here is the regulated **building block**:
-  green coins = *return on RAB*, amber = *depreciation & cost recovery*, at the live split, rising from the
-  substations/pylons (the assets) — teaching that revenue is earned on the **asset base, decoupled from the
-  power flowing**. Per-network signatures: pylon count, headline **voltage** (e.g. ±1100 kV UHV for China),
+  **Daytime economics-forward grid-landscape animation** *(redone 2026-07-01 — the old cinematic dusk scene
+  was replaced at the user's request to show both flows explicitly)*: a bright side-elevation scene —
+  generation cluster (turbines, solar, cooling-tower steam, coal/gas stacks, hydro dam — mix per network from
+  `tx-geo.js`) → step-up substation → a corridor of lattice **pylons** whose conductors carry **electron
+  pulses with comet tails** (count + speed track the live NETWORK LOAD sparkline; distinct amber **HVDC**
+  bipole where the network runs DC; "ELECTRICITY →" chip) → step-down substation → a **demand city** whose
+  windows track load. The **cash flow is directional and lands somewhere**: the top-left card is
+  **THE OWNER · LIVE ECONOMICS** (revenue/opex/EBITDA with bars); green **+return on RAB** and amber
+  **+depreciation** orbs rise from the substations/pylons and **fly INTO the owner's P&L** (arrival ring),
+  while red **−opex** orbs leave the card and fly OUT to an **O&M CREWS** van by the corridor — teaching
+  that revenue is earned on the **asset base, decoupled from the electrons**, and where the costs go.
+  Targeted-flight orbs (`spawnCash`/`drawCash` with steering + arrival `pulses`) rather than free-rising
+  coins; ledger/demand overlay matches the shared regulated-network family. Per-network signatures: pylon count, headline **voltage** (e.g. ±1100 kV UHV for China),
   HVDC on/off, generation mix, city. Sliders are **RAB × allowed return (WACC) × performance** (incentive);
   revenue = WACC·RAB + depreciation + opex allowance + incentive. Returns calibrated headlessly to the
   regulated band (UK ~6% asset return; US/ITC higher on its allowed ROE; Brazil where ~10% debt ≈ asset
