@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Multiples map | Infrastructure Investor</title>
+<meta name="description" content="Where infrastructure trades: indicative EV/EBITDA ranges by sub-sector, premium-to-RAB for regulated networks, and what the deal record shows, drawn from the landmark transactions database and cross-linked to every reference page.">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<link rel="canonical" href="https://theinfrastructureinvestor.com/multiples-map.html">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Infrastructure Investor">
+<meta property="og:title" content="Multiples map | Infrastructure Investor">
+<meta property="og:description" content="Where infrastructure trades: indicative EV/EBITDA ranges by sub-sector and premium-to-RAB for regulated networks, tied to the landmark deal record.">
+<meta property="og:url" content="https://theinfrastructureinvestor.com/multiples-map.html">
+<meta property="og:image" content="https://theinfrastructureinvestor.com/og-image.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Multiples map | Infrastructure Investor">
+<meta name="twitter:description" content="Where infrastructure trades, EV/EBITDA ranges and RAB premia, tied to the deal record.">
+<meta name="twitter:image" content="https://theinfrastructureinvestor.com/og-image.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,500;0,8..60,600;1,8..60,400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+<style>
+#mm{max-width:1040px;margin:0 auto}
+#mm .mm-lede{font-size:.94rem;color:var(--text2);line-height:1.75;max-width:820px;margin:1.2rem 0 1.4rem}
+#mm .mm-lede b{color:var(--text);font-weight:600}
+#mm .mm-h{font-size:.66rem;letter-spacing:.07em;text-transform:uppercase;color:var(--muted);font-weight:700;margin:1.6rem 0 .6rem;display:flex;align-items:center;gap:.6rem}
+#mm .mm-h::after{content:'';flex:1;height:1px;background:var(--border)}
+#mm .panel{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:1rem 1.2rem 1.2rem;margin-bottom:1rem;box-shadow:var(--shadow-sm)}
+#mm .panel .ph{display:flex;justify-content:space-between;align-items:baseline;gap:1rem;flex-wrap:wrap;margin-bottom:.9rem}
+#mm .panel .ph .t{font-size:.63rem;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);font-weight:600}
+#mm .panel .ph .lg{font-size:.68rem;color:var(--text2)}
+#mm .axis{display:flex;justify-content:space-between;font-size:.6rem;color:var(--muted);padding:0 0 .3rem 172px;font-variant-numeric:tabular-nums}
+#mm .mrow{display:flex;align-items:center;gap:.7rem;padding:.28rem 0;text-decoration:none;border-radius:8px}
+#mm .mrow:hover{background:var(--accent-soft)}
+#mm .mlab{flex:0 0 160px;font-size:.76rem;font-weight:600;color:var(--text);text-align:right;line-height:1.2}
+#mm .mrow:hover .mlab{color:var(--accent)}
+#mm .mtrack{flex:1;position:relative;height:20px;background:linear-gradient(90deg,var(--surface-2),var(--surface-2));border-radius:5px}
+#mm .mtrack::before{content:'';position:absolute;inset:0;background:repeating-linear-gradient(90deg,transparent,transparent calc(10% - 1px),var(--border) calc(10% - 1px),var(--border) 10%);border-radius:5px;opacity:.55}
+#mm .mband{position:absolute;top:3px;bottom:3px;border-radius:4px;opacity:.32}
+#mm .mmid{position:absolute;top:0;bottom:0;width:3px;border-radius:2px}
+#mm .mval{flex:0 0 74px;font-size:.72rem;font-weight:600;color:var(--text2);font-variant-numeric:tabular-nums;white-space:nowrap}
+#mm .mnote{display:none}
+#mm .mm-detail{font-size:.74rem;color:var(--text2);line-height:1.6;background:var(--surface-2);border:1px solid var(--border);border-radius:9px;padding:.6rem .8rem;margin-top:.7rem;min-height:2.6rem}
+#mm .mm-detail b{color:var(--text)}
+#mm .dgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:.8rem}
+@media(max-width:860px){#mm .dgrid{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:560px){#mm .dgrid{grid-template-columns:1fr}}
+#mm .dcard{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:.9rem 1rem;position:relative;overflow:hidden}
+#mm .dcard::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--dot,#0c6b4f)}
+#mm .dcard .cl{font-size:.62rem;font-weight:700;letter-spacing:.07em;text-transform:uppercase;color:var(--muted);margin-bottom:.35rem}
+#mm .dcard .big{font-family:'Source Serif 4',Georgia,serif;font-size:1.35rem;font-weight:500;color:var(--text);line-height:1.1}
+#mm .dcard .sm{font-size:.66rem;color:var(--text2);margin:.15rem 0 .55rem}
+#mm .dcard .dl{font-size:.7rem;line-height:1.55;color:var(--text2)}
+#mm .dcard .dl b{color:var(--text);font-weight:600}
+#mm p.body{font-size:.9rem;color:var(--text2);line-height:1.75;margin:.6rem 0 .9rem;max-width:820px}
+#mm p.body b{color:var(--text);font-weight:600}
+#mm p.body a{color:var(--accent);text-decoration:none;font-weight:600}
+#mm .mm-foot{font-size:.7rem;color:var(--muted);line-height:1.7;margin-top:1.2rem}
+#mm .mm-foot b{color:var(--text2);font-weight:600}
+@media(max-width:640px){#mm .mlab{flex-basis:104px;font-size:.68rem}#mm .axis{padding-left:116px}#mm .mval{flex-basis:60px;font-size:.66rem}}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="wrap">
+    <a class="nav-logo" href="index.html"><span class="pulse"></span>Infrastructure Investor</a>
+    <div class="nav-meta">Infrastructure Investor</div>
+  </div>
+</nav>
+
+<section class="hero brhero">
+  <div class="wrap" style="max-width:1040px">
+    <div class="breadcrumb"><a href="index.html">Home</a><span class="sep">/</span>M&amp;A &amp; deals<span class="sep">/</span>Multiples map</div>
+    <div class="hero-eyebrow">M&amp;A &amp; deals</div>
+    <h1>The multiples map, <em>where infrastructure trades</em></h1>
+    <p class="hero-sub">Every reference page explains how an asset earns; this page shows what buyers have been paying for it. Indicative EV/EBITDA ranges by sub-sector, premium-to-RAB for the regulated networks, and the shape of the landmark deal record, each range linking back to the economics that justify it.</p>
+  </div>
+</section>
+
+<section class="tools-section" id="mm">
+  <div class="wrap" style="max-width:1040px">
+
+    <p class="mm-lede">Infrastructure multiples are not one market. They stack in the order of the <b>risk ladder the whole platform teaches</b>: contracted, escalator-linked annuities (towers, data centres) at the top; demand-risk transport in the middle; commodity-exposed processing at the bottom; and regulated networks priced off a different yardstick entirely, the <b>premium to the regulated asset base</b>. Hover or tap any bar for the evidence, and click through to the sub-sector's economics.</p>
+
+    <div class="mm-h">EV / EBITDA by sub-sector, indicative transaction ranges</div>
+    <div class="panel">
+      <div class="ph"><span class="t">Announcement multiples for quality platforms</span><span class="lg">band = typical range · tick = midpoint · click a row for its reference page</span></div>
+      <div class="axis" id="mmAxis1"></div>
+      <div id="mmChart1"></div>
+      <div class="mm-detail" id="mmDetail1">Hover a bar to see the evidence behind the range.</div>
+    </div>
+
+    <div class="mm-h">Regulated networks, EV as a multiple of RAB / rate base</div>
+    <div class="panel">
+      <div class="ph"><span class="t">Premium to the regulated asset base</span><span class="lg">1.0× = paying exactly RAB · the premium prices outperformance and growth</span></div>
+      <div class="axis" id="mmAxis2"></div>
+      <div id="mmChart2"></div>
+      <div class="mm-detail" id="mmDetail2">Hover a bar to see the evidence behind the range.</div>
+    </div>
+
+    <p class="body">Two readings matter more than any single number. <b>Within a sector</b>, the range is the story: the bottom is a minority stake in a mature asset in a tough cycle, the top is a control premium for a scarce platform in a hot one, AirTrunk at A$24bn and the AI repricing of data centres being the recent extreme. <b>Across sectors</b>, the ordering is remarkably stable, because it prices the same three questions everywhere: how contracted is the revenue, who bears volume and price risk, and how much of the return depends on growth capex yet to be spent. A regulated network at 1.3× RAB and a towerco at 22× EBITDA can be the <i>same</i> underlying return; the <a href="wacc-calculator.html">WACC builder</a> and each reference page's calculator let you check that equivalence yourself.</p>
+
+    <div class="mm-h">What the deal record shows</div>
+    <div class="dgrid" id="mmDeals"></div>
+    <p class="body" style="margin-top:.9rem">The full record, 59 landmark transactions with values, buyers and the strategic logic, is in the <a href="infrastructure-deals.html">deals database</a>, and the <a href="infrastructure-ma.html">M&amp;A module</a> lets you run an acquisition against any asset in the library at whatever multiple you believe.</p>
+
+    <p class="mm-foot"><b>Methodology &amp; caveats.</b> Ranges are indicative announcement EV/EBITDA (or EV/RAB) for controlling or co-controlling stakes in quality assets, synthesised from the landmark deal record on this site and reported broker/press figures; they are cycle-dependent and move with rates. Single deals routinely print outside these bands, distressed altnets have changed hands below 8× while scarce hyperscale platforms have cleared 30×. EBITDA-light growth sectors (EV charging, hydrogen) are omitted because EBITDA multiples are not how they are priced. PPP/PFI equity trades on secondary-market discount rates (roughly 7–9% for availability assets) rather than multiples. Nothing here is investment advice.</p>
+
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="footer-text">© 2026 Infrastructure Investor | theinfrastructureinvestor.com</div>
+  </div>
+</footer>
+
+<script src="ma-deals.js"></script>
+<script>
+(function(){
+  var CLS = {
+    'Energy & Utilities':'#0c6b4f','Transport':'#b07d24','Digital Infrastructure':'#2f5fb0',
+    'Social Infrastructure':'#bc4733','Energy Transition':'#37934f','Environmental & Waste':'#6a6b3a',
+    'Platform / GP':'#556','Global':'#556'
+  };
+
+  /* EV/EBITDA bands, indicative announcement ranges for quality platforms */
+  var EBITDA = [
+    {s:'Data centres', c:'Digital Infrastructure', lo:18, mid:24, hi:30, u:'data-centres.html',
+     n:'<b>Data centres 18–30×.</b> CyrusOne and QTS went private around 20–25×; AirTrunk (A$24bn, 2024) printed at the top of the range as AI demand repriced hyperscale capacity.'},
+    {s:'Mobile towers', c:'Digital Infrastructure', lo:18, mid:22, hi:27, u:'mobile-towers.html',
+     n:'<b>Towers 18–27×.</b> The European consolidation (Telxius, Hivory, GD Towers, Vantage) cleared 18–27× on contracted, escalator-linked tenancies, near-perfect annuity cash flow.'},
+    {s:'Toll roads', c:'Transport', lo:12, mid:16, hi:22, u:'roads.html',
+     n:'<b>Toll roads 12–22×.</b> Abertis went for ~12×; long-dated, CPI-linked concessions with traffic history (407 ETR stakes) trade materially higher.'},
+    {s:'Airports', c:'Transport', lo:11, mid:15, hi:19, u:'airports.html',
+     n:'<b>Airports 11–19×.</b> Sydney Airport’s take-private priced a monopoly gateway at a full multiple; regional and regulated airports sit lower down the band.'},
+    {s:'District energy', c:'Energy & Utilities', lo:12, mid:14, hi:16, u:'heat-networks.html',
+     n:'<b>District energy 12–16×.</b> Contracted heating and cooling concessions (Tabreed, Vicinity-style platforms) price like long utility annuities with modest volume risk.'},
+    {s:'Ports', c:'Transport', lo:10, mid:13, hi:17, u:'ports.html',
+     n:'<b>Ports 10–17×.</b> Landlord ports with long concessions top the band; operating terminals with volume and box-rate exposure sit lower, the CK Hutchison portfolio priced mid-band.'},
+    {s:'Contracted renewables', c:'Energy Transition', lo:9, mid:11, hi:13, u:'offshore-wind.html',
+     n:'<b>Operating wind &amp; solar 9–13×.</b> CfD/PPA-backed operating portfolios (Atlantica, Encavis, Neoen) trade on contracted cash flow plus a development-pipeline premium.'},
+    {s:'Battery storage', c:'Energy Transition', lo:8, mid:11, hi:14, u:'battery-storage.html',
+     n:'<b>Batteries 8–14×.</b> Tolled or capacity-contracted portfolios reach the top; merchant revenue stacks are priced closer to 8× or on $/MW instead.'},
+    {s:'Subsea cables', c:'Digital Infrastructure', lo:9, mid:11, hi:14, u:'subsea-cables.html',
+     n:'<b>Subsea 9–14×.</b> IRU-backed systems with anchor hyperscaler capacity commitments price at the top; spot-capacity routes at the bottom.'},
+    {s:'Fibre networks', c:'Digital Infrastructure', lo:7, mid:11, hi:17, u:'fibre-networks.html',
+     n:'<b>Fibre 7–17×, the widest band on the map.</b> Telecom Italia’s NetCo and Frontier priced near 9–10×; scarce incumbent-grade platforms higher; distressed altnets have cleared well below the band.'},
+    {s:'Gas midstream', c:'Energy & Utilities', lo:8, mid:10, hi:12, u:'gas-transmission.html',
+     n:'<b>Midstream 8–12×.</b> Buckeye and Tallgrass went private around 10×; take-or-pay contract cover holds the multiple up while terminal-value risk caps it.'},
+    {s:'Waste-to-energy', c:'Environmental & Waste', lo:9, mid:10.5, hi:13, u:'waste-to-energy.html',
+     n:'<b>Energy-from-waste 9–13×.</b> Covanta at ~$5.3bn and Viridor at £4.2bn priced long municipal gate-fee contracts with merchant power upside.'},
+    {s:'Rolling stock', c:'Transport', lo:7, mid:9, hi:11, u:'rolling-stock.html',
+     n:'<b>Rolling stock 7–11×.</b> ROSCOs (Eversholt) trade as contracted leasing books, residual-value and re-leasing risk keeps the multiple single-digit.'},
+    {s:'Waste & recycling', c:'Environmental & Waste', lo:5, mid:7, hi:9, u:'recycling-infrastructure.html',
+     n:'<b>Collection &amp; recycling 5–9×.</b> Biffa and Renewi went private mid-band, essential-service volumes, but commodity-price exposure on the output side.'}
+  ];
+
+  /* EV / RAB premia for regulated networks */
+  var RAB = [
+    {s:'US regulated utilities', c:'Energy & Utilities', lo:1.2, mid:1.45, hi:1.7, u:'electricity-distribution.html',
+     n:'<b>US utilities 1.2–1.7× rate base.</b> Allowed ROEs near 9–10% against far lower funding costs support the largest premia, Oncor and ITC both cleared with double-digit premiums to book.'},
+    {s:'Electricity transmission', c:'Energy & Utilities', lo:1.15, mid:1.35, hi:1.55, u:'electricity-transmission.html',
+     n:'<b>Transmission 1.15–1.55× RAB.</b> Grid build-out gives visible RAB growth; buyers pay ahead of it. ITC’s take-private embedded a full growth premium.'},
+    {s:'Electricity distribution', c:'Energy & Utilities', lo:1.1, mid:1.3, hi:1.5, u:'electricity-distribution.html',
+     n:'<b>Distribution 1.1–1.5× RAB.</b> UKPN and Elenia-style networks trade rich on index-linked revenue; electrification adds a growth story to a defensive base.'},
+    {s:'Water (UK model)', c:'Energy & Utilities', lo:1.0, mid:1.15, hi:1.35, u:'water-wastewater.html',
+     n:'<b>Water 1.0–1.35× RCV.</b> Northumbrian went at ~1.27×; tougher price reviews and Thames’s troubles have pulled recent marks toward 1.0–1.1×.'},
+    {s:'Gas networks', c:'Energy & Utilities', lo:0.95, mid:1.1, hi:1.25, u:'gas-distribution.html',
+     n:'<b>Gas networks 0.95–1.25× RAB.</b> Cadent cleared at a healthy premium in 2017; decarbonisation and asset-stranding risk have compressed the band since, the terminal-value question in one number.'}
+  ];
+
+  function esc(s){ return s; }
+  function renderChart(bands, chartId, axisId, detailId, min, max, unit){
+    var axis=document.getElementById(axisId), chart=document.getElementById(chartId), detail=document.getElementById(detailId);
+    var ticks='' , n=5;
+    for(var i=0;i<=n;i++){ var v=min+(max-min)*i/n; ticks+='<span>'+(unit==='×rab'? v.toFixed(1)+'×' : Math.round(v)+'×')+'</span>'; }
+    axis.innerHTML=ticks;
+    var html='';
+    bands.forEach(function(b,i){
+      var col=CLS[b.c]||'#0c6b4f';
+      var L=(b.lo-min)/(max-min)*100, Wd=(b.hi-b.lo)/(max-min)*100, M=(b.mid-min)/(max-min)*100;
+      html+='<a class="mrow" href="'+b.u+'" data-i="'+i+'">'+
+        '<span class="mlab">'+b.s+'</span>'+
+        '<span class="mtrack"><span class="mband" style="left:'+L.toFixed(2)+'%;width:'+Wd.toFixed(2)+'%;background:'+col+'"></span>'+
+        '<span class="mmid" style="left:calc('+M.toFixed(2)+'% - 1.5px);background:'+col+'"></span></span>'+
+        '<span class="mval">'+(unit==='×rab'? b.lo.toFixed(2)+'–'+b.hi.toFixed(2) : b.lo+'–'+b.hi)+'×</span></a>';
+    });
+    chart.innerHTML=html;
+    chart.addEventListener('mouseover',function(e){
+      var row=e.target.closest('.mrow'); if(!row) return;
+      detail.innerHTML=bands[+row.dataset.i].n;
+    });
+    chart.addEventListener('focusin',function(e){
+      var row=e.target.closest('.mrow'); if(!row) return;
+      detail.innerHTML=bands[+row.dataset.i].n;
+    });
+  }
+  renderChart(EBITDA,'mmChart1','mmAxis1','mmDetail1',4,32,'×');
+  renderChart(RAB,'mmChart2','mmAxis2','mmDetail2',0.8,1.8,'×rab');
+
+  /* --- the deal record, aggregated live from the shared deals dataset --- */
+  (function(){
+    var D=window.MA_DEALS||[], byCls={};
+    D.forEach(function(d){
+      var k=d.cls; if(!byCls[k]) byCls[k]={n:0,usd:0,top:null,recent:null};
+      var o=byCls[k]; o.n++; o.usd+=d.usd||0;
+      if(!o.top||d.usd>o.top.usd) o.top=d;
+      if(!o.recent||d.y>o.recent.y) o.recent=d;
+    });
+    var order=['Digital Infrastructure','Energy & Utilities','Transport','Energy Transition','Environmental & Waste','Social Infrastructure'];
+    var html='';
+    order.forEach(function(k){
+      var o=byCls[k]; if(!o) return;
+      html+='<div class="dcard" style="--dot:'+(CLS[k]||'#0c6b4f')+'">'+
+        '<div class="cl">'+k+'</div>'+
+        '<div class="big">$'+Math.round(o.usd)+'bn</div>'+
+        '<div class="sm">across '+o.n+' landmark deals</div>'+
+        '<div class="dl"><b>Largest:</b> '+o.top.t+' — '+o.top.val+' ('+o.top.y+')<br><b>Latest:</b> '+o.recent.t+' ('+o.recent.y+')</div>'+
+      '</div>';
+    });
+    document.getElementById('mmDeals').innerHTML=html;
+  })();
+})();
+</script>
+<script src="site.js" defer></script>
+<script src="glossary.js" defer></script>
+</body>
+</html>

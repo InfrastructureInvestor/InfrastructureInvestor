@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Glossary A–Z | Infrastructure Investor</title>
+<meta name="description" content="The infrastructure investing glossary, 200 terms across deal process, valuation, debt, regulation and every asset class, from RAB and DSCR to towerco tenancy ratios, defined the way practitioners use them.">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<link rel="canonical" href="https://theinfrastructureinvestor.com/glossary.html">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Infrastructure Investor">
+<meta property="og:title" content="Glossary A–Z | Infrastructure Investor">
+<meta property="og:description" content="The infrastructure investing glossary, 200 terms across deal process, valuation, debt, regulation and every asset class, defined the way practitioners use them.">
+<meta property="og:url" content="https://theinfrastructureinvestor.com/glossary.html">
+<meta property="og:image" content="https://theinfrastructureinvestor.com/og-image.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Glossary A–Z | Infrastructure Investor">
+<meta name="twitter:description" content="The infrastructure investing glossary, 200 terms defined the way practitioners use them.">
+<meta name="twitter:image" content="https://theinfrastructureinvestor.com/og-image.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,500;0,8..60,600;1,8..60,400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+<style>
+#gl{max-width:920px;margin:0 auto}
+#gl .gl-tools{display:flex;align-items:center;gap:.8rem;flex-wrap:wrap;margin:1.2rem 0 .9rem}
+#gl .gl-search{flex:1;min-width:220px;position:relative}
+#gl .gl-search .ico{position:absolute;left:.8rem;top:50%;transform:translateY(-50%);color:var(--muted);font-size:.95rem;pointer-events:none}
+#gl .gl-search input{width:100%;font-family:inherit;font-size:.9rem;color:var(--text);background:var(--surface);border:1px solid var(--border-strong);border-radius:11px;padding:.62rem .9rem .62rem 2.2rem}
+#gl .gl-search input:focus{outline:none;border-color:var(--accent)}
+#gl .gl-count{font-size:.72rem;color:var(--muted);white-space:nowrap}
+#gl .gl-letters{display:flex;flex-wrap:wrap;gap:.25rem;margin-bottom:1.5rem}
+#gl .gl-letters a{font-size:.72rem;font-weight:600;color:var(--text2);text-decoration:none;border:1px solid var(--border);border-radius:7px;padding:.22rem .5rem;min-width:1.7rem;text-align:center;transition:all .12s ease}
+#gl .gl-letters a:hover{color:var(--accent);border-color:var(--accent)}
+#gl .gl-letters a.off{opacity:.32;pointer-events:none}
+#gl .gl-group{margin-bottom:1.6rem}
+#gl .gl-letter{font-family:'Source Serif 4',Georgia,serif;font-size:1.5rem;font-weight:500;color:var(--accent);border-bottom:1px solid var(--border);padding-bottom:.3rem;margin-bottom:.7rem;scroll-margin-top:5.5rem}
+#gl .gl-grid{display:grid;grid-template-columns:1fr 1fr;gap:.6rem}
+#gl .gl-term{background:var(--surface);border:1px solid var(--border);border-radius:11px;padding:.75rem .9rem;scroll-margin-top:5.5rem}
+#gl .gl-term.hit{border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-soft)}
+#gl .gl-term h3{font-size:.86rem;font-weight:650;letter-spacing:-.01em;color:var(--text);margin-bottom:.28rem;display:flex;align-items:baseline;justify-content:space-between;gap:.5rem}
+#gl .gl-term h3 .lnk{font-size:.68rem;font-weight:600;color:var(--border-strong);text-decoration:none;flex-shrink:0}
+#gl .gl-term:hover h3 .lnk{color:var(--accent)}
+#gl .gl-term p{font-size:.76rem;color:var(--text2);line-height:1.6}
+#gl .gl-empty{font-size:.85rem;color:var(--muted);padding:2rem 0;text-align:center;display:none}
+#gl .gl-foot{font-size:.72rem;color:var(--muted);line-height:1.7;margin-top:1.6rem}
+@media(max-width:680px){#gl .gl-grid{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="wrap">
+    <a class="nav-logo" href="index.html"><span class="pulse"></span>Infrastructure Investor</a>
+    <div class="nav-meta">Infrastructure Investor</div>
+  </div>
+</nav>
+
+<section class="hero brhero">
+  <div class="wrap" style="max-width:920px">
+    <div class="breadcrumb"><a href="index.html">Home</a><span class="sep">/</span>Glossary</div>
+    <div class="hero-eyebrow">Reference</div>
+    <h1>The infrastructure <em>glossary</em></h1>
+    <p class="hero-sub">Every term the platform uses, defined the way practitioners use them, deal process and documents, valuation and returns, debt and structuring, regulation, and the vocabulary of each asset class. The same definitions power the hover glossary across the site.</p>
+  </div>
+</section>
+
+<section class="tools-section" id="gl">
+  <div class="wrap" style="max-width:920px">
+
+    <div class="gl-tools">
+      <div class="gl-search"><span class="ico">⌕</span><input id="glq" type="search" placeholder="Filter terms, try RAB, DSCR, carry, tenancy ratio…" autocomplete="off" spellcheck="false" aria-label="Filter glossary terms"></div>
+      <span class="gl-count" id="glCount"></span>
+    </div>
+
+    <div class="gl-letters" id="glLetters" aria-label="Jump to letter"></div>
+
+    <div id="glBody"></div>
+    <p class="gl-empty" id="glEmpty">No terms match that filter.</p>
+
+    <p class="gl-foot"><b>How this connects to the rest of the site.</b> Anywhere you see a dotted-underlined term on a reference page or in the M&amp;A module, the tooltip pulls from this same glossary. The ⌘K search palette also matches these terms, typing “DSCR” from any page will land you here. Definitions are intentionally practical rather than legal, they describe how the terms are used at the table, not statutory wording.</p>
+
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="footer-text">© 2026 Infrastructure Investor | theinfrastructureinvestor.com</div>
+  </div>
+</footer>
+
+<script src="glossary.js"></script>
+<script>
+(function(){
+  var G = window.GLOSSARY || {};
+  var terms = Object.keys(G).map(function(k){ return { k:k, t:G[k].t, d:G[k].d, a:(G[k].a||[]).join(' ') }; });
+  terms.sort(function(a,b){ return a.t.toLowerCase() < b.t.toLowerCase() ? -1 : 1; });
+
+  var body = document.getElementById('glBody'),
+      lettersEl = document.getElementById('glLetters'),
+      q = document.getElementById('glq'),
+      count = document.getElementById('glCount'),
+      empty = document.getElementById('glEmpty');
+
+  function esc(s){ return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+  function letterOf(t){ var c = t.charAt(0).toUpperCase(); return /[A-Z]/.test(c) ? c : '#'; }
+
+  /* build once: letter groups of term cards */
+  var groups = {};
+  terms.forEach(function(tm){ var L = letterOf(tm.t); (groups[L] = groups[L] || []).push(tm); });
+  var letters = Object.keys(groups).sort();
+
+  var html = '';
+  letters.forEach(function(L){
+    html += '<div class="gl-group" data-l="'+L+'"><h2 class="gl-letter" id="l-'+L+'">'+L+'</h2><div class="gl-grid">';
+    groups[L].forEach(function(tm){
+      html += '<div class="gl-term" id="'+esc(tm.k)+'" data-s="'+esc((tm.t+' '+tm.a+' '+tm.d).toLowerCase())+'">'+
+              '<h3>'+esc(tm.t)+'<a class="lnk" href="#'+esc(tm.k)+'" aria-label="Link to '+esc(tm.t)+'">#</a></h3>'+
+              '<p>'+esc(tm.d)+'</p></div>';
+    });
+    html += '</div></div>';
+  });
+  body.innerHTML = html;
+
+  var az = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('');
+  lettersEl.innerHTML = az.map(function(L){
+    var has = letters.indexOf(L) >= 0;
+    return '<a href="#l-'+L+'"'+(has?'':' class="off" tabindex="-1"')+'>'+L+'</a>';
+  }).join('');
+
+  function applyFilter(){
+    var v = q.value.trim().toLowerCase(), shown = 0;
+    body.querySelectorAll('.gl-term').forEach(function(card){
+      var on = !v || card.getAttribute('data-s').indexOf(v) >= 0;
+      card.style.display = on ? '' : 'none';
+      if(on) shown++;
+    });
+    body.querySelectorAll('.gl-group').forEach(function(g){
+      var any = false;
+      g.querySelectorAll('.gl-term').forEach(function(c){ if(c.style.display !== 'none') any = true; });
+      g.style.display = any ? '' : 'none';
+    });
+    lettersEl.style.display = v ? 'none' : '';
+    count.textContent = shown + (shown === 1 ? ' term' : ' terms');
+    empty.style.display = shown ? 'none' : 'block';
+  }
+  q.addEventListener('input', applyFilter);
+  applyFilter();
+
+  /* deep link (#rab, or from the ⌘K palette): scroll to and highlight the term */
+  function jump(){
+    var id = decodeURIComponent((location.hash||'').slice(1));
+    if(!id) return;
+    var card = document.getElementById(id);
+    if(!card || !card.classList.contains('gl-term')) return;
+    q.value = ''; applyFilter();
+    card.scrollIntoView({ block:'center' });
+    body.querySelectorAll('.gl-term.hit').forEach(function(c){ c.classList.remove('hit'); });
+    card.classList.add('hit');
+  }
+  jump();
+  window.addEventListener('hashchange', jump);
+})();
+</script>
+<script src="site.js" defer></script>
+</body>
+</html>

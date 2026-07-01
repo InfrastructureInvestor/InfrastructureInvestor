@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Project finance &amp; debt | Infrastructure Investor</title>
+<meta name="description" content="How infrastructure debt is actually sized: CFADS, target DSCR, sculpted amortisation, LLCR and the refinancing release, on a live model, plus the lender menu from project banks to private credit and the coverage levels each revenue model supports.">
+<script src="anim-guard.js"></script>
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<link rel="canonical" href="https://theinfrastructureinvestor.com/project-finance.html">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Infrastructure Investor">
+<meta property="og:title" content="Project finance &amp; debt | Infrastructure Investor">
+<meta property="og:description" content="CFADS, DSCR, sculpting, LLCR and the refinancing release, how infrastructure debt is actually sized, on a live model.">
+<meta property="og:url" content="https://theinfrastructureinvestor.com/project-finance.html">
+<meta property="og:image" content="https://theinfrastructureinvestor.com/og-image.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Project finance &amp; debt | Infrastructure Investor">
+<meta name="twitter:description" content="CFADS, DSCR, sculpting, LLCR and the refinancing release, on a live model.">
+<meta name="twitter:image" content="https://theinfrastructureinvestor.com/og-image.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,500;0,8..60,600;1,8..60,400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+<style>
+#pf{max-width:1040px;margin:0 auto}
+#pf .pf-lede{font-size:.94rem;color:var(--text2);line-height:1.75;max-width:820px;margin:1.2rem 0 1.4rem}
+#pf .pf-lede b{color:var(--text);font-weight:600}
+#pf p.body{font-size:.9rem;color:var(--text2);line-height:1.75;margin:.6rem 0 .9rem;max-width:820px}
+#pf p.body b{color:var(--text);font-weight:600}
+#pf .pf-h{font-size:.66rem;letter-spacing:.07em;text-transform:uppercase;color:var(--muted);font-weight:700;margin:1.6rem 0 .6rem;display:flex;align-items:center;gap:.6rem}
+#pf .pf-h::after{content:'';flex:1;height:1px;background:var(--border)}
+#pf .calc-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:.9rem;margin-bottom:.4rem}
+#pf .cgroup{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:.9rem 1rem}
+#pf .cgroup h4{font-size:.62rem;letter-spacing:.07em;text-transform:uppercase;color:var(--muted);font-weight:600;margin-bottom:.7rem}
+#pf .cfield{display:flex;align-items:center;justify-content:space-between;gap:.5rem;margin-bottom:.5rem}
+#pf .cfield:last-child{margin-bottom:0}
+#pf .cfield label{font-size:.74rem;color:var(--text);line-height:1.25}
+#pf .cfield .ig{display:flex;align-items:center;gap:.25rem;flex-shrink:0}
+#pf .cfield input{width:60px;font-family:inherit;font-size:.78rem;font-weight:600;text-align:right;color:var(--text);border:1px solid var(--border-strong);border-radius:7px;padding:.28rem .35rem;background:var(--surface-2);font-variant-numeric:tabular-nums}
+#pf .cfield input:focus{outline:none;border-color:var(--accent)}
+#pf .cfield .u{font-size:.7rem;color:var(--muted);width:24px;text-align:left}
+#pf .cfield select{font-family:inherit;font-size:.76rem;font-weight:600;color:var(--text);background:var(--surface-2);border:1px solid var(--border-strong);border-radius:7px;padding:.28rem .4rem;cursor:pointer}
+#pf .cfield select:focus{outline:none;border-color:var(--accent)}
+@media(max-width:720px){#pf .calc-grid{grid-template-columns:1fr}}
+#pf .out-cards{display:grid;grid-template-columns:repeat(6,1fr);gap:.7rem;margin:1.3rem 0 .8rem}
+#pf .ocard{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:.85rem .8rem;position:relative;overflow:hidden}
+#pf .ocard::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--muted)}
+#pf .ocard.d{background:linear-gradient(180deg,var(--accent-soft),var(--surface))}#pf .ocard.d::before{background:var(--accent)}
+#pf .ocard.c::before{background:#2f5fb0}
+#pf .ocard.r::before{background:var(--gold)}
+#pf .ocard .k{font-size:.58rem;letter-spacing:.04em;text-transform:uppercase;color:var(--muted);font-weight:600;margin-bottom:.3rem}
+#pf .ocard .v{font-family:'Source Serif 4',Georgia,serif;font-size:1.4rem;font-weight:500;line-height:1;letter-spacing:-.01em}
+#pf .ocard.d .v{color:var(--accent)}
+#pf .ocard .s{font-size:.64rem;color:var(--text2);margin-top:.3rem}
+@media(max-width:860px){#pf .out-cards{grid-template-columns:repeat(3,1fr)}}
+@media(max-width:520px){#pf .out-cards{grid-template-columns:repeat(2,1fr)}}
+#pf .calc-sum{display:flex;flex-wrap:wrap;gap:.45rem 1.4rem;background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:.8rem 1rem;margin-bottom:.9rem;font-size:.74rem;color:var(--text2)}
+#pf .calc-sum span{white-space:nowrap}#pf .calc-sum b{color:var(--text);font-weight:600}#pf .calc-sum .lbl{color:var(--muted)}
+#pf .cv-wrap{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:.9rem 1.1rem;margin:.9rem 0}
+#pf .cv-head{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:.6rem;gap:1rem;flex-wrap:wrap}
+#pf .cv-head .t{font-size:.63rem;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);font-weight:600}
+#pf .cv-head .lg{font-size:.68rem;color:var(--text2)}
+#pf canvas{width:100%;height:300px;display:block}
+#pf table.menu{width:100%;border-collapse:collapse;font-size:.76rem;background:var(--surface);border:1px solid var(--border);border-radius:12px;overflow:hidden}
+#pf .menu th{background:var(--surface-2);font-size:.6rem;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);font-weight:600;text-align:left;padding:.6rem .8rem;border-bottom:1px solid var(--border)}
+#pf .menu td{padding:.6rem .8rem;border-bottom:1px solid var(--border);color:var(--text2);vertical-align:top;line-height:1.5}
+#pf .menu tr:last-child td{border-bottom:none}
+#pf .menu td:first-child{color:var(--text);font-weight:600;white-space:nowrap}
+#pf .menu a{color:var(--accent);text-decoration:none;font-weight:600}
+#pf .menu-wrap{overflow-x:auto;border-radius:12px;margin-bottom:.9rem}
+#pf .pf-foot{font-size:.7rem;color:var(--muted);line-height:1.7;margin-top:1.2rem}
+#pf .pf-foot b{color:var(--text2);font-weight:600}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="wrap">
+    <a class="nav-logo" href="index.html"><span class="pulse"></span>Infrastructure Investor</a>
+    <div class="nav-meta">Infrastructure Investor</div>
+  </div>
+</nav>
+
+<section class="hero brhero">
+  <div class="wrap" style="max-width:1040px">
+    <div class="breadcrumb"><a href="index.html">Home</a><span class="sep">/</span>Cross-sector tool<span class="sep">/</span>Project finance &amp; debt</div>
+    <div class="hero-eyebrow">Cross-sector tool</div>
+    <h1>Project finance, <em>sizing the debt</em></h1>
+    <p class="hero-sub">Infrastructure carries more debt than any other private asset class because lenders size against contracted cash flow, not an earnings multiple. This page shows the machinery: CFADS, a target coverage ratio, a sculpted amortisation profile, and the refinancing that returns equity early, all on a live model.</p>
+  </div>
+</section>
+
+<section class="tools-section" id="pf">
+  <div class="wrap" style="max-width:1040px">
+
+    <p class="pf-lede">A corporate lender asks "how many turns of EBITDA?". A project-finance lender asks a different question: <b>how much debt service can each year's cash flow cover, with a cushion?</b> Start from <b>CFADS</b>, cash flow available for debt service (EBITDA less tax, working capital and maintenance capex, before interest), divide by the target <b>DSCR</b>, and that is the debt service the asset can carry each year. The present value of that stream at the loan's rate <b>is</b> the debt capacity. When cash flows grow along the contract, letting the debt service grow with them, <b>sculpting</b>, raises capacity materially versus a flat annuity sized off the weakest year. That arithmetic, plus the coverage cushion the revenue model justifies, is nearly all of infrastructure debt.</p>
+
+    <div class="pf-h">The model, capacity from coverage</div>
+    <div class="calc-grid">
+      <div class="cgroup"><h4>Cash flows</h4>
+        <div class="cfield"><label>Year-1 CFADS</label><span class="ig"><input id="pfCFADS" type="number" value="100" step="5"><span class="u">m</span></span></div>
+        <div class="cfield"><label>CFADS growth p.a.</label><span class="ig"><input id="pfG" type="number" value="2.5" step="0.5"><span class="u">%</span></span></div>
+        <div class="cfield"><label>Project cost</label><span class="ig"><input id="pfCost" type="number" value="1200" step="50"><span class="u">m</span></span></div>
+      </div>
+      <div class="cgroup"><h4>Debt terms</h4>
+        <div class="cfield"><label>Tenor</label><span class="ig"><input id="pfTenor" type="number" value="18" step="1" min="3" max="35"><span class="u">y</span></span></div>
+        <div class="cfield"><label>All-in interest rate</label><span class="ig"><input id="pfRate" type="number" value="5.5" step="0.25"><span class="u">%</span></span></div>
+        <div class="cfield"><label>Target DSCR</label><span class="ig"><input id="pfDSCR" type="number" value="1.3" step="0.05" min="1.01"><span class="u">×</span></span></div>
+        <div class="cfield"><label>Amortisation</label><span class="ig"><select id="pfShape" aria-label="Amortisation shape"><option value="sculpt">Sculpted</option><option value="annuity">Level annuity</option></select></span></div>
+      </div>
+      <div class="cgroup"><h4>Refinancing</h4>
+        <div class="cfield"><label>Refi year (0 = off)</label><span class="ig"><input id="pfRefiY" type="number" value="7" step="1" min="0" max="30"><span class="u">y</span></span></div>
+        <div class="cfield"><label>Refi all-in rate</label><span class="ig"><input id="pfRefiR" type="number" value="4.75" step="0.25"><span class="u">%</span></span></div>
+      </div>
+    </div>
+
+    <div class="out-cards">
+      <div class="ocard d"><div class="k">Debt capacity</div><div class="v" id="pfoDebt">—</div><div class="s">PV of supportable debt service</div></div>
+      <div class="ocard d"><div class="k">Gearing</div><div class="v" id="pfoGear">—</div><div class="s">debt / project cost</div></div>
+      <div class="ocard c"><div class="k">Min DSCR</div><div class="v" id="pfoDSCR">—</div><div class="s">worst-year coverage</div></div>
+      <div class="ocard c"><div class="k">LLCR</div><div class="v" id="pfoLLCR">—</div><div class="s">PV of CFADS / debt</div></div>
+      <div class="ocard"><div class="k">WAL</div><div class="v" id="pfoWAL">—</div><div class="s">weighted average life</div></div>
+      <div class="ocard r"><div class="k">Refi release</div><div class="v" id="pfoRefi">—</div><div class="s" id="pfoRefiS">—</div></div>
+    </div>
+
+    <div class="calc-sum" id="pfSum"></div>
+
+    <div class="cv-wrap">
+      <div class="cv-head"><span class="t">CFADS vs debt service, and the balance rundown</span><span class="lg"><span style="color:rgba(12,107,79,0.3)">■</span> CFADS &nbsp; <span style="color:#0c6b4f">■</span> principal &nbsp; <span style="color:#0c4433">■</span> interest &nbsp; <span style="color:var(--cost)">—</span> debt outstanding</span></div>
+      <canvas id="pfcv" aria-label="CFADS versus debt service chart" role="img"></canvas>
+    </div>
+
+    <p class="body">Toggle <b>sculpted</b> to <b>level annuity</b> and watch capacity fall: a flat payment must fit under the weakest year, so every later year's growth is wasted headroom. Sculpting is why availability PPPs and regulated assets, whose cash flows are contractual and indexed, can gear to 80–90% of cost, while a merchant asset with the same average CFADS cannot. The gap between the green bars and the stacked debt service is the <b>coverage cushion</b>, the buffer that absorbs a bad year before the lenders' cash sweep triggers: distribution <b>lock-up</b> typically sits around 1.10–1.20× and an event of default nearer 1.05×.</p>
+    <p class="body">The <b>refinancing release</b> is the quiet engine of levered infrastructure returns. Once construction risk is gone and the asset has a trading history, the same CFADS supports cheaper, and often more, debt. Re-sculpting the remaining cash flows at the new rate versus the balance outstanding is exactly what the model's refi line does, and that surplus is returned to equity years before exit. On long concessions, a "mini-perm" structure plans this from day one; the <a href="infrastructure-ma.html" style="color:var(--accent);text-decoration:none;font-weight:600">M&amp;A module</a> shows the same effect inside a full acquisition model.</p>
+
+    <div class="pf-h">Who lends, the menu</div>
+    <div class="menu-wrap">
+    <table class="menu">
+      <thead><tr><th>Source</th><th>Tenor</th><th>Pricing</th><th>Best for</th><th>Watch</th></tr></thead>
+      <tbody>
+        <tr><td>Commercial / project banks</td><td>5–7y mini-perm or 15–25y amortising</td><td>Floating, margin over base + swap</td><td>Construction phases, flexibility on drawdown and covenant reset</td><td>Banks want the refi; long tenors have retreated since Basel</td></tr>
+        <tr><td>Institutional private placement</td><td>15–35y, fully amortising</td><td>Fixed, spread over the long bond</td><td>Operating, contracted assets; matches insurer and pension liabilities</td><td>Make-whole on prepayment, so refi optionality is expensive</td></tr>
+        <tr><td>Public project bonds</td><td>10–30y</td><td>Fixed, rated benchmark</td><td>Large, single-asset financings with a rating story</td><td>Negative carry on drawdown, disclosure, less covenant flexibility</td></tr>
+        <tr><td>Private credit / infra debt funds</td><td>5–12y, often bullet or back-ended</td><td>Floating, wider margin</td><td>Speed, subordination, transition or merchant risk banks decline</td><td>Cost; sweeps and tighter documentation do the credit work</td></tr>
+        <tr><td>Multilaterals &amp; ECAs</td><td>15–30y</td><td>Concessional to market</td><td>Emerging-market projects, first-of-kind technology</td><td>Procurement conditions and timeline</td></tr>
+      </tbody>
+    </table>
+    </div>
+
+    <div class="pf-h">The coverage a revenue model supports</div>
+    <div class="menu-wrap">
+    <table class="menu">
+      <thead><tr><th>Revenue model</th><th>Typical target DSCR</th><th>Typical gearing</th><th>Reference</th></tr></thead>
+      <tbody>
+        <tr><td>Availability PPP / PFI</td><td>1.15–1.25×</td><td>85–90%</td><td><a href="hospitals.html">Hospitals</a>, <a href="schools.html">schools</a>, <a href="roads.html">availability roads</a></td></tr>
+        <tr><td>Regulated network (RAB)</td><td>Rated on FFO / net debt rather than DSCR</td><td>55–65% of RAB senior; more at HoldCo</td><td><a href="electricity-transmission.html">Transmission</a>, <a href="water-wastewater.html">water</a></td></tr>
+        <tr><td>Contracted power (CfD / PPA)</td><td>1.30–1.45×</td><td>65–80%</td><td><a href="offshore-wind.html">Offshore wind</a>, <a href="solar.html">solar</a></td></tr>
+        <tr><td>Volume / demand risk</td><td>1.40–1.80×</td><td>50–70%</td><td><a href="airports.html">Airports</a>, <a href="ports.html">ports</a>, <a href="roads.html">toll roads</a></td></tr>
+        <tr><td>Merchant / price risk</td><td>1.75–2.50×+ or debt sized on the contracted floor only</td><td>30–50%</td><td><a href="battery-storage.html">Batteries</a>, <a href="hydrogen.html">hydrogen</a></td></tr>
+      </tbody>
+    </table>
+    </div>
+
+    <p class="pf-foot"><b>Illustrative model.</b> CFADS is taken as given and grows at a constant rate; real financings sculpt against a lender base case with P50/P90 downside tests, DSRA and MRA reserve accounts, sweep triggers and hedging. The refi line re-sculpts the remaining CFADS at the new rate over the original tenor. LLCR under pure sculpting equals the target DSCR by construction, a useful check that the two ratios are measuring the same cushion in different ways. Figures are generic $m; not investment advice.</p>
+
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="footer-text">© 2026 Infrastructure Investor | theinfrastructureinvestor.com</div>
+  </div>
+</footer>
+
+<script src="pf-debt.js" defer></script>
+<script src="site.js" defer></script>
+<script src="glossary.js" defer></script>
+</body>
+</html>

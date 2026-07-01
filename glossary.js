@@ -221,6 +221,9 @@
     'decommissioning':{t:'Decommissioning',d:'Safely retiring and dismantling an asset (e.g. a reactor or offshore platform) at end of life, a long-dated funded liability.',a:['decommissioning']}
   };
 
+  /* expose for the A–Z glossary page (glossary.html) and the command palette */
+  window.GLOSSARY = GLOSSARY;
+
   function ready(fn){ if(document.readyState!=='loading') fn(); else document.addEventListener('DOMContentLoaded',fn); }
 
   /* Inject the glossary styles so the feature is fully self-contained and works
