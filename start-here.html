@@ -37,11 +37,23 @@
 #sh .track .tag{font-size:.6rem;font-weight:700;letter-spacing:.09em;text-transform:uppercase;color:var(--tc,#0c6b4f);margin-bottom:.3rem}
 #sh .track h2{font-family:'Source Serif 4',Georgia,serif;font-size:1.25rem;font-weight:500;letter-spacing:-.01em;margin-bottom:.35rem}
 #sh .track .who{font-size:.76rem;color:var(--text2);line-height:1.6;margin-bottom:.8rem}
-#sh .steps{list-style:none;counter-reset:st}
-#sh .steps li{counter-increment:st;display:flex;gap:.7rem;align-items:flex-start;padding:.5rem 0;border-top:1px solid var(--border)}
-#sh .steps li::before{content:counter(st);flex:0 0 1.5rem;height:1.5rem;border-radius:50%;background:var(--accent-soft);color:var(--accent);font-size:.7rem;font-weight:700;display:flex;align-items:center;justify-content:center;margin-top:.1rem}
+#sh .track .meta{display:flex;align-items:center;gap:.6rem;margin-bottom:.35rem}
+#sh .track .time{font-size:.62rem;font-weight:600;color:var(--muted);background:var(--surface-2);border:1px solid var(--border);border-radius:999px;padding:.12rem .5rem;white-space:nowrap}
+#sh .tprog{display:flex;align-items:center;gap:.6rem;margin:.15rem 0 .75rem}
+#sh .tprog .pbar{flex:1;height:5px;border-radius:3px;background:var(--surface-2);border:1px solid var(--border);overflow:hidden}
+#sh .tprog .pbar span{display:block;height:100%;background:var(--tc,#0c6b4f);border-radius:3px;transition:width .4s ease}
+#sh .tprog .plab{font-size:.66rem;font-weight:600;color:var(--muted);white-space:nowrap;font-variant-numeric:tabular-nums}
+#sh .tbtn{display:inline-flex;align-items:center;gap:.4rem;font-size:.74rem;font-weight:650;color:#fff;background:var(--tc,#0c6b4f);border-radius:999px;padding:.45rem 1rem;text-decoration:none;margin-bottom:.85rem;transition:filter .12s ease}
+#sh .tbtn:hover{filter:brightness(1.12)}
+#sh .tbtn.done{background:var(--surface-2);color:var(--tc,#0c6b4f);border:1px solid var(--border-strong)}
+#sh .tdone{font-size:.74rem;font-weight:650;color:var(--tc,#0c6b4f);background:var(--accent-soft);border-radius:9px;padding:.5rem .75rem;margin-bottom:.75rem}
+#sh .steps{list-style:none}
+#sh .steps li{display:flex;gap:.7rem;align-items:flex-start;padding:.5rem 0;border-top:1px solid var(--border)}
+#sh .steps .n{flex:0 0 1.5rem;height:1.5rem;border-radius:50%;background:var(--accent-soft);color:var(--accent);font-size:.7rem;font-weight:700;display:flex;align-items:center;justify-content:center;margin-top:.1rem}
+#sh .steps li.done .n{background:var(--tc,#0c6b4f);color:#fff}
 #sh .steps a{font-size:.82rem;font-weight:650;color:var(--text);text-decoration:none;display:block}
 #sh .steps a:hover{color:var(--accent)}
+#sh .steps li.done a{color:var(--text2)}
 #sh .steps .w{font-size:.72rem;color:var(--text2);line-height:1.55;margin-top:.1rem}
 #sh .sh-foot{font-size:.74rem;color:var(--muted);line-height:1.7;margin-top:1.6rem;max-width:820px}
 #sh .sh-foot a{color:var(--accent);text-decoration:none;font-weight:600}
@@ -61,7 +73,7 @@
     <div class="breadcrumb"><a href="index.html">Home</a><span class="sep">/</span>Start here</div>
     <div class="hero-eyebrow">Guided tracks</div>
     <h1>Start here, <em>by the seat you sit in</em></h1>
-    <p class="hero-sub">The platform is deep enough to get lost in, thirty-five sub-sector references, thirteen tools, two hundred worked assets. These four tracks sequence it for the reader you actually are, each step building on the last. Work a track top to bottom and you will come out fluent.</p>
+    <p class="hero-sub">The platform is deep enough to get lost in, thirty-five sub-sector references, thirteen tools, two hundred worked assets. These four tracks sequence it for the reader you actually are, each step building on the last. Start one and the site guides you through it, a navigator bar follows you from page to page, and your progress is saved on this device, so you can put a track down on Tuesday and pick it up where you left off on Thursday.</p>
   </div>
 </section>
 
@@ -76,64 +88,9 @@
       <div class="how"><b>Take it to Excel</b>Every projection table has a Download CSV button. The models are transparent, check the maths yourself.</div>
     </div>
 
-    <div class="tracks">
+    <div class="tracks" id="tracks" aria-live="polite"></div>
 
-      <div class="track" style="--tc:#0c6b4f">
-        <div class="tag">Track 01 · Foundations</div>
-        <h2>New to the asset class</h2>
-        <p class="who">For students, career-switchers and new joiners: how infrastructure earns, why it carries so much debt, and why investors pay up for it.</p>
-        <ol class="steps">
-          <li><span><a href="energy-utilities.html">Energy &amp; utility networks</a><span class="w">The map of the regulated universe, why monopolies get regulated returns.</span></span></li>
-          <li><span><a href="electricity-transmission.html">Electricity transmission</a><span class="w">The RAB model in full, revenue decoupled from volume, watch the cash rise from the assets, not the electrons.</span></span></li>
-          <li><span><a href="roads.html">Roads</a><span class="w">Demand risk vs availability, the other end of the risk ladder, on real toll roads.</span></span></li>
-          <li><span><a href="hospitals.html">Hospitals</a><span class="w">Availability PPPs, government-backed unitary charges and what deductions do.</span></span></li>
-          <li><span><a href="cashflow-model.html">Cash-flow &amp; DCF model</a><span class="w">Now build the intuition: every line on a slider, IRR, NPV and payback live.</span></span></li>
-          <li><span><a href="glossary.html">Glossary A–Z</a><span class="w">The language, 200 terms as practitioners actually use them.</span></span></li>
-        </ol>
-      </div>
-
-      <div class="track" style="--tc:#b07d24">
-        <div class="tag">Track 02 · Transactions</div>
-        <h2>Joining a deal team</h2>
-        <p class="who">For analysts and associates in M&amp;A, corp dev or an infra fund: the auction, the model, the comps and what things cost.</p>
-        <ol class="steps">
-          <li><span><a href="infrastructure-ma.html">Infrastructure M&amp;A</a><span class="w">The lifecycle end to end, teaser to SPA, plus a live acquisition model over 200+ assets.</span></span></li>
-          <li><span><a href="ma-in-action-fibre.html">In action: entering fibre</a><span class="w">A full auction worked, build vs buy vs buy-and-build, with the capital structure in depth.</span></span></li>
-          <li><span><a href="infrastructure-deals.html">Deals database</a><span class="w">59 landmark transactions, who bought what, from whom, at what scale and why.</span></span></li>
-          <li><span><a href="multiples-map.html">Multiples map</a><span class="w">Where each sub-sector trades, EV/EBITDA bands and RAB premia, anchored to those deals.</span></span></li>
-          <li><span><a href="compare.html">Compare returns</a><span class="w">Every sub-sector's base case side by side, generated from the live models.</span></span></li>
-        </ol>
-      </div>
-
-      <div class="track" style="--tc:#2f5fb0">
-        <div class="tag">Track 03 · Credit</div>
-        <h2>Credit &amp; project finance</h2>
-        <p class="who">For lenders, debt funds and structurers: how the debt is sized, priced and refinanced against these cash flows.</p>
-        <ol class="steps">
-          <li><span><a href="project-finance.html">Project finance &amp; debt</a><span class="w">CFADS, target DSCR, sculpted amortisation, LLCR and the refi release, on a live model.</span></span></li>
-          <li><span><a href="wacc-calculator.html">WACC calculator</a><span class="w">What moves the discount rate, and therefore everything else.</span></span></li>
-          <li><span><a href="offshore-wind.html">Offshore wind</a><span class="w">Contracted-generation credit in practice, CfD cover, merchant tails, transmission carve-outs.</span></span></li>
-          <li><span><a href="macro_dashboard.html">Macro dashboard</a><span class="w">The rates, swaps and spreads your margins price off.</span></span></li>
-          <li><span><a href="regulatory_tracker.html">Regulatory tracker</a><span class="w">The price-control calendar that resets allowed returns, and covenant headroom with it.</span></span></li>
-        </ol>
-      </div>
-
-      <div class="track" style="--tc:#bc4733">
-        <div class="tag">Track 04 · Allocation</div>
-        <h2>LP, allocator or co-investor</h2>
-        <p class="who">For pension, insurance, sovereign and family-office capital: what the vehicle costs, what reaches you net, and where the market is.</p>
-        <ol class="steps">
-          <li><span><a href="fund-economics.html">Fund economics</a><span class="w">Fees, carry, hurdle and the waterfall, exactly how a 13% gross becomes an 8.5% net, and what co-invest does to it.</span></span></li>
-          <li><span><a href="compare.html">Compare returns</a><span class="w">The opportunity set on one screen, regulated to merchant.</span></span></li>
-          <li><span><a href="multiples-map.html">Multiples map</a><span class="w">Entry pricing by sector, are you buying the asset or the cycle?</span></span></li>
-          <li><span><a href="infrastructure-ma.html">Infrastructure M&amp;A</a><span class="w">What your GP is actually doing with your capital, run a deal yourself.</span></span></li>
-          <li><span><a href="energy-transition.html">Energy transition</a><span class="w">Where the next decade's capex, and fundraising, is going.</span></span></li>
-        </ol>
-      </div>
-
-    </div>
-
-    <p class="sh-foot">Prefer to wander? The <a href="index.html#asset-universe">asset universe</a> maps all six classes and thirty-five sub-sectors, and every reference page ends with previous/next navigation so you can walk the whole library in order. For how the numbers are built and who is behind this, read <a href="about.html">About &amp; methodology</a>.</p>
+    <p class="sh-foot">Prefer to wander? The <a href="index.html#asset-universe">asset universe</a> maps all six classes and thirty-five sub-sectors, and every reference page ends with previous/next navigation so you can walk the whole library in order. Track progress lives only in this browser, nothing is sent anywhere, and you can <a href="#" id="shReset">reset it</a> at any time.</p>
 
   </div>
 </section>
@@ -146,5 +103,52 @@
 
 <script src="site.js" defer></script>
 <script src="glossary.js" defer></script>
+<script>
+/* Render the track cards from the shared definition in site.js, with live
+   progress from this browser's visit history (local only). */
+document.addEventListener('DOMContentLoaded', function(){
+  var mount=document.getElementById('tracks');
+  var TR=window.II_TRACKS||[];
+  if(!mount||!TR.length) return;
+  function esc(x){ return String(x).replace(/&/g,'&amp;').replace(/</g,'&lt;'); }
+  var vis=window.iiVisited?window.iiVisited():{};
+  var celebrate=((location.hash||'').match(/^#done=([a-z]+)/)||[])[1];
+
+  mount.innerHTML=TR.map(function(t){
+    var total=t.steps.length, done=0, next=0;
+    t.steps.forEach(function(st,i){ if(vis[st[0]]) done++; else if(!next) next=i+1; });
+    var complete=done===total;
+    var btnTxt = done===0 ? 'Start the track' : (complete ? 'Complete, revisit from step 1' : 'Resume at step '+next);
+    var btnStep = done===0||complete ? 1 : next;
+    var stepsHtml=t.steps.map(function(st,i){
+      var v=!!vis[st[0]];
+      return '<li class="'+(v?'done':'')+'">'+
+        '<span class="n">'+(v?'&#10003;':(i+1))+'</span>'+
+        '<span><a href="'+st[0]+'#track='+t.k+'.'+(i+1)+'">'+esc(st[1])+'</a>'+
+        '<span class="w">'+esc(st[2])+'</span></span></li>';
+    }).join('');
+    return '<div class="track" style="--tc:'+t.c+'">'+
+      '<div class="meta"><span class="tag">Track '+t.no+' · '+esc(t.n)+'</span><span class="time">'+esc(t.time)+'</span></div>'+
+      '<h2>'+esc(t.t)+'</h2>'+
+      '<p class="who">'+esc(t.who)+'</p>'+
+      (celebrate===t.k?'<div class="tdone">Track complete. That is the whole '+esc(t.n.toLowerCase())+' story, from first principles to the live models. Pick another seat below, or go run some numbers.</div>':'')+
+      '<div class="tprog"><div class="pbar"><span style="width:'+Math.round(done/total*100)+'%"></span></div><span class="plab">'+done+' of '+total+' visited</span></div>'+
+      '<a class="tbtn'+(complete?' done':'')+'" href="'+t.steps[btnStep-1][0]+'#track='+t.k+'.'+btnStep+'">'+btnTxt+' &rarr;</a>'+
+      '<ol class="steps">'+stepsHtml+'</ol>'+
+    '</div>';
+  }).join('');
+
+  var reset=document.getElementById('shReset');
+  if(reset) reset.addEventListener('click',function(e){
+    e.preventDefault();
+    try{
+      var v=window.iiVisited();
+      TR.forEach(function(t){ t.steps.forEach(function(st){ delete v[st[0]]; }); });
+      localStorage.setItem('iiVisited',JSON.stringify(v));
+    }catch(_){}
+    location.hash=''; location.reload();
+  });
+});
+</script>
 </body>
 </html>

@@ -30,13 +30,21 @@ A status summary for whoever picks this up next. Last updated: 2026-07-01.
 >     new tool cards under "Valuation & returns", multiples map under "M&A & deals", trust stat
 >     "13 analytical tools". Nav/footer/INDEX/sitemap updated.
 >
-> **Follow-up (same day): the "wow factor" trio** — `about.html` (methodology, calibration rules,
-> what-it-is-not, independence statement with an EDIT-ME author block to personalise, corrections
-> invitation), `start-here.html` (four guided tracks × ~5 steps: foundations / deal team / credit /
-> allocator, plus the four power-user habits), and **evidence chips on the multiples map** (each band's
-> hover panel now lists the actual MA_DEALS behind it via `ev`/`evT`/`reg` filters, with an honest
-> dashed fallback where the database has no deal yet). Homepage hero gained a "Start with a guided
-> track" note; footer gained About + Start here; both pages in INDEX/KEYWORDS/sitemap.
+> **Follow-up (same day):** PR #99 shipped `about.html`, multiples-map evidence chips and
+> `start-here.html`; the user then asked to **undo the About page and the evidence chips**
+> (both reverted) but **keep and enhance the pathways**. The pathways are now a full
+> **guided-journey system**:
+> - `TRACKS` (single source of truth, `window.II_TRACKS`) lives in `site.js`: four tracks
+>   (foundations / deals / credit / allocation), each step `[url, title, why]` + colour/time.
+> - `start-here.html` renders the cards **dynamically on DOMContentLoaded** (after deferred
+>   site.js) with live progress: per-track progress bar, "n of m visited", Start / Resume-at-step-n /
+>   Complete buttons, step ticks, a `#done=<key>` celebration banner, and a reset link.
+> - **Track-navigator bar** (site.js IIFE + `.track-bar` css): any page opened with
+>   `#track=<key>.<step>` shows a floating bottom bar — track name, step x of y, progress dots,
+>   Prev / "Next: <title>" (last step → "Finish track" → `start-here.html#done=<key>`), close ✕.
+>   Links from start-here carry the hash, so the whole track is a guided flow across the site.
+> - Progress = page-visit log in `localStorage.iiVisited` (written by site.js on every page,
+>   local only; exposed as `window.iiVisited()`). Do not rename these keys casually.
 >
 > Everything was validated headlessly (Node) **and** in the pre-installed Chromium via
 > playwright-core (`executablePath:'/opt/pw-browsers/chromium'`) — screenshots + widget click-through.

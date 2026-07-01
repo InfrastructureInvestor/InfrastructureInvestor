@@ -1,6 +1,6 @@
 /* Infrastructure Reference, shared nav + command palette (progressive enhancement) */
 (function () {
-  var INDEX = [{"t":"Home","u":"index.html","g":"Page"},{"t":"Compare returns","u":"compare.html","g":"Page"},{"t":"Community","u":"community.html","g":"Page"},{"t":"Contact","u":"contact.html","g":"Page"},{"t":"Energy & Utilities","u":"energy-utilities.html","g":"Asset class"},{"t":"Electricity transmission","u":"electricity-transmission.html","g":"Energy & Utilities"},{"t":"Electricity distribution","u":"electricity-distribution.html","g":"Energy & Utilities"},{"t":"Last-mile electricity","u":"last-mile-electricity.html","g":"Energy & Utilities"},{"t":"Electricity interconnectors","u":"electricity-interconnectors.html","g":"Energy & Utilities"},{"t":"Gas transmission","u":"gas-transmission.html","g":"Energy & Utilities"},{"t":"Gas distribution","u":"gas-distribution.html","g":"Energy & Utilities"},{"t":"Water & wastewater","u":"water-wastewater.html","g":"Energy & Utilities"},{"t":"Last-mile water","u":"last-mile-water.html","g":"Energy & Utilities"},{"t":"Heat networks","u":"heat-networks.html","g":"Energy & Utilities"},{"t":"Transport","u":"transport.html","g":"Asset class"},{"t":"Roads","u":"roads.html","g":"Transport"},{"t":"Rail infrastructure","u":"rail-infrastructure.html","g":"Transport"},{"t":"Airports","u":"airports.html","g":"Transport"},{"t":"Ports","u":"ports.html","g":"Transport"},{"t":"Rolling stock","u":"rolling-stock.html","g":"Transport"},{"t":"EV charging","u":"ev-charging.html","g":"Transport"},{"t":"Bridges","u":"bridges.html","g":"Transport"},{"t":"Digital Infrastructure","u":"digital-infrastructure.html","g":"Asset class"},{"t":"Fibre networks","u":"fibre-networks.html","g":"Digital Infrastructure"},{"t":"Mobile towers","u":"mobile-towers.html","g":"Digital Infrastructure"},{"t":"Data centres","u":"data-centres.html","g":"Digital Infrastructure"},{"t":"Subsea cables","u":"subsea-cables.html","g":"Digital Infrastructure"},{"t":"Social Infrastructure","u":"social-infrastructure.html","g":"Asset class"},{"t":"Hospitals","u":"hospitals.html","g":"Social Infrastructure"},{"t":"Schools","u":"schools.html","g":"Social Infrastructure"},{"t":"Prisons","u":"prisons.html","g":"Social Infrastructure"},{"t":"Courts","u":"courts.html","g":"Social Infrastructure"},{"t":"Military","u":"military.html","g":"Social Infrastructure"},{"t":"Student accommodation","u":"student-accommodation.html","g":"Social Infrastructure"},{"t":"Energy Transition","u":"energy-transition.html","g":"Asset class"},{"t":"Onshore wind","u":"onshore-wind.html","g":"Energy Transition"},{"t":"Offshore wind","u":"offshore-wind.html","g":"Energy Transition"},{"t":"Solar","u":"solar.html","g":"Energy Transition"},{"t":"Battery storage","u":"battery-storage.html","g":"Energy Transition"},{"t":"Hydrogen","u":"hydrogen.html","g":"Energy Transition"},{"t":"Nuclear","u":"nuclear.html","g":"Energy Transition"},{"t":"Pumped hydro","u":"pumped-hydro.html","g":"Energy Transition"},{"t":"Environmental & Waste","u":"environmental-waste.html","g":"Asset class"},{"t":"Waste-to-energy","u":"waste-to-energy.html","g":"Environmental & Waste"},{"t":"Anaerobic digestion","u":"anaerobic-digestion.html","g":"Environmental & Waste"},{"t":"Recycling infrastructure","u":"recycling-infrastructure.html","g":"Environmental & Waste"},{"t":"RIIO-ED2 Revenue Calculator","u":"riio_ed2_calculator.html","g":"Tool"},{"t":"Investment Considerations","u":"heat_framework.html","g":"Tool"},{"t":"Regulatory Timeline","u":"heat_regulation_timeline.html","g":"Tool"},{"t":"HSA Cashflow Model","u":"heat_dcf.html","g":"Tool"},{"t":"Cash-flow & DCF model","u":"cashflow-model.html","g":"Tool"},{"t":"Infrastructure M&A","u":"infrastructure-ma.html","g":"Tool"},{"t":"Infrastructure deals database","u":"infrastructure-deals.html","g":"Tool"},{"t":"M&A in action","u":"ma-in-action.html","g":"Tool"},{"t":"In action: fibre market entry","u":"ma-in-action-fibre.html","g":"Tool"},{"t":"In action: distressed altnet","u":"ma-in-action-distressed.html","g":"Tool"},{"t":"In action: regulated take-private","u":"ma-in-action-regulated.html","g":"Tool"},{"t":"In action: data-centre platform","u":"ma-in-action-datacentre.html","g":"Tool"},{"t":"WACC Calculator","u":"wacc-calculator.html","g":"Tool"},{"t":"Macro Dashboard","u":"macro_dashboard.html","g":"Tool"},{"t":"Ofgem & Ofwat Tracker","u":"regulatory_tracker.html","g":"Tool"},{"t":"Multiples map","u":"multiples-map.html","g":"Tool"},{"t":"Fund economics","u":"fund-economics.html","g":"Tool"},{"t":"Project finance & debt","u":"project-finance.html","g":"Tool"},{"t":"Glossary A–Z","u":"glossary.html","g":"Page"},{"t":"Start here · guided tracks","u":"start-here.html","g":"Page"},{"t":"About & methodology","u":"about.html","g":"Page"}];
+  var INDEX = [{"t":"Home","u":"index.html","g":"Page"},{"t":"Compare returns","u":"compare.html","g":"Page"},{"t":"Community","u":"community.html","g":"Page"},{"t":"Contact","u":"contact.html","g":"Page"},{"t":"Energy & Utilities","u":"energy-utilities.html","g":"Asset class"},{"t":"Electricity transmission","u":"electricity-transmission.html","g":"Energy & Utilities"},{"t":"Electricity distribution","u":"electricity-distribution.html","g":"Energy & Utilities"},{"t":"Last-mile electricity","u":"last-mile-electricity.html","g":"Energy & Utilities"},{"t":"Electricity interconnectors","u":"electricity-interconnectors.html","g":"Energy & Utilities"},{"t":"Gas transmission","u":"gas-transmission.html","g":"Energy & Utilities"},{"t":"Gas distribution","u":"gas-distribution.html","g":"Energy & Utilities"},{"t":"Water & wastewater","u":"water-wastewater.html","g":"Energy & Utilities"},{"t":"Last-mile water","u":"last-mile-water.html","g":"Energy & Utilities"},{"t":"Heat networks","u":"heat-networks.html","g":"Energy & Utilities"},{"t":"Transport","u":"transport.html","g":"Asset class"},{"t":"Roads","u":"roads.html","g":"Transport"},{"t":"Rail infrastructure","u":"rail-infrastructure.html","g":"Transport"},{"t":"Airports","u":"airports.html","g":"Transport"},{"t":"Ports","u":"ports.html","g":"Transport"},{"t":"Rolling stock","u":"rolling-stock.html","g":"Transport"},{"t":"EV charging","u":"ev-charging.html","g":"Transport"},{"t":"Bridges","u":"bridges.html","g":"Transport"},{"t":"Digital Infrastructure","u":"digital-infrastructure.html","g":"Asset class"},{"t":"Fibre networks","u":"fibre-networks.html","g":"Digital Infrastructure"},{"t":"Mobile towers","u":"mobile-towers.html","g":"Digital Infrastructure"},{"t":"Data centres","u":"data-centres.html","g":"Digital Infrastructure"},{"t":"Subsea cables","u":"subsea-cables.html","g":"Digital Infrastructure"},{"t":"Social Infrastructure","u":"social-infrastructure.html","g":"Asset class"},{"t":"Hospitals","u":"hospitals.html","g":"Social Infrastructure"},{"t":"Schools","u":"schools.html","g":"Social Infrastructure"},{"t":"Prisons","u":"prisons.html","g":"Social Infrastructure"},{"t":"Courts","u":"courts.html","g":"Social Infrastructure"},{"t":"Military","u":"military.html","g":"Social Infrastructure"},{"t":"Student accommodation","u":"student-accommodation.html","g":"Social Infrastructure"},{"t":"Energy Transition","u":"energy-transition.html","g":"Asset class"},{"t":"Onshore wind","u":"onshore-wind.html","g":"Energy Transition"},{"t":"Offshore wind","u":"offshore-wind.html","g":"Energy Transition"},{"t":"Solar","u":"solar.html","g":"Energy Transition"},{"t":"Battery storage","u":"battery-storage.html","g":"Energy Transition"},{"t":"Hydrogen","u":"hydrogen.html","g":"Energy Transition"},{"t":"Nuclear","u":"nuclear.html","g":"Energy Transition"},{"t":"Pumped hydro","u":"pumped-hydro.html","g":"Energy Transition"},{"t":"Environmental & Waste","u":"environmental-waste.html","g":"Asset class"},{"t":"Waste-to-energy","u":"waste-to-energy.html","g":"Environmental & Waste"},{"t":"Anaerobic digestion","u":"anaerobic-digestion.html","g":"Environmental & Waste"},{"t":"Recycling infrastructure","u":"recycling-infrastructure.html","g":"Environmental & Waste"},{"t":"RIIO-ED2 Revenue Calculator","u":"riio_ed2_calculator.html","g":"Tool"},{"t":"Investment Considerations","u":"heat_framework.html","g":"Tool"},{"t":"Regulatory Timeline","u":"heat_regulation_timeline.html","g":"Tool"},{"t":"HSA Cashflow Model","u":"heat_dcf.html","g":"Tool"},{"t":"Cash-flow & DCF model","u":"cashflow-model.html","g":"Tool"},{"t":"Infrastructure M&A","u":"infrastructure-ma.html","g":"Tool"},{"t":"Infrastructure deals database","u":"infrastructure-deals.html","g":"Tool"},{"t":"M&A in action","u":"ma-in-action.html","g":"Tool"},{"t":"In action: fibre market entry","u":"ma-in-action-fibre.html","g":"Tool"},{"t":"In action: distressed altnet","u":"ma-in-action-distressed.html","g":"Tool"},{"t":"In action: regulated take-private","u":"ma-in-action-regulated.html","g":"Tool"},{"t":"In action: data-centre platform","u":"ma-in-action-datacentre.html","g":"Tool"},{"t":"WACC Calculator","u":"wacc-calculator.html","g":"Tool"},{"t":"Macro Dashboard","u":"macro_dashboard.html","g":"Tool"},{"t":"Ofgem & Ofwat Tracker","u":"regulatory_tracker.html","g":"Tool"},{"t":"Multiples map","u":"multiples-map.html","g":"Tool"},{"t":"Fund economics","u":"fund-economics.html","g":"Tool"},{"t":"Project finance & debt","u":"project-finance.html","g":"Tool"},{"t":"Glossary A–Z","u":"glossary.html","g":"Page"},{"t":"Start here · guided tracks","u":"start-here.html","g":"Page"}];
 
   /* Extra search keywords per page, so the ⌘K palette matches the language
      practitioners actually type (business models, jargon, regulators), not just
@@ -52,13 +52,74 @@
     'project-finance.html': 'debt sculpting dscr llcr cfads leverage bond bank private credit refinancing',
     'glossary.html': 'terms definitions jargon dictionary a-z',
     'start-here.html': 'learn learning path track new joiner beginner guide onboarding curriculum',
-    'about.html': 'methodology sources calibration author who behind independent corrections',
     'macro_dashboard.html': 'rates swaps gilts inflation credit spreads market data',
     'regulatory_tracker.html': 'ofgem ofwat price control determination riio'
   };
 
   var classes = INDEX.filter(function (e) { return e.g === 'Asset class'; });
   var here = (location.pathname.split('/').pop() || 'index.html');
+
+  /* ---------------- Guided tracks ----------------
+     One source of truth for the learning pathways: rendered as cards on
+     start-here.html, and driven across the site by the track-navigator bar
+     (see the "Guided-track navigator" IIFE below). steps: [url, title, why]. */
+  var TRACKS = [
+    { k: 'foundations', no: '01', n: 'Foundations', c: '#0c6b4f', time: '~1 hr',
+      t: 'New to the asset class',
+      who: 'For students, career-switchers and new joiners: how infrastructure earns, why it carries so much debt, and why investors pay up for it.',
+      steps: [
+        ['energy-utilities.html', 'Energy & utility networks', 'The map of the regulated universe, why monopolies get regulated returns.'],
+        ['electricity-transmission.html', 'Electricity transmission', 'The RAB model in full, revenue decoupled from volume, watch the cash flow to the owner, not from the electrons.'],
+        ['roads.html', 'Roads', 'Demand risk vs availability, the other end of the risk ladder, on real toll roads.'],
+        ['hospitals.html', 'Hospitals', 'Availability PPPs, government-backed unitary charges and what deductions do.'],
+        ['cashflow-model.html', 'Cash-flow & DCF model', 'Now build the intuition: every line on a slider, IRR, NPV and payback live.'],
+        ['glossary.html', 'Glossary A-Z', 'The language, 200 terms as practitioners actually use them.']
+      ] },
+    { k: 'deals', no: '02', n: 'Transactions', c: '#b07d24', time: '~1 hr',
+      t: 'Joining a deal team',
+      who: 'For analysts and associates in M&A, corp dev or an infra fund: the auction, the model, the comps and what things cost.',
+      steps: [
+        ['infrastructure-ma.html', 'Infrastructure M&A', 'The lifecycle end to end, teaser to SPA, plus a live acquisition model over 200+ assets.'],
+        ['ma-in-action-fibre.html', 'In action: entering fibre', 'A full auction worked, build vs buy vs buy-and-build, with the capital structure in depth.'],
+        ['infrastructure-deals.html', 'Deals database', '59 landmark transactions, who bought what, from whom, at what scale and why.'],
+        ['multiples-map.html', 'Multiples map', 'Where each sub-sector trades, EV/EBITDA bands and RAB premia.'],
+        ['compare.html', 'Compare returns', 'Every sub-sector’s base case side by side, generated from the live models.']
+      ] },
+    { k: 'credit', no: '03', n: 'Credit', c: '#2f5fb0', time: '~45 min',
+      t: 'Credit & project finance',
+      who: 'For lenders, debt funds and structurers: how the debt is sized, priced and refinanced against these cash flows.',
+      steps: [
+        ['project-finance.html', 'Project finance & debt', 'CFADS, target DSCR, sculpted amortisation, LLCR and the refi release, on a live model.'],
+        ['wacc-calculator.html', 'WACC calculator', 'What moves the discount rate, and therefore everything else.'],
+        ['offshore-wind.html', 'Offshore wind', 'Contracted-generation credit in practice, CfD cover, merchant tails, transmission carve-outs.'],
+        ['macro_dashboard.html', 'Macro dashboard', 'The rates, swaps and spreads your margins price off.'],
+        ['regulatory_tracker.html', 'Regulatory tracker', 'The price-control calendar that resets allowed returns, and covenant headroom with it.']
+      ] },
+    { k: 'allocation', no: '04', n: 'Allocation', c: '#bc4733', time: '~45 min',
+      t: 'LP, allocator or co-investor',
+      who: 'For pension, insurance, sovereign and family-office capital: what the vehicle costs, what reaches you net, and where the market is.',
+      steps: [
+        ['fund-economics.html', 'Fund economics', 'Fees, carry, hurdle and the waterfall, exactly how gross becomes net, and what co-invest does to it.'],
+        ['compare.html', 'Compare returns', 'The opportunity set on one screen, regulated to merchant.'],
+        ['multiples-map.html', 'Multiples map', 'Entry pricing by sector, are you buying the asset or the cycle?'],
+        ['infrastructure-ma.html', 'Infrastructure M&A', 'What your GP is actually doing with your capital, run a deal yourself.'],
+        ['energy-transition.html', 'Energy transition', 'Where the next decade’s capex, and fundraising, is going.']
+      ] }
+  ];
+  window.II_TRACKS = TRACKS;
+
+  /* Which pages this browser has seen. Stored locally only, nothing leaves the
+     device; powers the progress state on start-here.html. */
+  window.iiVisited = function () {
+    try { return JSON.parse(localStorage.getItem('iiVisited') || '{}'); } catch (_) { return {}; }
+  };
+  (function () {
+    try {
+      var v = window.iiVisited();
+      if (!v[here]) { v[here] = Date.now(); localStorage.setItem('iiVisited', JSON.stringify(v)); }
+    } catch (_) {}
+  })();
+
 
   /* Worked projects/assets inside the reference pages (HS2, Heathrow, …), searchable
      in the command palette and deep-linkable via <page>.html#ex=<key>, which auto-selects
@@ -385,7 +446,7 @@
     html += '</div>';
     html += '<div class="sf-bottom">' +
               '<div class="sf-copy">© ' + (new Date().getFullYear()) + ' Infrastructure Investor · theinfrastructureinvestor.com</div>' +
-              '<div class="sf-meta">Educational reference, not investment advice · <a href="start-here.html">Start here</a> · <a href="about.html">About &amp; methodology</a> · <a href="contact.html">Contact</a></div>' +
+              '<div class="sf-meta">Educational reference, not investment advice · <a href="start-here.html">Start here</a> · <a href="contact.html">Contact</a></div>' +
             '</div>';
     html += '</div>';
 
@@ -475,6 +536,42 @@
       }).catch(function () {
         setStatus('Network error, please try again in a moment.', 'err');
       }).then(function () { btn.disabled = false; });
+    });
+  })();
+
+  /* ---------------- Guided-track navigator ----------------
+     When a page is opened with #track=<key>.<step> (links from start-here.html
+     carry it), a floating bar shows where you are in the track, with previous /
+     next navigation that keeps the context. Close it to leave the track. */
+  (function () {
+    var m = (location.hash || '').match(/^#track=([a-z]+)\.(\d+)$/);
+    if (!m) return;
+    var t = null;
+    TRACKS.forEach(function (x) { if (x.k === m[1]) t = x; });
+    if (!t) return;
+    var i = parseInt(m[2], 10);
+    if (!(i >= 1 && i <= t.steps.length)) return;
+    if (t.steps[i - 1][0] !== here) return;   /* bar only makes sense on the step's own page */
+    function esc(s) { return s.replace(/&/g, '&amp;').replace(/</g, '&lt;'); }
+    var prev = i > 1 ? t.steps[i - 2] : null;
+    var next = i < t.steps.length ? t.steps[i] : null;
+    var bar = document.createElement('div');
+    bar.className = 'track-bar';
+    bar.style.setProperty('--tc', t.c);
+    bar.setAttribute('role', 'navigation'); bar.setAttribute('aria-label', 'Guided track');
+    bar.innerHTML =
+      '<span class="tb-tag">Track ' + t.no + ' · ' + esc(t.n) + '</span>' +
+      '<span class="tb-step">Step ' + i + ' of ' + t.steps.length + '</span>' +
+      '<span class="tb-dots" aria-hidden="true">' + t.steps.map(function (s, j) {
+        return '<span class="' + (j < i ? 'on' : '') + '"></span>'; }).join('') + '</span>' +
+      (prev ? '<a class="tb-nav prev" href="' + prev[0] + '#track=' + t.k + '.' + (i - 1) + '">&larr; Prev</a>' : '') +
+      (next ? '<a class="tb-nav next" href="' + next[0] + '#track=' + t.k + '.' + (i + 1) + '">Next: ' + esc(next[1]) + ' &rarr;</a>'
+            : '<a class="tb-nav next" href="start-here.html#done=' + t.k + '">Finish track &#10003;</a>') +
+      '<button type="button" class="tb-x" aria-label="Leave the track">&#10005;</button>';
+    document.body.appendChild(bar);
+    bar.querySelector('.tb-x').addEventListener('click', function () {
+      try { history.replaceState(null, '', location.pathname); } catch (_) {}
+      bar.remove();
     });
   })();
 
