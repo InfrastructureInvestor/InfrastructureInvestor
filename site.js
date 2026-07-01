@@ -1,6 +1,59 @@
 /* Infrastructure Reference, shared nav + command palette (progressive enhancement) */
 (function () {
-  var INDEX = [{"t":"Home","u":"index.html","g":"Page"},{"t":"Compare returns","u":"compare.html","g":"Page"},{"t":"Community","u":"community.html","g":"Page"},{"t":"Contact","u":"contact.html","g":"Page"},{"t":"Energy & Utilities","u":"energy-utilities.html","g":"Asset class"},{"t":"Electricity transmission","u":"electricity-transmission.html","g":"Energy & Utilities"},{"t":"Electricity distribution","u":"electricity-distribution.html","g":"Energy & Utilities"},{"t":"Last-mile electricity","u":"last-mile-electricity.html","g":"Energy & Utilities"},{"t":"Electricity interconnectors","u":"electricity-interconnectors.html","g":"Energy & Utilities"},{"t":"Gas transmission","u":"gas-transmission.html","g":"Energy & Utilities"},{"t":"Gas distribution","u":"gas-distribution.html","g":"Energy & Utilities"},{"t":"Water & wastewater","u":"water-wastewater.html","g":"Energy & Utilities"},{"t":"Last-mile water","u":"last-mile-water.html","g":"Energy & Utilities"},{"t":"Heat networks","u":"heat-networks.html","g":"Energy & Utilities"},{"t":"Transport","u":"transport.html","g":"Asset class"},{"t":"Roads","u":"roads.html","g":"Transport"},{"t":"Rail infrastructure","u":"rail-infrastructure.html","g":"Transport"},{"t":"Airports","u":"airports.html","g":"Transport"},{"t":"Ports","u":"ports.html","g":"Transport"},{"t":"Rolling stock","u":"rolling-stock.html","g":"Transport"},{"t":"EV charging","u":"ev-charging.html","g":"Transport"},{"t":"Bridges","u":"bridges.html","g":"Transport"},{"t":"Digital Infrastructure","u":"digital-infrastructure.html","g":"Asset class"},{"t":"Fibre networks","u":"fibre-networks.html","g":"Digital Infrastructure"},{"t":"Mobile towers","u":"mobile-towers.html","g":"Digital Infrastructure"},{"t":"Data centres","u":"data-centres.html","g":"Digital Infrastructure"},{"t":"Subsea cables","u":"subsea-cables.html","g":"Digital Infrastructure"},{"t":"Social Infrastructure","u":"social-infrastructure.html","g":"Asset class"},{"t":"Hospitals","u":"hospitals.html","g":"Social Infrastructure"},{"t":"Schools","u":"schools.html","g":"Social Infrastructure"},{"t":"Prisons","u":"prisons.html","g":"Social Infrastructure"},{"t":"Courts","u":"courts.html","g":"Social Infrastructure"},{"t":"Military","u":"military.html","g":"Social Infrastructure"},{"t":"Student accommodation","u":"student-accommodation.html","g":"Social Infrastructure"},{"t":"Energy Transition","u":"energy-transition.html","g":"Asset class"},{"t":"Onshore wind","u":"onshore-wind.html","g":"Energy Transition"},{"t":"Offshore wind","u":"offshore-wind.html","g":"Energy Transition"},{"t":"Solar","u":"solar.html","g":"Energy Transition"},{"t":"Battery storage","u":"battery-storage.html","g":"Energy Transition"},{"t":"Hydrogen","u":"hydrogen.html","g":"Energy Transition"},{"t":"Nuclear","u":"nuclear.html","g":"Energy Transition"},{"t":"Pumped hydro","u":"pumped-hydro.html","g":"Energy Transition"},{"t":"Environmental & Waste","u":"environmental-waste.html","g":"Asset class"},{"t":"Waste-to-energy","u":"waste-to-energy.html","g":"Environmental & Waste"},{"t":"Anaerobic digestion","u":"anaerobic-digestion.html","g":"Environmental & Waste"},{"t":"Recycling infrastructure","u":"recycling-infrastructure.html","g":"Environmental & Waste"},{"t":"RIIO-ED2 Revenue Calculator","u":"riio_ed2_calculator.html","g":"Tool"},{"t":"Investment Considerations","u":"heat_framework.html","g":"Tool"},{"t":"Regulatory Timeline","u":"heat_regulation_timeline.html","g":"Tool"},{"t":"HSA Cashflow Model","u":"heat_dcf.html","g":"Tool"},{"t":"Cash-flow & DCF model","u":"cashflow-model.html","g":"Tool"},{"t":"Infrastructure M&A","u":"infrastructure-ma.html","g":"Tool"},{"t":"Infrastructure deals database","u":"infrastructure-deals.html","g":"Tool"},{"t":"M&A in action","u":"ma-in-action.html","g":"Tool"},{"t":"In action: fibre market entry","u":"ma-in-action-fibre.html","g":"Tool"},{"t":"In action: distressed altnet","u":"ma-in-action-distressed.html","g":"Tool"},{"t":"In action: regulated take-private","u":"ma-in-action-regulated.html","g":"Tool"},{"t":"In action: data-centre platform","u":"ma-in-action-datacentre.html","g":"Tool"},{"t":"WACC Calculator","u":"wacc-calculator.html","g":"Tool"},{"t":"Macro Dashboard","u":"macro_dashboard.html","g":"Tool"},{"t":"Ofgem & Ofwat Tracker","u":"regulatory_tracker.html","g":"Tool"}];
+  var INDEX = [{"t":"Home","u":"index.html","g":"Page"},{"t":"Compare returns","u":"compare.html","g":"Page"},{"t":"Community","u":"community.html","g":"Page"},{"t":"Contact","u":"contact.html","g":"Page"},{"t":"Energy & Utilities","u":"energy-utilities.html","g":"Asset class"},{"t":"Electricity transmission","u":"electricity-transmission.html","g":"Energy & Utilities"},{"t":"Electricity distribution","u":"electricity-distribution.html","g":"Energy & Utilities"},{"t":"Last-mile electricity","u":"last-mile-electricity.html","g":"Energy & Utilities"},{"t":"Electricity interconnectors","u":"electricity-interconnectors.html","g":"Energy & Utilities"},{"t":"Gas transmission","u":"gas-transmission.html","g":"Energy & Utilities"},{"t":"Gas distribution","u":"gas-distribution.html","g":"Energy & Utilities"},{"t":"Water & wastewater","u":"water-wastewater.html","g":"Energy & Utilities"},{"t":"Last-mile water","u":"last-mile-water.html","g":"Energy & Utilities"},{"t":"Heat networks","u":"heat-networks.html","g":"Energy & Utilities"},{"t":"Transport","u":"transport.html","g":"Asset class"},{"t":"Roads","u":"roads.html","g":"Transport"},{"t":"Rail infrastructure","u":"rail-infrastructure.html","g":"Transport"},{"t":"Airports","u":"airports.html","g":"Transport"},{"t":"Ports","u":"ports.html","g":"Transport"},{"t":"Rolling stock","u":"rolling-stock.html","g":"Transport"},{"t":"EV charging","u":"ev-charging.html","g":"Transport"},{"t":"Bridges","u":"bridges.html","g":"Transport"},{"t":"Digital Infrastructure","u":"digital-infrastructure.html","g":"Asset class"},{"t":"Fibre networks","u":"fibre-networks.html","g":"Digital Infrastructure"},{"t":"Mobile towers","u":"mobile-towers.html","g":"Digital Infrastructure"},{"t":"Data centres","u":"data-centres.html","g":"Digital Infrastructure"},{"t":"Subsea cables","u":"subsea-cables.html","g":"Digital Infrastructure"},{"t":"Social Infrastructure","u":"social-infrastructure.html","g":"Asset class"},{"t":"Hospitals","u":"hospitals.html","g":"Social Infrastructure"},{"t":"Schools","u":"schools.html","g":"Social Infrastructure"},{"t":"Prisons","u":"prisons.html","g":"Social Infrastructure"},{"t":"Courts","u":"courts.html","g":"Social Infrastructure"},{"t":"Military","u":"military.html","g":"Social Infrastructure"},{"t":"Student accommodation","u":"student-accommodation.html","g":"Social Infrastructure"},{"t":"Energy Transition","u":"energy-transition.html","g":"Asset class"},{"t":"Onshore wind","u":"onshore-wind.html","g":"Energy Transition"},{"t":"Offshore wind","u":"offshore-wind.html","g":"Energy Transition"},{"t":"Solar","u":"solar.html","g":"Energy Transition"},{"t":"Battery storage","u":"battery-storage.html","g":"Energy Transition"},{"t":"Hydrogen","u":"hydrogen.html","g":"Energy Transition"},{"t":"Nuclear","u":"nuclear.html","g":"Energy Transition"},{"t":"Pumped hydro","u":"pumped-hydro.html","g":"Energy Transition"},{"t":"Environmental & Waste","u":"environmental-waste.html","g":"Asset class"},{"t":"Waste-to-energy","u":"waste-to-energy.html","g":"Environmental & Waste"},{"t":"Anaerobic digestion","u":"anaerobic-digestion.html","g":"Environmental & Waste"},{"t":"Recycling infrastructure","u":"recycling-infrastructure.html","g":"Environmental & Waste"},{"t":"RIIO-ED2 Revenue Calculator","u":"riio_ed2_calculator.html","g":"Tool"},{"t":"Investment Considerations","u":"heat_framework.html","g":"Tool"},{"t":"Regulatory Timeline","u":"heat_regulation_timeline.html","g":"Tool"},{"t":"HSA Cashflow Model","u":"heat_dcf.html","g":"Tool"},{"t":"Cash-flow & DCF model","u":"cashflow-model.html","g":"Tool"},{"t":"Infrastructure M&A","u":"infrastructure-ma.html","g":"Tool"},{"t":"Infrastructure deals database","u":"infrastructure-deals.html","g":"Tool"},{"t":"M&A in action","u":"ma-in-action.html","g":"Tool"},{"t":"In action: fibre market entry","u":"ma-in-action-fibre.html","g":"Tool"},{"t":"In action: distressed altnet","u":"ma-in-action-distressed.html","g":"Tool"},{"t":"In action: regulated take-private","u":"ma-in-action-regulated.html","g":"Tool"},{"t":"In action: data-centre platform","u":"ma-in-action-datacentre.html","g":"Tool"},{"t":"WACC Calculator","u":"wacc-calculator.html","g":"Tool"},{"t":"Macro Dashboard","u":"macro_dashboard.html","g":"Tool"},{"t":"Ofgem & Ofwat Tracker","u":"regulatory_tracker.html","g":"Tool"},{"t":"Multiples map","u":"multiples-map.html","g":"Tool"},{"t":"Fund economics","u":"fund-economics.html","g":"Tool"},{"t":"Project finance & debt","u":"project-finance.html","g":"Tool"},{"t":"Glossary A–Z","u":"glossary.html","g":"Page"}];
+
+  /* Extra search keywords per page, so the ⌘K palette matches the language
+     practitioners actually type (business models, jargon, regulators), not just
+     page titles. Keyed by URL; matched case-insensitively in score(). */
+  var KEYWORDS = {
+    'roads.html': 'toll motorway highway concession availability shadow traffic',
+    'rail-infrastructure.html': 'high speed hsr train track access charge farebox',
+    'airports.html': 'aero pax passenger dual till single till slot terminal',
+    'ports.html': 'container terminal teu berth quay concession landlord stevedore',
+    'rolling-stock.html': 'rosco train leasing fleet availability lessor wagon',
+    'ev-charging.html': 'charger utilisation rapid hub forecourt electric vehicle',
+    'bridges.html': 'toll crossing tunnel estuary fixed link',
+    'electricity-transmission.html': 'grid rab wacc allowed return pylon network riio ofgem wires',
+    'electricity-distribution.html': 'dno riio-ed2 network rab feeder substation wires',
+    'last-mile-electricity.html': 'idno connections adoption embedded network',
+    'electricity-interconnectors.html': 'hvdc cable cap floor subsea link arbitrage',
+    'gas-transmission.html': 'pipeline midstream compressor take or pay ship or pay',
+    'gas-distribution.html': 'gdn mains governor hydrogen ready decline',
+    'water-wastewater.html': 'ofwat pr24 rcv amp leakage odi sewer utility',
+    'last-mile-water.html': 'nav inset appointment connections developer',
+    'heat-networks.html': 'district heating cooling esco take or pay thermal',
+    'fibre-networks.html': 'ftth fttp altnet broadband penetration arpu homes passed take-up',
+    'mobile-towers.html': 'towerco colocation tenancy ratio mast bts sale leaseback',
+    'data-centres.html': 'colocation hyperscale mw it load pue powered shell wholesale ai',
+    'subsea-cables.html': 'submarine cable iru capacity landing station wavelength',
+    'hospitals.html': 'pfi ppp availability unitary charge healthcare nhs',
+    'schools.html': 'pfi bsf education availability unitary',
+    'prisons.html': 'custodial per diem correctional ppp',
+    'courts.html': 'justice courthouse p3 availability',
+    'military.html': 'defence estate barracks accommodation fm',
+    'student-accommodation.html': 'pbsa beds occupancy university nomination agreement',
+    'onshore-wind.html': 'turbine ppa cfd merchant capacity factor renewable generation',
+    'offshore-wind.html': 'cfd fixed bottom floating ofto renewable generation',
+    'solar.html': 'pv photovoltaic ppa merchant capture price renewable generation',
+    'battery-storage.html': 'bess arbitrage ancillary frequency tolling storage',
+    'hydrogen.html': 'electrolyser green h2 offtake subsidy power-to-x',
+    'nuclear.html': 'rab cfd baseload smr reactor',
+    'pumped-hydro.html': 'storage reservoir penstock cap and floor',
+    'waste-to-energy.html': 'efw gate fee incineration merchant power',
+    'anaerobic-digestion.html': 'biogas biomethane rng feedstock gate fee',
+    'recycling-infrastructure.html': 'mrf materials recovery gate fee commodity',
+    'cashflow-model.html': 'dcf irr npv moic projection valuation model',
+    'wacc-calculator.html': 'discount rate cost of capital capm risk premium',
+    'infrastructure-ma.html': 'acquisition lbo deal auction dscr sources uses bridge sensitivity',
+    'infrastructure-deals.html': 'transactions landmark comps takeover take-private database',
+    'compare.html': 'benchmark irr side by side returns',
+    'multiples-map.html': 'valuation ev ebitda rab premium benchmark trading ranges deal flow',
+    'fund-economics.html': 'lp gp carry hurdle waterfall management fee net irr gross moic fund',
+    'project-finance.html': 'debt sculpting dscr llcr cfads leverage bond bank private credit refinancing',
+    'glossary.html': 'terms definitions jargon dictionary a-z',
+    'macro_dashboard.html': 'rates swaps gilts inflation credit spreads market data',
+    'regulatory_tracker.html': 'ofgem ofwat price control determination riio'
+  };
 
   var classes = INDEX.filter(function (e) { return e.g === 'Asset class'; });
   var here = (location.pathname.split('/').pop() || 'index.html');
@@ -292,14 +345,17 @@
       ]},
       { h: 'Tools & analysis', links: [
         ['Cash-flow & DCF model', 'cashflow-model.html'],
+        ['Project finance & debt', 'project-finance.html'],
+        ['Fund economics', 'fund-economics.html'],
         ['WACC calculator', 'wacc-calculator.html'],
         ['Macro dashboard', 'macro_dashboard.html'],
-        ['Regulatory tracker', 'regulatory_tracker.html'],
-        ['Compare returns', 'compare.html']
+        ['Compare returns', 'compare.html'],
+        ['Glossary A–Z', 'glossary.html']
       ]},
       { h: 'M&A & deals', links: [
         ['Infrastructure M&A', 'infrastructure-ma.html'],
         ['Deals database', 'infrastructure-deals.html'],
+        ['Multiples map', 'multiples-map.html'],
         ['M&A in action', 'ma-in-action.html'],
         ['Community', 'community.html'],
         ['Contact', 'contact.html']
@@ -420,6 +476,210 @@
     });
   })();
 
+  /* ---------------- Shareable scenarios ----------------
+     Any page with a live model (sliders / calculator inputs) gets a floating
+     "Share scenario" button: the full input state is encoded into the URL hash
+     (#s=id:value,…) so a calibrated scenario can be sent as a plain link.
+     Opening such a link restores every control and re-fires the engines. */
+  (function () {
+    function modelControls() {
+      var els = document.querySelectorAll('select[id], input[type="number"][id], input[type="range"][id]');
+      var list = [];
+      for (var i = 0; i < els.length; i++) {
+        var el = els[i];
+        if (el.closest('nav') || el.closest('.cmdk') || el.closest('#contact-mount') || el.closest('footer')) continue;
+        list.push(el);
+      }
+      return list;
+    }
+    function applyHash() {
+      var m = (location.hash || '').match(/^#s=(.+)$/);
+      if (!m) return;
+      var state = {};
+      m[1].split(',').forEach(function (p) {
+        var i = p.indexOf(':'); if (i < 1) return;
+        state[decodeURIComponent(p.slice(0, i))] = decodeURIComponent(p.slice(i + 1));
+      });
+      /* selects first: picking an asset resets everything else to its preset,
+         so the shared values must land after the preset does */
+      ['SELECT', 'INPUT'].forEach(function (tag) {
+        Object.keys(state).forEach(function (id) {
+          var el = document.getElementById(id);
+          if (!el || el.tagName !== tag || el.value === state[id]) return;
+          el.value = state[id];
+          el.dispatchEvent(new Event(tag === 'SELECT' ? 'change' : 'input', { bubbles: true }));
+          if (tag === 'INPUT') el.dispatchEvent(new Event('change', { bubbles: true }));
+        });
+      });
+    }
+    applyHash();
+    window.addEventListener('hashchange', applyHash);
+
+    var numeric = modelControls().filter(function (el) { return el.tagName === 'INPUT'; });
+    if (numeric.length < 3) return;   /* not a model page, no button */
+
+    function buildHash() {
+      var parts = [];
+      modelControls().forEach(function (el) {
+        if (el.value === '' || el.value == null) return;
+        parts.push(encodeURIComponent(el.id) + ':' + encodeURIComponent(el.value));
+      });
+      return '#s=' + parts.join(',');
+    }
+    function copyText(text, done) {
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(text).then(done, function () { legacy(); });
+      } else legacy();
+      function legacy() {
+        var ta = document.createElement('textarea');
+        ta.value = text; ta.style.position = 'fixed'; ta.style.opacity = '0';
+        document.body.appendChild(ta); ta.select();
+        try { document.execCommand('copy'); } catch (_) {}
+        document.body.removeChild(ta); done();
+      }
+    }
+
+    var fab = document.createElement('button');
+    fab.type = 'button'; fab.className = 'share-fab';
+    fab.setAttribute('aria-label', 'Copy a link to this exact scenario');
+    fab.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10 13a5 5 0 0 0 7.5.5l3-3a5 5 0 0 0-7-7l-1.7 1.7"/><path d="M14 11a5 5 0 0 0-7.5-.5l-3 3a5 5 0 0 0 7 7l1.7-1.7"/></svg><span>Share scenario</span>';
+    var toast = document.createElement('div');
+    toast.className = 'share-toast'; toast.setAttribute('role', 'status'); toast.setAttribute('aria-live', 'polite');
+    document.body.appendChild(fab); document.body.appendChild(toast);
+
+    var toastT = null;
+    fab.addEventListener('click', function () {
+      var hash = buildHash();
+      try { history.replaceState(null, '', hash); } catch (_) {}
+      copyText(location.origin + location.pathname + hash, function () {
+        toast.textContent = 'Link copied — it reopens this exact scenario.';
+        toast.classList.add('show');
+        clearTimeout(toastT);
+        toastT = setTimeout(function () { toast.classList.remove('show'); }, 2600);
+      });
+    });
+  })();
+
+  /* ---------------- Macro stress tests ----------------
+     Pages with the shared calculator get a one-click scenario bar that reprices
+     the model under canned macro shocks (rates, inflation, credit), applied as
+     deltas to the live inputs and fully reversible via "Base case". */
+  (function () {
+    var grid = document.querySelector('.calc-grid');
+    if (!grid) return;
+    var P = document.getElementById('iRd')
+          ? { rd: 'iRd', revG: 'iRevG', exit: 'iExit', lev: 'iLev' }
+          : document.getElementById('aRd')
+          ? { rd: 'aRd', revG: 'aRevG', exit: 'aExit', lev: 'aLev', wacc: 'aWacc', costG: 'aCostG' }
+          : null;
+    if (!P) return;
+
+    var SCEN = [
+      { key: 'base', label: 'Base case', d: 'The model’s own assumptions, untouched.', delta: {} },
+      { key: 'rates', label: 'Rates +200bp', d: 'Long rates 200bp higher: cost of debt +2.0pt, discount rates up, exit multiples compress about 1.5×.', delta: { rd: 2, wacc: 2, exit: -1.5 } },
+      { key: 'inflation', label: 'Inflation shock', d: 'CPI runs hot: indexed revenue grows about 1.5pt faster, costs and debt about 1pt dearer, multiples ease 0.5×.', delta: { revG: 1.5, costG: 1, rd: 1, exit: -0.5 } },
+      { key: 'crunch', label: 'Credit crunch', d: 'Financing markets shut: debt +250bp with 1.5× turns less leverage, exits 2× lower on forced-seller pricing.', delta: { rd: 2.5, lev: -1.5, exit: -2 } }
+    ];
+
+    function fields() {
+      var o = {};
+      Object.keys(P).forEach(function (k) { var el = document.getElementById(P[k]); if (el) o[k] = el; });
+      return o;
+    }
+    var snap = null, active = 'base';
+
+    var bar = document.createElement('div');
+    bar.className = 'stress-bar';
+    var chipsHtml = SCEN.map(function (s) {
+      return '<button type="button" class="stress-chip' + (s.key === 'base' ? ' on' : '') + '" data-k="' + s.key + '">' + s.label + '</button>';
+    }).join('');
+    bar.innerHTML = '<div class="stress-row"><span class="stress-lab">Stress test</span>' + chipsHtml + '</div>' +
+                    '<p class="stress-note">' + SCEN[0].d + '</p>';
+    grid.parentNode.insertBefore(bar, grid);
+    var note = bar.querySelector('.stress-note');
+
+    function setVal(el, v) {
+      el.value = Math.round(v * 100) / 100;
+      el.dispatchEvent(new Event('input', { bubbles: true }));
+      el.dispatchEvent(new Event('change', { bubbles: true }));
+    }
+    function paint() {
+      bar.querySelectorAll('.stress-chip').forEach(function (c) { c.classList.toggle('on', c.dataset.k === active); });
+    }
+    function apply(sc) {
+      var f = fields();
+      if (sc.key === 'base') {
+        if (snap) Object.keys(f).forEach(function (k) { if (k in snap) setVal(f[k], snap[k]); });
+        snap = null;
+      } else {
+        if (!snap) { snap = {}; Object.keys(f).forEach(function (k) { snap[k] = parseFloat(f[k].value) || 0; }); }
+        Object.keys(f).forEach(function (k) {
+          var v = snap[k] + (sc.delta[k] || 0);
+          if (k === 'lev') v = Math.max(0, v);
+          if (k === 'exit') v = Math.max(1, v);
+          setVal(f[k], v);
+        });
+      }
+      active = sc.key; paint(); note.textContent = sc.d;
+    }
+    bar.addEventListener('click', function (e) {
+      var chip = e.target.closest('.stress-chip'); if (!chip) return;
+      var sc = null; SCEN.forEach(function (s) { if (s.key === chip.dataset.k) sc = s; });
+      if (sc) apply(sc);
+    });
+    /* switching asset resets the calculator to that asset's preset, so the
+       stored baseline no longer applies */
+    var sel = document.getElementById('ixSelect') || document.getElementById('cfAsset');
+    if (sel) sel.addEventListener('change', function () {
+      snap = null; active = 'base'; paint(); note.textContent = SCEN[0].d;
+    });
+  })();
+
+  /* ---------------- CSV export ----------------
+     Every projection table (reference-page schedules, the cash-flow model grid,
+     the M&A model grid) gets a "Download CSV" button so the numbers can be taken
+     straight into a spreadsheet. Exports the table exactly as rendered. */
+  (function () {
+    var tables = document.querySelectorAll('table.ptable, table.cf-table, table.ptab');
+    if (!tables.length) return;
+    function cellOut(s) {
+      var t = s.replace(/ /g, ' ').trim();
+      var bare = t.replace(/,/g, '');
+      var m = bare.match(/^\((\d+(?:\.\d+)?)\)$/);
+      if (m) return '-' + m[1];                       /* (1,234) -> -1234 */
+      if (/^-?\d+(\.\d+)?$/.test(bare)) return bare;  /* plain number */
+      return '"' + t.replace(/"/g, '""') + '"';
+    }
+    function slug(s) { return s.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, ''); }
+    tables.forEach(function (tb) {
+      var host = tb.closest('.tscroll, .cf-scroll, .pscroll') || tb;
+      var btn = document.createElement('button');
+      btn.type = 'button'; btn.className = 'csv-btn';
+      btn.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12"/><path d="M7 10l5 5 5-5"/><path d="M4 21h16"/></svg>Download CSV';
+      btn.addEventListener('click', function () {
+        var lines = [];
+        tb.querySelectorAll('tr').forEach(function (tr) {
+          var cells = [];
+          tr.querySelectorAll('th,td').forEach(function (c) {
+            cells.push(cellOut(c.textContent || ''));
+            var span = parseInt(c.getAttribute('colspan') || '1', 10);
+            for (var s = 1; s < span; s++) cells.push('');
+          });
+          lines.push(cells.join(','));
+        });
+        var name = slug((document.title.split('|')[0] || 'projection'));
+        var sel = document.getElementById('ixSelect') || document.getElementById('cfAsset') || document.getElementById('maAsset');
+        if (sel && sel.value) name += '-' + slug(sel.value);
+        var blob = new Blob(['﻿' + lines.join('\r\n')], { type: 'text/csv;charset=utf-8' });
+        var a = document.createElement('a');
+        a.href = URL.createObjectURL(blob); a.download = name + '.csv';
+        document.body.appendChild(a); a.click();
+        setTimeout(function () { URL.revokeObjectURL(a.href); a.remove(); }, 400);
+      });
+      host.parentNode.insertBefore(btn, host.nextSibling);
+    });
+  })();
+
   /* ---------------- Top navigation ---------------- */
   var wrap = document.querySelector('nav .wrap');
   if (wrap) {
@@ -471,15 +731,19 @@
 
     var toolItems = [
       { t: 'Cash-flow & DCF model', u: 'cashflow-model.html' },
+      { t: 'Project finance & debt', u: 'project-finance.html' },
+      { t: 'Fund economics', u: 'fund-economics.html' },
       { t: 'WACC calculator', u: 'wacc-calculator.html' },
       { t: 'Macro dashboard', u: 'macro_dashboard.html' },
       { t: 'Regulatory tracker', u: 'regulatory_tracker.html' },
       { t: 'RIIO-ED2 calculator', u: 'riio_ed2_calculator.html' },
-      { t: 'Compare returns', u: 'compare.html' }
+      { t: 'Compare returns', u: 'compare.html' },
+      { t: 'Glossary A–Z', u: 'glossary.html' }
     ];
     var maItems = [
       { t: 'Infrastructure M&A', u: 'infrastructure-ma.html' },
       { t: 'Deals database', u: 'infrastructure-deals.html' },
+      { t: 'Multiples map', u: 'multiples-map.html' },
       { t: 'M&A in action', u: 'ma-in-action.html' }
     ];
 
@@ -539,21 +803,31 @@
       if (i === 0) return 1000;
       if (i > 0) return 600 - i;
       if (g.indexOf(q) >= 0) return 200;
+      var kw = KEYWORDS[e.u]; if (kw && kw.indexOf(q) >= 0) return 150;
       // subsequence (fuzzy)
       var qi = 0; for (var k = 0; k < t.length && qi < q.length; k++) if (t[k] === q[qi]) qi++;
       return qi === q.length ? 80 : -1;
+    }
+    /* glossary terms (from glossary.js, loaded after this script) join the pool
+       once there's a query, each deep-links into the A–Z glossary page */
+    var GLOSS_POOL = null;
+    function glossPool() {
+      if (GLOSS_POOL) return GLOSS_POOL;
+      var g = window.GLOSSARY; if (!g) return [];
+      GLOSS_POOL = Object.keys(g).map(function (k) { return { t: g[k].t, u: 'glossary.html#' + k, g: 'Glossary' }; });
+      return GLOSS_POOL;
     }
     function render() {
       var q = input.value.trim().toLowerCase();
       /* projects (individual worked assets) are only searched once there's a query,
          so the empty palette stays a clean map of pages, asset classes and tools */
-      var pool = q ? INDEX.concat(PROJECTS) : INDEX;
+      var pool = q ? INDEX.concat(PROJECTS, glossPool()) : INDEX;
       var scored = pool.map(function (e) { return { e: e, s: score(q, e) }; })
                         .filter(function (x) { return x.s >= 0; })
                         .sort(function (a, b) { return b.s - a.s; });
       if (q) scored = scored.slice(0, 50);
       var order = ['Page', 'Asset class', 'Energy & Utilities', 'Transport', 'Digital Infrastructure',
-                   'Social Infrastructure', 'Energy Transition', 'Environmental & Waste', 'Tool'];
+                   'Social Infrastructure', 'Energy Transition', 'Environmental & Waste', 'Tool', 'Glossary'];
       var groups = {}; scored.forEach(function (x) { (groups[x.e.g] = groups[x.e.g] || []).push(x.e); });
       flat = []; var html = '';
       var keys = Object.keys(groups).sort(function (a, b) {

@@ -1,6 +1,38 @@
 # Handoff — Infrastructure Reference (theinfrastructureinvestor.com)
 
-A status summary for whoever picks this up next. Last updated: 2026-06-19.
+A status summary for whoever picks this up next. Last updated: 2026-07-01.
+
+> **Latest session (2026-07-01) — ten "make it excellent" features, all static/free:**
+> 1. **Shareable scenarios** (`site.js` IIFE): every model page gets a floating "Share scenario"
+>    button; full input state is encoded in the URL hash (`#s=id:value,…`) and restored on load
+>    (selects fire first, then inputs). Coexists with the older `#ex=` deep links.
+> 2. **Macro stress tests** (`site.js` IIFE): a chip bar (Base / Rates +200bp / Inflation shock /
+>    Credit crunch) injected above `.calc-grid` on pages with the shared calc ids (`iRd`…) or the
+>    cash-flow model (`aRd`…); applies deltas to a snapshot, fully reversible, resets on asset change.
+> 3. **CSV export** (`site.js` IIFE): "Download CSV" under every `table.ptable/.cf-table/.ptab`.
+> 4. **`glossary.html`** — A–Z page rendering `window.GLOSSARY` (now exposed by `glossary.js`),
+>    with filter + letter nav + `#term` deep links. The ⌘K palette also searches glossary terms
+>    (group "Glossary") and has a per-page `KEYWORDS` map (jargon → page).
+> 5. **`fund-economics.html` + `fund-econ.js`** — LP/GP layer: fees/carry/hurdle through a European
+>    waterfall w/ 100% catch-up; gross-to-net bridge svg, J-curve, co-invest blend. Headless-tested.
+> 6. **`project-finance.html` + `pf-debt.js`** — DSCR-sculpted debt sizing vs level annuity, LLCR,
+>    WAL, refinancing release, canvas chart (CFADS bars, stacked debt service, balance line).
+> 7. **`multiples-map.html`** — indicative EV/EBITDA ranges by sub-sector + EV/RAB premia (curated
+>    bands with per-deal evidence notes) + live aggregation of `MA_DEALS` by class.
+> 8. **`compare.html` regenerated from the live engines.** A generic Node harness (mock DOM +
+>    canvas Proxy) loads every reference page's geo+engine JS, reads `ixYr`/`wfMargin`/`oUIRR`/
+>    `oLIRR`/`oMOIC`/`calcSum` for the default asset → 36 rows, native currencies. `numify()` now
+>    strips any currency. Harness lives in the session scratchpad; recipe = "Validation" below.
+> 9. **`og-image.png`** (1200×630, Chromium screenshot of a styled HTML card); all `og:image`/
+>    `twitter:image` metas now point at the PNG.
+> 10. **Print/tearsheet CSS + `--cost` in `:root`** (was only defined per-page; fixed invisible
+>     red J-curve bars), share-fab/stress-bar/csv-btn styles — all in `styles.css`. Homepage: two
+>     new tool cards under "Valuation & returns", multiples map under "M&A & deals", trust stat
+>     "13 analytical tools". Nav/footer/INDEX/sitemap updated.
+>
+> Everything was validated headlessly (Node) **and** in the pre-installed Chromium via
+> playwright-core (`executablePath:'/opt/pw-browsers/chromium'`) — screenshots + widget click-through.
+> Still open: Giscus ids for `community.html` (needs the repo owner to install the Giscus app).
 
 > **Latest session (read first):** **All six asset classes are COMPLETE** (every sub-sector is
 > a full 3-file reference page — see "Suggested next steps" for the per-class engine map), plus

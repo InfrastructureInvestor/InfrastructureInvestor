@@ -9,6 +9,7 @@
   --muted: #889390;
   --accent: #0c6b4f;
   --accent-soft: #e7f1ec;
+  --cost: #bc4733;
 
   /* premium layer (additive, existing tokens unchanged) */
   --ink: #0c1512;            /* near-black for premium headings */
@@ -518,4 +519,74 @@ nav.scrolled { box-shadow: 0 1px 0 var(--border), 0 8px 24px rgba(12,30,24,0.06)
 /* honour reduced-motion everywhere */
 @media (prefers-reduced-motion: reduce) {
   * { animation-duration: 0.001ms !important; animation-iteration-count: 1 !important; transition-duration: 0.001ms !important; scroll-behavior: auto !important; }
+}
+
+/* ============================================================
+   SHARE SCENARIO — floating action button + toast (site.js)
+   ============================================================ */
+.share-fab {
+  position: fixed; right: 1.1rem; bottom: 1.1rem; z-index: 90;
+  display: inline-flex; align-items: center; gap: 0.45rem;
+  font-family: inherit; font-size: 0.74rem; font-weight: 600; letter-spacing: 0.01em;
+  color: #fff; background: var(--accent); border: none; border-radius: 999px;
+  padding: 0.62rem 1rem; cursor: pointer; box-shadow: var(--shadow-md);
+  transition: transform 0.12s ease, background 0.12s ease, box-shadow 0.12s ease;
+}
+.share-fab:hover { background: var(--accent-deep); transform: translateY(-1px); box-shadow: var(--shadow-lg); }
+.share-fab svg { width: 14px; height: 14px; }
+.share-toast {
+  position: fixed; right: 1.1rem; bottom: 3.9rem; z-index: 90;
+  font-size: 0.74rem; font-weight: 500; color: #fff; background: var(--ink);
+  border-radius: 10px; padding: 0.55rem 0.85rem; box-shadow: var(--shadow-md);
+  opacity: 0; transform: translateY(6px); pointer-events: none;
+  transition: opacity 0.18s ease, transform 0.18s ease; max-width: 260px; line-height: 1.45;
+}
+.share-toast.show { opacity: 1; transform: translateY(0); }
+@media (max-width: 640px) { .share-fab span { display: none; } .share-fab { padding: 0.62rem 0.7rem; } }
+
+/* ============================================================
+   STRESS TEST BAR — canned macro scenarios (site.js)
+   ============================================================ */
+.stress-bar {
+  background: var(--surface); border: 1px solid var(--border); border-radius: 12px;
+  padding: 0.7rem 0.95rem 0.6rem; margin: 0 0 0.9rem;
+}
+.stress-row { display: flex; align-items: center; flex-wrap: wrap; gap: 0.4rem; }
+.stress-lab {
+  font-size: 0.58rem; font-weight: 700; letter-spacing: 0.11em; text-transform: uppercase;
+  color: var(--muted); margin-right: 0.35rem;
+}
+.stress-chip {
+  font-family: inherit; font-size: 0.72rem; font-weight: 600; color: var(--text2);
+  background: var(--surface-2); border: 1px solid var(--border-strong); border-radius: 999px;
+  padding: 0.34rem 0.8rem; cursor: pointer; transition: all 0.12s ease;
+}
+.stress-chip:hover { border-color: var(--accent); color: var(--accent); }
+.stress-chip.on { background: var(--accent); border-color: var(--accent); color: #fff; }
+.stress-note { font-size: 0.72rem; color: var(--muted); line-height: 1.55; margin: 0.5rem 0 0; }
+
+/* ============================================================
+   CSV EXPORT BUTTON (site.js)
+   ============================================================ */
+.csv-btn {
+  display: inline-flex; align-items: center; gap: 0.4rem; margin-top: 0.55rem;
+  font-family: inherit; font-size: 0.7rem; font-weight: 600; color: var(--accent);
+  background: var(--accent-soft); border: none; border-radius: 8px;
+  padding: 0.45rem 0.8rem; cursor: pointer; transition: background 0.12s ease;
+}
+.csv-btn:hover { background: #dcebe3; }
+.csv-btn svg { width: 13px; height: 13px; }
+
+/* ============================================================
+   PRINT / TEARSHEET — reference pages print as clean handouts
+   ============================================================ */
+@media print {
+  nav, footer, .pager, .cmdk, .share-fab, .share-toast, .stress-bar, .csv-btn,
+  .nav-actions, .hero-actions, .cta-band, details.more, .contact-card { display: none !important; }
+  body { background: #fff; }
+  .hero, .hero-home { padding: 1.2rem 0 0.8rem; border: none; background: #fff; }
+  section, .sec { break-inside: avoid-page; }
+  a { color: inherit; text-decoration: none; }
+  canvas, svg { max-width: 100%; }
+  .wrap, .wrap.wide { max-width: 100%; padding: 0 0.5rem; }
 }
