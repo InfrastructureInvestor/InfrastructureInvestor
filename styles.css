@@ -590,3 +590,8 @@ nav.scrolled { box-shadow: 0 1px 0 var(--border), 0 8px 24px rgba(12,30,24,0.06)
   canvas, svg { max-width: 100%; }
   .wrap, .wrap.wide { max-width: 100%; padding: 0 0.5rem; }
 }
+
+/* homepage: guided-track note under the hero actions */
+.hero-startnote { margin-top: 0.9rem; font-size: 0.82rem; color: var(--text2); }
+.hero-startnote a { color: var(--accent); text-decoration: none; font-weight: 600; }
+.hero-startnote a:hover { color: var(--accent-deep); }
