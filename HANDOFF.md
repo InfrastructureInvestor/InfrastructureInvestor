@@ -30,6 +30,14 @@ A status summary for whoever picks this up next. Last updated: 2026-07-01.
 >     new tool cards under "Valuation & returns", multiples map under "M&A & deals", trust stat
 >     "13 analytical tools". Nav/footer/INDEX/sitemap updated.
 >
+> **Follow-up (same day): the "wow factor" trio** — `about.html` (methodology, calibration rules,
+> what-it-is-not, independence statement with an EDIT-ME author block to personalise, corrections
+> invitation), `start-here.html` (four guided tracks × ~5 steps: foundations / deal team / credit /
+> allocator, plus the four power-user habits), and **evidence chips on the multiples map** (each band's
+> hover panel now lists the actual MA_DEALS behind it via `ev`/`evT`/`reg` filters, with an honest
+> dashed fallback where the database has no deal yet). Homepage hero gained a "Start with a guided
+> track" note; footer gained About + Start here; both pages in INDEX/KEYWORDS/sitemap.
+>
 > Everything was validated headlessly (Node) **and** in the pre-installed Chromium via
 > playwright-core (`executablePath:'/opt/pw-browsers/chromium'`) — screenshots + widget click-through.
 > Still open: Giscus ids for `community.html` (needs the repo owner to install the Giscus app).

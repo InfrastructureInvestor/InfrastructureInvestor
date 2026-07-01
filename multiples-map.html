@@ -44,6 +44,11 @@
 #mm .mnote{display:none}
 #mm .mm-detail{font-size:.74rem;color:var(--text2);line-height:1.6;background:var(--surface-2);border:1px solid var(--border);border-radius:9px;padding:.6rem .8rem;margin-top:.7rem;min-height:2.6rem}
 #mm .mm-detail b{color:var(--text)}
+#mm .mchips{display:flex;flex-wrap:wrap;gap:.35rem;margin-top:.5rem;align-items:center}
+#mm .mchip{font-size:.66rem;font-weight:600;color:var(--accent);background:var(--accent-soft);border-radius:999px;padding:.22rem .6rem;text-decoration:none;white-space:nowrap}
+#mm .mchip:hover{background:#dcebe3}
+#mm .mchip.lab{background:none;color:var(--muted);padding-left:0;font-weight:700;letter-spacing:.05em;text-transform:uppercase;font-size:.6rem}
+#mm .mchip.none{background:var(--surface);border:1px dashed var(--border-strong);color:var(--muted);white-space:normal}
 #mm .dgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:.8rem}
 @media(max-width:860px){#mm .dgrid{grid-template-columns:repeat(2,1fr)}}
 @media(max-width:560px){#mm .dgrid{grid-template-columns:1fr}}
@@ -90,7 +95,7 @@
       <div class="ph"><span class="t">Announcement multiples for quality platforms</span><span class="lg">band = typical range · tick = midpoint · click a row for its reference page</span></div>
       <div class="axis" id="mmAxis1"></div>
       <div id="mmChart1"></div>
-      <div class="mm-detail" id="mmDetail1">Hover a bar to see the evidence behind the range.</div>
+      <div class="mm-detail" id="mmDetail1">Hover a bar for the evidence — every range is anchored to the landmark deal record where the database has it.</div>
     </div>
 
     <div class="mm-h">Regulated networks, EV as a multiple of RAB / rate base</div>
@@ -98,7 +103,7 @@
       <div class="ph"><span class="t">Premium to the regulated asset base</span><span class="lg">1.0× = paying exactly RAB · the premium prices outperformance and growth</span></div>
       <div class="axis" id="mmAxis2"></div>
       <div id="mmChart2"></div>
-      <div class="mm-detail" id="mmDetail2">Hover a bar to see the evidence behind the range.</div>
+      <div class="mm-detail" id="mmDetail2">Hover a bar for the evidence — RAB premia are read from the regulated take-privates and carve-outs in the deal record.</div>
     </div>
 
     <p class="body">Two readings matter more than any single number. <b>Within a sector</b>, the range is the story: the bottom is a minority stake in a mature asset in a tough cycle, the top is a control premium for a scarce platform in a hot one, AirTrunk at A$24bn and the AI repricing of data centres being the recent extreme. <b>Across sectors</b>, the ordering is remarkably stable, because it prices the same three questions everywhere: how contracted is the revenue, who bears volume and price risk, and how much of the return depends on growth capex yet to be spent. A regulated network at 1.3× RAB and a towerco at 22× EBITDA can be the <i>same</i> underlying return; the <a href="wacc-calculator.html">WACC builder</a> and each reference page's calculator let you check that equivalence yourself.</p>
@@ -129,47 +134,47 @@
 
   /* EV/EBITDA bands, indicative announcement ranges for quality platforms */
   var EBITDA = [
-    {s:'Data centres', c:'Digital Infrastructure', lo:18, mid:24, hi:30, u:'data-centres.html',
+    {s:'Data centres', c:'Digital Infrastructure', lo:18, mid:24, hi:30, u:'data-centres.html', ev:['data-centres.html'],
      n:'<b>Data centres 18–30×.</b> CyrusOne and QTS went private around 20–25×; AirTrunk (A$24bn, 2024) printed at the top of the range as AI demand repriced hyperscale capacity.'},
-    {s:'Mobile towers', c:'Digital Infrastructure', lo:18, mid:22, hi:27, u:'mobile-towers.html',
+    {s:'Mobile towers', c:'Digital Infrastructure', lo:18, mid:22, hi:27, u:'mobile-towers.html', ev:['mobile-towers.html'],
      n:'<b>Towers 18–27×.</b> The European consolidation (Telxius, Hivory, GD Towers, Vantage) cleared 18–27× on contracted, escalator-linked tenancies, near-perfect annuity cash flow.'},
-    {s:'Toll roads', c:'Transport', lo:12, mid:16, hi:22, u:'roads.html',
+    {s:'Toll roads', c:'Transport', lo:12, mid:16, hi:22, u:'roads.html', ev:['roads.html'],
      n:'<b>Toll roads 12–22×.</b> Abertis went for ~12×; long-dated, CPI-linked concessions with traffic history (407 ETR stakes) trade materially higher.'},
-    {s:'Airports', c:'Transport', lo:11, mid:15, hi:19, u:'airports.html',
+    {s:'Airports', c:'Transport', lo:11, mid:15, hi:19, u:'airports.html', ev:['airports.html'],
      n:'<b>Airports 11–19×.</b> Sydney Airport’s take-private priced a monopoly gateway at a full multiple; regional and regulated airports sit lower down the band.'},
-    {s:'District energy', c:'Energy & Utilities', lo:12, mid:14, hi:16, u:'heat-networks.html',
+    {s:'District energy', c:'Energy & Utilities', lo:12, mid:14, hi:16, u:'heat-networks.html', ev:['heat-networks.html'],
      n:'<b>District energy 12–16×.</b> Contracted heating and cooling concessions (Tabreed, Vicinity-style platforms) price like long utility annuities with modest volume risk.'},
-    {s:'Ports', c:'Transport', lo:10, mid:13, hi:17, u:'ports.html',
+    {s:'Ports', c:'Transport', lo:10, mid:13, hi:17, u:'ports.html', ev:['ports.html'],
      n:'<b>Ports 10–17×.</b> Landlord ports with long concessions top the band; operating terminals with volume and box-rate exposure sit lower, the CK Hutchison portfolio priced mid-band.'},
-    {s:'Contracted renewables', c:'Energy Transition', lo:9, mid:11, hi:13, u:'offshore-wind.html',
+    {s:'Contracted renewables', c:'Energy Transition', lo:9, mid:11, hi:13, u:'offshore-wind.html', ev:['onshore-wind.html','solar.html','offshore-wind.html'],
      n:'<b>Operating wind &amp; solar 9–13×.</b> CfD/PPA-backed operating portfolios (Atlantica, Encavis, Neoen) trade on contracted cash flow plus a development-pipeline premium.'},
-    {s:'Battery storage', c:'Energy Transition', lo:8, mid:11, hi:14, u:'battery-storage.html',
+    {s:'Battery storage', c:'Energy Transition', lo:8, mid:11, hi:14, u:'battery-storage.html', ev:['battery-storage.html'], evT:['Neoen'],
      n:'<b>Batteries 8–14×.</b> Tolled or capacity-contracted portfolios reach the top; merchant revenue stacks are priced closer to 8× or on $/MW instead.'},
-    {s:'Subsea cables', c:'Digital Infrastructure', lo:9, mid:11, hi:14, u:'subsea-cables.html',
+    {s:'Subsea cables', c:'Digital Infrastructure', lo:9, mid:11, hi:14, u:'subsea-cables.html', ev:['subsea-cables.html'],
      n:'<b>Subsea 9–14×.</b> IRU-backed systems with anchor hyperscaler capacity commitments price at the top; spot-capacity routes at the bottom.'},
-    {s:'Fibre networks', c:'Digital Infrastructure', lo:7, mid:11, hi:17, u:'fibre-networks.html',
+    {s:'Fibre networks', c:'Digital Infrastructure', lo:7, mid:11, hi:17, u:'fibre-networks.html', ev:['fibre-networks.html'],
      n:'<b>Fibre 7–17×, the widest band on the map.</b> Telecom Italia’s NetCo and Frontier priced near 9–10×; scarce incumbent-grade platforms higher; distressed altnets have cleared well below the band.'},
-    {s:'Gas midstream', c:'Energy & Utilities', lo:8, mid:10, hi:12, u:'gas-transmission.html',
+    {s:'Gas midstream', c:'Energy & Utilities', lo:8, mid:10, hi:12, u:'gas-transmission.html', ev:['gas-transmission.html'],
      n:'<b>Midstream 8–12×.</b> Buckeye and Tallgrass went private around 10×; take-or-pay contract cover holds the multiple up while terminal-value risk caps it.'},
-    {s:'Waste-to-energy', c:'Environmental & Waste', lo:9, mid:10.5, hi:13, u:'waste-to-energy.html',
+    {s:'Waste-to-energy', c:'Environmental & Waste', lo:9, mid:10.5, hi:13, u:'waste-to-energy.html', ev:['waste-to-energy.html'],
      n:'<b>Energy-from-waste 9–13×.</b> Covanta at ~$5.3bn and Viridor at £4.2bn priced long municipal gate-fee contracts with merchant power upside.'},
-    {s:'Rolling stock', c:'Transport', lo:7, mid:9, hi:11, u:'rolling-stock.html',
+    {s:'Rolling stock', c:'Transport', lo:7, mid:9, hi:11, u:'rolling-stock.html', ev:['rolling-stock.html'],
      n:'<b>Rolling stock 7–11×.</b> ROSCOs (Eversholt) trade as contracted leasing books, residual-value and re-leasing risk keeps the multiple single-digit.'},
-    {s:'Waste & recycling', c:'Environmental & Waste', lo:5, mid:7, hi:9, u:'recycling-infrastructure.html',
+    {s:'Waste & recycling', c:'Environmental & Waste', lo:5, mid:7, hi:9, u:'recycling-infrastructure.html', ev:['recycling-infrastructure.html'],
      n:'<b>Collection &amp; recycling 5–9×.</b> Biffa and Renewi went private mid-band, essential-service volumes, but commodity-price exposure on the output side.'}
   ];
 
   /* EV / RAB premia for regulated networks */
   var RAB = [
-    {s:'US regulated utilities', c:'Energy & Utilities', lo:1.2, mid:1.45, hi:1.7, u:'electricity-distribution.html',
+    {s:'US regulated utilities', c:'Energy & Utilities', lo:1.2, mid:1.45, hi:1.7, u:'electricity-distribution.html', ev:['electricity-transmission.html','electricity-distribution.html','water-wastewater.html'], reg:'North America',
      n:'<b>US utilities 1.2–1.7× rate base.</b> Allowed ROEs near 9–10% against far lower funding costs support the largest premia, Oncor and ITC both cleared with double-digit premiums to book.'},
-    {s:'Electricity transmission', c:'Energy & Utilities', lo:1.15, mid:1.35, hi:1.55, u:'electricity-transmission.html',
+    {s:'Electricity transmission', c:'Energy & Utilities', lo:1.15, mid:1.35, hi:1.55, u:'electricity-transmission.html', ev:['electricity-transmission.html'],
      n:'<b>Transmission 1.15–1.55× RAB.</b> Grid build-out gives visible RAB growth; buyers pay ahead of it. ITC’s take-private embedded a full growth premium.'},
-    {s:'Electricity distribution', c:'Energy & Utilities', lo:1.1, mid:1.3, hi:1.5, u:'electricity-distribution.html',
+    {s:'Electricity distribution', c:'Energy & Utilities', lo:1.1, mid:1.3, hi:1.5, u:'electricity-distribution.html', ev:['electricity-distribution.html'],
      n:'<b>Distribution 1.1–1.5× RAB.</b> UKPN and Elenia-style networks trade rich on index-linked revenue; electrification adds a growth story to a defensive base.'},
-    {s:'Water (UK model)', c:'Energy & Utilities', lo:1.0, mid:1.15, hi:1.35, u:'water-wastewater.html',
+    {s:'Water (UK model)', c:'Energy & Utilities', lo:1.0, mid:1.15, hi:1.35, u:'water-wastewater.html', ev:['water-wastewater.html'],
      n:'<b>Water 1.0–1.35× RCV.</b> Northumbrian went at ~1.27×; tougher price reviews and Thames’s troubles have pulled recent marks toward 1.0–1.1×.'},
-    {s:'Gas networks', c:'Energy & Utilities', lo:0.95, mid:1.1, hi:1.25, u:'gas-distribution.html',
+    {s:'Gas networks', c:'Energy & Utilities', lo:0.95, mid:1.1, hi:1.25, u:'gas-distribution.html', ev:['gas-distribution.html'],
      n:'<b>Gas networks 0.95–1.25× RAB.</b> Cadent cleared at a healthy premium in 2017; decarbonisation and asset-stranding risk have compressed the band since, the terminal-value question in one number.'}
   ];
 
@@ -190,13 +195,25 @@
         '<span class="mval">'+(unit==='×rab'? b.lo.toFixed(2)+'–'+b.hi.toFixed(2) : b.lo+'–'+b.hi)+'×</span></a>';
     });
     chart.innerHTML=html;
+    function evidenceHtml(b){
+      var D=window.MA_DEALS||[];
+      var hits=D.filter(function(d){
+        var byUrl=b.ev && b.ev.indexOf(d.url)>=0;
+        var byName=b.evT && b.evT.indexOf(d.t)>=0;
+        if(!byUrl && !byName) return false;
+        return !b.reg || (d.region||'').indexOf(b.reg)>=0;
+      }).sort(function(a,c){ return (c.usd||0)-(a.usd||0); }).slice(0,4);
+      if(!hits.length) return '<div class="mchips"><span class="mchip none">No landmark deal in the database yet — range from reported broker and press figures.</span></div>';
+      return '<div class="mchips"><span class="mchip lab">In the deal record:</span>'+hits.map(function(d){
+        return '<a class="mchip" href="infrastructure-deals.html">'+d.t+' · '+d.val+' · '+d.y+'</a>';
+      }).join('')+'</div>';
+    }
+    function showDetail(row){ var b=bands[+row.dataset.i]; detail.innerHTML=b.n+evidenceHtml(b); }
     chart.addEventListener('mouseover',function(e){
-      var row=e.target.closest('.mrow'); if(!row) return;
-      detail.innerHTML=bands[+row.dataset.i].n;
+      var row=e.target.closest('.mrow'); if(row) showDetail(row);
     });
     chart.addEventListener('focusin',function(e){
-      var row=e.target.closest('.mrow'); if(!row) return;
-      detail.innerHTML=bands[+row.dataset.i].n;
+      var row=e.target.closest('.mrow'); if(row) showDetail(row);
     });
   }
   renderChart(EBITDA,'mmChart1','mmAxis1','mmDetail1',4,32,'×');
