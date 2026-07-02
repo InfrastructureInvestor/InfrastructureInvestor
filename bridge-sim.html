@@ -576,7 +576,7 @@ function draw(){
   cars.filter(v=>v.lane===0).forEach(drawVehicle);
   cars.filter(v=>v.lane===1).forEach(drawVehicle);
   drawPortal();
-  ctx.fillStyle='rgba(160,180,190,0.55)'; ctx.font='700 7px Inter,sans-serif'; ctx.textAlign='center'; ctx.fillText('TOLLED CROSSING, every vehicle is charged at the toll point',W/2,H-8);
+  ctx.fillStyle='rgba(160,180,190,0.55)'; ctx.font='700 7px Inter,sans-serif'; ctx.textAlign='center'; ctx.fillText('TOLLED CROSSING: every vehicle is charged at the toll point',W/2,H-8);
   moneys.forEach(m=>{ const a=Math.max(0,Math.min(1,m.life*0.8)); ctx.save(); ctx.globalAlpha=a;
     ctx.font='700 9px Inter,sans-serif'; ctx.textAlign='left'; const cost=(m.col===C.cost); const tw=ctx.measureText((cost?'−£ ':'£ ')+m.label).width;
     ctx.fillStyle='rgba(8,16,30,0.55)'; ctx.beginPath(); ctx.roundRect(m.x-tw/2-4,m.y-9,tw+8,13,6); ctx.fill();
