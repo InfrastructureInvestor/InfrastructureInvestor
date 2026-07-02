@@ -213,7 +213,7 @@
   </div>
 
   <div class="band-label"><span class="t">Investment case: should you buy it?</span><span class="ln"></span><span class="hint">DCF returns</span></div>
-  <p class="calc-note">Year-1 financials flow live from the simulation above: revenue <b id="cBaseRev">£0</b> and EBITDA <b id="cBaseEb">£0</b> p.a. Set your deal terms below, the <b style="color:var(--aero)">unlevered IRR</b> (asset return) and <b style="color:var(--accent)">levered IRR</b> (return to equity, after debt) recompute instantly.</p>
+  <p class="calc-note">Year-1 financials flow live from the simulation above: revenue <b id="cBaseRev">£0</b> and EBITDA <b id="cBaseEb">£0</b> p.a. As you set deal terms below, the <b style="color:var(--aero)">unlevered IRR</b> (asset return) and <b style="color:var(--accent)">levered IRR</b> (return to equity, after debt) recompute instantly.</p>
 
   <div class="calc-grid">
     <div class="cgroup"><h4>Operating</h4>
@@ -350,7 +350,7 @@ function renderModel(){
   document.getElementById('cBaseEb').textContent=money(baseEbYr);
   const m=computeModel();
   const set=(id,t)=>{ const e=document.getElementById(id); if(e) e.textContent=t; };
-  if(!m){ ['oUIRR','oLIRR','oMOIC','oProfit'].forEach(id=>set(id,'—')); document.getElementById('calcSum').innerHTML='<span class="lbl">At this tenancy / rent the EBITDA is too thin to value on a multiple, add tenants or raise the rent.</span>'; return; }
+  if(!m){ ['oUIRR','oLIRR','oMOIC','oProfit'].forEach(id=>set(id,'—')); document.getElementById('calcSum').innerHTML='<span class="lbl">At this tenancy / rent the EBITDA is too thin to value on a multiple: add tenants or raise the rent.</span>'; return; }
   set('oUIRR',pctTxt(m.uIRR)); set('oLIRR',pctTxt(m.lIRR));
   set('oMOIC',isFinite(m.moic)?m.moic.toFixed(2)+'×':'—');
   set('oProfit',money(m.profit));
@@ -543,7 +543,7 @@ function draw(){
   ctx.clearRect(0,0,W,H); drawScene();
   drawPlant();
   trucks.forEach(drawTruck);
-  ctx.fillStyle='rgba(180,190,200,0.55)'; ctx.font='700 7px Inter,sans-serif'; ctx.textAlign='center'; ctx.fillText('ENERGY-FROM-WASTE, waste tipped in earns a gate fee; burning it exports power to the grid',W/2,H-6);
+  ctx.fillStyle='rgba(180,190,200,0.55)'; ctx.font='700 7px Inter,sans-serif'; ctx.textAlign='center'; ctx.fillText('ENERGY-FROM-WASTE: waste tipped in earns a gate fee; burning it exports power to the grid',W/2,H-6);
   moneys.forEach(m=>{ const a=Math.max(0,Math.min(1,m.life*0.8)); ctx.save(); ctx.globalAlpha=a;
     ctx.font='700 9px Inter,sans-serif'; ctx.textAlign='left'; const cost=(m.col===C.cost); const tw=ctx.measureText((cost?'−£ ':'£ ')+m.label).width;
     ctx.fillStyle='rgba(8,16,30,0.55)'; ctx.beginPath(); ctx.roundRect(m.x-tw/2-4,m.y-9,tw+8,13,6); ctx.fill();
