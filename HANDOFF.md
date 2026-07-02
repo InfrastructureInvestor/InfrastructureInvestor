@@ -46,6 +46,19 @@ A status summary for whoever picks this up next. Last updated: 2026-07-01.
 > - Progress = page-visit log in `localStorage.iiVisited` (written by site.js on every page,
 >   local only; exposed as `window.iiVisited()`). Do not rename these keys casually.
 >
+> **Then: `infrastructure-private-equity.html` + `pe-desk.js`** — the "investor's seat" flagship
+> the user asked for (PE-firm perspective, more detailed than the M&A module's deal mechanics):
+> the firm (deal team / AM / IR + carry), a stylised deal **funnel** (200 teasers → 1–2 closes),
+> an interactive 7-question **screening scorecard** (triage verdict + bucket + hurdle band), the
+> **IC paper generator** — pick any of the 216 `MA_ASSETS` assets, set bid premium / leverage /
+> hold, and it renders a full memo (deterministic codename, recommendation vs bucket target,
+> generated thesis, sources & uses, compact underwrite: class-keyed cash conversion + 50% sweep +
+> exit at reference multiple, class-keyed risks & mitigants + EM FX overlay, exit-multiple ×
+> leverage IRR sensitivity grid, exit map) with a **print-as-IC-pack** button (page print CSS
+> hides everything but the memo). Wired: INDEX/KEYWORDS/nav/footer/homepage card (trust stat now
+> "14 tools")/sitemap; deals track gained it as step 2 (now 6 steps) and allocation track step 4
+> became "Inside your GP".
+>
 > Everything was validated headlessly (Node) **and** in the pre-installed Chromium via
 > playwright-core (`executablePath:'/opt/pw-browsers/chromium'`) — screenshots + widget click-through.
 > Still open: Giscus ids for `community.html` (needs the repo owner to install the Giscus app).
