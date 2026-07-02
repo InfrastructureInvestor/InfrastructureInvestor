@@ -188,7 +188,7 @@
     <div class="kpi k-pax"><div class="k">Energy p.a.</div><div class="v" id="kPaxYr">0</div><div class="s"><b id="kThru">0%</b> utilisation</div></div>
   </div>
 
-  <div class="band-label"><span class="t">Stocks, what the flows accumulate into</span><span class="ln"></span><span class="hint">live</span></div>
+  <div class="band-label"><span class="t">Stocks: what the flows accumulate into</span><span class="ln"></span><span class="hint">live</span></div>
   <div class="as-stocks">
     <div class="stock"><div class="k">Vehicles charging now</div><div class="v" id="sPax">0</div><div class="s">live, of <b id="sBays">10</b> bays on site</div></div>
     <div class="stock"><div class="k">EBITDA banked · session</div><div class="v" id="sBank">£0</div><div class="s">accumulating in real time</div></div>
@@ -204,7 +204,7 @@
       <div class="split-seg seg-aero" id="segAero">Charging</div>
       <div class="split-seg seg-comm" id="segComm">Ancillary</div>
     </div>
-    <div class="split-foot"><b>Why investors watch this:</b> charging is an energy-throughput business, revenue scales with utilisation while charger and grid-connection costs are largely fixed, so EBITDA swings hard with usage (there is a clear utilisation breakeven). Ancillary income (retail, advertising, grid &amp; flexibility services) is higher margin and diversifies the site.</div>
+    <div class="split-foot"><b>Why investors watch this:</b> charging is an energy-throughput business. Revenue scales with utilisation while charger and grid-connection costs are largely fixed, so EBITDA swings hard with usage (there is a clear utilisation breakeven). Ancillary income (retail, advertising, grid &amp; flexibility services) is higher margin and diversifies the site.</div>
   </div>
 
   <div class="as-panels">
@@ -212,8 +212,8 @@
     <div class="panel"><div class="ptitle">Operating costs<span class="pt-sum" id="costSum">£0 p.a.</span></div><div id="costRows"></div></div>
   </div>
 
-  <div class="band-label"><span class="t">Investment case, should you buy it?</span><span class="ln"></span><span class="hint">DCF returns</span></div>
-  <p class="calc-note">Year-1 financials flow live from the simulation above: revenue <b id="cBaseRev">£0</b> and EBITDA <b id="cBaseEb">£0</b> p.a. Set your deal terms below, the <b style="color:var(--aero)">unlevered IRR</b> (asset return) and <b style="color:var(--accent)">levered IRR</b> (return to equity, after debt) recompute instantly.</p>
+  <div class="band-label"><span class="t">Investment case: should you buy it?</span><span class="ln"></span><span class="hint">DCF returns</span></div>
+  <p class="calc-note">Year-1 financials flow live from the simulation above: revenue <b id="cBaseRev">£0</b> and EBITDA <b id="cBaseEb">£0</b> p.a. Set your deal terms below, and the <b style="color:var(--aero)">unlevered IRR</b> (asset return) and <b style="color:var(--accent)">levered IRR</b> (return to equity, after debt) recompute instantly.</p>
 
   <div class="calc-grid">
     <div class="cgroup"><h4>Operating</h4>
@@ -360,7 +360,7 @@ function renderModel(){
   document.getElementById('cBaseEb').textContent=money(baseEbYr);
   const m=computeModel();
   const set=(id,t)=>{ const e=document.getElementById(id); if(e) e.textContent=t; };
-  if(!m){ ['oUIRR','oLIRR','oMOIC','oProfit'].forEach(id=>set(id,'—')); document.getElementById('calcSum').innerHTML='<span class="lbl">At this utilisation the EBITDA margin is too thin to value on a multiple, raise utilisation or charge price to clear the fixed-cost base.</span>'; return; }
+  if(!m){ ['oUIRR','oLIRR','oMOIC','oProfit'].forEach(id=>set(id,'—')); document.getElementById('calcSum').innerHTML='<span class="lbl">At this utilisation the EBITDA margin is too thin to value on a multiple. Raise utilisation or charge price to clear the fixed-cost base.</span>'; return; }
   set('oUIRR',pctTxt(m.uIRR)); set('oLIRR',pctTxt(m.lIRR));
   set('oMOIC',isFinite(m.moic)?m.moic.toFixed(2)+'×':'—');
   set('oProfit',money(m.profit));

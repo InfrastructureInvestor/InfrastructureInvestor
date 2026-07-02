@@ -260,8 +260,8 @@
 <!-- CUSTOMER MODEL TOGGLE -->
 <div style="font-size:0.62rem; color:var(--muted); letter-spacing:0.1em; text-transform:uppercase; margin-bottom:0.6rem;">Customer relationship model</div>
 <div class="toggle-row">
-  <button class="toggle-btn active" onclick="setModel('centralised')">⬡ Centralised, Heat Network</button>
-  <button class="toggle-btn elec" onclick="setModel('decentralised')">⚡ Decentralised, Electricity Supply Only</button>
+  <button class="toggle-btn active" onclick="setModel('centralised')">⬡ Centralised: Heat Network</button>
+  <button class="toggle-btn elec" onclick="setModel('decentralised')">⚡ Decentralised: Electricity Supply Only</button>
 </div>
 
 <!-- CENTRALISED MODEL INFO -->
@@ -302,19 +302,19 @@
 
 <!-- PUMP INFO BARS -->
 <div id="info-ashp" class="pump-info pump-specific visible">
-  <strong>Air Source Heat Pump (ASHP)</strong>, Extracts heat from ambient air. COP typically 2.5–3.5 (lower in cold weather). Lowest capex, highest variability in output. Most common in residential/small commercial. Noise and siting constraints relevant for dense urban deployments.
+  <strong>Air Source Heat Pump (ASHP)</strong>. Extracts heat from ambient air. COP typically 2.5–3.5 (lower in cold weather). Lowest capex, highest variability in output. Most common in residential/small commercial. Noise and siting constraints relevant for dense urban deployments.
 </div>
 <div id="info-gshp" class="pump-info pump-specific">
-  <strong>Ground Source Heat Pump (GSHP)</strong>, Extracts heat via ground loops (horizontal) or boreholes (vertical). COP typically 3.5–5.0, more stable year-round. High upfront capex (drilling/trenching). Strong fit for greenfield sites with land availability. Less affected by ambient temperature.
+  <strong>Ground Source Heat Pump (GSHP)</strong>. Extracts heat via ground loops (horizontal) or boreholes (vertical). COP typically 3.5–5.0, more stable year-round. High upfront capex (drilling/trenching). Strong fit for greenfield sites with land availability. Less affected by ambient temperature.
 </div>
 <div id="info-wshp" class="pump-info pump-specific">
-  <strong>Water Source Heat Pump (WSHP)</strong>, Uses rivers, lakes, aquifers, or mine water as heat source. Very high COPs possible (4–6+). Requires proximity to water body; abstraction licencing from Environment Agency. Mine water (e.g. Scottish coalfields) increasingly relevant for urban district schemes.
+  <strong>Water Source Heat Pump (WSHP)</strong>. Uses rivers, lakes, aquifers, or mine water as heat source. Very high COPs possible (4–6+). Requires proximity to water body; abstraction licencing from Environment Agency. Mine water (e.g. Scottish coalfields) increasingly relevant for urban district schemes.
 </div>
 <div id="info-large" class="pump-info pump-specific">
-  <strong>Large-Scale / District Heat Pump</strong>, Industrial-scale units (often >1MW) serving district heat networks. May use waste heat from data centres, sewage, industrial processes. High engineering complexity; typically requires anchor loads (hospitals, social housing blocks) for viable base demand.
+  <strong>Large-Scale / District Heat Pump</strong>. Industrial-scale units (often >1MW) serving district heat networks. May use waste heat from data centres, sewage, industrial processes. High engineering complexity; typically requires anchor loads (hospitals, social housing blocks) for viable base demand.
 </div>
 <div id="info-hybrid" class="pump-info pump-specific">
-  <strong>Hybrid System (Heat Pump + Gas Boiler)</strong>, HP handles base load; gas boiler tops up in peak/cold conditions. Lower capex than full electrification; maintains gas connection. Regulatory position evolving, may not qualify for full heat decarbonisation incentives. Transition technology rather than long-term infrastructure bet.
+  <strong>Hybrid System (Heat Pump + Gas Boiler)</strong>. HP handles base load; gas boiler tops up in peak/cold conditions. Lower capex than full electrification; maintains gas connection. Regulatory position evolving; may not qualify for full heat decarbonisation incentives. Transition technology rather than long-term infrastructure bet.
 </div>
 
 <!-- MAIN CONSIDERATIONS GRID -->
@@ -375,29 +375,29 @@ const data = {
     centralised: {
       tech: [
         ['COP variability', 'Performance degrades in cold weather; design for worst-case heat output vs. sizing cost trade-off'],
-        ['Flow temperature', 'District heat networks often require 70–80°C flow; ASHPs most efficient at lower temps (40–55°C), mismatch risk'],
+        ['Flow temperature', 'District heat networks often require 70–80°C flow; ASHPs most efficient at lower temps (40–55°C); mismatch risk'],
         ['Intermittency', 'Output variability requires thermal storage buffer or backup to maintain network pressure/temp'],
         ['Noise & siting', 'Multiple units at central plant site; acoustic screening and planning conditions apply'],
         ['Defrost cycles', 'Efficiency loss and brief heat interruption in sub-zero conditions; must be accounted in availability SLAs'],
       ],
       commercial: [
         ['Heat tariff design', 'Standing charge + unit rate structure; must recover capex, opex, and return on network asset'],
-        ['Energy purchase', 'Electricity input cost is primary variable cost driver, electricity price risk needs hedging or pass-through mechanism'],
+        ['Energy purchase', 'Electricity input cost is primary variable cost driver; electricity price risk needs hedging or pass-through mechanism'],
         ['Capex', 'Lower than GSHP/WSHP but multiple units needed for district scale; balance unit cost vs. redundancy'],
-        ['Grid electricity cost', 'Network charges (DUoS, TNUoS) add 3–5p/kWh to input cost, margin compression risk vs. gas-heated competitors'],
-        ['Seasonal demand', 'Revenue highly seasonal (winter peak); summer load from DHW only, affects revenue predictability'],
+        ['Grid electricity cost', 'Network charges (DUoS, TNUoS) add 3–5p/kWh to input cost: margin compression risk vs. gas-heated competitors'],
+        ['Seasonal demand', 'Revenue highly seasonal (winter peak); summer load from DHW only, which affects revenue predictability'],
       ],
       regulatory: [
         ['Heat network regulation', 'Ofgem took over heat network regulation in 2024; consumer protection obligations, metering standards, price transparency'],
         ['Heat Trust / Code', 'Voluntary Heat Trust replaced by statutory framework; compliance required for connection agreements'],
         ['RHI / BUS', 'Boiler Upgrade Scheme (BUS) not applicable to networks; check HNIP and LHEES (Scotland) grant availability'],
-        ['EPC requirements', 'Customer buildings must meet minimum EPC to connect, gateway risk for older housing stock'],
-        ['SEDHAC/BEIS targets', 'Heat Network Zoning (planned) may designate areas where heat networks are the mandated solution, pipeline opportunity'],
+        ['EPC requirements', 'Customer buildings must meet minimum EPC to connect, a gateway risk for older housing stock'],
+        ['SEDHAC/BEIS targets', 'Heat Network Zoning (planned) may designate areas where heat networks are the mandated solution; pipeline opportunity'],
       ],
       customer: [
         ['Heat Supply Agreement', 'Long-term HSA (typically 20–25 yrs) required; customer lock-in vs. consumer protection obligations'],
         ['Metering & billing', 'Heat meters required per unit; billing complexity, disputes, and maintenance obligations on Infrastructure Investor'],
-        ['Consumer protection', 'Ofgem framework: maximum standing charges, complaint handling, exit rights, operational burden'],
+        ['Consumer protection', 'Ofgem framework: maximum standing charges, complaint handling, exit rights; an operational burden'],
         ['Anchor loads', 'Social housing, schools, or large commercial needed to underpin base load; anchor HSA negotiations critical'],
         ['Mixed tenure', 'Estates with mix of owner-occupier and rented add complexity to connection consent and billing'],
       ],
@@ -409,8 +409,8 @@ const data = {
       ],
       investment: [
         ['Yield profile', 'Long-term contracted cashflows (HSAs) support infrastructure-style yield; comparable to utility concessions'],
-        ['Illiquidity premium', 'Bespoke local infrastructure; limited secondary market, appropriate for long-duration fund mandates'],
-        ['Scope 1/2 emissions', 'Electrified heat delivers near-zero Scope 1; Scope 2 depends on grid carbon intensity, improves over time'],
+        ['Illiquidity premium', 'Bespoke local infrastructure with a limited secondary market; appropriate for long-duration fund mandates'],
+        ['Scope 1/2 emissions', 'Electrified heat delivers near-zero Scope 1; Scope 2 depends on grid carbon intensity and improves over time'],
         ['Stranding risk', 'Residual gas demand in hybrid/backup creates future stranding risk as grid decarbonises'],
         ['Policy tailwind', 'Heat network zoning, social housing decarbonisation (HUG, SHDF), and Ofgem backing represent structural support'],
       ],

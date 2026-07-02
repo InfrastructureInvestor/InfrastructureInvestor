@@ -10,12 +10,12 @@
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Infrastructure Investor">
 <meta property="og:title" content="Start here | Infrastructure Investor">
-<meta property="og:description" content="Guided tracks through the platform: new to the asset class, deal team, credit, and allocators. The fastest route from zero to fluent.">
+<meta property="og:description" content="Guided tracks through the platform: new to the asset class, deal team, credit, and allocators. A direct path from newcomer to fluent.">
 <meta property="og:url" content="https://theinfrastructureinvestor.com/start-here.html">
 <meta property="og:image" content="https://theinfrastructureinvestor.com/og-image.png">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Start here | Infrastructure Investor">
-<meta name="twitter:description" content="Guided tracks through the platform, the fastest route from zero to fluent.">
+<meta name="twitter:description" content="Guided tracks that take you through the platform in order, from first principles to the live models.">
 <meta name="twitter:image" content="https://theinfrastructureinvestor.com/og-image.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -73,7 +73,7 @@
     <div class="breadcrumb"><a href="index.html">Home</a><span class="sep">/</span>Start here</div>
     <div class="hero-eyebrow">Guided tracks</div>
     <h1>Start here, <em>by the seat you sit in</em></h1>
-    <p class="hero-sub">The platform is deep enough to get lost in, thirty-five sub-sector references, thirteen tools, two hundred worked assets. These four tracks sequence it for the reader you actually are, each step building on the last. Start one and the site guides you through it, a navigator bar follows you from page to page, and your progress is saved on this device, so you can put a track down on Tuesday and pick it up where you left off on Thursday.</p>
+    <p class="hero-sub">The platform is deep enough to get lost in: thirty-five sub-sector references, thirteen tools, two hundred worked assets. These four tracks sequence it for four kinds of reader, each step building on the last. Start one and the site guides you through it: a navigator bar follows you from page to page, and your progress is saved on this device, so you can put a track down on Tuesday and pick it up where you left off on Thursday.</p>
   </div>
 </section>
 
@@ -82,15 +82,15 @@
 
     <p class="sh-lede">Before you start, four habits that make the whole site work harder for you:</p>
     <div class="howto">
-      <div class="how"><b>Search anything</b>Press <kbd>⌘K</kbd> (or <kbd>/</kbd>) anywhere, it finds pages, worked assets ("Heathrow"), tools, jargon ("towerco") and all 200 glossary terms.</div>
-      <div class="how"><b>Share a scenario</b>Every model has a "Share scenario" button, the link reopens your exact slider settings. Send a colleague your underwrite, not a screenshot.</div>
-      <div class="how"><b>Stress it</b>Every calculator has one-click macro scenarios, rates +200bp, an inflation shock, a credit crunch, applied and reversed instantly.</div>
-      <div class="how"><b>Take it to Excel</b>Every projection table has a Download CSV button. The models are transparent, check the maths yourself.</div>
+      <div class="how"><b>Search anything</b>Press <kbd>⌘K</kbd> (or <kbd>/</kbd>) anywhere and it finds pages, worked assets ("Heathrow"), tools, jargon ("towerco") and all 200 glossary terms.</div>
+      <div class="how"><b>Share a scenario</b>Every model has a "Share scenario" button that reopens your exact slider settings. Send a colleague your underwrite, not a screenshot.</div>
+      <div class="how"><b>Stress it</b>Every calculator has one-click macro scenarios (rates +200bp, an inflation shock, a credit crunch), applied and reversed instantly.</div>
+      <div class="how"><b>Take it to Excel</b>Every projection table has a Download CSV button. The models are transparent; check the maths yourself.</div>
     </div>
 
     <div class="tracks" id="tracks" aria-live="polite"></div>
 
-    <p class="sh-foot">Prefer to wander? The <a href="index.html#asset-universe">asset universe</a> maps all six classes and thirty-five sub-sectors, and every reference page ends with previous/next navigation so you can walk the whole library in order. Track progress lives only in this browser, nothing is sent anywhere, and you can <a href="#" id="shReset">reset it</a> at any time.</p>
+    <p class="sh-foot">Prefer to wander? The <a href="index.html#asset-universe">asset universe</a> maps all six classes and thirty-five sub-sectors, and every reference page ends with previous/next navigation so you can walk the whole library in order. Track progress lives only in this browser (nothing is sent anywhere), and you can <a href="#" id="shReset">reset it</a> at any time.</p>
 
   </div>
 </section>
@@ -131,7 +131,7 @@ document.addEventListener('DOMContentLoaded', function(){
       '<div class="meta"><span class="tag">Track '+t.no+' · '+esc(t.n)+'</span><span class="time">'+esc(t.time)+'</span></div>'+
       '<h2>'+esc(t.t)+'</h2>'+
       '<p class="who">'+esc(t.who)+'</p>'+
-      (celebrate===t.k?'<div class="tdone">Track complete. That is the whole '+esc(t.n.toLowerCase())+' story, from first principles to the live models. Pick another seat below, or go run some numbers.</div>':'')+
+      (celebrate===t.k?'<div class="tdone">Track complete. You have covered '+esc(t.n.toLowerCase())+' from first principles to the live models. Pick another seat below, or go run some numbers.</div>':'')+
       '<div class="tprog"><div class="pbar"><span style="width:'+Math.round(done/total*100)+'%"></span></div><span class="plab">'+done+' of '+total+' visited</span></div>'+
       '<a class="tbtn'+(complete?' done':'')+'" href="'+t.steps[btnStep-1][0]+'#track='+t.k+'.'+btnStep+'">'+btnTxt+' &rarr;</a>'+
       '<ol class="steps">'+stepsHtml+'</ol>'+
