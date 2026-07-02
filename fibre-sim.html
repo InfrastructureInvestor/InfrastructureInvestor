@@ -153,7 +153,7 @@
   <div class="as-head">
     <div class="as-eyebrow">Digital Infrastructure · Fibre networks</div>
     <h2>What flows through a fibre network, and how it pays</h2>
-    <p class="as-sub">A fibre builder passes homes with cable, then signs them up. Connected premises pay a recurring monthly subscription, a long-life annuity, but the network costs the same to run whether full or empty. So the economics turn on <b>penetration</b> (take-up of the homes passed), the <b>ARPU</b> achieved, and how many <b>homes</b> you've built past: low take-up is loss-making, but every new connection drops almost straight to EBITDA.</p>
+    <p class="as-sub">A fibre builder passes homes with cable, then signs them up. Connected premises pay a recurring monthly subscription (a long-life annuity), but the network costs the same to run whether full or empty. So the economics turn on <b>penetration</b> (take-up of the homes passed), the <b>ARPU</b> achieved, and how many <b>homes</b> you've built past: low take-up is loss-making, but every new connection drops almost straight to EBITDA.</p>
   </div>
 
   <div class="as-ctrls">
@@ -188,7 +188,7 @@
     <div class="kpi k-pax"><div class="k">Connections</div><div class="v" id="kPaxYr">0</div><div class="s"><b id="kThru">35%</b> penetration</div></div>
   </div>
 
-  <div class="band-label"><span class="t">Stocks, what the flows accumulate into</span><span class="ln"></span><span class="hint">live</span></div>
+  <div class="band-label"><span class="t">Stocks: what the flows accumulate into</span><span class="ln"></span><span class="hint">live</span></div>
   <div class="as-stocks">
     <div class="stock"><div class="k">Connections now</div><div class="v" id="sPax">0</div><div class="s">live, of <b id="sCap">200k</b> homes passed</div></div>
     <div class="stock"><div class="k">EBITDA banked · session</div><div class="v" id="sBank">£0</div><div class="s">accumulating in real time</div></div>
@@ -204,7 +204,7 @@
       <div class="split-seg seg-aero" id="segAero">Consumer broadband</div>
       <div class="split-seg seg-comm" id="segComm">Business &amp; wholesale</div>
     </div>
-    <div class="split-foot"><b>Why investors like it:</b> recurring consumer subscriptions on a future-proof, low-churn fibre network are an inflation-linked annuity, with a higher-value business and wholesale layer on top. But the build is capital-heavy and the network's running costs are largely fixed, so the whole investment case hinges on <b>penetration</b>: passing homes burns cash, connecting them creates the value.</div>
+    <div class="split-foot"><b>Why investors like it:</b> recurring consumer subscriptions on a future-proof, low-churn fibre network are an inflation-linked annuity, with a higher-value business and wholesale layer on top. But the build is capital-heavy and the network's running costs are largely fixed, so the whole investment case hinges on <b>penetration</b>: passing homes burns cash; connecting them creates the value.</div>
   </div>
 
   <div class="as-panels">
@@ -212,8 +212,8 @@
     <div class="panel"><div class="ptitle">Operating costs<span class="pt-sum" id="costSum">£0 p.a.</span></div><div id="costRows"></div></div>
   </div>
 
-  <div class="band-label"><span class="t">Investment case, should you buy it?</span><span class="ln"></span><span class="hint">DCF returns</span></div>
-  <p class="calc-note">Year-1 financials flow live from the simulation above: revenue <b id="cBaseRev">£0</b> and EBITDA <b id="cBaseEb">£0</b> p.a. Set your deal terms below, the <b style="color:var(--aero)">unlevered IRR</b> (asset return) and <b style="color:var(--accent)">levered IRR</b> (return to equity, after debt) recompute instantly.</p>
+  <div class="band-label"><span class="t">Investment case: should you buy it?</span><span class="ln"></span><span class="hint">DCF returns</span></div>
+  <p class="calc-note">Year-1 financials flow live from the simulation above: revenue <b id="cBaseRev">£0</b> and EBITDA <b id="cBaseEb">£0</b> p.a. Set your deal terms below and the <b style="color:var(--aero)">unlevered IRR</b> (asset return) and <b style="color:var(--accent)">levered IRR</b> (return to equity, after debt) recompute instantly.</p>
 
   <div class="calc-grid">
     <div class="cgroup"><h4>Operating</h4>
@@ -353,7 +353,7 @@ function renderModel(){
   document.getElementById('cBaseEb').textContent=money(baseEbYr);
   const m=computeModel();
   const set=(id,t)=>{ const e=document.getElementById(id); if(e) e.textContent=t; };
-  if(!m){ ['oUIRR','oLIRR','oMOIC','oProfit'].forEach(id=>set(id,'—')); document.getElementById('calcSum').innerHTML='<span class="lbl">At this penetration / ARPU the EBITDA is too thin to value on a multiple, lift take-up or ARPU; the network is still pre-ramp.</span>'; return; }
+  if(!m){ ['oUIRR','oLIRR','oMOIC','oProfit'].forEach(id=>set(id,'—')); document.getElementById('calcSum').innerHTML='<span class="lbl">At this penetration / ARPU the EBITDA is too thin to value on a multiple. Lift take-up or ARPU; the network is still pre-ramp.</span>'; return; }
   set('oUIRR',pctTxt(m.uIRR)); set('oLIRR',pctTxt(m.lIRR));
   set('oMOIC',isFinite(m.moic)?m.moic.toFixed(2)+'×':'—');
   set('oProfit',money(m.profit));

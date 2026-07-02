@@ -56,7 +56,7 @@
     // reset sensitivity: IRR with no reset vs a -50bps reset
     var noReset=model({reset:0}).irr, cut=model({reset:-0.5}).irr;
     var gearPct=Math.round(gv('rGearing'));
-    el('rFoot').innerHTML='You pay a <b>'+(m.prem*100).toFixed(0)+'% premium to RAB</b>, '+fB(m.entryEV)+' for a '+fB(m.entryEV/(1+m.prem))+
+    el('rFoot').innerHTML='You pay a <b>'+(m.prem*100).toFixed(0)+'% premium to RAB</b>: '+fB(m.entryEV)+' for a '+fB(m.entryEV/(1+m.prem))+
       ' asset base. The allowed return on the RAB is <b>'+pct(m.allowed)+'</b>; gearing at <b>'+gearPct+'%</b> (with debt cheaper than the allowed return) lifts the equity return, while the <b>premium erodes it</b>, netting to a <b>'+pct(m.irr)+'</b> equity IRR. Pay too high a premium ("bought at a full price") and the equity return falls below the asset return. The <b>regulatory reset</b> is the swing factor: holding the premium, a flat allowed return returns <b>'+pct(noReset)+'</b>, while a 50bps cut at the next review takes it to <b>'+pct(cut)+'</b>.';
   }
 

@@ -84,7 +84,7 @@
     }).join('');
     var dev=res[0].m, capRate=1/I.exit, spread=dev.buildYield-capRate;
     el('cFoot').innerHTML='Stabilised EBITDA <b>'+fM(dev.stab)+'</b> on a <b>'+fM(dev.buildTotal)+'</b> build = a <b>'+pct(dev.buildYield)+
-      ' yield-on-cost</b>, against an exit <b>cap rate of '+pct(capRate)+'</b> ('+gv('cExit').toFixed(1)+'×), a <b>development spread of '+(spread>=0?'+':'')+(spread*100).toFixed(1)+'pts</b>. '+
+      ' yield-on-cost</b>, against an exit <b>cap rate of '+pct(capRate)+'</b> ('+gv('cExit').toFixed(1)+'×): a <b>development spread of '+(spread>=0?'+':'')+(spread*100).toFixed(1)+'pts</b>. '+
       'That spread is the developer’s margin: it is why developing out-returns buying stabilised when you can secure power and a pre-let, and it collapses if build cost rises, lease-up stalls or cap rates widen.';
   }
 
