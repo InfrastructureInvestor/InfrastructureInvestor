@@ -211,7 +211,7 @@
 
   <div class="page-header">
     <h1>Infrastructure WACC Calculator</h1>
-    <p>Risk-adjusted discount rate builder for regulated utility assets. Every input moves the rate, riskier characteristics push it up, safer ones pull it down.</p>
+    <p>Risk-adjusted discount rate builder for regulated utility assets. Every input moves the rate: riskier characteristics push it up, safer ones pull it down.</p>
   </div>
 
   <div class="top-grid">
@@ -279,7 +279,7 @@
   <div class="section">
     <div class="section-header" onclick="toggleSection('l3')">
       <div>
-        <div class="section-title">Risk taxonomy, rate adjustments</div>
+        <div class="section-title">Risk taxonomy: rate adjustments</div>
         <div class="section-subtitle">Each factor adds or removes basis points from the asset class baseline</div>
       </div>
       <div style="display:flex;align-items:center;">
@@ -380,8 +380,8 @@
   <div class="section">
     <div class="section-header" onclick="toggleSection('l2')">
       <div>
-        <div class="section-title">Option value, rate offset</div>
-        <div class="section-subtitle">Higher-probability options reduce the required return, value outside the DCF lowers the yield needed from cash flows</div>
+        <div class="section-title">Option value: rate offset</div>
+        <div class="section-subtitle">Higher-probability options reduce the required return; value outside the DCF lowers the yield needed from cash flows</div>
       </div>
       <div style="display:flex;align-items:center;">
         <div class="section-delta" id="l2-delta">—</div>
@@ -408,7 +408,7 @@
   <!-- Waterfall -->
   <div class="section">
     <div class="section-header" onclick="toggleSection('wf')">
-      <div><div class="section-title">Rate build, waterfall</div></div>
+      <div><div class="section-title">Rate build: waterfall</div></div>
       <div style="display:flex;align-items:center;"><div class="chevron" id="wf-chev">▼</div></div>
     </div>
     <div class="section-body" id="wf-body">
@@ -461,25 +461,25 @@
             <td>Technology and obsolescence risk</td>
             <td><span class="w-low">−10</span> / <span class="w-mid">+20</span> / <span class="w-high">+55</span> bps</td>
             <td>65bps</td>
-            <td>Weighted lower than regulatory and demand risk because technology substitution tends to be slow in physical network infrastructure. However for assets operating in less-settled technology environments it becomes material, a new standard or competing solution could strand the asset base within the hold period.</td>
+            <td>Weighted lower than regulatory and demand risk because technology substitution tends to be slow in physical network infrastructure. However for assets operating in less-settled technology environments it becomes material: a new standard or competing solution could strand the asset base within the hold period.</td>
           </tr>
           <tr>
             <td>Political and policy durability</td>
             <td><span class="w-low">−15</span> / <span class="w-mid">+15</span> / <span class="w-high">+45</span> bps</td>
             <td>60bps</td>
-            <td>Weighted moderately, infrastructure regulation has historically been stable and the statutory underpinning of most price controls provides meaningful insulation from political reversal. The range is narrower than regulatory maturity because even assets facing policy risk rarely lose their physical network value entirely.</td>
+            <td>Weighted moderately, because infrastructure regulation has historically been stable and the statutory underpinning of most price controls provides meaningful insulation from political reversal. The range is narrower than regulatory maturity because even assets facing policy risk rarely lose their physical network value entirely.</td>
           </tr>
           <tr>
             <td>Counterparty and contract quality</td>
             <td><span class="w-low">−10</span> / <span class="w-mid">+15</span> / <span class="w-high">+40</span> bps</td>
             <td>50bps</td>
-            <td>A secondary factor, in regulated infrastructure the regulatory framework typically substitutes for contractual certainty. The weight rises for assets relying on specific commercial relationships such as heat network anchor loads or EVPC fleet agreements.</td>
+            <td>A secondary factor; in regulated infrastructure the regulatory framework typically substitutes for contractual certainty. The weight rises for assets relying on specific commercial relationships such as heat network anchor loads or EVPC fleet agreements.</td>
           </tr>
           <tr>
             <td>Hold period / asset longevity</td>
             <td><span class="w-low">−10</span> / <span class="w-mid">+15</span> / <span class="w-high">+35</span> bps</td>
             <td>45bps</td>
-            <td>The narrowest risk range, physical infrastructure assets generally have very long economic lives. The adjustment primarily penalises assets where the investment thesis depends on a technology lifecycle that may not extend to the assumed hold period without significant reinvestment.</td>
+            <td>The narrowest risk range, reflecting the very long economic lives of most physical infrastructure assets. The adjustment primarily penalises assets where the investment thesis depends on a technology lifecycle that may not extend to the assumed hold period without significant reinvestment.</td>
           </tr>
         </tbody>
       </table>
@@ -497,7 +497,7 @@
           <tr>
             <td>Asset-specific options</td>
             <td>−15 to −60bps at high probability</td>
-            <td>Option value offsets reflect the probability-weighted NPV of unmodelled upside. If a material portion of the asset's true value is captured outside the DCF, regulatory ratchet, grid services revenue, network densification, the investor accepts a lower cash yield because total return compensates adequately. Options assessed as low probability carry zero offset, preserving analytical discipline.</td>
+            <td>Option value offsets reflect the probability-weighted NPV of unmodelled upside. If a material portion of the asset's true value is captured outside the DCF (regulatory ratchet, grid services revenue, network densification), the investor accepts a lower cash yield because total return compensates adequately. Options assessed as low probability carry zero offset, preserving analytical discipline.</td>
           </tr>
           <tr>
             <td>Portfolio synergy</td>
@@ -507,7 +507,7 @@
         </tbody>
       </table>
 
-      <div class="weight-note">These weights are calibrated for regulated infrastructure and should be reviewed against current Ofgem / Ofwat WACC determinations and recent comparable transaction evidence before use in a live investment process. The asset class baseline spreads embed the current gilt environment, if the gilt yield moves materially, revisit the baseline spreads accordingly.</div>
+      <div class="weight-note">These weights are calibrated for regulated infrastructure and should be reviewed against current Ofgem / Ofwat WACC determinations and recent comparable transaction evidence before use in a live investment process. The asset class baseline spreads embed the current gilt environment; if the gilt yield moves materially, revisit the baseline spreads accordingly.</div>
     </div>
   </div>
 
@@ -592,7 +592,7 @@ function buildOptionRows(asset){
     div.className='row';
     div.innerHTML=
       '<div class="row-label" style="padding-top:6px;">'+o.label+
-      '<small>Option offset, reduces required return if probable</small></div>'+
+      '<small>Option offset: reduces required return if probable</small></div>'+
       '<div class="row-right">'+
       '<div class="toggle-group" id="'+id+'">'+
       '<button class="toggle-btn" data-bps="'+o.bps[0]+'" onclick="setT(\''+id+'\',this,\'active-low\');recalc()">High probability<span class="bps-hint">'+o.bps[0]+'bps</span></button>'+
@@ -750,7 +750,7 @@ function exportText(){
   var assetEl=document.getElementById('assetType');
   var assetLabel=assetEl.options[assetEl.selectedIndex]?assetEl.options[assetEl.selectedIndex].text:'';
   var rate=document.getElementById('rate-out').textContent;
-  var out='INFRASTRUCTURE WACC CALCULATOR, RATE SUMMARY\n';
+  var out='INFRASTRUCTURE WACC CALCULATOR: RATE SUMMARY\n';
   out+='==========================================\n';
   out+='Deal: '+name+'  |  Asset: '+assetLabel+'\n';
   out+='Recommended nominal WACC: '+rate+'%\n\n';

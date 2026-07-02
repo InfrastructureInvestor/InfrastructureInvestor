@@ -188,7 +188,7 @@
     <div class="kpi k-pax"><div class="k">Pupils on roll</div><div class="v" id="kPaxYr">0</div><div class="s"><b id="kThru">92%</b> occupancy</div></div>
   </div>
 
-  <div class="band-label"><span class="t">Stocks, what the flows accumulate into</span><span class="ln"></span><span class="hint">live</span></div>
+  <div class="band-label"><span class="t">Stocks: what the flows accumulate into</span><span class="ln"></span><span class="hint">live</span></div>
   <div class="as-stocks">
     <div class="stock"><div class="k">Pupils on roll now</div><div class="v" id="sPax">0</div><div class="s">of <b id="sCap">9,000</b> places</div></div>
     <div class="stock"><div class="k">EBITDA banked · session</div><div class="v" id="sBank">£0</div><div class="s">accumulating in real time</div></div>
@@ -204,7 +204,7 @@
       <div class="split-seg seg-aero" id="segAero">Availability &amp; hard FM</div>
       <div class="split-seg seg-comm" id="segComm">School services</div>
     </div>
-    <div class="split-foot"><b>Why investors like schools PFI:</b> the unitary charge is a long (typically 25-year), sovereign-backed, inflation-linked annuity for the availability of the school buildings, paid by the local authority regardless of how many places are filled. That contracted core supports very high leverage and low, stable equity returns. The school-services layer (catering, cleaning, caretaking, out-of-hours lettings) flexes with the rolls, adding a modest kicker. The real risks are operational, availability and FM-performance deductions, not demand.</div>
+    <div class="split-foot"><b>Why investors like schools PFI:</b> the unitary charge is a long (typically 25-year), sovereign-backed, inflation-linked annuity for the availability of the school buildings, paid by the local authority regardless of how many places are filled. That contracted core supports very high leverage and low, stable equity returns. The school-services layer (catering, cleaning, caretaking, out-of-hours lettings) flexes with the rolls, adding a modest kicker. The real risks are operational: availability and FM-performance deductions rather than demand.</div>
   </div>
 
   <div class="as-panels">
@@ -212,8 +212,8 @@
     <div class="panel"><div class="ptitle">Operating costs<span class="pt-sum" id="costSum">£0 p.a.</span></div><div id="costRows"></div></div>
   </div>
 
-  <div class="band-label"><span class="t">Investment case, should you buy it?</span><span class="ln"></span><span class="hint">DCF returns</span></div>
-  <p class="calc-note">Year-1 financials flow live from the simulation above: revenue <b id="cBaseRev">£0</b> and EBITDA <b id="cBaseEb">£0</b> p.a. Set your deal terms below, the <b style="color:var(--aero)">unlevered IRR</b> (asset return) and <b style="color:var(--accent)">levered IRR</b> (return to equity, after debt) recompute instantly.</p>
+  <div class="band-label"><span class="t">Investment case: should you buy it?</span><span class="ln"></span><span class="hint">DCF returns</span></div>
+  <p class="calc-note">Year-1 financials flow live from the simulation above: revenue <b id="cBaseRev">£0</b> and EBITDA <b id="cBaseEb">£0</b> p.a. Set your deal terms below and the <b style="color:var(--aero)">unlevered IRR</b> (asset return) and <b style="color:var(--accent)">levered IRR</b> (return to equity, after debt) recompute instantly.</p>
 
   <div class="calc-grid">
     <div class="cgroup"><h4>Operating</h4>
@@ -350,7 +350,7 @@ function renderModel(){
   document.getElementById('cBaseEb').textContent=money(baseEbYr);
   const m=computeModel();
   const set=(id,t)=>{ const e=document.getElementById(id); if(e) e.textContent=t; };
-  if(!m){ ['oUIRR','oLIRR','oMOIC','oProfit'].forEach(id=>set(id,'—')); document.getElementById('calcSum').innerHTML='<span class="lbl">At this tenancy / rent the EBITDA is too thin to value on a multiple, add tenants or raise the rent.</span>'; return; }
+  if(!m){ ['oUIRR','oLIRR','oMOIC','oProfit'].forEach(id=>set(id,'—')); document.getElementById('calcSum').innerHTML='<span class="lbl">At this tenancy / rent the EBITDA is too thin to value on a multiple; add tenants or raise the rent.</span>'; return; }
   set('oUIRR',pctTxt(m.uIRR)); set('oLIRR',pctTxt(m.lIRR));
   set('oMOIC',isFinite(m.moic)?m.moic.toFixed(2)+'×':'—');
   set('oProfit',money(m.profit));
@@ -561,7 +561,7 @@ function draw(){
   drawBus();
   drawPlayground(visRooms,visUtil);
   drawEntrance();
-  ctx.fillStyle='rgba(185,195,200,0.55)'; ctx.font='700 7px Inter,sans-serif'; ctx.textAlign='center'; ctx.fillText('SCHOOLS PFI, places funded on availability; school services flex with the rolls',W/2,H-6);
+  ctx.fillStyle='rgba(185,195,200,0.55)'; ctx.font='700 7px Inter,sans-serif'; ctx.textAlign='center'; ctx.fillText('SCHOOLS PFI: places funded on availability; school services flex with the rolls',W/2,H-6);
   moneys.forEach(m=>{ const a=Math.max(0,Math.min(1,m.life*0.8)); ctx.save(); ctx.globalAlpha=a;
     ctx.font='700 9px Inter,sans-serif'; ctx.textAlign='left'; const cost=(m.col===C.cost); const tw=ctx.measureText((cost?'−£ ':'£ ')+m.label).width;
     ctx.fillStyle='rgba(8,16,30,0.55)'; ctx.beginPath(); ctx.roundRect(m.x-tw/2-4,m.y-9,tw+8,13,6); ctx.fill();

@@ -114,11 +114,11 @@
 
   var ROUTES=[
     {key:'build', name:'Build it yourself', tag:'Greenfield / organic',
-      desc:'Stand up (or back) a platform and build the whole footprint at cost. Maximum control and value capture, you take construction, penetration and overbuild risk through the full J-curve.'},
+      desc:'Stand up (or back) a platform and build the whole footprint at cost. Maximum control and value capture, but you take construction, penetration and overbuild risk through the full J-curve.'},
     {key:'buy', name:'Buy a full network', tag:'M&A / take-private',
       desc:'Acquire a built, penetrated network. Instant scale and proven cash flow, but you pay a full multiple in a competitive process and inherit someone else’s build choices.'},
     {key:'bnb', name:'Buy small, then build', tag:'Buy-and-build platform',
-      desc:'Acquire a sub-scale altnet as a platform, management, systems, footprint, then fund the organic build-out and bolt-ons. The classic value-add route; needs a real build machine.'}
+      desc:'Acquire a sub-scale altnet as a platform (management, systems, footprint), then fund the organic build-out and bolt-ons. The classic value-add route; needs a real build machine.'}
   ];
 
   function cfgFor(key,S){
@@ -188,7 +188,7 @@
           '<div class="kpi"><div class="k">Exit equity value</div><div class="v">'+fM(m.exitEq)+'</div></div>'+
         '</div>'+
         '<div class="route-basis">Entry basis <b>'+(m.acqHomes>0?'£'+f0(m.entryPerHome)+'/home':'£'+f0(m.entryPerHome)+'/home at cost')+'</b> · peak senior debt <b>'+fM(m.peakDebt)+'</b></div>'+
-        '<div class="route-spark-h">Equity cash flow by year, the J-curve</div>'+
+        '<div class="route-spark-h">Equity cash flow by year: the J-curve</div>'+
         '<div class="rs-chart">'+spark(m.eqCF)+'</div>'+
       '</div>';
     }).join('');
@@ -200,10 +200,10 @@
     var byTime=results.slice().sort(function(a,b){ return (a.m.ttScale||0)-(b.m.ttScale||0); });
     el('verdict').innerHTML='At these assumptions, <b>'+byIRR[0].r.name.toLowerCase()+'</b> shows the highest modelled equity IRR ('+pct(byIRR[0].m.irr)+
       '), <b>buy a full network</b> reaches full scale fastest (at entry), and <b>'+byEq[0].r.name.toLowerCase()+'</b> needs the least equity ('+fM(byEq[0].m.totalEq)+
-      '). The point estimate flatters building, which carries the execution and penetration risk the IRR alone doesn’t show, read it with the process and risk notes below.';
+      '). The point estimate flatters building, which carries the execution and penetration risk the IRR alone doesn’t show; read it with the process and risk notes below.';
     var be=breakEvenPen(0.12), beEl=el('beNote');
     if(beEl) beEl.innerHTML = be!=null
-      ? 'Break-even: building clears a <b>12% equity IRR</b> at roughly <b>'+Math.round(be)+'% steady penetration</b> (at the current build cost and exit). Below that the greenfield route does not earn its hurdle, the heart of the overbuild risk.'
+      ? 'Break-even: building clears a <b>12% equity IRR</b> at roughly <b>'+Math.round(be)+'% steady penetration</b> (at the current build cost and exit). Below that the greenfield route does not earn its hurdle, and that is the heart of the overbuild risk.'
       : 'Building does not reach a 12% IRR across the penetration range at these settings.';
     renderHeat();
   }
